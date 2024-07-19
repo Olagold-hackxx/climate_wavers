@@ -68,5 +68,3 @@ We welcome contributions from the community. Please read the contributing guidel
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-For any questions or support, please contact us at support@climatewavers.com.
