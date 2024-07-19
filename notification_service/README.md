@@ -1,95 +1,137 @@
-# Notification and Alerting System Microservice for Climate Wavers
+# Notification System Microservice
 
-## Overview
+This microservice handles sending email notifications based on events received through RabbitMQ. It manages different types of notifications such as custom mails, disaster alerts, password resets, onboarding, and verification emails. The microservice also supports notification subscription management.
 
-Welcome to the Notification and Alerting System microservice for Climate Wavers, an AI-driven disaster response platform. This microservice is designed to deliver timely and personalized alerts to users based on their last known location, providing crucial information about impending disasters.
+## Table of Contents
 
-## Features
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Queue Definitions](#queue-definitions)
+- [Controller Functions](#controller-functions)
+- [License](#license)
 
-### 1. Disaster Alerts
+## Installation
 
-Receive real-time alerts about potential disasters, including but not limited to hurricanes, floods, wildfires, and more. Alerts messages are generated from chatGPT based on predicted disaster type and model analysis
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Olagold-hackxx/climate_wavers.git
+    cd notification_service
+    ```
 
-### 2. Location-Based Notifications
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-Tailor notifications based on the user's last known location, ensuring relevance and accuracy in disaster alerts.
+3. Set up environment variables:
+    Create a `.env` file in the root directory and add your RabbitMQ connection details and other necessary configurations.
+    ```env
+   AMQP_URL=your_rabbitmq_server_address
 
-### 3. Personalized Settings
 
-Allow users to customize their notification preferences, including the types of disasters they want to be alerted about and the frequency of notifications.
+   FIREBASE_API_KEY=your_firebase_api_key
+   FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+   FIREBASE_STORAGE_BUCKET=your_firebase_app_bucket
+   FIREBASE_MESSAGING_SENDER_ID=your_firebase_messenger_id
+   FIREBASE_APP_ID=your_firebase_app_id
+   FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
 
-### 4. Emergency Contacts
 
-Provide a feature for users to add emergency contacts who will also receive alerts on their behalf, ensuring a network of safety.
+   MAIL_USER=yourmailuser
+   MAIL_HOST=yourmailhost
+   MAIL_PASS=yourmailpassword
+   MAIL_PORT=yourmailport
+   MAIL_SERVICE=yourmailservice
 
-## Getting Started
+    ```
 
-Follow these steps to set up and run the Notification and Alerting System microservice:
+## Configuration
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/climatewavers/Notification-System.git
+Ensure your RabbitMQ server is running and accessible using the URL provided in the `.env` file.
+
+## Usage
+
+To start the microservice, run the following command:
+```bash
+npm run start:dev
+```
+
+## Queue Definitions
+
+Below are the available rabbitmq channels and their functions:
+
+   ### custom_mail
+
+   Accepts custom mail content and target email address
+
+   payload
+
+   ```json
+   {
+      "email": "string",
+      "emails": ["string"],
+      "data": {
+         "content": "string"
+      }
+   }
+
    ```
 
-2. **Install Dependencies:**
-   ```bash
-   cd climate-wavers-notifications
-   npm install
+   ### forget_password
+
+   Sends password reset link to user email
+
+   payload
+
+   ```json
+      {
+         "email": "string",
+         "data": {
+            "url": "string"
+         }
+      }
    ```
 
-3. **Configuration:**
-   - Configure the microservice settings, including API keys for geolocation services and disaster prediction models.
+   ### verification
 
-4. **Run the Microservice:**
-   ```bash
-   npm start
+   verify newly created account
+
+   payload 
+
+   ```json
+   {
+      "email": "string",
+      "data": {
+         "link": "string",
+         "city": "string"
+      }
+   }
+
    ```
 
-5. **API Documentation:**
-   Access the API documentation at [http://localhost:3000/docs](http://localhost:3000/docs) for details on available endpoints and usage.
+   ### onboarding
 
-## Deployment
-We provide three different methods for deploying this microservice to openshift clusters.
-### Import Git Repositoy (Recommended)
-Use the import git repository feature on openshift console.
-- Navigate to Add page in the Developer console on openshift
-- Select Dockerfile strategy
-- Deployment type should be Deployment Config
-- Secure routes
-- Supply the environment variables after deployment
-  
-### Automated Command line Deployment
-Using the scripts provided in `automate_development` folder, simplifies deployment. To use the scripts, docker and oc must be installed.
+   onboarding email to user
 
-#### Build and push image
-You can replace the image repository in the scripts `build.sh` in `automate_deployment` or use the repository we provided.
-  ```bash
-   automate_deployment/./build.sh
-   ```
-#### Deploy 
-If the image repository was changed when building, update the `development.yaml` file in `k8s` folder with your image repository
-  ```bash
-   automate_deployment/./deploy.sh
+   payload
+
+   ```json
+   {
+      "email": "string"
+   }
    ```
 
-### Tekton pipeline deployment script
-Deploy with tekton with the pipeline deployment script in `automated_deployment` directory. Setup environment variabes after deployment
-   ```bash
-   automate_deployment/./pipeline.sh
-   ```
+   ### disaster_alert
 
+   send disaster alert notification
 
+   payload
 
-## Contributing
-
-We welcome contributions to enhance the functionality and features of the Notification and Alerting System. Feel free to open issues or submit pull requests.
-
-## License
-
-This microservice is licensed under the [MIT License](LICENSE), allowing for both personal and commercial use.
-
-## Support
-
-For any questions or issues, please contact our support team at support@climatewavers.com.
-
-Thank you for contributing to Climate Wavers, and together, let's build a safer and more resilient world! 🌍🌊🔔
+   ```json
+   {
+      "data": {
+         "city": "string",
+         "disasterType": "string"
+      }
+   }
