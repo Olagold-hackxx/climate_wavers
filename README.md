@@ -50,6 +50,12 @@ Climate Wavers integrates multiple microservices, including:
 - **Location**: `smart_contract/`
 - **Readme**: `smart_contract/README.md`
 
+### Notification Service
+- **Description**: Manages sending of emails for disaster alerts, donation alerts, password resets, and more. 
+- **Technology**: Node.js, RabbitMQ
+- **Location**: `notification/`
+- **Readme**: `notification/README.md`
+
 ### Frontend Service
 
 - **Description**: Provides the user interface and integrates all backend services and microservices.
