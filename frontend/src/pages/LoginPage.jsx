@@ -5,11 +5,8 @@ import Login from "../components/Login";
 import { BsFacebook, BsGithub } from "react-icons/bs";
 import { FaLinkedin } from "react-icons/fa";
 
-//const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-//const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
 const Loginpage = () => {
-  const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
   return (
     <div className="text-white grid md:grid-cols-[3fr_4fr] grid-cols-[1fr] bg-gradient-to-r from-slate-900 to-slate-700 items-center ">
