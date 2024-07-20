@@ -50,9 +50,6 @@ __pycache__/
 # RabbitMQ
 *.pid
 
-# Docker
-docker-compose.yml
-Dockerfile
 
 # Sphinx documentation
 docs/_build/
