@@ -118,37 +118,305 @@ Use the `Util.send_email()` method to send emails. Provide the following data:
 
 Use the `send_message(queue_name, message)` function to send messages to RabbitMQ queues. Supported queue names and message formats are defined in the `QUEUES` and `DATA_TYPES` dictionaries.
 
-## API Endpoints
+To provide a complete documentation of your Django application including all the API endpoints, you need to include details about each endpoint in your README file. Here’s an example of how you might structure this information:
 
-### Authentication
+### API Endpoints Documentation
 
-- **POST** `/api/auth/login/` - Login
-- **POST** `/api/auth/logout/` - Logout
-- **POST** `/api/auth/reset_password/` - Request password reset
+#### Base URL
 
-### User Management
+```
+http://<your-domain>/api/
+```
 
-- **GET** `/api/user/` - List users
-- **POST** `/api/user/` - Create a new user
-- **GET** `/api/user/{id}/` - Retrieve user details
-- **PUT** `/api/user/{id}/` - Update user details
-- **DELETE** `/api/user/{id}/` - Delete a user
+#### User Endpoints
 
-### Posts
+1. **List Users**
+   - **Endpoint:** `/user/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all users.
+   - **Authentication:** Required
+   - **Response:** JSON array of user objects
 
-- **GET** `/api/post/` - List posts
-- **POST** `/api/post/` - Create a new post
-- **GET** `/api/post/{id}/` - Retrieve post details
-- **PUT** `/api/post/{id}/` - Update a post
-- **DELETE** `/api/post/{id}/` - Delete a post
+2. **Create User**
+   - **Endpoint:** `/user/`
+   - **Method:** `POST`
+   - **Description:** Create a new user.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** JSON object of the created user
 
-### Comments
+3. **Retrieve User**
+   - **Endpoint:** `/user/{id}/`
+   - **Method:** `GET`
+   - **Description:** Retrieve details of a specific user.
+   - **Parameters:**
+     - `id`: User ID
+   - **Response:** JSON object of the user
 
-- **GET** `/api/comment/` - List comments
-- **POST** `/api/comment/` - Create a new comment
-- **GET** `/api/comment/{id}/` - Retrieve comment details
-- **PUT** `/api/comment/{id}/` - Update a comment
-- **DELETE** `/api/comment/{id}/` - Delete a comment
+4. **Update User**
+   - **Endpoint:** `/user/{id}/`
+   - **Method:** `PUT`
+   - **Description:** Update details of a specific user.
+   - **Parameters:**
+     - `id`: User ID
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** JSON object of the updated user
+
+5. **Delete User**
+   - **Endpoint:** `/user/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Delete a specific user.
+   - **Parameters:**
+     - `id`: User ID
+   - **Response:** Success message
+
+#### Post Endpoints
+
+1. **List Posts**
+   - **Endpoint:** `/post/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all posts.
+   - **Authentication:** Required
+   - **Response:** JSON array of post objects
+
+2. **Create Post**
+   - **Endpoint:** `/post/`
+   - **Method:** `POST`
+   - **Description:** Create a new post.
+   - **Request Body:**
+     ```json
+     {
+       "title": "string",
+       "content": "string",
+       "author": "integer"  // User ID
+     }
+     ```
+   - **Response:** JSON object of the created post
+
+3. **Retrieve Post**
+   - **Endpoint:** `/post/{id}/`
+   - **Method:** `GET`
+   - **Description:** Retrieve details of a specific post.
+   - **Parameters:**
+     - `id`: Post ID
+   - **Response:** JSON object of the post
+
+4. **Update Post**
+   - **Endpoint:** `/post/{id}/`
+   - **Method:** `PUT`
+   - **Description:** Update details of a specific post.
+   - **Parameters:**
+     - `id`: Post ID
+   - **Request Body:**
+     ```json
+     {
+       "title": "string",
+       "content": "string",
+       "author": "integer"  // User ID
+     }
+     ```
+   - **Response:** JSON object of the updated post
+
+5. **Delete Post**
+   - **Endpoint:** `/post/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Delete a specific post.
+   - **Parameters:**
+     - `id`: Post ID
+   - **Response:** Success message
+
+#### Follower Endpoints
+
+1. **List Followers**
+   - **Endpoint:** `/followers/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all followers.
+   - **Authentication:** Required
+   - **Response:** JSON array of follower objects
+
+2. **Add Follower**
+   - **Endpoint:** `/followers/`
+   - **Method:** `POST`
+   - **Description:** Add a new follower.
+   - **Request Body:**
+     ```json
+     {
+       "user": "integer",   // User ID
+       "follower": "integer"  // Follower User ID
+     }
+     ```
+   - **Response:** JSON object of the new follower
+
+3. **Delete Follower**
+   - **Endpoint:** `/followers/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Remove a follower.
+   - **Parameters:**
+     - `id`: Follower ID
+   - **Response:** Success message
+
+#### Following Endpoints
+
+1. **List Following**
+   - **Endpoint:** `/following/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all following relationships.
+   - **Authentication:** Required
+   - **Response:** JSON array of following objects
+
+2. **Add Following**
+   - **Endpoint:** `/following/`
+   - **Method:** `POST`
+   - **Description:** Add a new following relationship.
+   - **Request Body:**
+     ```json
+     {
+       "user": "integer",   // User ID
+       "following": "integer"  // Followed User ID
+     }
+     ```
+   - **Response:** JSON object of the new following
+
+3. **Delete Following**
+   - **Endpoint:** `/following/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Remove a following relationship.
+   - **Parameters:**
+     - `id`: Following ID
+   - **Response:** Success message
+
+#### Comment Endpoints
+
+1. **List Comments**
+   - **Endpoint:** `/comment/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all comments.
+   - **Authentication:** Required
+   - **Response:** JSON array of comment objects
+
+2. **Create Comment**
+   - **Endpoint:** `/comment/`
+   - **Method:** `POST`
+   - **Description:** Create a new comment.
+   - **Request Body:**
+     ```json
+     {
+       "post": "integer",   // Post ID
+       "author": "integer", // User ID
+       "content": "string"
+     }
+     ```
+   - **Response:** JSON object of the created comment
+
+3. **Retrieve Comment**
+   - **Endpoint:** `/comment/{id}/`
+   - **Method:** `GET`
+   - **Description:** Retrieve details of a specific comment.
+   - **Parameters:**
+     - `id`: Comment ID
+   - **Response:** JSON object of the comment
+
+4. **Update Comment**
+   - **Endpoint:** `/comment/{id}/`
+   - **Method:** `PUT`
+   - **Description:** Update details of a specific comment.
+   - **Parameters:**
+     - `id`: Comment ID
+   - **Request Body:**
+     ```json
+     {
+       "content": "string"
+     }
+     ```
+   - **Response:** JSON object of the updated comment
+
+5. **Delete Comment**
+   - **Endpoint:** `/comment/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Delete a specific comment.
+   - **Parameters:**
+     - `id`: Comment ID
+   - **Response:** Success message
+
+#### Subcomment Endpoints
+
+1. **List Subcomments**
+   - **Endpoint:** `/subcomment/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all subcomments.
+   - **Authentication:** Required
+   - **Response:** JSON array of subcomment objects
+
+2. **Create Subcomment**
+   - **Endpoint:** `/subcomment/`
+   - **Method:** `POST`
+   - **Description:** Create a new subcomment.
+   - **Request Body:**
+     ```json
+     {
+       "comment": "integer",   // Comment ID
+       "author": "integer",    // User ID
+       "content": "string"
+     }
+     ```
+   - **Response:** JSON object of the created subcomment
+
+3. **Retrieve Subcomment**
+   - **Endpoint:** `/subcomment/{id}/`
+   - **Method:** `GET`
+   - **Description:** Retrieve details of a specific subcomment.
+   - **Parameters:**
+     - `id`: Subcomment ID
+   - **Response:** JSON object of the subcomment
+
+4. **Update Subcomment**
+   - **Endpoint:** `/subcomment/{id}/`
+   - **Method:** `PUT`
+   - **Description:** Update details of a specific subcomment.
+   - **Parameters:**
+     - `id`: Subcomment ID
+   - **Request Body:**
+     ```json
+     {
+       "content": "string"
+     }
+     ```
+   - **Response:** JSON object of the updated subcomment
+
+5. **Delete Subcomment**
+   - **Endpoint:** `/subcomment/{id}/`
+   - **Method:** `DELETE`
+   - **Description:** Delete a specific subcomment.
+   - **Parameters:**
+     - `id`: Subcomment ID
+   - **Response:** Success message
+
+#### Like/Save Post Endpoints
+
+1. **List Post Likes/Saves**
+   - **Endpoint:** `/like_savepost/`
+   - **Method:** `GET`
+   - **Description:** Retrieve a list of all likes/saves on posts.
+   - **Authentication:** Required
+   - **Response:** JSON array of like/save objects
+
+2. **Add Post Like/Save**
+   - **Endpoint:** `/like_savepost/`
+   - **Method:** `POST`
+   - **Description:** Add
 
 ## Email Sending
 
