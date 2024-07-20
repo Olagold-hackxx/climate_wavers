@@ -1,5 +1,8 @@
 import { BsPerson, BsFillHouseFill, BsBookmark, BsRobot, BsPeople } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
+import Cookies from "js-cookie";
+import Modal from "./Modal";
+import Createpost from "./Createpost";
 import { useState } from "react";
 import { FaDonate } from "react-icons/fa";
 import { getUser } from "../utils/factory";

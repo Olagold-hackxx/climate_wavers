@@ -4,7 +4,51 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default function Signupform() {
-  
+  const {
+    register,
+    handleSubmit,
+    reset,
+    //formState
+  } = useForm();
+
+  //const formError = formState.errors;
+  const inputStyle = {
+    height: "55px",
+    padding: "8px",
+    margin: "18px 0px"
+  }
+
+  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // Send data to API if needed
+    const posterFn = async () => {
+      await axios
+        .post(`${backendUrl}/api/user/register/`, data)
+        .then((response) => {
+          Cookies.set("token", response.data.token);
+          // Cookies.set("confirmationLink", response.data.confirmation_url);
+          Cookies.set("userId", response.data.id);
+        })
+        .catch((error) => console.log(error));
+    };
+    toast.promise(posterFn, {
+      pending: "Signing Up...",
+      success: "Succesful 👌 Please confirm your account in your email",
+      error: "An Error occured 🤯",
+    });
+    // Reset the form after submission
+    reset({
+      first_name: "",
+      last_name: "",
+      mobileNumber: "",
+      password: "",
+      username: "",
+      email: "",
+      bio: "",
+    });
+  };
 
   return (
     <form

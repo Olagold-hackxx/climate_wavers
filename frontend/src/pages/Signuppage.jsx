@@ -9,6 +9,8 @@ import { FaLinkedin } from "react-icons/fa";
 
 import "./styles/signup-page.css";
 
+const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
+
 const Signuppage = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
