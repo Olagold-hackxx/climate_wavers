@@ -1,12 +1,14 @@
-from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import Group
+from django.contrib import admin
 from unfold.admin import ModelAdmin
-from app.models import User, Token
+from .models import User, Post, Follower, Comment, Token
 
-# Admin configuration for User model
+
 @admin.register(User)
 class UserAdmin(ModelAdmin):
+    """
+    Admin interface options for User model.
+    """
     list_display = (
         "id",
         "first_name",
@@ -55,11 +57,9 @@ class UserAdmin(ModelAdmin):
                     "is_staff",
                     "is_superuser",
                     "groups",
-                    # "user_permissions",  # Uncomment if needed
                 ),
             },
         ),
-        # (_("Important dates"), {"fields": ("last_login",)}),  # Uncomment if needed
     )
     add_fieldsets = (
         (
@@ -75,8 +75,43 @@ class UserAdmin(ModelAdmin):
     search_fields = ("username", "first_name", "last_name", "email")
     ordering = ("email",)
 
-# Admin configuration for Token model
+
 @admin.register(Token)
 class TokenAdmin(ModelAdmin):
+    """
+    Admin interface options for Token model.
+    """
     list_filter = ("user",)
     search_fields = ("user",)
+
+
+@admin.register(Post)
+class PostAdmin(ModelAdmin):
+    """
+    Admin interface options for Post model.
+    """
+    list_display = ("id", "content", "image", "user", "category", "location")
+    list_filter = ("user",)
+    search_fields = ("id",)
+
+
+@admin.register(Comment)
+class CommentAdmin(ModelAdmin):
+    """
+    Admin interface options for Comment model.
+    """
+    list_display = ("id", "content", "image", "post_id", "parent_id")
+    search_fields = ("id",)
+
+
+@admin.register(Follower)
+class FollowerAdmin(ModelAdmin):
+    """
+    Admin interface options for Follower model.
+    """
+    list_display = ("id", "user")
+    search_fields = ("user",)
+
+
+# Unregister Group model from admin as it is not needed.
+admin.site.unregister(admin.models.Group)

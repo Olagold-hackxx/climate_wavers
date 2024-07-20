@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import SlidingToken
-from .models import User  
+from app.models import User, Post, Comment, Token, Follower
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone  # Import added
+from django.utils import timezone
 from django.conf import settings
-
 # Serializer for the User model
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -34,7 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "is_superuser", "date_joined")
 
 
-# Serializer for creating a new user
 class UserCreateSerializer(serializers.ModelSerializer):
     cover = serializers.ImageField(
         max_length=255,
@@ -69,15 +70,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        # Create a new user with the validated data
         return User.objects.create_user(**validated_data)
 
     def to_representation(self, instance):
-        # Return the serialized representation of the user
         return UserSerializer(instance, context=self.context).data
 
 
-# Serializer for user login
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
@@ -92,7 +90,6 @@ class UserLoginSerializer(serializers.Serializer):
         return attrs
 
     def to_representation(self, instance):
-        # Generate a token for the authenticated user
         token = SlidingToken.for_user(self.user)
         return {
             "token": str(token),
@@ -100,7 +97,6 @@ class UserLoginSerializer(serializers.Serializer):
         }
 
 
-# Serializer for changing user password
 class UserPasswordChangeSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True, write_only=True)
     new_password = serializers.CharField(required=True, write_only=True)
@@ -120,7 +116,6 @@ class UserPasswordChangeSerializer(serializers.Serializer):
         return value
 
     def save(self, **kwargs):
-        # Save the new password for the user
         user = self.context.get("request").user
         user.set_password(self.validated_data.get("new_password"))
         user.save()
@@ -130,7 +125,6 @@ class UserPasswordChangeSerializer(serializers.Serializer):
         return {"detail": _("Password changed successfully")}
 
 
-# Serializer for password reset
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=5)
 
@@ -138,7 +132,7 @@ class PasswordResetSerializer(serializers.Serializer):
         email = email.lower()
         user = User.objects.filter(email__iexact=email).first()
         if not user:
-            raise serializers.ValidationError(_("Email does not exist"))
+            raise serializers.ValidationError(_("Email does not exists"))
         self.user = user
         return email
 
@@ -146,20 +140,196 @@ class PasswordResetSerializer(serializers.Serializer):
         return getattr(self, "user", None)
 
 
-# Serializer for verifying a token
-class TokenVerifySerializer(serializers.Serializer):
-    token = serializers.PrimaryKeyRelatedField(
-        queryset=Token.objects.all(), source="key"
+class PostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    image = serializers.ImageField(
+        max_length=255,
+        allow_empty_file=True,
+        allow_null=True,
+        required=False,
     )
+    comments_count = serializers.SerializerMethodField()
+    likers_count = serializers.SerializerMethodField()
+    savers_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
+    is_saved = serializers.SerializerMethodField()
 
-    def validate_token(self, token):
-        if token.created < (
-            timezone.now()
-            - timezone.timedelta(seconds=settings.TOKEN_EXPIRY_TIME)  # noqa
-        ):
-            raise serializers.ValidationError(_("Token has expired"))
-        self.user = token.user
-        return token
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
+    def get_likers_count(self, obj):
+        return obj.likers.count()
+
+    def get_savers_count(self, obj):
+        return obj.savers.count()
+
+    def get_is_liked(self, obj):
+        user = self.context.get("request").user
+        return user in obj.likers.all()
+
+    def get_is_saved(self, obj):
+        user = self.context.get("request").user
+        return user in obj.savers.all()
+
+
+    class Meta:
+        model = Post
+        fields = (
+            "id",
+            "content",
+            "user",
+            "image",
+            "category",
+            "location",
+            "comments_count",
+            "likers_count",
+            "savers_count",
+            "is_liked",
+            "is_saved",
+        )
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    image = serializers.ImageField(
+        max_length=255,
+        allow_empty_file=True,
+        allow_null=True,
+        required=False,
+    )
+    comments_count = serializers.SerializerMethodField()
+    likers_count = serializers.SerializerMethodField()
+    savers_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
+    is_saved = serializers.SerializerMethodField()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
+    def get_likers_count(self, obj):
+        return obj.likers.count()
+
+    def get_savers_count(self, obj):
+        return obj.savers.count()
+
+    def get_is_liked(self, obj):
+        user = self.context.get("request").user
+        return user in obj.likers.all()
+
+    def get_is_saved(self, obj):
+        user = self.context.get("request").user
+        return user in obj.savers.all()
+
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "image",
+            "post",
+            "content",
+            "user",
+            "savers_count",
+            "likers_count",
+            "comments_count",
+            "is_liked",
+            "is_saved",
+        )
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+
+class SubCommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    image = serializers.ImageField(
+        max_length=255,
+        allow_empty_file=True,
+        allow_null=True,
+        required=False,
+    )
+    comments_count = serializers.SerializerMethodField()
+    likers_count = serializers.SerializerMethodField()
+    savers_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
+    is_saved = serializers.SerializerMethodField()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
+    def get_likers_count(self, obj):
+        return obj.likers.count()
+
+    def get_savers_count(self, obj):
+        return obj.savers.count()
+
+    def get_is_liked(self, obj):
+        user = self.context.get("request").user
+        return user in obj.likers.all()
+
+    def get_is_saved(self, obj):
+        user = self.context.get("request").user
+        return user in obj.savers.all()
+
+
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "image",
+            "content",
+            "user",
+            "comments_count",
+            "parent",
+            "post",
+            "savers_count",
+            "likers_count",
+            "is_liked",
+            "is_saved",
+        )
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+
+class FollowerSerializer(serializers.ModelSerializer):
+    followers_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Follower
+        fields = ("id", "user", "followers_count")
+
+    def get_followers_count(self, obj):
+        return obj.followers.count()
+
+
+
+class TokenVerifySerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+    def validate(self, attrs):
+        token_str = attrs.get('token')
+        
+        try:
+            token_obj = Token.objects.get(token=token_str)
+        except Token.DoesNotExist:
+            raise serializers.ValidationError("Invalid token")
+
+        if not token_obj.is_valid or token_obj.is_expired():
+            raise serializers.ValidationError("Token is invalid or expired")
+
+        return {
+            'token': token_obj.token,
+            'user_id': token_obj.user.id,
+            'is_valid': token_obj.is_valid,
+            'created_at': token_obj.created_at,
+            'updated_at': token_obj.updated_at,
+        }
 
     def create(self, validated_data):
         self.user.is_email_verified = True

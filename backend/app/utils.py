@@ -5,55 +5,46 @@ from django.utils.html import strip_tags
 
 class EmailThread(threading.Thread):
     """
-    A thread class for sending emails asynchronously.
+    Thread for sending emails asynchronously.
     """
     def __init__(self, email):
         """
-        Initialize the EmailThread with an email instance.
+        Initialize the EmailThread instance.
 
-        Args:
-            email (EmailMultiAlternatives): The email instance to be sent.
+        :param email: The email object to be sent.
         """
         self.email = email
-        super().__init__()
+        threading.Thread.__init__(self)
 
     def run(self):
         """
-        Run the thread to send the email.
+        Send the email.
         """
         self.email.send()
 
 class Util:
+    """
+    Utility class for sending emails.
+    """
     @staticmethod
     def send_email(data):
         """
-        Send an email with HTML and plain text content asynchronously.
+        Send an email with HTML and plain text content.
 
-        Args:
-            data (dict): A dictionary containing email parameters:
-                - template_name (str): The name of the template to render the email content.
-                - context (dict): Context data to render the template.
-                - email_subject (str): The subject of the email.
-                - from_email (str): The sender's email address.
-                - to_email (str): The recipient's email address.
+        :param data: Dictionary containing email data including template name, context, subject, from email, and to email.
         """
-        # Render the HTML message from the template and context
+        # Render HTML message
         html_message = render_to_string(data["template_name"], data["context"])
-        
-        # Convert HTML message to plain text
+        # Create plain text version
         plain_message = strip_tags(html_message)
-        
-        # Create the email object
+        # Prepare email
         email = EmailMultiAlternatives(
             subject=data["email_subject"],
             body=plain_message,
             from_email=data["from_email"],
             to=[data["to_email"]],
         )
-        
-        # Attach the HTML version of the email
+        # Attach HTML alternative
         email.attach_alternative(html_message, "text/html")
-        
-        # Send the email asynchronously using EmailThread
-        email_thread = EmailThread(email)
-        email_thread.start()
+        # Send email
+        email.send()

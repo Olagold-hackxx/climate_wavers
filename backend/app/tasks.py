@@ -3,18 +3,18 @@ import os
 import json
 import logging
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 from djoser.compat import get_user_email
-from urllib.parse import urljoin
 from app.models import User, Token
+
 from .utils import Util
 
+# Configure logging
 logger = logging.getLogger(__name__)
 
 # Connection URL for RabbitMQ
 AMQP_URL = os.environ.get("AMQP_URL")
 
-# Define queues for different types of messages
+# Define queues for different message types
 QUEUES = {
     "custom_mail": "custom_mail",
     "forget_password": "forget_password",
@@ -22,7 +22,7 @@ QUEUES = {
     "verification": "verification",
 }
 
-# Define the expected data types for each queue
+# Define data types for different messages
 DATA_TYPES = {
     "custom_mail": {"email": str, "data": {"content": str}},
     "disaster_alert": {"email": str, "data": {"location": str, "disasterType": str}},
@@ -33,20 +33,19 @@ DATA_TYPES = {
 
 def send_message(queue_name, message):
     """
-    Sends a message to the specified RabbitMQ queue.
+    Send a message to a RabbitMQ queue.
 
-    Args:
-        queue_name (str): The name of the RabbitMQ queue.
-        message (str): The message to be sent, typically in JSON format.
+    :param queue_name: The name of the queue to send the message to.
+    :param message: The message to be sent.
     """
     # Connect to RabbitMQ
     connection = pika.BlockingConnection(pika.URLParameters(AMQP_URL))
     channel = connection.channel()
 
-    # Declare the queue (creates the queue if it doesn't exist)
+    # Declare the queue
     channel.queue_declare(queue=queue_name, durable=False)
 
-    # Publish the message to the queue
+    # Publish the message
     channel.basic_publish(
         exchange="",
         routing_key=queue_name,
@@ -58,24 +57,19 @@ def send_message(queue_name, message):
 
     print(f" [x] Sent {message} to {queue_name}")
 
-    # Close the connection
+    # Close connection
     connection.close()
 
 def send_activation_email(user_pk: int):
     """
-    Sends an activation email to the user.
+    Send an activation email to the user.
 
-    Args:
-        user_pk (int): The primary key of the user.
+    :param user_pk: The primary key of the user.
     """
     if user := User.objects.filter(pk=user_pk).first():
-        # Delete any existing tokens for the user
         Token.objects.filter(user=user).delete()
-        # Create a new token for the user
         token = Token.objects.create(user=user)
-        # Generate the confirmation URL
         confirmation_url = f"{settings.FRONTEND_URL}/register/verify/{token.token}/"
-        # Send message to the "verification" queue
         send_message(
             "verification",
             message=json.dumps(
@@ -86,26 +80,21 @@ def send_activation_email(user_pk: int):
             ),
         )
         logger.info(
-            f"send_activation_email: Successfully sent message to user {user.pk}"
+            f"send_activation_email: Successfully sent message to user {user.pk}"  # noqa
         )
     else:
         logger.warning(f"send_activation_email: User: {user_pk} not found")
 
 def send_reset_password_email(user_pk: int):
     """
-    Sends a password reset email to the user.
+    Send a reset password email to the user.
 
-    Args:
-        user_pk (int): The primary key of the user.
+    :param user_pk: The primary key of the user.
     """
     if user := User.objects.filter(pk=user_pk).first():
-        # Delete any existing tokens for the user
         Token.objects.filter(user=user).delete()
-        # Create a new token for the user
         token = Token.objects.create(user=user)
-        # Generate the reset password URL
         url = f"{settings.FRONTEND_URL}/forgot-password/{token.token}/"
-        # Send message to the "forget_password" queue
         send_message(
             "forget_password",
             message=json.dumps(

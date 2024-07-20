@@ -1,201 +1,188 @@
-# Django User Management API
+# Django App Documentation
 
 ## Overview
 
-This Django application provides a robust user management system with features for user registration, login, password management, and profile management. It includes authentication, password reset, and profile update functionalities.
+This Django application is designed to handle user management, email notifications, and messaging using RabbitMQ. It includes features such as user registration, password recovery, and API endpoints for various functionalities.
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Installation](#installation)
+3. [Configuration](#configuration)
+4. [Usage](#usage)
+5. [API Endpoints](#api-endpoints)
+6. [Email Sending](#email-sending)
+7. [RabbitMQ Messaging](#rabbitmq-messaging)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ## Features
 
-- **User Registration:** Allows new users to register with email, username, and password.
-- **User Login:** Enables users to log in using their credentials and receive a JWT token for authentication.
-- **Password Management:** Provides functionality to change and reset passwords.
-- **Profile Management:** Allows users to update their profile information, including profile pictures and bios.
-- **Token Management:** Generates and validates JWT tokens for secure authentication.
+- User registration and activation
+- Password reset functionality
+- Email notifications for various events
+- Messaging using RabbitMQ
+- API endpoints for user management, posts, comments, and more
+- API documentation using DRF Spectacular
 
 ## Installation
 
 ### Prerequisites
 
-Ensure you have the following installed:
-- Python 3.8 or later
+- Python 3.x
 - Django 4.x
 - Django REST Framework
-- Django REST Framework Simple JWT
-- Pillow (for image handling)
+- RabbitMQ
 
-### Clone the Repository
+### Steps
 
-```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
-```
+1. **Clone the repository:**
 
-### Create a Virtual Environment
+   ```bash
+   git clone https://github.com/your-repository.git
+   cd your-repository
+   ```
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-```
+2. **Create a virtual environment:**
 
-### Install Dependencies
+   ```bash
+   python -m venv env
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+3. **Activate the virtual environment:**
 
-### Set Up the Database
+   - On Windows:
+     ```bash
+     env\Scripts\activate
+     ```
 
-Create a `.env` file in the root directory of the project and add your database configuration. Example:
+   - On macOS/Linux:
+     ```bash
+     source env/bin/activate
+     ```
 
-```
-DATABASE_URL=postgres://user:password@localhost:5432/mydatabase
-```
+4. **Install the required packages:**
 
-Run migrations to set up the database schema:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-python manage.py migrate
-```
+5. **Apply migrations:**
 
-### Create a Superuser
+   ```bash
+   python manage.py migrate
+   ```
 
-```bash
-python manage.py createsuperuser
-```
+6. **Create a superuser (optional):**
 
-### Run the Development Server
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-```bash
-python manage.py runserver
-```
+7. **Run the development server:**
 
-Visit `http://127.0.0.1:8000/` to access the application.
+   ```bash
+   python manage.py runserver
+   ```
+
+## Configuration
+
+### Environment Variables
+
+Ensure you have the following environment variables set:
+
+- `AMQP_URL`: RabbitMQ connection URL
+- `FRONTEND_URL`: URL for frontend application
+
+### Settings
+
+Edit `settings.py` to configure:
+
+- **Database settings**
+- **Email backend settings**
+- **Static and media files settings**
+
+## Usage
+
+### Sending Emails
+
+Use the `Util.send_email()` method to send emails. Provide the following data:
+
+- `template_name`: Path to the HTML template
+- `context`: Context data for the template
+- `email_subject`: Subject of the email
+- `from_email`: Sender's email address
+- `to_email`: Recipient's email address
+
+### Messaging with RabbitMQ
+
+Use the `send_message(queue_name, message)` function to send messages to RabbitMQ queues. Supported queue names and message formats are defined in the `QUEUES` and `DATA_TYPES` dictionaries.
 
 ## API Endpoints
 
-### User Registration
+### Authentication
 
-- **URL:** `/users/`
-- **Method:** `POST`
-- **Description:** Registers a new user.
-- **Request Body:**
-  ```json
-  {
-    "username": "exampleuser",
-    "email": "user@example.com",
-    "password": "password123",
-    "cover": "path/to/cover/image.jpg",
-    "profile_pic": "path/to/profile/image.jpg",
-    "first_name": "First",
-    "last_name": "Last",
-    "last_location": "Location",
-    "is_google_user": false,
-    "is_verified": false,
-    "is_linkedin_user": false,
-    "is_facebook_user": false
-  }
-  ```
+- **POST** `/api/auth/login/` - Login
+- **POST** `/api/auth/logout/` - Logout
+- **POST** `/api/auth/reset_password/` - Request password reset
 
-### User Login
+### User Management
 
-- **URL:** `/users/login/`
-- **Method:** `POST`
-- **Description:** Logs in a user and returns a JWT token.
-- **Request Body:**
-  ```json
-  {
-    "username": "exampleuser",
-    "password": "password123"
-  }
-  ```
-- **Response:**
-  ```json
-  {
-    "token": "jwt-token",
-    "user": {
-      "id": "user-id",
-      "username": "exampleuser",
-      "email": "user@example.com",
-      ...
-    }
-  }
-  ```
+- **GET** `/api/user/` - List users
+- **POST** `/api/user/` - Create a new user
+- **GET** `/api/user/{id}/` - Retrieve user details
+- **PUT** `/api/user/{id}/` - Update user details
+- **DELETE** `/api/user/{id}/` - Delete a user
 
-### Change Password
+### Posts
 
-- **URL:** `/users/change_password/`
-- **Method:** `POST`
-- **Description:** Changes the user's password.
-- **Request Body:**
-  ```json
-  {
-    "old_password": "oldpassword123",
-    "new_password": "newpassword123"
-  }
-  ```
+- **GET** `/api/post/` - List posts
+- **POST** `/api/post/` - Create a new post
+- **GET** `/api/post/{id}/` - Retrieve post details
+- **PUT** `/api/post/{id}/` - Update a post
+- **DELETE** `/api/post/{id}/` - Delete a post
 
-### Reset Password
+### Comments
 
-- **URL:** `/users/reset_password/`
-- **Method:** `POST`
-- **Description:** Sends a password reset email.
-- **Request Body:**
-  ```json
-  {
-    "email": "user@example.com"
-  }
-  ```
+- **GET** `/api/comment/` - List comments
+- **POST** `/api/comment/` - Create a new comment
+- **GET** `/api/comment/{id}/` - Retrieve comment details
+- **PUT** `/api/comment/{id}/` - Update a comment
+- **DELETE** `/api/comment/{id}/` - Delete a comment
 
-### Profile Management
+## Email Sending
 
-- **URL:** `/users/me/`
-- **Method:** `GET`, `PUT`, `PATCH`
-- **Description:** Retrieves or updates the authenticated user's profile.
-- **Request Body (PUT/PATCH):**
-  ```json
-  {
-    "bio": "New bio",
-    "profile_pic": "path/to/new/profile/image.jpg"
-  }
-  ```
+### `EmailThread`
 
-## Token Management
+This class is used to send emails asynchronously using threading.
 
-### Check Token
+### `Util`
 
-- **URL:** `/users/check-token/`
-- **Method:** `POST`
-- **Description:** Validates the provided JWT token.
-- **Request Body:**
-  ```json
-  {
-    "token": "jwt-token"
-  }
-  ```
+The `send_email()` method in the `Util` class sends an email with HTML and plain text content.
 
-## Testing
+## RabbitMQ Messaging
 
-To run tests, use the following command:
+### Queues
 
-```bash
-python manage.py test
-```
+- `custom_mail`
+- `forget_password`
+- `onboarding`
+- `verification`
 
-## API Documentation
+### Functions
 
-API documentation is available using Swagger and ReDoc:
-
-- **Swagger UI:** `http://127.0.0.1:8000/swagger/`
-- **ReDoc:** `http://127.0.0.1:8000/redoc/`
+- **`send_message(queue_name, message)`**: Sends a message to the specified RabbitMQ queue.
 
 ## Contributing
 
+We welcome contributions to this project. Please follow these steps:
+
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Create a new Pull Request.
+2. Create a new branch.
+3. Make your changes.
+4. Test your changes.
+5. Submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
