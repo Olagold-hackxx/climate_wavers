@@ -1,0 +1,21 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/v1/(.*)",
+        "destination": "http://18.206.117.73:8000/$1"
+      },
+      {
+        "source": "/api/v1/auth/(.*)",
+        "destination": "http://13.60.27.5:3000/$1"
+      },
+      {
+        "source": "/api/v1/chats/(.*)",
+        "destination": "http://54.80.27.125/$1"
+      },
+      {
+        "source": "/api/v1/posts/(.*)",
+        "destination": "http://54.80.27.125/$1"
+      }
+    ]
+  }
+  
