@@ -9,12 +9,8 @@
         "destination": "http://13.60.27.5:3000//api/v1/auth/$1"
       },
       {
-        "source": "/api/v1/chats/(.*)",
-        "destination": "http://54.80.27.125/api/v1/chats/$1"
-      },
-      {
-        "source": "/api/v1/posts/(.*)",
-        "destination": "http://54.80.27.125//api/v1/posts/$1"
+        "source": "/api/v1/(.*)",
+        "destination": "http://54.80.27.125/api/v1/$1"
       }
     ]
   }
