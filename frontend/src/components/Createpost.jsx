@@ -90,6 +90,7 @@ export default function Createpost({ closeModal }) {
         Authorization: `Bearer ${accessToken}`,
         "X-CSRFToken": `${Cookies.get("csrftoken")}`,
       };
+      console.log(data.image)
       if (!data.image[0]) {
         delete data.image;
         console.log(data);
@@ -135,7 +136,6 @@ export default function Createpost({ closeModal }) {
   // const formRef = useRef();
 
   async function handleReportSubmission(data) {
-    console.log(data)
     let imageUrl;
     if (data.image) {
       imageUrl = await uploadFiles(data.image);

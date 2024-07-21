@@ -100,7 +100,7 @@ const Donate = (post) => {
 
     <div className="flex "> 
     <p>Need DSX token</p>
-      <button onClick={handleMint} className="bg-linear py-2  justify-end items-center mb-2 px-4 rounded-lg">Claim</button>
+      <button onClick={handleMint} className="bg-linear py-2  justify-end items-center mb-2 px-4 ml-[100px] rounded-lg">Claim</button>
       </div>
       <div className="flex flex-row text-[#340178]">
         <div className="border-[1.5px] mx-2 border-gray-400 px-4 py-.1 ">{""}50 DSX</div>
@@ -115,7 +115,7 @@ const Donate = (post) => {
           onChange={(e) => setAmount(e.target.value)}
           placeholder=" Enter amount"
           type="number"
-          className="border-[1.5px] text-black border-gray-400 h-[55px]  focus:outline outline-1 outline-gray-400"
+          className="border-[1.5px] text-black border-gray-400 h-[55px]  px-2 focus:outline outline-1 outline-gray-400"
         />
       </div>
       <button
