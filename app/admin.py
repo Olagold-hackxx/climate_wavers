@@ -114,4 +114,4 @@ class FollowerAdmin(ModelAdmin):
 
 
 # Unregister Group model from admin as it is not needed.
-admin.site.unregister(admin.models.Group)
+# admin.site.unregister(admin.models.Group)
