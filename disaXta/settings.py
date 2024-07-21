@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import environ
+import dj_database_url  
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR/'.env')
@@ -110,6 +111,8 @@ DATABASES = {
         'PORT':env('MYSQL_PORT'),
     }
 }
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # ------------- DJOSER ------------
 
