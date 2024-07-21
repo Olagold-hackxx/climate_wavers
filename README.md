@@ -1,76 +1,137 @@
-# Climate Wavers
+# Notification System Microservice
 
-Climate Wavers is an AI-driven social network focused on climate-based disaster responses. The platform includes a variety of microservices, each with specific roles, to ensure a robust and comprehensive solution for climate action. The goal of Climate Wavers is not only to facilitate disaster relief but also to predict and analyze potential climate disasters.
+This microservice handles sending email notifications based on events received through RabbitMQ. It manages different types of notifications such as custom mails, disaster alerts, password resets, onboarding, and verification emails. The microservice also supports notification subscription management.
 
-## Overview
+## Table of Contents
 
-Climate Wavers integrates multiple microservices, including:
-
-1. **Backend Service**: Built with Django, handling user authentication, social media interactions, and a shared MySQL database.
-2. **OAuth Microservice**: Provides third-party authentication via LinkedIn, GitHub, Facebook, and Google.
-3. **Realtime Response Service**: Handles real-time updates, chatbot interactions, and uses Firebase and RabbitMQ.
-4. **Models Microservice**: Includes the magnitude analysis model and recognition model for disaster prediction and response.
-5. **Donation DApp**: Built on Solidity, enables users to fund disaster relief and plant trees through our partnership with Tree Nation.
-6. **Frontend Service**: Built with React, providing a user interface that integrates all backend services and microservices.
-
-## Microservices
-
-### Backend Service
-
-- **Description**: Handles user authentication, social media interactions, and database management.
-- **Technology**: Django, MySQL
-- **Location**: `backend/`
-- **Readme**: `backend/README.md`
-
-### OAuth Microservice
-
-- **Description**: Manages third-party authentication (LinkedIn, GitHub, Facebook, Google).
-- **Technology**: JavaScript
-- **Location**: `oauth/`
-- **Readme**: `oauth/README.md`
-
-### Realtime Response Service
-
-- **Description**: Manages real-time updates, chatbots, and generative AI.
-- **Technology**: Node.js, Firebase
-- **Location**: `response_system/`
-- **Readme**: `response_system/README.md`
-
-### Models Microservice
-
-- **Description**: Hosts and serves the magnitude analysis model and recognition model.
-- **Technology**: Flask, TensorFlow, Scikit-learn
-- **Location**: `models/`
-- **Readme**: `models/README.md`
-
-### Donation DApp
-
-- **Description**: Enables users to fund disaster relief and plant trees using our token.
-- **Technology**: Solidity
-- **Location**: `smart_contract/`
-- **Readme**: `smart_contract/README.md`
-
-### Notification Service
-- **Description**: Manages sending of emails for disaster alerts, donation alerts, password resets, and more. 
-- **Technology**: Node.js, RabbitMQ
-- **Location**: `notification/`
-- **Readme**: `notification/README.md`
-
-### Frontend Service
-
-- **Description**: Provides the user interface and integrates all backend services and microservices.
-- **Technology**: React
-- **Location**: `frontend/`
-- **Readme**: `frontend/README.md`
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Queue Definitions](#queue-definitions)
+- [Controller Functions](#controller-functions)
+- [License](#license)
 
 ## Installation
 
-To run Climate Wavers, follow the installation instructions provided in each microservice's README.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Olagold-hackxx/climate_wavers.git
+    cd notification_service
+    ```
 
-## Contributing
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-We welcome contributions from the community. Please read the contributing guidelines in each microservice's README.
+3. Set up environment variables:
+    Create a `.env` file in the root directory and add your RabbitMQ connection details and other necessary configurations.
+    ```env
+   AMQP_URL=your_rabbitmq_server_address
 
-## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+   FIREBASE_API_KEY=your_firebase_api_key
+   FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+   FIREBASE_STORAGE_BUCKET=your_firebase_app_bucket
+   FIREBASE_MESSAGING_SENDER_ID=your_firebase_messenger_id
+   FIREBASE_APP_ID=your_firebase_app_id
+   FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
+
+
+   MAIL_USER=yourmailuser
+   MAIL_HOST=yourmailhost
+   MAIL_PASS=yourmailpassword
+   MAIL_PORT=yourmailport
+   MAIL_SERVICE=yourmailservice
+
+    ```
+
+## Configuration
+
+Ensure your RabbitMQ server is running and accessible using the URL provided in the `.env` file.
+
+## Usage
+
+To start the microservice, run the following command:
+```bash
+npm run start:dev
+```
+
+## Queue Definitions
+
+Below are the available rabbitmq channels and their functions:
+
+   ### custom_mail
+
+   Accepts custom mail content and target email address
+
+   payload
+
+   ```json
+   {
+      "email": "string",
+      "emails": ["string"],
+      "data": {
+         "content": "string"
+      }
+   }
+
+   ```
+
+   ### forget_password
+
+   Sends password reset link to user email
+
+   payload
+
+   ```json
+      {
+         "email": "string",
+         "data": {
+            "url": "string"
+         }
+      }
+   ```
+
+   ### verification
+
+   verify newly created account
+
+   payload 
+
+   ```json
+   {
+      "email": "string",
+      "data": {
+         "link": "string",
+         "city": "string"
+      }
+   }
+
+   ```
+
+   ### onboarding
+
+   onboarding email to user
+
+   payload
+
+   ```json
+   {
+      "email": "string"
+   }
+   ```
+
+   ### disaster_alert
+
+   send disaster alert notification
+
+   payload
+
+   ```json
+   {
+      "data": {
+         "city": "string",
+         "disasterType": "string"
+      }
+   }
