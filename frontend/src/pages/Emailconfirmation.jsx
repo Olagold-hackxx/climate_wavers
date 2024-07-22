@@ -12,7 +12,7 @@ const Emailconfirmation = () => {
   // const user = useParams();
   // const token = Cookies.get("token");
   // const location = useLocation();
-  const { token } = useParams();
+  const { userToken } = useParams();
 
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const [isValid, setValidity] = useState(false);
@@ -29,7 +29,7 @@ const Emailconfirmation = () => {
     queryKey: ["token"],
     queryFn: async () => {
       await axios
-        .post(`${backendUrl}/api/user/check-token/`, { token })
+        .post(`${backendUrl}/api/user/check-token/`, { token: userToken })
         .then((res) => {
           console.log(res);
           setValidity(true);
