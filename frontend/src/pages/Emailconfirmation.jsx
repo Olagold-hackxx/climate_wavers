@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { BiWinkSmile } from "react-icons/bi";
 import { FaRegSadTear } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -11,9 +11,9 @@ import { useQuery } from "@tanstack/react-query";
 const Emailconfirmation = () => {
   // const user = useParams();
   // const token = Cookies.get("token");
-  const location = useLocation();
-  const pathname = location.pathname;
-  const token = pathname.substring(pathname.lastIndexOf("/") + 1);
+  // const location = useLocation();
+  const { token } = useParams();
+
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const [isValid, setValidity] = useState(false);
 

@@ -26,7 +26,7 @@ const Signuppage = () => {
               trees around the world. Be part of the solution — Sign up Now!
             </p>
           </div>
-          <img src="../../Vector.svg" alt="" className=" fill-[#008080]"/>
+          <img src="../../logodark.png" alt="" className=" fill-[#008080]"/>
         </div>
         <div className="form-main flex flex-col text-center items-center gap-4 -mt-[550px] md:mt-0 bg-white border md:border-0 border-gray-300 h-screen  w-[90%] md:w-[100%] justify-self-center rounded-none p-3 ">
           {isFormOpen === false ? (
