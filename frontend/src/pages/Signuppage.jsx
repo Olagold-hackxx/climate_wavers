@@ -21,7 +21,7 @@ const Signuppage = () => {
           <div className="writeup">
             <h2>Join Climate Wavers</h2>
             <p>
-              Connect on our AI-driven social network for effectiive climate disaster
+              Connect on our AI-driven social network for effective climate disaster
               responses, donate to relief efforts, and together we plant
               trees around the world. Be part of the solution — Sign up Now!
             </p>

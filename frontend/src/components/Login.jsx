@@ -74,7 +74,7 @@ export default function Login() {
         {...register("password")}
       />
       <input
-        className="w-full p-2  bg-gradient-to-r from-fuchsia-500 bg-blue-500 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-purple-700 text-white rounded cursor-pointer"
+        className="w-full p-2  bg-[#008080] from-fuchsia-500 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-purple-700 text-white rounded cursor-pointer"
         type="submit"
       />
     </form>

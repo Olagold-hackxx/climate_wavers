@@ -150,7 +150,7 @@ export default function Signupform() {
         </span>
       )} */}
       <button
-        className="w-full p-2 bg-purple-500 text-white rounded cursor-pointer z-10"
+        className="w-full p-2 bg-[#008080] from-fuchsia-500 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-purple-700 text-white rounded cursor-pointer z-10"
         type="submit"
         style={{
           fontSize: "20px",
