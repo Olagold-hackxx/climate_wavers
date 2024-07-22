@@ -75,7 +75,8 @@ def send_activation_email(user_pk: int):
             message=json.dumps(
                 {
                     "email": get_user_email(user),
-                    "data": {"code": confirmation_url},
+                    "data": {"link": confirmation_url, "city": "Lagos"},
+                    
                 }
             ),
         )

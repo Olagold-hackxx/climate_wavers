@@ -10,7 +10,7 @@
       },
       {
         "source": "/api/(.*)",
-        "destination": "http://18.206.117.73:8000/api/$1"
+        "destination": "https://18.206.117.73:8000/api/$1"
       }
     ]
   }
