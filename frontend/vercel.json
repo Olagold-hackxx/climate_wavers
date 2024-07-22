@@ -11,7 +11,8 @@
       {
         "source": "/api/(.*)",
         "destination": "https://18.206.117.73/api/$1"
-      }
+      },
+      { "source": "/(.*)", "destination": "/$1" }
     ]
   }
   
