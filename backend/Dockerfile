@@ -14,8 +14,8 @@ ENV MYSQL_HOST=$MYSQL_HOST
 # Set work directory
 WORKDIR /backend
 
-RUN apt-get update -y
-RUN apt-get install -y python3-dev default-libmysqlclient-dev build-essential pkg-config
+RUN apt-get update -y && apt-get install -y python3-dev default-libmysqlclient-dev build-essential pkg-config && rm -rf /var/lib/apt/lists/*
+
 RUN pip install --upgrade pip
 
 

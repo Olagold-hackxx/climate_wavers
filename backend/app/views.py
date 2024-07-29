@@ -76,7 +76,6 @@ class UserViewSet(
         if (not user.is_google_user or not user.is_linkedin_user or not user.is_facebook_user):
             send_activation_email(user.id)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return self.create(request)
 
     @action(methods=["post"], detail=False, permission_classes=(IsAuthenticated,))
     def change_password(self, request):
@@ -100,7 +99,6 @@ class UserViewSet(
                 request, pk=request.user.pk, partial=request.method == "PATCH"
             )
         return self.retrieve(request, pk=request.user.pk)
-        # return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_object(self):
         """Return user object"""
@@ -113,7 +111,6 @@ class UserViewSet(
         user = serializer.get_user()
         if user and not settings.TEST_MODE:
             send_reset_password_email(user.pk)
-            # send_reset_password_email(user.pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(["post"], detail=False, url_path="check-token", url_name="check-token", permission_classes=(AllowAny,))
@@ -155,11 +152,6 @@ class PostViewset(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    # def get_queryset(self):
-    #    return Post.objects.filter(user=self.request.user)
-
-    # def get_serializer_class(self):
-    #    return PostSerializer
 
 
 class CommentViewset(ModelViewSet):
@@ -187,12 +179,6 @@ class CommentViewset(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-    # def get_queryset(self):
-    #    return Comment.objects.filter(user=self.request.user)
-
-    # def get_serializer_class(self):
-    #    return CommentSerializer
 
 
 class SubCommentViewset(ModelViewSet):
@@ -252,7 +238,6 @@ class FollowingViewset(ModelViewSet):
         # Override the default create method to handle follow logic
         following_id = self.request.data.get("user")
         following = User.objects.get(pk=following_id)
-        # import pdb; pdb.set_trace()
 
         # Check if the user is already following
         if following.followings.filter(user=self.request.user.pk).exists():
@@ -329,9 +314,3 @@ class CommentLikeSaveViewSet(ModelViewSet):
 
         comment.save()
         serializer.save()
-
-    # def get_queryset(self):
-    #    return Post.objects.filter(user=self.request.user)
-
-    # def get_serializer_class(self):
-    #    return PostSerializer
