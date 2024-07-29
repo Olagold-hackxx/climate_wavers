@@ -1,4 +1,3 @@
-import Postcomponent from './Postcomponent'
 import { DisaxPostCard } from './DisaxPostCard'
 import { useState } from 'react'
 import { watchCollection } from '../services/firebase.service'
@@ -13,7 +12,7 @@ const DisaX = () => {
     watchCollection(path, (snapshot)=>{
       const data = snapshot.docs.map(d=>({...d.data(), remoteId: d.id}))
       const sorted = data.sort((a,b)=>b.postedAt - a.postedAt)
-      setTips(data)
+      setTips(sorted)
     })
   }, [])
 

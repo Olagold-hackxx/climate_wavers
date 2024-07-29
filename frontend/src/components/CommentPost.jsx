@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Accountcard from "./Accountcard";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { PiBookmarkFill } from "react-icons/pi";
-import { TbLineDashed } from "react-icons/tb";
 import axios from "axios";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
@@ -18,23 +16,13 @@ import Createcomment from "./Createcomment";
 import IncidentIntegration from "./IncidentIntegration";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
-const CommentPost = ({ category = "", type = "post", postId = "" }) => {
+const CommentPost = ({ type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
-  const navigate = useNavigate();
-  // const [page, setPage] = useState("");
-  const [savedAddress, setSavedAddress] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalopen] = useState(false);
-  const { isConnected } = useWeb3ModalAccount()
+  const { isConnected } = useWeb3ModalAccount();
 
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    const walletAddress = localStorage.getItem("walletAddress");
-    if (walletAddress) setSavedAddress(walletAddress);
-    setLoading(false);
-  }, []);
 
   const headers = {
     "Content-Type": "application/json",
@@ -113,14 +101,6 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
     },
   });
 
-  // const handlePostClick = (selectedPost) => {
-  //   navigate(`/${selectedPost.id}/comments`, {
-  //     state: { postData: selectedPost, category: category },
-  //   });
-  // };
-
-
-
   useEffect(() => {
     if (postsLoading) {
       toast.dismiss();
@@ -135,7 +115,6 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
     }
   }, [postsLoading, post, error]);
 
-
   return (
     <div className="py-3">
       {!isConnected && <Wallet />}
@@ -145,11 +124,7 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
           <p className="text-left text-sm px-3 my-3 ">{post?.content}</p>
           <img
             className="w-[80%] px-3 rounded-3xl "
-            src={
-              post?.image
-                ? post.image
-                : ""
-            }
+            src={post?.image ? post.image : ""}
             alt=""
           />
         </div>
@@ -207,7 +182,7 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
 };
 
 CommentPost.propTypes = {
-  category: PropTypes.string,
+  postId: PropTypes.number,
   type: PropTypes.string,
 };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, createContext, useContext } from "react";
 import Modal from "./Modal";
 // import { ethers } from "ethers";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
@@ -67,7 +67,7 @@ const Wallet = () => {
                 <p className="w-80 py-3 text-left">
                   Connect your digital wallet to support disaster relief
                   efforts! Your contribution can make a meaningful impact. Click
-                  below to connect your wallet and donate and receive funds
+                  below to connect your wallet to donate and receive funds
                   securely.
                 </p>
               )}

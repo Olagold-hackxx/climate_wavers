@@ -4,7 +4,6 @@ import Accountcard from "./Accountcard";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { PiBookmarkFill } from "react-icons/pi";
-import { TbLineDashed } from "react-icons/tb";
 import axios from "axios";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
@@ -23,9 +22,6 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
   const navigate = useNavigate();
-  // const [page, setPage] = useState("");
-  const [savedAddress, setSavedAddress] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
   const { isConnected } = useWeb3ModalAccount()
@@ -156,7 +152,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
                 <Createcomment
                   postId={post.id}
-                  closeModal={() => setIsModalopen(false)}
+                  closeModal={() => setIsCommentModalOpen(false)}
                 />
               </Modal>
             </div>

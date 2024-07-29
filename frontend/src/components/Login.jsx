@@ -16,7 +16,6 @@ export default function Login() {
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const onSubmit = (data) => {
     try {
-      const pendingToastId = toast.info("Logging In...", { autoClose: false });
       const loginFn = async () => {
         await axios
           .post(`${backendUrl}/api/user/login/`, data, {

@@ -90,7 +90,7 @@ const Signuppage = () => {
 
           {isFormOpen === true ? (
             <button
-              onClick={() => handleResendEmail()}
+              // onClick={() => handleResendEmail()}
               className="w-[20%] p-2 bg-green text-white rounded cursor-pointer z-10 absolute -bottom-[100px] right-2 "
             >
               Resend email

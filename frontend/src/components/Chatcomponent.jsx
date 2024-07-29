@@ -1,22 +1,28 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { IoSend } from "react-icons/io5";
-// import { useParams } from "react-router-dom";
 import MessageCard from "./message-card";
+import PropTypes from "prop-types";
 
-const Chatcomponent = ({messages, handlePostMessage}) => {
-  const bodyRef = useRef()
-
-  
+const Chatcomponent = ({ messages, handlePostMessage }) => {
+  const bodyRef = useRef();
 
   return (
     <div className="max-h-fit h-[90%] flex flex-col justify-between">
-      <div className="overflow-auto message-card-list" >
-        {
-          !messages?.length?
-          <p className="null">Ask me anything about disasters</p>:
-          messages.map(m=>{
-          return <MessageCard postedBy={m.postedBy} key={m.remoteId} body={m.body} postedAt={m.postedAt} />})
-        }
+      <div className="overflow-auto message-card-list">
+        {!messages?.length ? (
+          <p className="null">Ask me anything about disasters</p>
+        ) : (
+          messages.map((m) => {
+            return (
+              <MessageCard
+                postedBy={m.postedBy}
+                key={m.remoteId}
+                body={m.body}
+                postedAt={m.postedAt}
+              />
+            );
+          })
+        )}
       </div>
       <div className="bg-gray-100 p-1 mx-5 md:p-2 border-2 border-gray-100  rounded-2xl flex flex-row items-center shadow-lg shadow-neutral-500/50">
         <input
@@ -27,9 +33,9 @@ const Chatcomponent = ({messages, handlePostMessage}) => {
         />{" "}
         <IoSend
           size={25}
-          onClick={()=>{
-            handlePostMessage(bodyRef.current?.value)
-            bodyRef.current.value = ""
+          onClick={() => {
+            handlePostMessage(bodyRef.current?.value);
+            bodyRef.current.value = "";
           }}
           className="items-end p-.5 ml-1 cursor-pointer "
           color="#008080"
@@ -38,6 +44,20 @@ const Chatcomponent = ({messages, handlePostMessage}) => {
       </div>
     </div>
   );
+};
+
+Chatcomponent.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      body: PropTypes.string,
+      createdAt: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(Date),
+      ]),
+    })
+  ),
+  handlePostMessage: PropTypes.func.isRequired,
 };
 
 export default Chatcomponent;

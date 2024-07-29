@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Leftsidebar from "../components/Leftsidebar";
 import Topbar from "../components/Topbar";
 import { BsRobot } from "react-icons/bs";
@@ -34,7 +34,7 @@ const DisaXBot = () => {
     }
   }, [current])
 
-  const messageBodyRef = useRef()
+  // const messageBodyRef = useRef()
 
   async function fetchChats(){
     const url = `${chatbot}/chats?userId=${getUser()?.id}`
@@ -58,7 +58,7 @@ const DisaXBot = () => {
     if(!body)return
     try{
     const url = `${chatbot}/chats/${current}`
-    const res = await axios.post(url, {body, userId: getUser()?.id})
+    await axios.post(url, {body, userId: getUser()?.id})
     }catch(err){
       console.log({err})
     }

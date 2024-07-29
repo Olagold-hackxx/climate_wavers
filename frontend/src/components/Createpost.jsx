@@ -1,15 +1,12 @@
 import { useForm } from "react-hook-form";
-//import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Accountcard from "./Accountcard";
-import { MdOutlinePhotoCamera } from "react-icons/md";
-import { getAuthToken } from "../utils/factory";
+import { useEffect, useState } from "react";
 import { getUser } from "../utils/factory";
 import { uploadFiles } from "../services/upload.service";
+import { MdOutlinePhotoCamera } from "react-icons/md";
+import PropTypes from "prop-types";
 
 const rs_backend_url = import.meta.env.VITE_APP_CHATBOT_URL;
 
@@ -17,16 +14,9 @@ export default function Createpost({ closeModal }) {
   const { register, handleSubmit, reset } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
 
-  //const formError = formState.errors;
-  const user = getUser();
-
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  //const modelResponseUrl = import.meta.env.VITE_APP_MODEL_RESPONSE_URL;
   const accessToken = Cookies.get("token");
   const [location, setLocation] = useState(null);
-  // const navigate = useNavigate();
-
-  //const username = Cookies.get("username");
 
   useEffect(() => {
     // Check if the browser supports geolocation
@@ -90,7 +80,7 @@ export default function Createpost({ closeModal }) {
         Authorization: `Bearer ${accessToken}`,
         "X-CSRFToken": `${Cookies.get("csrftoken")}`,
       };
-      console.log(data.image)
+      console.log(data.image);
       if (!data.image[0]) {
         delete data.image;
         console.log(data);
@@ -104,9 +94,6 @@ export default function Createpost({ closeModal }) {
         })
         .then((response) => {
           console.log(response.data);
-          //if (data.category == "Happening") {
-          //aiAnalyze(data, response.data.posts.id);
-          //}
         })
         .catch((error) => console.log(error));
     };
@@ -130,17 +117,14 @@ export default function Createpost({ closeModal }) {
     // Reset the form after submission
     reset();
     closeModal();
-    // navigate("/")
   };
-
-  // const formRef = useRef();
 
   async function handleReportSubmission(data) {
     let imageUrl;
     if (data.image) {
       imageUrl = await uploadFiles(data.image);
     }
-    console.log(data)
+    console.log(data);
     if (data.category !== "happening") return;
     if (imageUrl) {
       if (imageUrl.length == 1) {
@@ -168,6 +152,8 @@ export default function Createpost({ closeModal }) {
       console.log(err, err.response);
     }
   }
+
+  console.log(location)
 
   return (
     <>
@@ -228,3 +214,7 @@ export default function Createpost({ closeModal }) {
     </>
   );
 }
+
+Createpost.propTypes = {
+  closeModal: PropTypes.func,
+};

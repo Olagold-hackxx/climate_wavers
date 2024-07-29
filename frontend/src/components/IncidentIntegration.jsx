@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Dialog, TextField, Text, Button, Flex } from "@radix-ui/themes";
+import { useState } from "react";
+import { Dialog, Text, Button, Flex } from "@radix-ui/themes";
 // import { isSupportedChain } from "../utility";
 import {
-  useWeb3ModalAccount,
+  // useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers/react";
 import { getClimateContract } from "../constants/contract";
@@ -13,7 +13,7 @@ import { ethers } from 'ethers'
 const IncidentIntegration = () => {
     const [dataUrl, setDataUrl] = useState('')
     const [targetAmount, setTargetAmount] = useState(0)
-    const { chainId } = useWeb3ModalAccount();
+    // const { chainId } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
 
 

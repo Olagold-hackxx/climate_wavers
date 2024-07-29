@@ -18,7 +18,7 @@ export async function getFirestoreDB (){
         return getFirestore(app)
     }catch(err){
         console.log(err)
-        process.exit(1)
+        // process.exit(1)
     }
 }
 

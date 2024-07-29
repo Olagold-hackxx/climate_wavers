@@ -1,23 +1,20 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { MdOutlinePhotoCamera } from "react-icons/md";
-import Accountcard from "./Accountcard";
 
 const Createcomment = ({ postId, closeModal, showCategory=true }) => {
   const { register, handleSubmit, reset } = useForm();
-  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
 
 
   //const formError = formState.errors;
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
-  const page =  import.meta.env.VITE_APP_URL
 
   console.log(useParams());
   const onSubmit = (data) => {
@@ -133,7 +130,8 @@ const Createcomment = ({ postId, closeModal, showCategory=true }) => {
 
 Createcomment.propTypes = {
   postId: PropTypes.string,
-  showCategory: PropTypes.bool
+  showCategory: PropTypes.bool,
+  closeModal: PropTypes.func
 };
 
 export default Createcomment;

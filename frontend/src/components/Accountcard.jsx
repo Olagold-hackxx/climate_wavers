@@ -5,12 +5,8 @@ import PropTypes from "prop-types";
 
 const Accountcard = ({ user }) => {
   const [isFollow, setIsFollow] = useState(false);
-  //const [followStyle, setFollowStyle] = useState('bg-black text-xs text-white font-semibold py-2 px-3 ml-2 rounded-xl')
-
-  //const unfollowStyles = ' after:content-[Unfollow] after:bg-white-100 after:outline after:outline-3 after:outline-black-500 after:text-white-500 '
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
-  // const cachedUser = Cookies.get("user");
 
   const headers = {
     "Content-Type": "application/json",

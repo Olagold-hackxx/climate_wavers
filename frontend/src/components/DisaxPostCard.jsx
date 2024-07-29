@@ -2,11 +2,10 @@ import Accountcard from "./Accountcard";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { PiBookmarkFill } from "react-icons/pi";
-import { TbLineDashed } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { FaDonate } from "react-icons/fa";
-import { IoAlertCircle } from "react-icons/io5";
 import { RiAlarmWarningFill } from "react-icons/ri";
+import PropTypes from "prop-types";
 
 export const DisaxPostCard = ({ post }) => {
   const postUser = {
@@ -15,21 +14,21 @@ export const DisaxPostCard = ({ post }) => {
     first_name: "WaverX",
     userId: post.userId,
   };
-  // console.log(post);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="disaster-post-card border-b-[1px] border-gray-700 py-4">
       <Accountcard user={postUser} />
-      <div onClick={() => commentPage(post)}>
+      <div>
         <p className="text-left text-sm px-3 my-3 ">{post.body}</p>
         {post.image && (
           <img className="w-[100%] px-3 " src={post.image} alt="" />
         )}
       </div>
       <div className="flex flex-row justify-between px-3 mt-2 ">
-      <div className="flex flex-row items-center  ">
+        <div className="flex flex-row items-center  ">
           {post.isAlert ? (
-            <IoAlertCircle color="red" />
+            <RiAlarmWarningFill color="red" />
           ) : (
             <AiFillHeart size={18} />
           )}
@@ -38,7 +37,7 @@ export const DisaxPostCard = ({ post }) => {
           <FaDonate size={18} />
           <p className="text-xs ml-1 ">{post.comments_count}</p>
         </div>
-        <Link onClick={() => setIsModalopen(true)}>
+        <Link>
           <div
             className="flex flex-row items-center  "
             // onClick={() => setIsModalopen(true)}
@@ -61,8 +60,20 @@ export const DisaxPostCard = ({ post }) => {
           />
           <p className="text-xs ml-1 ">{post.savers_count}</p>
         </div>
-       
       </div>
     </div>
   );
+};
+
+DisaxPostCard.propTypes = {
+  post: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    comments_count: PropTypes.number,
+    savers_count: PropTypes.number,
+    is_saved: PropTypes.bool,
+    isAlert: PropTypes.bool,
+    body: PropTypes.string,
+    image: PropTypes.string,
+  }),
 };

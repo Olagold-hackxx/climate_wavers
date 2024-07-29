@@ -1,4 +1,3 @@
-import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import Login from "../components/Login";

@@ -1,7 +1,7 @@
-import Cookies from "js-cookie"
-import { getUser } from "../utils/factory"
+import { getUser } from "../utils/factory";
+import PropTypes from "prop-types"
 
-const MessageCard = ({body, postedBy, postedAt}) =>{
+const MessageCard = ({body, postedBy}) =>{
     const user = getUser()
     return  <div className={` flex flex-row  ${user.id === postedBy ? "items-left self-end ": "items-right self-start "} my-2`}>
     <img
@@ -13,5 +13,10 @@ const MessageCard = ({body, postedBy, postedAt}) =>{
     </div>
     </div>
 }
+
+MessageCard.propTypes = {
+  postedBy: PropTypes.string,
+  body: PropTypes.string,
+};
 
 export default MessageCard

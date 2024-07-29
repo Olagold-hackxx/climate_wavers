@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SharedLayout from "./components/ShareLayout";
 import Mainfeed from "./components/Mainfeed";
@@ -18,7 +17,6 @@ import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Funds from './components/Funds';
-// import Web3 from "./dapp/Web3";
 import AuthRoute from "./HOC/AuthRoute";
 import { configWeb3Modal } from './connection';
 
