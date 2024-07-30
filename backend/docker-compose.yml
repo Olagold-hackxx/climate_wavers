@@ -10,7 +10,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - MYSQL_HOST=db
+      - MYSQL_HOST=backend.db
     ports:
       - 8000:8000
     container_name: backend
@@ -43,5 +43,5 @@ volumes:
 networks:
   climatewavers:
     driver: bridge
-    external: true
+    external: truehttps://stackoverflow.com/questions/34032299/lsof-print-numeric-ports
     name: climatewavers
