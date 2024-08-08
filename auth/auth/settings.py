@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'channels',
-    'social'
 ]
 
 MIDDLEWARE = [
@@ -139,6 +138,3 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = True
 
 FERNET_KEY = env('FERNET_KEY').encode()  # Make sure to encode the key
-GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
-SOCIAL_AUTH_PASSWORD = env('SOCIAL_AUTH_PASSWORD')

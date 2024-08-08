@@ -261,38 +261,3 @@ class PollVoteViewSet(viewsets.ModelViewSet):
     serializer_class = PollVoteSerializer
     permission_classes = [IsAuthenticated]
 
-# Uncomment and complete these classes if needed in the future
-# class DisasterReportViewSet(viewsets.ModelViewSet):
-#     queryset = DisasterReport.objects.all()
-#     serializer_class = DisasterReportSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class DonationViewSet(viewsets.ModelViewSet):
-#     queryset = Donation.objects.all()
-#     serializer_class = DonationSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class EngagementViewSet(viewsets.ModelViewSet):
-#     queryset = Engagement.objects.all()
-#     serializer_class = EngagementSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class EventViewSet(viewsets.ModelViewSet):
-#     queryset = Event.objects.all()
-#     serializer_class = EventSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class FundraisingViewSet(viewsets.ModelViewSet):
-#     queryset = Fundraising.objects.all()
-#     serializer_class = FundraisingSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class PostReportViewSet(viewsets.ModelViewSet):
-#     queryset = PostReport.objects.all()
-#     serializer_class = PostReportSerializer
-#     permission_classes = [IsAuthenticated]
-
-# class ReviewViewSet(viewsets.ModelViewSet):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-#     permission_classes = [IsAuthenticated]

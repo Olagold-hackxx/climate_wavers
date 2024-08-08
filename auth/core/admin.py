@@ -1,7 +1,5 @@
 from django.contrib import admin
 from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark
-# Uncomment and add import statements for models when they are implemented
-# from .models import DisasterReport, Donation, Engagement, Event, ImpactTracking, Support, BlockchainTransaction, Wallet
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'user', 'is_donation', 'donation_approved']
@@ -37,12 +35,3 @@ admin.site.register(View)
 admin.site.register(Follow)
 admin.site.register(Bookmark)
 
-# Commented out models pending implementation
-# admin.site.register(DisasterReport)
-# admin.site.register(Donation)
-# admin.site.register(Engagement)
-# admin.site.register(Event)
-# admin.site.register(ImpactTracking)
-# admin.site.register(Support)
-# admin.site.register(BlockchainTransaction)
-# admin.site.register(Wallet)

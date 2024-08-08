@@ -252,5 +252,3 @@ Standard HTTP status codes are used for indicating errors:
 - `400 Bad Request`: Invalid input or validation errors.
 - `404 Not Found`: Resource not found.
 - `500 Internal Server Error`: Server-side errors.
-
-

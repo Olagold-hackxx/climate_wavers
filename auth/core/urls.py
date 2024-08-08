@@ -4,9 +4,6 @@ from .views import (
     PostViewSet, PollViewSet, PollVoteViewSet, CommentViewSet, 
     ReactionViewSet, RepostViewSet, ViewViewSet, FollowViewSet, 
     BookmarkViewSet, UserViewSet, NotificationListView, MarkNotificationsAsReadView
-    # Uncomment the following lines if these viewsets are implemented
-    # DisasterReportViewSet, DonationViewSet, EngagementViewSet, EventViewSet, 
-    # ImpactTrackingViewSet, SupportViewSet, BlockchainTransactionViewSet, WalletViewSet
 )
 
 
@@ -25,16 +22,6 @@ router.register(r'views', ViewViewSet)
 router.register(r'follows', FollowViewSet)
 router.register(r'bookmark', BookmarkViewSet)
 
-# Uncomment and register additional viewsets when they are implemented
-# router.register(r'disaster-report', DisasterReportViewSet)
-# router.register(r'donations', DonationViewSet)
-# router.register(r'engagements', EngagementViewSet)
-# router.register(r'events', EventViewSet)
-# router.register(r'impact-trackings', ImpactTrackingViewSet)
-# router.register(r'support', SupportViewSet)
-# router.register(r'blockchain-transactions', BlockchainTransactionViewSet)
-# router.register(r'wallets', WalletViewSet)
-
 # Define urlpatterns with included router URLs and additional custom paths
 urlpatterns = [
     # Include all the router URLs
@@ -46,5 +33,3 @@ urlpatterns = [
     path('search-by-hashtag/', PostViewSet.as_view({'get': 'search_by_hashtag'})),
     path('trending/', PostViewSet.as_view({'get': 'trending'})),
 ]
-
-# The commented-out lines can be uncommented and adjusted as needed when those viewsets are ready to be used

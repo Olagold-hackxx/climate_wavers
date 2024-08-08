@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark, Notification
-#DisasterReport, Donation, Engagement, Event, ImpactTracking, Support, BlockchainTransaction, Wallet
 from api.models import User
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -76,44 +75,3 @@ class PollVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = PollVote
         fields = '__all__'
-
-# Commented out serializers for models not yet implemented
-# class DisasterReportSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = DisasterReport
-#         fields = '__all__'
-
-# class DonationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Donation
-#         fields = '__all__'
-
-# class EngagementSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Engagement
-#         fields = '__all__'
-
-# class EventSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Event
-#         fields = '__all__'
-
-# class ImpactTrackingSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ImpactTracking
-#         fields = '__all__'
-
-# class SupportSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Support
-#         fields = '__all__'
-
-# class BlockchainTransactionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = BlockchainTransaction
-#         fields = '__all__'
-
-# class WalletSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Wallet
-#         fields = '__all__'
