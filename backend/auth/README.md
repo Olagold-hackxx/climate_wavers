@@ -1,7 +1,7 @@
 # Climate Wavers Web Application
 
 ## Overview
-Climate Wavers is a web application focused on environmental awareness and actions. This documentation outlines the user registration process, including account creation, email verification using a one-time passcode (OTP), login, password recovery functionalities, and more.
+Climate Wavers is a web application focused on environmental awareness and actions. This documentation outlines the user registration process, including account creation, email verification using a one-time passcode (OTP), login, password recovery functionalities, and more..
 
 ## Features
 - User Registration
