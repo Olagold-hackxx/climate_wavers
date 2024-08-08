@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# If you are using Postgres with a local development instance
+pgdata/
+
+# Local development settings
+local_settings.py
+
+# Security-related files
+.env
+*.key
+
+# Django migrations
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.pyd
+
+# Static files and media files
+staticfiles/
+media/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+
+# Pytest
+.cache
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# VSCode settings (if using VSCode)
+.vscode/
+
+# Mac OS files
+.DS_Store
+
+# Thumbnails
+*_thumb.*
+
+# Logs
+*.log
+
+# Compiled binary files
+*.pyc
+*.pyo
+
+# JetBrains IDEs
+.idea/
