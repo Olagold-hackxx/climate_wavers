@@ -168,7 +168,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
 
 ### Forgot Password
 
-**Endpoint:** `POST /api/v1/auth/forgot-password/`
+**Endpoint:** `POST /api/v1/auth/password-reset/`
 
 **Request Body:**
 ```json
@@ -186,13 +186,15 @@ DEFAULT_FROM_EMAIL=your_email@example.com
 
 ### Reset Password
 
-**Endpoint:** `POST /api/v1/auth/reset-password/`
+**Endpoint:** `POST /api/v1/auth/set-new-password`
 
 **Request Body:**
 ```json
 {
-    "new_password": "NewPassword123",
-    "new_password2": "NewPassword123"
+    "password": "NewPassword123",
+    "current_password": "NewPassword123"
+    "uidb64": "NW"
+    "token": "your_token"
 }
 ```
 
