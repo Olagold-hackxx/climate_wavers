@@ -262,7 +262,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
   - **URL:** `api/v1/post/`
   - **Method:** `POST`
   - **Description:** Create a new post.
-  - **Request Body:** `title`, `content`, `image`, `audio`
+  - **Request Body:** `title`, `content`, `image`, `audio`, `user`
   - **Response:** Created post details.
 
 - **Retrieve Post**
