@@ -171,8 +171,10 @@ DEFAULT_FROM_EMAIL=your_email@example.com
   - **Request Body:**
     ```json
     {
-        "new_password": "NewPassword123",
-        "new_password2": "NewPassword123"
+    "password": "NewPassword123",
+    "current_password": "NewPassword123",
+    "uidb64": "NW",
+    "token": "your_token"
     }
     ```
   - **Response:**
