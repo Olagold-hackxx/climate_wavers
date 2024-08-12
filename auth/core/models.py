@@ -15,12 +15,10 @@ class Notification(models.Model):
         ('poll', 'Poll'),
         ('follow', 'Follow'),
     ]
-    
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
     notification_type = models.CharField(max_length=10, choices=NOTIFICATION_TYPES)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = models.ForeignKey('ContentObject', on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,7 +26,14 @@ class Notification(models.Model):
     def __str__(self):
         return f'Notification for {self.user.username}: {self.message}'
 
+class ContentObject(models.Model):
+    content_type = models.ForeignKey('contenttypes.ContentType', on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
+    class Meta:
+        verbose_name = 'Content Object'
+        verbose_name_plural = 'Content Objects'
 
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -85,10 +90,8 @@ class PollVote(models.Model):
         return f'{self.user.username} voted on {self.poll.question}'
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='subcomments', null=True, blank=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -106,14 +109,16 @@ class Comment(models.Model):
 
 class Reaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    emoji = models.CharField(max_length=50)
+    post = models.ForeignKey(Post, related_name='reactions', on_delete=models.CASCADE)
+    reaction_type = models.CharField(
+        max_length=10,
+        choices=[('Like', 'Like'), ('Love', 'Love'), ('Haha', 'Haha'), ('Wow', 'Wow'), ('Sad', 'Sad'), ('Angry', 'Angry')],
+        default='Like'  # Set a default value, e.g., 'Like'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username} reacted with {self.emoji}'
+        return f'{self.user.username} reacted {self.reaction_type} on {self.post.title}'
 
 class Repost(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -143,7 +148,7 @@ class Follow(models.Model):
 
 class Bookmark(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='bookmarks')
+    post = models.ForeignKey(Post, related_name='bookmarks', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

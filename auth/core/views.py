@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
+from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status 
@@ -62,12 +63,17 @@ class PostViewSet(viewsets.ModelViewSet):
         """
         Override get_queryset to add annotations for comment, reaction, view, and repost counts.
         """
+        # Get the ContentType for Post
+        post_content_type = ContentType.objects.get_for_model(Post)
+        
         queryset = super().get_queryset()
+        
+        # Annotate the queryset with counts
         queryset = queryset.annotate(
-            comment_count=Count('comments', distinct=True),
-            reaction_count=Count('reactions', distinct=True),
-            view_count=Count('views', distinct=True),
-            repost_count=Count('reposts', distinct=True)
+            comment_count=Count('comments'),
+            reaction_count=Count('reactions'),
+            view_count=Count('views'),
+            repost_count=Count('reposts')
         )
         return queryset
     
