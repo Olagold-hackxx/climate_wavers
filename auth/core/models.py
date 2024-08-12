@@ -151,10 +151,7 @@ class Comment(models.Model):
 
     @property
     def reaction_count(self):
-        return Reaction.objects.filter(
-            content_type=ContentType.objects.get_for_model(self),
-            object_id=self.id
-        ).count()
+        return self.reactions.count()
 
     def get_replies(self):
         """
@@ -167,14 +164,17 @@ class Comment(models.Model):
         Returns all comments, including replies.
         """
         comments = [self]
-        comments += list(self.get_replies())
-        for reply in comments:
-            comments += list(reply.get_replies())
+        stack = list(self.get_replies())
+        while stack:
+            comment = stack.pop()
+            comments.append(comment)
+            stack.extend(comment.get_replies())
         return comments
 
 class Reaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name='reactions', on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reactions', null=True, blank=True)
     reaction_type = models.CharField(
         max_length=10,
         choices=[('Like', 'Like'), ('Love', 'Love'), ('Haha', 'Haha'), ('Wow', 'Wow'), ('Sad', 'Sad'), ('Angry', 'Angry')],
@@ -184,6 +184,7 @@ class Reaction(models.Model):
 
     def __str__(self):
         return f'{self.user.username} reacted {self.reaction_type} on {self.post.title}'
+
 
 class Repost(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

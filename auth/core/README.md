@@ -566,11 +566,27 @@ This project is a comprehensive Climate Wavers social network application featur
    - **Response**:
      ```json
      [
-       {
-         "hashtags": "#example",
-         "count": 10
-       }
-     ]
+    {
+        "hashtags": "",
+        "count": 21
+    },
+    {
+        "hashtags": "#climatewavers",
+        "count": 2
+    },
+    {
+        "hashtags": "#Environmental",
+        "count": 2
+    },
+    {
+        "hashtags": "#changinglife",
+        "count": 1
+    },
+    {
+        "hashtags": "#life",
+        "count": 1
+    }
+  ]
      ```
 
 ### User

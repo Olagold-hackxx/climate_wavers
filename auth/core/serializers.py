@@ -24,12 +24,12 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-    reaction_count = serializers.IntegerField(source='reaction_count', read_only=True)
+    reaction_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'content_type', 'object_id', 'content_object', 'parent_comment', 
-                  'content', 'created_at', 'updated_at', 'reaction_count']
+        fields = '__all__'
+
 
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
