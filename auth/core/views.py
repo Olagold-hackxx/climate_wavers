@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from django.db.models import Count, Q, F
+from django.db.models import Count, Q
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,11 +10,16 @@ from .models import Notification, Post, Poll, PollVote, Comment, Reaction, Repos
 from .serializers import (NotificationSerializer, UserSerializer, PostSerializer, PollSerializer, PollVoteSerializer, CommentSerializer, ReactionSerializer, RepostSerializer, ViewSerializer, FollowSerializer, BookmarkSerializer, UserActivitySerializer)
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 # Get the custom user model
 User = get_user_model()
+
+# Pagination for Posts
+class PostPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 class NotificationListView(generics.ListAPIView):
     serializer_class = NotificationSerializer
@@ -31,11 +36,6 @@ class MarkNotificationsAsReadView(generics.UpdateAPIView):
         notifications = Notification.objects.filter(user=request.user, is_read=False)
         notifications.update(is_read=True)
         return Response({'status': 'Notifications marked as read'}, status=status.HTTP_200_OK)
-
-class PostPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
 
 # ViewSet for Post model
 class PostViewSet(viewsets.ModelViewSet):
@@ -98,11 +98,19 @@ class PostViewSet(viewsets.ModelViewSet):
 
         # Filter by location (e.g., near_me)
         if location == 'near_me':
-            user_country = request.user.profile.country  # Assuming user has a profile with country
-            user_state = request.user.profile.state  # Assuming user has a profile with state
-            posts = posts.filter(user__profile__country=user_country, user__profile__state=user_state)
+            user_country = request.user.country  # Assuming user has a country field
+            user_state = request.user.state  # Assuming user has a state field
+            posts = posts.filter(user__country=user_country, user__state=user_state)
 
-        # Get top posts (based on reactions or views)
+        # Annotate the queryset with reaction_count, comment_count, etc.
+        posts = posts.annotate(
+            reaction_count=Count('reactions'),
+            comment_count=Count('comments'),
+            view_count=Count('views'),
+            repost_count=Count('reposts')
+        )
+
+        # Get top posts (based on reactions)
         top_posts = posts.order_by('-reaction_count')[:10]
 
         # Get latest posts
@@ -112,7 +120,7 @@ class PostViewSet(viewsets.ModelViewSet):
         media_posts = posts.filter(Q(image__isnull=False) | Q(audio__isnull=False))
 
         # Get people associated with the hashtag
-        associated_people = User.objects.filter(posts__in=posts).distinct()
+        associated_people = User.objects.filter(post__in=posts).distinct()
 
         return Response({
             'top_posts': PostSerializer(top_posts, many=True).data,

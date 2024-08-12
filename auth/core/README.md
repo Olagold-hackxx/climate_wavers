@@ -422,7 +422,7 @@ This project is a comprehensive Climate Wavers social network application featur
 ### Posts
 
 1. **List Posts**
-   - **URL**: `/api/v1/posts/`
+   - **URL**: `/api/v1/post/`
    - **Method**: `GET`
    - **Headers**:
      ```json
@@ -448,7 +448,7 @@ This project is a comprehensive Climate Wavers social network application featur
      ```
 
 2. **Create Post**
-   - **URL**: `/api/v1/posts/`
+   - **URL**: `/api/v1/post/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -474,7 +474,7 @@ This project is a comprehensive Climate Wavers social network application featur
      ```
 
 3. **Search by Hashtag**
-   - **URL**: `/api/v1/posts/search-by-hashtag/?hashtag=#example`
+   - **URL**: `/api/v1/post/search-by-hashtag/?hashtag=#example`
    - **Method**: `GET`
    - **Headers**:
      ```json
@@ -523,7 +523,7 @@ This project is a comprehensive Climate Wavers social network application featur
      ```
 
 4. **Bookmark Post**
-   - **URL**: `/api/v1/posts/{post_id}/bookmark/`
+   - **URL**: `/api/v1/post/{post_id}/bookmark/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -539,7 +539,7 @@ This project is a comprehensive Climate Wavers social network application featur
      ```
 
 5. **Unbookmark Post**
-   - **URL**: `/api/v1/posts/{post_id}/unbookmark/`
+   - **URL**: `/api/v1/post/{post_id}/unbookmark/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -555,7 +555,7 @@ This project is a comprehensive Climate Wavers social network application featur
      ```
 
 6. **Get Trending Hashtags**
-   - **URL**: `/api/v1/posts/trending/`
+   - **URL**: `/api/v1/post/trending/`
    - **Method**: `GET`
    - **Headers**:
      ```json
