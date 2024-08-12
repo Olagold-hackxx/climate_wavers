@@ -192,8 +192,8 @@ DEFAULT_FROM_EMAIL=your_email@example.com
 ```json
 {
     "password": "NewPassword123",
-    "current_password": "NewPassword123"
-    "uidb64": "NW"
+    "current_password": "NewPassword123",
+    "uidb64": "NW",
     "token": "your_token"
 }
 ```
