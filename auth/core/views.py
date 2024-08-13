@@ -216,11 +216,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """
-        Override get_queryset to add annotation for reaction count.
-        """
         queryset = super().get_queryset()
-        queryset = queryset.annotate(reaction_count=Count('reactions'))
+        queryset = queryset.annotate(annotated_reaction_count=Count('reactions'))
         return queryset
 
 # ViewSet for Reaction model

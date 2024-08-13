@@ -24,7 +24,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-    reaction_count = serializers.IntegerField(read_only=True)
+    annotated_reaction_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Comment
