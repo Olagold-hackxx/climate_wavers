@@ -866,6 +866,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      {
        "post": 1,
        "content": "This is a new comment"
+         "user": "1"
      }
      ```
    - **Response**:
