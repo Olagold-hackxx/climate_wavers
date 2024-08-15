@@ -9,6 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import bgReset from "../../assets/reset.svg";
 
+
 const EmailCode = () => {
   const [showPassword, setShowPassword] = useState(false);
 
