@@ -9,11 +9,11 @@ import Profile from "./components/Profile";
 import Comment from "./pages/Comment";
 import Createpost from "./components/Createpost";
 import Createcomment from "./components/Createcomment";
-import DisaXBot from "./pages/DisaX";
-import Signuppage from "./pages/Signuppage";
-import Emailconfirmation from "./pages/Emailconfirmation";
-import Loginpage from "./pages/LoginPage";
-import Forgotpasswordpage from "./pages/Forgotpasswordpage";
+import WaverxChatPage from "./pages/WaverX";
+// import Signuppage from "./pages/Signuppage";
+// import Emailconfirmation from "./pages/Emailconfirmation";
+// import Loginpage from "./pages/LoginPage";
+// import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Funds from "./components/Funds";
@@ -39,6 +39,10 @@ function App() {
       <ToastContainer />
       <BrowserRouter>
         <Routes>
+        <Route
+            path="/bot"
+            element={<AuthRoute element={<WaverxChatPage />} />}
+          />
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<AuthRoute element={<Mainfeed />} />} />
             <Route
@@ -76,11 +80,6 @@ function App() {
               element={<AuthRoute element={<Createcomment />} />}
             />
           </Route>
-
-          <Route
-            path="/:userId/disaX"
-            element={<AuthRoute element={<DisaXBot />} />}
-          />
           {/* <Route path="/signup" element={<Signuppage />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Signin />} />
