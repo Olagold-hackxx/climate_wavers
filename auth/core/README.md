@@ -1,203 +1,22 @@
-## Climate Wavers Web Application
+## Project Overview
 
-### Overview
+This project is a comprehensive Climate Wavers social network application featuring a range of functionalities including notifications, posts, polls, comments, reactions, views, follows, and bookmarks. The application also supports user activity tracking and custom actions for post interaction. It uses Django and Django REST Framework for backend development and includes a set of APIs to handle various operations.
 
-The Climate Wavers web application is a platform focused on fostering environmental awareness and encouraging eco-friendly actions. It features a range of functionalities to engage users in social activities related to environmental issues. This documentation provides a comprehensive guide to the application's setup, features, and API endpoints, covering user authentication, post interactions, notifications, polls, and more.
+## Table of Contents
 
-### Features
-
-- **User Authentication**: Registration, login, email verification, password recovery, and logout.
-- **User Profiles**: Manage user profiles, including profile picture uploads and default avatar selection.
-- **Posts and Interactions**: Create, update, manage, and interact with posts through comments, reactions, views, and reposts.
-- **Polls**: Create, vote, and manage polls.
-- **Notifications**: Notify users about activities and allow them to mark notifications as read.
-- **User Activity**: Track user activities including posts, comments, reactions, and follows.
-- **Bookmarking**: Bookmark posts for later reference.
-- **Following**: Follow and unfollow other users.
-
-### Table of Contents
-
-1. [Installation](#installation)
-2. [Environment Setup](#environment-setup)
-3. [API Endpoints](#api-endpoints)
-    - [User Authentication](#user-authentication)
-    - [Post Endpoints](#post-endpoints)
-    - [Poll Endpoints](#poll-endpoints)
-    - [Comment Endpoints](#comment-endpoints)
-    - [Reaction Endpoints](#reaction-endpoints)
-    - [Repost Endpoints](#repost-endpoints)
-    - [View Endpoints](#view-endpoints)
-    - [Follow Endpoints](#follow-endpoints)
-    - [Bookmark Endpoints](#bookmark-endpoints)
-    - [Notification Endpoints](#notification-endpoints)
-4. [Models](#models)
-5. [Email Sending](#email-sending)
-6. [OTP Generation](#otp-generation)
-7. [Error Handling](#error-handling)
-
-### Installation
-
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/climate-wavers-webapp.git
-    cd climate-wavers-webapp/backend
-    ```
-
-2. **Create a virtual environment:**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3. **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Apply migrations:**
-    ```bash
-    python manage.py migrate
-    ```
-
-5. **Run the server:**
-    ```bash
-    python manage.py runserver
-    ```
-
-### Environment Setup
-
-Ensure you have the following environment variables set in your `.env` file:
-
-```plaintext
-SECRET_KEY=your_secret_key
-EMAIL_HOST=smtp.your_email_provider.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your_email@example.com
-EMAIL_HOST_PASSWORD=your_email_password
-DEFAULT_FROM_EMAIL=your_email@example.com
-```
-
-### API Endpoints
-
-#### User Authentication
-
-- **User Registration**
-  - **URL:** `POST /api/v1/auth/register/`
-  - **Request Body:**
-    ```json
-    {
-        "email": "user@example.com",
-        "username": "Username",
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "country": "Country",
-        "state": "State",
-        "gender": "male/female",
-        "password": "YourPassword123",
-        "password2": "YourPassword123",
-        "profile_pic": "optional_image_url",
-        "default_avatar": "optional_avatar_filename"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "data": {
-            "email": "user@example.com",
-            "username": "Username",
-            "first_name": "First Name",
-            "last_name": "Last Name",
-            "country": "Country",
-            "state": "State",
-            "profile_pic": "optional_image_url",
-            "default_avatar": "avatar 1.png"
-        },
-        "message": "Hi First Name, thank you for signing up. A passcode has been sent to your email."
-    }
-    ```
-
-- **Email Verification**
-  - **URL:** `POST /api/v1/auth/verify-email/`
-  - **Request Body:**
-    ```json
-    {
-        "email": "user@example.com",
-        "otp": "123456"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "message": "Account email verified successfully."
-    }
-    ```
-
-- **User Login**
-  - **URL:** `POST /api/v1/auth/login/`
-  - **Request Body:**
-    ```json
-    {
-        "email": "user@example.com",
-        "password": "YourPassword123"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "email": "user@example.com",
-        "full_name": "First Last",
-        "access_token": "your_access_token",
-        "refresh_token": "your_refresh_token"
-    }
-    ```
-
-- **Forgot Password**
-  - **URL:** `POST /api/v1/auth/forgot-password/`
-  - **Request Body:**
-    ```json
-    {
-        "email": "user@example.com"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "message": "A reset link has been sent to your email."
-    }
-    ```
-
-- **Reset Password**
-  - **URL:** `POST /api/v1/auth/reset-password/`
-  - **Request Body:**
-    ```json
-    {
-    "password": "NewPassword123",
-    "current_password": "NewPassword123",
-    "uidb64": "NW",
-    "token": "your_token"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "message": "Password reset successfully."
-    }
-    ```
-
-- **User Logout**
-  - **URL:** `POST /api/v1/auth/logout/`
-  - **Request Body:**
-    ```json
-    {
-        "refresh_token": "your_refresh_token"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-        "message": "Logout successful."
-    }
-    ```
+1. [Features](#features)
+2. [API Endpoints](#api-endpoints)
+   - [Notification Endpoint](#notification-endpoints)
+   - [Post Endpoints](#post-endpoints)
+   - [Poll Endpoints](#poll-endpoints)
+   - [Comment Endpoints](#comment-endpoints)
+   - [Reaction Endpoints](#reaction-endpoints)
+   - [Repost Endpoints](#repost-endpoints)
+   - [View Endpoints](#view-endpoints)
+   - [Follow Endpoints](#follow-endpoints)
+   - [Bookmark Endpoints](#bookmark-endpoints)
+   - [User Endpoints](#user-endpoints)
+4. [URL Patterns](#url-patterns)
 
 ## Features
 - **Notification** making notifications and mark as read
@@ -264,7 +83,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
   - **URL:** `api/v1/post/`
   - **Method:** `POST`
   - **Description:** Create a new post.
-  - **Request Body:** `title`, `content`, `image`, `audio`, `user`
+  - **Request Body:** `title`, `content`, `image`, `audio`
   - **Response:** Created post details.
 
 - **Retrieve Post**
@@ -603,7 +422,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
 ### Posts
 
 1. **List Posts**
-   - **URL**: `/api/v1/posts/`
+   - **URL**: `/api/v1/post/`
    - **Method**: `GET`
    - **Headers**:
      ```json
@@ -629,7 +448,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      ```
 
 2. **Create Post**
-   - **URL**: `/api/v1/posts/`
+   - **URL**: `/api/v1/post/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -655,7 +474,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      ```
 
 3. **Search by Hashtag**
-   - **URL**: `/api/v1/posts/search-by-hashtag/?hashtag=#example`
+   - **URL**: `/api/v1/post/search-by-hashtag/?hashtag=#example`
    - **Method**: `GET`
    - **Headers**:
      ```json
@@ -704,7 +523,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      ```
 
 4. **Bookmark Post**
-   - **URL**: `/api/v1/posts/{post_id}/bookmark/`
+   - **URL**: `/api/v1/post/{post_id}/bookmark/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -720,7 +539,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      ```
 
 5. **Unbookmark Post**
-   - **URL**: `/api/v1/posts/{post_id}/unbookmark/`
+   - **URL**: `/api/v1/post/{post_id}/unbookmark/`
    - **Method**: `POST`
    - **Headers**:
      ```json
@@ -736,7 +555,7 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      ```
 
 6. **Get Trending Hashtags**
-   - **URL**: `/api/v1/posts/trending/`
+   - **URL**: `/api/v1/post/trending/`
    - **Method**: `GET`
    - **Headers**:
      ```json
@@ -866,7 +685,6 @@ DEFAULT_FROM_EMAIL=your_email@example.com
      {
        "post": 1,
        "content": "This is a new comment"
-         "user": "1"
      }
      ```
    - **Response**:
@@ -1031,4 +849,4 @@ DEFAULT_FROM_EMAIL=your_email@example.com
        "status": "vote registered"
      }
      ```
-All API endpoints include error handling to provide meaningful responses in case of invalid input, authentication failures, or other issues.
+

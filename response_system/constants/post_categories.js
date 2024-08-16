@@ -1,1 +1,0 @@
-module.exports = ["general question (not disaster related)", "disaster related."]
