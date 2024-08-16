@@ -30,7 +30,7 @@ const Signin = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${signinBg})` }}
       ></div>
-      <div className="w-[100%] lg:w-[35%] md:w-[50%] p-8 m-auto max-sm:pt-[200px]">
+      <div className="w-[100%] lg:w-[30%] md:w-[50%] p-8 m-auto max-sm:pt-[200px]">
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif text-center mb-8">
           Sign In
         </h1>
