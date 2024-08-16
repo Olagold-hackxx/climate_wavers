@@ -28,9 +28,9 @@ const Signup = () => {
 
   return (
     <div className="h-auto flex">
-       <div className="bg-[#047857] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
-        <div className="self-end">
-          <img src="../../../HandsShow.png" alt="" />
+       <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
+        <div className="self-center">
+          <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
       <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
