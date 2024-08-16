@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import signupBg from "../../assets/signup.svg";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
@@ -28,13 +27,15 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-auto flex justify-between">
-      <div
-        className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
-        style={{ backgroundImage: `url(${signupBg})` }}
-      ></div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] p-8">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-[500] text-center mb-8">
+    <div className="h-auto flex">
+       <div className="bg-[#047857] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
+        <div className="self-end">
+          <img src="../../../HandsShow.png" alt="" />
+        </div>
+      </div>
+      <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
+      <div className="lg:w-[75%] md:w-[100%] px-12">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
           Sign Up
         </h1>
         <Box
@@ -50,6 +51,7 @@ const Signup = () => {
             id="outlined-basic"
             label="First Name"
             variant="outlined"
+            color="success"
             sx={{ mr: 1, width: "50%" }}
           />
            <TextField
@@ -57,6 +59,7 @@ const Signup = () => {
             label="Last Name"
             sx={{ ml: 1, width: "50%" }}
             variant="outlined"
+            color="success"
           />
           </div>
           <TextField
@@ -64,6 +67,7 @@ const Signup = () => {
             label="User Name"
             sx={{ m: 1, width: "100%" }}
             variant="outlined"
+            color="success"
           />
           <div className="w-[100%]">
           <TextField
@@ -72,6 +76,7 @@ const Signup = () => {
           label="Sex"
           defaultValue="Male"
           sx={{  width: "100%" }}
+          color="success"
         >
             <MenuItem>Male</MenuItem>
             <MenuItem>Female</MenuItem>
@@ -84,6 +89,7 @@ const Signup = () => {
             label="Email"
             sx={{ width: "100%" }}
             variant="outlined"
+            color="success"
           />
             <div className="flex justify-between w-[100%]">
           <TextField
@@ -91,15 +97,17 @@ const Signup = () => {
             label="Country"
             variant="outlined"
             sx={{ mr: 1, width: "50%" }}
+            color="success"
           />
            <TextField
             id="outlined-basic"
             label="State"
             sx={{ ml: 1, width: "50%" }}
             variant="outlined"
+            color="success"
           />
           </div>
-          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined" color="success">
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
@@ -143,7 +151,7 @@ const Signup = () => {
               label="Confirm Password"
             />
           </FormControl>
-          <button onClick={() => navigate('/nextsignup')}  className="bg-primary text-white py-4">Sign Up</button>
+          <button onClick={() => navigate('/nextsignup')}  className="bg-[#008080] rounded-md text-white py-4">Sign Up</button>
           <div className="flex items-center justify-between">
             <p className="border-b border-gray-400 w-[45%]"></p>
           <p>Or</p>
@@ -157,9 +165,10 @@ const Signup = () => {
             <IoLogoFacebook  className="text-[24px]" />
             <BsLinkedin className="text-[24px]" />
             </div>
-            <NavLink to='/'>Already have an account? <span className="text-primary font-[500]">Sign In</span> </NavLink>
+            <NavLink to='/'>Already have an account? <span className="text-[#008080] font-[500]">Sign In</span> </NavLink>
           </div>
         </Box>
+        </div>
       </div>
     </div>
   );

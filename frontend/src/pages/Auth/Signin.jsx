@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import signinBg from "../../assets/signin.svg";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -25,13 +25,13 @@ const Signin = () => {
   };
 
   return (
-    <div className="lg:h-[100vh] md:h-[100vh] flex justify-between">
+    <div className="lg:h-[100vh] md:h-[100vh] md:flex justify-between">
       <div
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${signinBg})` }}
       ></div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] p-8 m-auto">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-[500] text-center mb-8">
+      <div className="w-[100%] lg:w-[35%] md:w-[50%] p-8 m-auto max-sm:pt-[200px]">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif text-center mb-8">
           Sign In
         </h1>
         <Box
@@ -47,8 +47,13 @@ const Signin = () => {
             label="Email"
             variant="outlined"
             placeholder="mercia@gmail.com"
+            color="success"
           />
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+          <FormControl
+            sx={{ m: 1, width: "25ch" }}
+            variant="outlined"
+            color="success"
+          >
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
@@ -73,21 +78,26 @@ const Signin = () => {
           <NavLink to="/forgotpassword" className="text-gray-400 text-[14px]">
             Forgot Password?
           </NavLink>
-          <button className="bg-primary text-white py-4">Sign In</button>
+          <button className="bg-[#008080] text-white py-4 rounded-md font-serif">
+            Sign In
+          </button>
           <div className="flex items-center justify-between">
             <p className="border-b border-gray-400 w-[45%]"></p>
-          <p>Or</p>
+            <p>Or</p>
             <p className="border-b border-gray-400 w-[45%]"></p>
           </div>
           <div className="flex justify-center items-center flex-col text-center">
             <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
-            <FaApple className="text-[24px]"/>
-            <FaGithub className="text-[24px]" />
-            <FcGoogle className="text-[24px]" />
-            <IoLogoFacebook  className="text-[24px]" />
-            <BsLinkedin className="text-[24px]" />
+              <FaApple className="text-[24px]" />
+              <FaGithub className="text-[24px]" />
+              <FcGoogle className="text-[24px]" />
+              <IoLogoFacebook className="text-[24px]" />
+              <BsLinkedin className="text-[24px]" />
             </div>
-            <NavLink to='signup'>Don't have an account? <span className="text-primary font-[500]">Sign Up</span> </NavLink>
+            <NavLink to="/signup">
+              Don't have an account?{" "}
+              <span className="text-primary font-[500] text-[#008080]">Sign Up</span>{" "}
+            </NavLink>
           </div>
         </Box>
       </div>

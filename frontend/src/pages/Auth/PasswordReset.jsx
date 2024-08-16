@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import resetBg from "../../assets/finalreset.svg";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const PasswordReset = () => {
@@ -28,11 +28,11 @@ const PasswordReset = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${resetBg})` }}
       ></div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] p-8 m-auto text-center">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-[500] text-center mb-8">
+      <div className="w-[100%] lg:w-[30%] md:w-[50%] p-8 m-auto text-center">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
           Set New Password
         </h1>
-        <p className="lg:text-[24px] md:text-[24px] text-[18px] mb-10">
+        <p className="lg:text-[24px] md:text-[24px] text-[18px] mb-10 font-serif">
         Enter and confirm your new password</p>
         <Box
           component="form"
@@ -43,7 +43,7 @@ const PasswordReset = () => {
           autoComplete="off"
         >
            
-          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined" color="success">
             <InputLabel htmlFor="outlined-adornment-password">
               Input Password
             </InputLabel>
@@ -65,7 +65,7 @@ const PasswordReset = () => {
               label="Password"
             />
           </FormControl>
-          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined" color="success">
             <InputLabel htmlFor="outlined-adornment-password">
               Confirm Password
             </InputLabel>
@@ -87,7 +87,7 @@ const PasswordReset = () => {
               label="Confirm Password"
             />
           </FormControl>
-          <button onClick={() => navigate('/nextsignup')}  className="bg-primary text-white py-4">Confirm</button>
+          <button onClick={() => navigate('/nextsignup')}  className="bg-[#008080] rounded-md text-white py-4">Confirm</button>
         </Box>
       </div>
     </div>

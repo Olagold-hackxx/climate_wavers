@@ -1,7 +1,6 @@
 import { DisaxPostCard } from './DisaxPostCard'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { watchCollection } from '../services/firebase.service'
-import { useEffect } from 'react'
 
 const DisaX = () => {
   const [ tips, setTips] = useState([]) 

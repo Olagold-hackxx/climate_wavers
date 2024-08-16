@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import bgReset from '../../assets/phonereset.svg';
@@ -22,8 +22,8 @@ const PhoneVerification = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${bgReset})` }}
       ></div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-[500]  mb-4">
+      <div className="w-[100%] lg:w-[35%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif  mb-4">
          Forgotten Password
         </h1>
         <p className="lg:text-[24px] md:text-[24px] text-[18px] mb-10">Input Phone Number</p>
@@ -35,6 +35,7 @@ const PhoneVerification = () => {
           id="demo-simple-select"
           value={countryCode}
           label="Code"
+          color="success"
           onChange={handleChange}
         >
           <MenuItem value={+234}>+234</MenuItem>
@@ -47,9 +48,10 @@ const PhoneVerification = () => {
             label="Number"
             sx={{ m: 1, width: "80%" }}
             variant="outlined"
+            color="success"
           />
           </div>
-        <button className="bg-primary text-white py-4 w-[100%] lg:m-2 md:m-2 mt-4" onClick={() => navigate('/phonecode')}>Confirm</button>
+        <button className="bg-[#008080] text-white py-4 w-[100%] rounded-md lg:m-2 md:m-2 mt-8" onClick={() => navigate('/phonecode')}>Confirm</button>
         <div className="flex items-center justify-between my-6">
             <p className="border-b border-gray-400 w-[45%]"></p>
           <p>Or</p>

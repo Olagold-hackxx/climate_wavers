@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto w-[100%] p-3 bg-linear md:p-6 rounded-md shadow-2xl shadow-indigo-700 flex flex-col text-white mb-8  "
+      className="max-w-md mx-auto w-[100%] p-3 bg-[#008080] md:p-6 rounded-md  flex flex-col text-black mb-8  "
     >
       <input
         type="text"
@@ -73,7 +73,7 @@ export default function Login() {
         {...register("password")}
       />
       <input
-        className="w-full p-2  bg-[#008080] from-fuchsia-500 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-purple-700 text-white rounded cursor-pointer"
+        className="w-full p-2  bg-[#047857]  hover:bg-slate-700 text-white rounded cursor-pointer"
         type="submit"
       />
     </form>

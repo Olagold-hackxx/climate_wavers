@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -25,14 +25,14 @@ const PhoneCode = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${bgReset})` }}
       ></div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-[500]  mb-4">
+      <div className="w-[100%] lg:w-[30%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif  mb-4">
        Phone Verification
         </h1>
-        <p className="lg:text-[24px] md:text-[24px] text-[18px] mb-10">
+        <p className="lg:text-[24px] md:text-[24px] font-serif text-[18px] mb-10">
         Check your phone for verification code
         </p>
-        <FormControl sx={{ m: 1, width: "100%", my: 3 }} variant="outlined">
+        <FormControl sx={{ m: 1, width: "70%", my: 3 }} variant="outlined" color="success">
           <InputLabel htmlFor="outlined-adornment-password">
            Input Code
           </InputLabel>
@@ -54,7 +54,7 @@ const PhoneCode = () => {
             label="Password"
           />
         </FormControl>
-        <button className="bg-primary text-white py-4 w-[100%] m-2 mt-4" onClick={() => navigate('/passwordreset')}>
+        <button className="bg-[#008080] text-white py-4 w-[70%] m-2  rounded-md mt-4" onClick={() => navigate('/passwordreset')}>
           Confirm
         </button>
       </div>
