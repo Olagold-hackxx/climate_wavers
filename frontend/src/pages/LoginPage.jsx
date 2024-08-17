@@ -11,41 +11,40 @@ const Loginpage = () => {
   const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
   return (
-    <div className="text-white grid md:grid-cols-[3fr_4fr] grid-cols-[1fr] bg-gradient-to-r from-slate-900 to-slate-700 items-center ">
-      {/* from-fuchsia-500 to-purple-600 */}
-      {/* bg-gradient-to-r relative from-slate-100 via-slate-50 to-purple-200 */}
-      <div className="bg-radial2  grid place-content-center h-[80vh] md:h-[100vh]">
-        <img src="../../logodark.png" alt="" className=" z-10 fill-[#008080] " />
-        {/* Two bg boxes */}
-        {/* <div className="absolute -top-5 -right-6 w-[700px] h-[700px] bg-radial-gradient opacity-95 rounded-full backdrop-blur-xl -z-0 border-none "></div> */}
-        {/* <div className="absolute bottom-5 left-6 bg-black w-60 h-60 "></div> */}
+    <div className="text-white grid md:grid-cols-[3fr_4fr] grid-cols-[1fr]  items-center ">
+      <div className="bg-[#047857] grid h-[80vh] md:h-[100vh] justify-items-center  ">
+        <div className="self-end">
+          <img src="../../HandsShow.png" alt="" />
+        </div>
       </div>
-      <div className="flex flex-col text-center text-black items-center gap-4 -mt-[550px] md:mt-0 bg-white border md:border-0 border-gray-300 h-screen justify-center w-[90%] md:w-[100%] justify-self-center p-3 ">
-        <>
-          <Link to={`${oauthUrl}/api/v1/auth/google`}>
-            <div className="flex flex-row mb-2 items-center md:text-xl text-base  font-semibold bg-linear text-white p-3 rounded-full  ">
-              {/* outline outline-1 ---> Styles removed text-white p-4 rounded-full -----> Styles added */}
-              <FcGoogle className="mr-2 bg-white p-2 rounded-full " size={32} />{" "}
-              Continue with Google
-            </div>
-          </Link>
+      <div className="flex flex-col text-center text-black items-center gap-4  md:mt-0 bg-white border-l border-gray-300 shadow-2xl shadow-gray-300 h-screen justify-center w-[90%] md:w-[100%] justify-self-center">
+          <Login />
+          <div className="flex items-center justify-between w-[50%]">
+          <p className="border-b border-gray-700 w-[45%]"></p>
+          <p>Or</p>
+          <p className="border-b border-gray-400 w-[45%]"></p>
+          </div>
           <div className="flex flex-row gap-6 items-center  p-4 justify-center  py-1 ">
+            <Link to={`${oauthUrl}/api/v1/auth/google`}>
+              <FcGoogle
+                size={34}
+              />{" "}
+            </Link>
+
             <a href={`${oauthUrl}/api/v1/auth/github`}>
-              <BsGithub color="black" size={34} />
+              <BsGithub size={34} />
               {/* <img className="w-[35px]" src="../../github.png" alt="" /> */}
             </a>
             <a href={`${oauthUrl}/api/v1/auth/facebook`}>
               {/* className="p-1 rounded-full bg-white " */}
-              <BsFacebook color="black" size={34} />
+              <BsFacebook size={34} />
               {/* <img className="w-[35px]" src="../../fb.jpg" alt="" /> */}
             </a>
             <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
-              <FaLinkedin color="black" size={34} />
+              <FaLinkedin color="blue" size={34} />
               {/* <img className="w-[35px]" src="../../link.png" alt="" /> */}
             </a>
           </div>
-          <p>or</p>
-          <Login />
           <Link to={"/forgotpassword"}>
             <p className="text-lg font-semibold hover:cursor-pointer ">
               Forgot password?
@@ -57,7 +56,6 @@ const Loginpage = () => {
               Sign up
             </Link>{" "}
           </p>
-        </>
       </div>
     </div>
   );

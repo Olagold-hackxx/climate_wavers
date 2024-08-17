@@ -1,5 +1,3 @@
-import React from "react";
-// import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { BiWinkSmile } from "react-icons/bi";
 import { FaRegSadTear } from "react-icons/fa";

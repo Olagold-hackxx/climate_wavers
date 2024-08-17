@@ -145,8 +145,8 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   return (
     <div className="py-3">
       {!isConnected && <Wallet />}
-      {posts?.map((post, index) => (
-        <div key={index} className="border-b-[1px] border-gray-700 py-4">
+      {posts?.map((post) => (
+        <div key={post.id} className="border-b-[1px] border-gray-700 py-4">
           {isCommentModalOpen && (
             <div className="">
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
