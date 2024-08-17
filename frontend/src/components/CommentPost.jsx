@@ -15,10 +15,11 @@ import Modal from "./Modal";
 import Createcomment from "./Createcomment";
 import IncidentIntegration from "./IncidentIntegration";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
+import { getAuthToken } from "../utils/factory";
 
-const CommentPost = ({ type = "post", postId = "" }) => {
+const CommentPost = ({ postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = Cookies.get("token");
+  const accessToken = getAuthToken();
   const [isModalOpen, setIsModalopen] = useState(false);
   const { isConnected } = useWeb3ModalAccount();
 
@@ -30,11 +31,7 @@ const CommentPost = ({ type = "post", postId = "" }) => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  let url = `${BACKENDURL}/api/${type}/${postId}/`;
-
-  if (type !== "post") {
-    url = `${BACKENDURL}/api/${type}/?post=${postId}`;
-  }
+  let url = `${BACKENDURL}/api/v1/comment/${postId}/`;
 
   const fetchPosts = async () => {
     const res = await axios.get(url, {
@@ -56,7 +53,7 @@ const CommentPost = ({ type = "post", postId = "" }) => {
   const likeMutation = useMutation({
     mutationFn: (postId) =>
       axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        `${BACKENDURL}/api/v1/like_savepost/${postId}/`,
         { action: "like" },
         { headers, withCredentials: true }
       ),
@@ -68,7 +65,7 @@ const CommentPost = ({ type = "post", postId = "" }) => {
   const unlikeMutation = useMutation({
     mutationFn: (postId) =>
       axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        `${BACKENDURL}/api/v1/like_savepost/${postId}/`,
         { action: "like", like: false },
         { headers, withCredentials: true }
       ),
@@ -80,7 +77,7 @@ const CommentPost = ({ type = "post", postId = "" }) => {
   const saveMutation = useMutation({
     mutationFn: (postId) =>
       axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        `${BACKENDURL}/api/v1/like_savepost/${postId}/`,
         { action: "save" },
         { headers, withCredentials: true }
       ),
@@ -92,7 +89,7 @@ const CommentPost = ({ type = "post", postId = "" }) => {
   const unsaveMutation = useMutation({
     mutationFn: (postId) =>
       axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        `${BACKENDURL}/api/v1/like_savepost/${postId}/`,
         { action: "save", save: false },
         { headers, withCredentials: true }
       ),

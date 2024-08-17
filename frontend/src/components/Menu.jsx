@@ -1,4 +1,11 @@
-import { BsPerson, BsFillHouseFill, BsBookmark, BsRobot, BsPeople, BsTree } from "react-icons/bs";
+import {
+  BsPerson,
+  BsFillHouseFill,
+  BsBookmark,
+  BsRobot,
+  BsPeople,
+  BsTree,
+} from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
@@ -7,9 +14,9 @@ import { FaDonate } from "react-icons/fa";
 import { getUser } from "../utils/factory";
 
 const Menu = () => {
-  const user = getUser()
+  const user = getUser();
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col px-6">
@@ -17,76 +24,51 @@ const Menu = () => {
       <div className="list-none text-base md:text-xl font-semibold flex flex-col gap-0 md:gap-2 pt-10 mb-10 w-min ">
         <NavLink
           to={"/"}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear"
-              : ""
-          }
+          className="flex items-center rounded-full p-2  hover:bg-linear"
         >
-          <BsFillHouseFill className="mr-1"  />
+          <BsFillHouseFill className="mr-1" />
           Home
         </NavLink>
         <NavLink
           to={"/community"}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          className="flex items-center rounded-full p-2  hover:bg-linear "
+       
         >
           <BsPeople className="mr-1" />
           Community
         </NavLink>
         <NavLink
-          to={`/${user.id}/disaX`}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          to={`/bot`}
+          className="flex items-center rounded-full p-2  hover:bg-linear "
+        
         >
           <BsRobot className="mr-1" />
           WaverX
         </NavLink>
         <NavLink
           to={"/profile"}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          className= "flex items-center rounded-full p-2  hover:bg-linear"
         >
           <BsPerson className="mr-1" />
           Profile
         </NavLink>
         <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          className="flex items-center rounded-full p-2  hover:bg-linear "
         >
           <BsBookmark className="mr-1" />
           Bookmarks
         </NavLink>
-        
+
         <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          className="flex items-center rounded-full p-2  hover:bg-linear "
+           
         >
           <BsTree className="mr-1" />
           Plant Trees
         </NavLink>
         <NavLink
           to={`/funds`}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : ""
-          }
+          className="flex items-center rounded-full p-2  hover:bg-linear "
         >
           <FaDonate className="mr-1" />
           Funds
@@ -100,12 +82,11 @@ const Menu = () => {
       >
         Post
       </Link>
-      {
-        isModalOpen && 
-        <Modal closeFn={() => setIsModalOpen(false)}> 
-          <Createpost closeModal={()=>setIsModalOpen(false)} />
-        </Modal> 
-      }
+      {isModalOpen && (
+        <Modal closeFn={() => setIsModalOpen(false)}>
+          <Createpost closeModal={() => setIsModalOpen(false)} />
+        </Modal>
+      )}
     </div>
   );
 };

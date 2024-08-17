@@ -20,8 +20,8 @@ const Leftsidebar = () => {
       {/* Name box */}
       <div className="flex flex- items-center my-7 pt-8 self-center ">
         <img
-          src={user?.profile_pic ? user.profile_pic : "../../pic1.png"}
-          className="mr-2 rounded-full h-22"
+          src={user?.profile_pic ? user.profile_pic : user.default_avatar}
+          className="mr-2 rounded-full h-12 w-12"
           alt="Profile Pic"
         />
         <div>

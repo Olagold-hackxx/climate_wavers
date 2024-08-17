@@ -46,30 +46,30 @@ const Signup = () => {
   const onSubmit = (data) => {
     console.log(data);
     // Send data to API if needed
-    const posterFn = async () => {
+    const signupFn = async () => {
+      toast.dismiss();
+      toast.info("Signing Up...", {
+        autoClose: 1500
+      });
       await axios
-        .post(`${backendUrl}/api/user/register/`, data)
-        .then((response) => {
-          Cookies.set("token", response.data.token);
-          // Cookies.set("confirmationLink", response.data.confirmation_url);
-          Cookies.set("userId", response.data.id);
+        .post(`${backendUrl}/api/v1/auth/register/`, data)
+        .then(() => {
+          Cookies.set("email", data.email)
+          toast.dismiss();
+          toast.success("Account created succesfully 👌 ", {
+            autoClose: 300,
+          });
+          // Reset the form after submission
+          reset();
+          navigate("/emailcode");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          toast.dismiss();
+          toast.error("An Error occured 🤯",);
+        });
     };
-    toast.promise(posterFn, {
-      pending: "Signing Up...",
-      success: "Account created succesfully 👌 ",
-      error: "An Error occured 🤯",
-    });
-    // Reset the form after submission
-    reset({
-      first_name: "",
-      last_name: "",
-      password: "",
-      username: "",
-      email: "",
-    });
-    navigate("/emailcode");
+    signupFn()
   };
 
   return (
@@ -202,6 +202,7 @@ const Signup = () => {
                 Confirm Password
               </InputLabel>
               <OutlinedInput
+                {...register("password2", { required: true, maxLength: 50 })}
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={

@@ -3,20 +3,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { getUser } from "../utils/factory";
-import { uploadFiles } from "../services/upload.service";
+import { getUser, getAuthToken } from "../utils/factory";
+// import { uploadFiles } from "../services/upload.service";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import PropTypes from "prop-types";
 
-const rs_backend_url = import.meta.env.VITE_APP_CHATBOT_URL;
+// const rs_backend_url = import.meta.env.VITE_APP_CHATBOT_URL;
 
 export default function Createpost({ closeModal }) {
   const { register, handleSubmit, reset } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
-
+  const user = getUser();
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = Cookies.get("token");
-  const [location, setLocation] = useState(null);
+  const accessToken = getAuthToken();
+  const [location, setLocation] = useState({});
 
   useEffect(() => {
     // Check if the browser supports geolocation
@@ -29,7 +29,7 @@ export default function Createpost({ closeModal }) {
         },
         (error) => {
           toast(error, {
-            autoClose: 1500,
+            autoClose: 300,
           });
         }
       );
@@ -73,8 +73,11 @@ export default function Createpost({ closeModal }) {
   };
   const onSubmit = (data) => {
     // Send data to API if needed
-    handleReportSubmission(data);
+    // handleReportSubmission(data);
     const posterFn = async () => {
+      toast.info("Submitting post...", {
+        autoClose: 200,
+      });
       const headers = {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
@@ -88,72 +91,62 @@ export default function Createpost({ closeModal }) {
         data.image = data.image[0];
       }
       await axios
-        .post(`${backendUrl}/api/post/`, data, {
+        .post(`${backendUrl}/api/v1/post/`, data, {
           headers,
           withCredentials: true,
         })
         .then((response) => {
           console.log(response.data);
+          toast.dismiss();
+          toast.success("Post Successful 👌");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          toast.dismiss()
+          toast.error("Error occured 🤯");
+        });
     };
-    if (data.category !== "happening") {
-      toast.promise(
-        posterFn,
-        {
-          pending: "Submitting post..",
-          success: "Post Successful 👌",
-          error: "An Error occured 🤯",
-        },
-        {
-          autoClose: 200,
-        }
-      );
-    } else {
-      toast.success("Report Submitted", {
-        autoClose: 200,
-      });
-    }
+    posterFn();
     // Reset the form after submission
     reset();
     closeModal();
   };
 
-  async function handleReportSubmission(data) {
-    let imageUrl;
-    if (data.image) {
-      imageUrl = await uploadFiles(data.image);
-    }
-    console.log(data);
-    if (data.category !== "happening") return;
-    if (imageUrl) {
-      if (imageUrl.length == 1) {
-        data.image = imageUrl[0];
-      } else {
-        data.image = imageUrl;
-      }
-    }
-    try {
-      const url = rs_backend_url + "/posts";
-      console.log(url);
+  // async function handleReportSubmission(data) {
+  //   let imageUrl;
+  //   if (data.image) {
+  //     imageUrl = await uploadFiles(data.image);
+  //   }
+  //   console.log(data);
+  //   if (data.category !== "happening") return;
+  //   if (imageUrl) {
+  //     if (imageUrl.length == 1) {
+  //       data.image = imageUrl[0];
+  //     } else {
+  //       data.image = imageUrl;
+  //     }
+  //   }
+  //   try {
+  //     const url = rs_backend_url + "/posts";
+  //     console.log(url);
 
-      const payload = {
-        ...data,
-        username: getUser().username,
-        userId: getUser().id,
-        body: data.content,
-        content: undefined,
-        category: undefined,
-      };
+  //     const payload = {
+  //       ...data,
+  //       username: getUser().username,
+  //       userId: getUser().id,
+  //       body: data.content,
+  //       content: undefined,
+  //       category: undefined,
+  //     };
 
-      await axios.post(url, payload);
-      closeModal();
-    } catch (err) {
-      console.log(err, err.response);
-    }
-  }
+  //     await axios.post(url, payload);
+  //     closeModal();
+  //   } catch (err) {
+  //     console.log(err, err.response);
+  //   }
+  // }
 
-  console.log(location)
+  console.log(location);
 
   return (
     <>
@@ -162,15 +155,17 @@ export default function Createpost({ closeModal }) {
         className=" p-3 md:p-6 bg-white rounded-md d flex  w-[30vw] flex-col"
       >
         <div className=" flex justify-between gap-4 ">
-          {/* <Accountcard user={user} /> */}
-          <img src="../../pic1.png" alt="" className="w-10 h-10" />
+          <img
+            src={user.profile_pic}
+            alt=""
+            className="w-10 rounded-full h-10"
+          />
           <select
             className=" rounded-full p-2 mb-3 border text-sm text-[#008080] focus:border-green focus:outline-none"
-            {...register("category", { required: true })}
+            {...register("visibility", { required: true })}
           >
-            <option value="community">Community</option>
-            <option value="education">Educational</option>
-            <option value="happening">Disaster Report</option>
+            <option value="Everyone">Everyone</option>
+            <option value="Friends">Friends</option>
             {/* Add more options as needed */}
           </select>
         </div>

@@ -18,16 +18,15 @@ import Donate from "./Donate";
 import IncidentIntegration from "./IncidentIntegration";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
-const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
+const Postcomponent = ({  type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
   const navigate = useNavigate();
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
-  const { isConnected } = useWeb3ModalAccount()
+  const { isConnected } = useWeb3ModalAccount();
 
   const queryClient = useQueryClient();
-
 
   const headers = {
     "Content-Type": "application/json",
@@ -35,12 +34,10 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  let url = category
-    ? `${BACKENDURL}/api/${type}/?category=${category}`
-    : `${BACKENDURL}/api/${type}/`;
+  let url = `${BACKENDURL}/api/v1/${type}/`;
 
   if (type !== "post") {
-    url = `${BACKENDURL}/api/${type}/?post=${postId}`;
+    url = `${BACKENDURL}/api/v1/${type}/?post=${postId}`;
   }
 
   const fetchPosts = async () => {
@@ -56,7 +53,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     isLoading: postsLoading,
     error,
   } = useQuery({
-    queryKey: ["posts", category],
+    queryKey: ["posts"],
     queryFn: fetchPosts,
   });
 
@@ -117,11 +114,11 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const commentPage = (post) => {
     if (type === "subcomment") {
       navigate(`/post/${post.id}/subcomments`, {
-        state: { post: post, category: category },
+        state: { post: post },
       });
     } else {
       navigate(`/${post.id}/comments`, {
-        state: { post: post, category: category },
+        state: { post: post },
       });
     }
   };
@@ -139,8 +136,6 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
       toast.error("An error occurred while fetching posts");
     }
   }, [postsLoading, posts, error]);
-
-
 
   return (
     <div className="py-3">
@@ -169,11 +164,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
             <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
             <img
               className="w-[100%] px-3 rounded-2xl "
-              src={
-                post?.image
-                  ? post.image
-                  : ""
-              }
+              src={post?.image ? post.image : ""}
               alt=""
             />
           </div>
@@ -186,7 +177,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
                   : likeMutation.mutate(post.id);
               }}
             >
-              <AiFillHeart size={18} color={post.is_liked ? "#FF0000" : ""}  />
+              <AiFillHeart size={18} color={post.is_liked ? "#FF0000" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
             <Link onClick={() => setIsDonateModalOpen(true)}>
@@ -219,7 +210,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <p className="text-xs ml-1 ">{post.savers_count}</p>
             </div>
             <div className="flex flex-row items-center  ">
-             <IncidentIntegration />
+              <IncidentIntegration />
             </div>
           </div>
         </div>

@@ -10,8 +10,8 @@ import Comment from "./pages/Comment";
 import Createpost from "./components/Createpost";
 import Createcomment from "./components/Createcomment";
 import WaverxChatPage from "./pages/WaverX";
+import VerifyResetRequest from "./pages/Auth/VerifyResetRequest";
 // import Signuppage from "./pages/Signuppage";
-// import Emailconfirmation from "./pages/Emailconfirmation";
 // import Loginpage from "./pages/LoginPage";
 // import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
@@ -43,7 +43,7 @@ function App() {
             path="/bot"
             element={<AuthRoute element={<WaverxChatPage />} />}
           />
-          <Route path="/" element={<SharedLayout />}>
+          <Route path="/" element={<AuthRoute element={<SharedLayout />} />}>
             <Route index element={<AuthRoute element={<Mainfeed />} />} />
             <Route
               path="/community"
@@ -84,10 +84,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Signin />} />
 
-          {/* <Route
-            path="/register/verify/:userToken"
-            element={<Emailconfirmation />}
-          /> */}
+          <Route
+            path="/verifypasswordreset/:uid/:token"
+            element={<VerifyResetRequest/>}
+          />
           {/* <Route path="/login" element={<Loginpage />} /> */}
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/emailcode" element={<EmailCode />} />

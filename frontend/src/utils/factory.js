@@ -7,7 +7,7 @@ export const getUser = () =>{
 }
 
 export const getAuthToken = () =>{
-    return Cookies.get("token")
+    return Cookies.get("accessToken")
 }
 
 
@@ -18,7 +18,7 @@ export const authRequest = (fn) =>{
     }catch(err){
         if(err.status == 401){
             Cookies.delete("user")
-            Cookies.delete("token")
+            Cookies.delete("accessToken")
             window.location.reload()
         }
     }
