@@ -9,6 +9,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import send_normal_email
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from django.conf import settings
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
@@ -86,10 +87,8 @@ class PasswordResetRequestSerializer(serializers.Serializer):
             user = User.objects.get(email=email)
             uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
-            request = self.context.get('request')
-            site_domain = get_current_site(request).domain
-            relative_link = reverse('password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
-            abslink = f"http://{site_domain}{relative_link}"
+            reset_page = f"{settings.FRONTEND_URL}/verifypasswordreset"
+            abslink = f"{reset_page}/{uidb64}/{token}"
             email_body = f"Hi, use the link to reset your password \n {abslink}"
             data = {
                 'email_body': email_body,

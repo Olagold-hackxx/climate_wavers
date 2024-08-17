@@ -1,8 +1,9 @@
 from django.contrib import admin
 from .models import User, OneTimePassword
+from unfold.admin import ModelAdmin
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(ModelAdmin):
     list_display = (
         'email', 
         'first_name', 
@@ -23,6 +24,6 @@ class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('date_joined', 'last_login')
 
 @admin.register(OneTimePassword)
-class OneTimePasswordAdmin(admin.ModelAdmin):
+class OneTimePasswordAdmin(ModelAdmin):
     list_display = ('user', 'code')
     search_fields = ('user__email', 'code')
