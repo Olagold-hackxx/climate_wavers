@@ -1,9 +1,9 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
 
-export const SUPPORTED_CHAIN = 11155420;
+export const SUPPORTED_CHAIN = 11155111;
 
 const sepolia = {
-  chainId: 11155420,
+  chainId: 11155111,
   name: 'Sepolia',
   currency: 'ETH',
   explorerUrl: 'https://etherscan.io',
