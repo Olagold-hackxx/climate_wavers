@@ -13,12 +13,16 @@ import { FaApple, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
-import MenuItem from '@mui/material/MenuItem';
-
+import MenuItem from "@mui/material/MenuItem";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Cookies from "js-cookie";
+const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,148 +30,222 @@ const Signup = () => {
     event.preventDefault();
   };
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    //formState
+  } = useForm();
+
+  //const formError = formState.errors;
+ 
+  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // Send data to API if needed
+    const posterFn = async () => {
+      await axios
+        .post(`${backendUrl}/api/user/register/`, data)
+        .then((response) => {
+          Cookies.set("token", response.data.token);
+          // Cookies.set("confirmationLink", response.data.confirmation_url);
+          Cookies.set("userId", response.data.id);
+        })
+        .catch((error) => console.log(error));
+    };
+    toast.promise(posterFn, {
+      pending: "Signing Up...",
+      success: "Succesful 👌 Please confirm your account in your email",
+      error: "An Error occured 🤯",
+    });
+    // Reset the form after submission
+    reset({
+      first_name: "",
+      last_name: "",
+      mobileNumber: "",
+      password: "",
+      username: "",
+      email: "",
+      bio: "",
+    });
+  };
+
   return (
     <div className="h-auto flex">
-       <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
+      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
         <div className="self-center">
           <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
       <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
-      <div className="lg:w-[75%] md:w-[100%] px-12">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
-          Sign Up
-        </h1>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "100%" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <div className="flex justify-between w-[100%]">
-          <TextField
-            id="outlined-basic"
-            label="First Name"
-            variant="outlined"
-            color="success"
-            sx={{ mr: 1, width: "50%" }}
-          />
-           <TextField
-            id="outlined-basic"
-            label="Last Name"
-            sx={{ ml: 1, width: "50%" }}
-            variant="outlined"
-            color="success"
-          />
-          </div>
-          <TextField
-            id="outlined-basic"
-            label="User Name"
-            sx={{ m: 1, width: "100%" }}
-            variant="outlined"
-            color="success"
-          />
-          <div className="w-[100%]">
-          <TextField
-          id="outlined-select-currency"
-          select
-          label="Sex"
-          defaultValue="Male"
-          sx={{  width: "100%" }}
-          color="success"
-        >
-            <MenuItem>Male</MenuItem>
-            <MenuItem>Female</MenuItem>
-            <MenuItem>Others</MenuItem>
-            <MenuItem>Prefer not to say</MenuItem>
-        </TextField>
-          </div>
-           <TextField
-            id="outlined-basic"
-            label="Email"
-            sx={{ width: "100%" }}
-            variant="outlined"
-            color="success"
-          />
+        <div className="lg:w-[75%] md:w-[100%] px-12">
+          <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
+            Sign Up
+          </h1>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "100%" },
+            }}
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="flex justify-between w-[100%]">
-          <TextField
-            id="outlined-basic"
-            label="Country"
-            variant="outlined"
-            sx={{ mr: 1, width: "50%" }}
-            color="success"
-          />
-           <TextField
-            id="outlined-basic"
-            label="State"
-            sx={{ ml: 1, width: "50%" }}
-            variant="outlined"
-            color="success"
-          />
-          </div>
-          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined" color="success">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Confirm Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "confirm password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Confirm Password"
-            />
-          </FormControl>
-          <button onClick={() => navigate('/nextsignup')}  className="bg-[#008080] rounded-md text-white py-4">Sign Up</button>
-          <div className="flex items-center justify-between">
-            <p className="border-b border-gray-400 w-[45%]"></p>
-          <p>Or</p>
-            <p className="border-b border-gray-400 w-[45%]"></p>
-          </div>
-          <div className="flex justify-center items-center flex-col text-center">
-            <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
-            <FaApple className="text-[24px]"/>
-            <FaGithub className="text-[24px]" />
-            <FcGoogle className="text-[24px]" />
-            <IoLogoFacebook  className="text-[24px]" />
-            <BsLinkedin className="text-[24px]" />
+              <TextField
+                id="outlined-basic"
+                label="First Name"
+                variant="outlined"
+                color="success"
+                sx={{ mr: 1, width: "50%" }}
+                {...register("first_name", { required: true, maxLength: 80 })}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Last Name"
+                sx={{ ml: 1, width: "50%" }}
+                variant="outlined"
+                color="success"
+                {...register("last_name", { required: true, maxLength: 50 })}
+              />
             </div>
-            <NavLink to='/'>Already have an account? <span className="text-[#008080] font-[500]">Sign In</span> </NavLink>
-          </div>
-        </Box>
+            <TextField
+              id="outlined-basic"
+              label="Username"
+              sx={{ m: 1, width: "100%" }}
+              variant="outlined"
+              color="success"
+              {...register("username", { required: true, maxLength: 10 })}
+            />
+            <div className="w-[100%]">
+              <TextField
+                id="outlined-select-currency"
+                select
+                label="Sex"
+                defaultValue="Male"
+                sx={{ width: "100%" }}
+                color="success"
+                {...register("gender", { required: true, maxLength: 100 })}
+              >
+                <MenuItem>Male</MenuItem>
+                <MenuItem>Female</MenuItem>
+                <MenuItem>Others</MenuItem>
+                <MenuItem>Prefer not to say</MenuItem>
+              </TextField>
+            </div>
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              sx={{ width: "100%" }}
+              variant="outlined"
+              color="success"
+              {...register("email", { required: true, maxLength: 100 })}
+            />
+            <div className="flex justify-between w-[100%]">
+              <TextField
+                id="outlined-basic"
+                label="Country"
+                variant="outlined"
+                sx={{ mr: 1, width: "50%" }}
+                {...register("country", { required: true, maxLength: 100 })}
+                color="success"
+              />
+              <TextField
+                id="outlined-basic"
+                label="State"
+                sx={{ ml: 1, width: "50%" }}
+                variant="outlined"
+                color="success"
+                {...register("state", { required: true, maxLength: 100 })}
+              />
+            </div>
+            <FormControl
+              sx={{ m: 1, width: "100%" }}
+              variant="outlined"
+              color="success"
+              {...register("password", { required: true, maxLength: 100 })}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            <FormControl
+              sx={{ m: 1, width: "100%" }}
+              variant="outlined"
+              {...register("password", { required: true, maxLength: 100 })}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Confirm Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "confirm password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Confirm Password"
+              />
+            </FormControl>
+            <button
+              onClick={() => navigate("/nextsignup")}
+              className="bg-[#008080] rounded-md text-white py-4"
+            >
+              Sign Up
+            </button>
+            <div className="flex items-center justify-between">
+              <p className="border-b border-gray-400 w-[45%]"></p>
+              <p>Or</p>
+              <p className="border-b border-gray-400 w-[45%]"></p>
+            </div>
+            <div className="flex justify-center items-center flex-col text-center">
+              <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
+                  <FaApple className="text-[24px]" />{" "}
+                <a href={`${oauthUrl}/api/v1/auth/github`}>
+                  <FaGithub className="text-[24px]" />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/new-google`}>
+                  <FcGoogle className="text-[24px]" />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/facebbok`}>
+                  <IoLogoFacebook className="text-[24px]" />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
+                  <BsLinkedin className="text-[24px]" />
+                </a>
+              </div>
+              <NavLink to="/">
+                Already have an account?{" "}
+                <span className="text-[#008080] font-[500]">Sign In</span>{" "}
+              </NavLink>
+            </div>
+          </Box>
         </div>
       </div>
     </div>
