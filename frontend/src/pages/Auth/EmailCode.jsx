@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import bgReset from "../../assets/nextReset.svg";
+import { NavLink } from "react-router-dom";
 
 const EmailCode = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +57,11 @@ const EmailCode = () => {
             }
             label="Password"
           />
+          <NavLink to="/verifymail" className="text-gray-400 text-[14px] self-start pt-2">
+            Didn't get it?
+          </NavLink>
         </FormControl>
+
         <button className="bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4">
           Confirm
         </button>

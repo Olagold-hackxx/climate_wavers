@@ -15,7 +15,7 @@ import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
 import MenuItem from "@mui/material/MenuItem";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
 const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
@@ -32,6 +32,7 @@ const Signup = () => {
   };
 
   const {
+    register,
     control,
     handleSubmit,
     reset,
@@ -68,7 +69,7 @@ const Signup = () => {
       username: "",
       email: "",
     });
-    navigate("/emailcode")
+    navigate("/emailcode");
   };
 
   return (
@@ -98,18 +99,16 @@ const Signup = () => {
                 variant="outlined"
                 color="success"
                 sx={{ mr: 1, width: "50%" }}
-                control={control}
-                name={"first_name"}
-                />
+                {...register("first_name", { required: true, maxLength: 50 })}
+              />
               <TextField
                 id="outlined-lasts"
                 label="Last Name"
                 sx={{ ml: 1, width: "50%" }}
                 variant="outlined"
                 color="success"
-                control={control}
-                name={"last_name"}
-                />
+                {...register("last_name", { required: true, maxLength: 50 })}
+              />
             </div>
             <TextField
               id="outlined-username"
@@ -117,23 +116,27 @@ const Signup = () => {
               sx={{ m: 1, width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
-              name={"username"}
-              />
+              {...register("username", { required: true, maxLength: 50 })}
+            />
             <div className="w-[100%]">
-              <TextField
-                id="outlined-gender"
-                select
-                label="Gender"
-                defaultValue="Male"
-                sx={{ width: "100%" }}
-                color="success"
+              <Controller
+                name="gender"
                 control={control}
-                name={"gender"}
-                >
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-              </TextField>
+                defaultValue="Male"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="outlined-gender"
+                    select
+                    label="Gender"
+                    sx={{ width: "100%" }}
+                    color="success"
+                  >
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                  </TextField>
+                )}
+              />
             </div>
             <TextField
               id="outlined-email"
@@ -141,9 +144,7 @@ const Signup = () => {
               sx={{ width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
-              name={"email"}
-
+              {...register("email", { required: true, maxLength: 50 })}
             />
             <div className="flex justify-between w-[100%]">
               <TextField
@@ -151,9 +152,9 @@ const Signup = () => {
                 label="Country"
                 variant="outlined"
                 sx={{ mr: 1, width: "50%" }}
-                control={control}
                 name={"country"}
                 color="success"
+                {...register("country", { required: true, maxLength: 50 })}
               />
               <TextField
                 id="outlined-state"
@@ -161,20 +162,20 @@ const Signup = () => {
                 sx={{ ml: 1, width: "50%" }}
                 variant="outlined"
                 color="success"
-                control={control}
-                />
+                {...register("state", { required: true, maxLength: 50 })}
+              />
             </div>
             <FormControl
               sx={{ m: 1, width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
               name={"password"}
-              >
+            >
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>
               <OutlinedInput
+                {...register("password", { required: true, maxLength: 50 })}
                 id="outlined-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
