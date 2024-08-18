@@ -11,7 +11,7 @@ import ChatsListCard from "../../components/ChatsListCard";
 const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1`;
 
 const WaverXChatPage = () => {
-  const [chats, setChats] = useState([{remoteId: "1", createdAt: Date.now()}]);
+  const [chats, setChats] = useState([]);
   const [current, setCurrent] = useState("");
   const [messages, setMessages] = useState();
 
@@ -28,6 +28,7 @@ const WaverXChatPage = () => {
           remoteId: d.id,
         }));
         const sorted = data.sort((a, b) => a.postedAt - b.postedAt);
+        console.log({sorted})
         setMessages(sorted);
       });
       

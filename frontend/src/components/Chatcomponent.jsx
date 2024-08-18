@@ -29,22 +29,22 @@ const Chatcomponent = ({ messages, handlePostMessage, current }) => {
         <img
           src="../../img_user_rectangle_5.svg"
           alt="User"
-          className="h-[32px] ml-2 w-[32px]"
+          className="h-[24px] ml-2 w-[24px]"
         />
         <img
           src="../../img_thumbs_up_rectangle_5.svg"
           alt="Thumbsup"
-          className="h-[32px] w-[32px]"
+          className="h-[24px] w-[24px]"
         />
         <img
           src="../../img_emoji_normal.svg"
           alt="Emojinormal"
-          className="h-[32px] w-[32px]"
+          className="h-[24px] w-[24px]"
         />
         <img
           src="../../img_linkedin.svg"
           alt="Linkedin"
-          className="h-[32px] w-[32px]"
+          className="h-[24px] w-[24px]"
         />
         <input
           className="justify-self-end w-[65%] h-[65%] focus:outline-0 ml-4 pl-4 focus:bg-white rounded-full p-2 text-black "
