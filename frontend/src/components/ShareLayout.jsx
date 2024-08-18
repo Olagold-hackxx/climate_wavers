@@ -6,17 +6,21 @@ import { Outlet } from "react-router-dom";
 const SharedLayout = () => {
   return (
     //bg-gradient-to-r from-slate-900 to-slate-700
-    <div className=" bg-bgGradient text-white min-h-screen">
+    <div className=" bg-white text-[#111111] min-h-screen">
       <div className=" block md:hidden ">
         <Topbar />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] px-2 md:px-10 min-h-screen">
+      <div className="flex justify-between min-h-screen">
+        <div className="w-[20%]">
         <Leftsidebar />
+        </div>
         {/* <Mainfeed/> */}
-        <div className="max-h-screen overflow-auto">
+        <div className="max-h-screen overflow-auto w-[55%]">
           <Outlet />
         </div>
+        <div className="w-[20%]">
         <Rightsidebar />
+        </div>
       </div>
     </div>
   );

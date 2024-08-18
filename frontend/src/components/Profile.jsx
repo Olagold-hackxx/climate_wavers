@@ -57,7 +57,7 @@ const Profile = () => {
         {profile?.first_name} {profile?.last_name}
       </h2>
       <div
-        className={`h-[240px] relative bg-cover bg-center`}
+        className={`h-[240px] relative bg-cover bg-center rounded-[20px]`}
         style={{
           backgroundImage: `url(${
             profile?.cover ? `${profile.cover}` : "../../environ.jpeg"
@@ -68,7 +68,7 @@ const Profile = () => {
           src={
             profile?.profile_pic ? `${profile.profile_pic}` : "../../pic1.png"
           }
-          className="absolute bottom-0 left-0 w-28 ml-2 mb-2 "
+          className="absolute bottom-0 left-0 w-28 ml-2 mb-2 transform translate-y-1/2"
           alt=""
         />
       </div>
