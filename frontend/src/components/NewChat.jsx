@@ -1,3 +1,4 @@
+import { getUser } from "../utils/factory";
 import QuestionContainer from "./QuestionContainer";
 
 const data = [
@@ -42,7 +43,7 @@ export default function NewChat() {
       </div>
       <div>
       <p className="relative mt-[-20px] md:text-[22px] ">
-        Hello Abdul, How can I help you today
+        Hello {getUser().firstName && getUser().firstName}, How can I help you today
       </p>
       </div>
       <div className=" flex flex-row self-center gap-[40px]">

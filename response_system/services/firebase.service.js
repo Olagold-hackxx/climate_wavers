@@ -1,7 +1,7 @@
 const {initializeApp} = require("firebase/app")
 const { getFirestore, collection, addDoc, getDocs, query, where, getDoc, deleteDoc, doc, updateDoc, } = require("firebase/firestore")
 const config = require("../config/config")
-const { cleanUndefined } = require("../utils/factory")
+const { cleanUndefined } = require("../utils/cleanups")
 
 
 class FB{

@@ -1,4 +1,10 @@
 import Cookies from "js-cookie";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
+
+const timeAgo = new TimeAgo('en-US')
 
 export const getUser = () =>{
     const raw = Cookies.get("user")
@@ -22,4 +28,10 @@ export const authRequest = (fn) =>{
             window.location.reload()
         }
     }
+}
+
+export const getTimeAgo = (timeRef) =>{
+    const curr = Date.now()
+    const ref = new Date(timeRef)
+    return timeAgo.format(curr - ref)
 }

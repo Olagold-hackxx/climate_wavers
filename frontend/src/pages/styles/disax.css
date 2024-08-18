@@ -88,3 +88,60 @@ Scrollbar styling for the message list
 .message-card-list::-webkit-scrollbar-thumb:hover {
     background: #777;
 } */
+
+.chat-list-card{
+    padding: 8px;
+    cursor: pointer;
+}
+
+.chat-list-card:hover{
+    background-color: rgb(235, 235, 235);
+}
+
+.chat-list-card p.title{
+    padding: 16px;
+    color: rgba(0, 0, 0, 0.74);
+    font-weight: 480;
+}
+
+.chat-list-card.active{
+    border-left: 6px solid #008080;
+}
+
+.chat-input-null{
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 24px;
+    font-size: 18px;
+    color: rgb(66, 66, 66);
+}
+
+
+.message-card{
+    display: block;
+    width: 100%;
+    float: left;
+    width: 90%;
+    max-width: 550px;
+    margin: 8px 12px;
+    border-radius: 16px;
+    padding: 12px;
+    background-color: white;
+    clear: both;
+    color: rgb(37, 37, 37);
+}
+
+
+
+.message-card.me{
+    float: right;
+    width: auto;
+    max-width: 550px;
+    clear: both;
+    background-color: #008080;
+    color: white;
+}
+
+.message-card.me p{
+    background-color: #008080;
+}

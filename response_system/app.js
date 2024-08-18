@@ -13,6 +13,7 @@ const postsRouter = require("./routes/post.router");
 const chatsRouter = require("./routes/chat.router")
 const analyzePost = require('./helpers/analyze_post');
 const useCron = require('./lib/cron');
+const { generateTitle } = require('./helpers/generate_title');
 
 
 // Use middleware
@@ -29,6 +30,7 @@ app.use("/api/v1/chats", chatsRouter)
 useCron()
 
 useQueue(queues.analyze_post, analyzePost)
+useQueue(queues.generate_chat_title, generateTitle)
 
 app.listen(port, () => {
   logger.info(`Server is running on port ${port}`);
