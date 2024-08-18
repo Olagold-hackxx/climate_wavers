@@ -2,7 +2,9 @@
 const config = require("../config/config")
 const postCategories = require("../constants/post_categories")
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} = require("@google/generative-ai");
-const { cleanText } = require("../utils/factory");
+const { cleanText } = require("../utils/cleanups");
+const aiConfig = require("../config/ai.config");
+const {formatConversation} = require("../utils/factory")
 
 
 class AI{
@@ -28,7 +30,7 @@ class AI{
         this.ai = new GoogleGenerativeAI(config.gemini.apiKey)
         this.promptCategories = postCategories
 
-        this.usePrePrompt = (prompt)=>`you are integrated as an AI chatbot named "WaverX Bot" for a climate mitigation app "Climate wavers", generate a response for this prompt "${prompt}"`
+        this.usePrePrompt = (prompt, prevConversation)=>`you are integrated as an AI chatbot named ${aiConfig.username} for a climate mitigation app "Climate wavers", generate a response for this prompt "${prompt}".${prevConversation && `generate your response based on previous conversation (if necessary) shown below: \n ${prevConversation}`}. respond with only the generated response, no label (e.g waver-x), and keep it brief and concise`
 
         this.exec = async function(prompt, imageUrl = undefined) {
             const model = this.ai.getGenerativeModel({ model: "gemini-pro", ...this.getSafetySettings() });
@@ -57,12 +59,11 @@ class AI{
         return this.exec(prompt)
     }
 
-    async handleChatResponse(text, imageFile){
-        const prompt = `${text}`
+    async handleChatResponse(chatId, text, imageFile){
+        const conversation = await formatConversation(chatId)
+        const prompt = this.usePrePrompt(text, conversation)
         return this.exec(prompt, imageFile)
     }
-
-
 
     async getPossibleAffectedLocations(disaster, location){
         const prompt = `generate an array of locations that can be affected by a/an ${disaster} in ${location}. reponse should strictly look like this [LA, freetown, Lagos], no further explanation is expected in your response.`
@@ -97,6 +98,12 @@ class AI{
         const prompt = `from this prompt(based on analysis of previous environmental data, Is it possible to experience a/an ${disasterType} by this time of the year in ${location})respond with a true or false..respond with true or false only, no explanation is expected in your response`
         return this.exec(prompt)
     }
+
+    generateTitle(conversation){
+        const prompt = `generate a short title for this conversation: "${conversation}".respond with the title only, no explanation is expected in your response`
+        return this.exec(prompt)
+    }
+
 
 
 }

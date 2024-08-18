@@ -3,6 +3,8 @@ const validator = require("../services/validator.service")
 const catchAsyncErrors = require("../lib/catchAsync")
 
 const chatService = require('../services/chat.service')
+const { sendToQueue } = require("../lib/amqp")
+const queues = require("../constants/queues")
 
 const postMessage = catchAsyncErrors(async(req, res)=>{
     const validationRes = validator.validateGetByIdObj(req.params)
@@ -12,6 +14,10 @@ const postMessage = catchAsyncErrors(async(req, res)=>{
     const chat = await chatService.getChat(req.params.id)
     if(!chat?.id)return res.status(404).json({message: "chat not found"})
     const responseObj = await chatService.generateResponse(req.body.userId, req.params.id, req.body.body)
+    const messages = await chatService.getMessages(chat.id)
+    if(messages.length == 2 || messages.length % 6 == 0){
+        sendToQueue(queues.generate_chat_title, {chatId: chat.id})
+    }
     return res.status(201).json(responseObj)
 })
 
@@ -37,5 +43,7 @@ const getChats = catchAsyncErrors(async(req, res)=>{
     const chats = await chatService.getChats(req.query.userId)
     return res.status(200).json(chats)
 })
+
+
 
 module.exports ={ postMessage, getMessages, createChat, getChats}

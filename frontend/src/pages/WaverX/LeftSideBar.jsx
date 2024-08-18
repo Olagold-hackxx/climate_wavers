@@ -1,8 +1,16 @@
 import { GoSidebarExpand } from "react-icons/go";
 
-export default function WaverxLeftBar() {
+export default function WaverxLeftBar({ handleCreateChat,  }) {
+
+  // function handleBarToggle(){
+
+  // }
+
+
+
+
   return (
-    <div>
+    <div style={{border: "1px solid red"}} >
       <div className="flex items-center justify-between bg-white px-4 py-4 shadow-xs  border-b-2 border-gray-300">
         <div>
           <GoSidebarExpand size={32}  color={"#008080"}/>
@@ -20,7 +28,7 @@ export default function WaverxLeftBar() {
             WaverX
           </h1>
         </div>
-        <div className="flex self-end">
+        <div className="flex self-end" onClick={handleCreateChat} >
           <img
             src="../../../img_plus_blue_gray_400.svg"
             alt="Plus"

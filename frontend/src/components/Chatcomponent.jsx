@@ -4,7 +4,7 @@ import MessageCard from "./message-card";
 import PropTypes from "prop-types";
 import NewChat from "./NewChat";
 
-const Chatcomponent = ({ messages, handlePostMessage }) => {
+const Chatcomponent = ({ messages, handlePostMessage, current }) => {
   const bodyRef = useRef();
 
   return (
@@ -25,7 +25,7 @@ const Chatcomponent = ({ messages, handlePostMessage }) => {
           })
         )}
       </div>
-      <div className="bg-gray-100 p-1 h-[100px] border-0 border-t-2 border-gray-200 gap-x-8 rounded-md flex flex-row items-center shadow-2xl shadow-neutral-500/50">
+      {current?<div className="bg-gray-100 p-1 h-[100px] border-0 border-t-2 border-gray-200 gap-x-8 rounded-md flex flex-row items-center shadow-2xl shadow-neutral-500/50">
         <img
           src="../../img_user_rectangle_5.svg"
           alt="User"
@@ -62,7 +62,9 @@ const Chatcomponent = ({ messages, handlePostMessage }) => {
           color="#008080"
           type="submit"
         />
-      </div>
+      </div>: <div className="p-2" >
+          <p>select a chat to continue conversation or create a new one</p>
+        </div>}
     </div>
   );
 };

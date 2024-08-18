@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
+// import { getTimeAgo } from "../utils/factory";
 
-const ChatsListCard = ({ id, createdAt }) => {
+const ChatsListCard = ({ id, createdAt, handleClick }) => {
   const date = new Date(createdAt);
   return (
-    <div style={{ border: "1px solid red" }} className="chats-list-card">
+    <div onClick={()=>handleClick(id)} style={{ border: "1px solid red" }} className="chats-list-card">
       <p style={{ fontSize: "18px", fontWeight: "480" }}>{id}</p>
-      <p>{`${date.getDay()} - ${
+      {/* <p>{`${date.getDay()} - ${
         date.getMonth() + 1
-      } - ${date.getFullYear()}`}</p>
+      } - ${date.getFullYear()}`}</p> */}
+      <p>{date}</p>
     </div>
   );
 };
