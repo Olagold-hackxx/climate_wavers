@@ -159,7 +159,7 @@ const Postcomponent = ({ type = "post", postId = "" }) => {
           )}
           <Accountcard user={post.user} />
           <div onClick={() => commentPage(post)}>
-            <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
+            <p className="text-left text-2xl font-serif px-3 my-3 ">{post.content}</p>
             <img
               className="w-[100%] px-3 rounded-2xl "
               src={post?.image ? post.image : ""}

@@ -74,6 +74,14 @@ const Signup = () => {
     <div className="h-auto flex">
       <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
         <div className="self-center">
+        <div className="writeup">
+            <h2>Join Climate Wavers</h2>
+            <p>
+              Connect on our AI-driven social network for effectiive climate disaster
+              responses, donate to relief efforts, and together we plant
+              trees around the world. Be part of the solution — Sign up Now!
+            </p>
+            </div>
           <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
