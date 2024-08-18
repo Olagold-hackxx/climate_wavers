@@ -31,20 +31,51 @@ class PostSerializer(serializers.ModelSerializer):
     reaction_count = serializers.IntegerField(read_only=True)
     view_count = serializers.IntegerField(read_only=True)
     repost_count = serializers.IntegerField(read_only=True)
+    bookmark_count = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
+    is_reacted = serializers.SerializerMethodField()
+    is_bookmarked = serializers.SerializerMethodField()
+
+    def get_is_reacted(self, obj):
+        user = self.context.get("request").user
+        return obj.reactions.filter(user=user).exists()
+
+    def get_is_bookmarked(self, obj):
+        user = self.context.get("request").user
+        return obj.bookmarks.filter(user=user).exists()
 
     class Meta:
         model = Post
         fields = "__all__"
 
+    def create(self, validated_data):
+        # Add the user from the request context to the validated data
+        validated_data["user"] = self.context["request"].user
+        return super().create(validated_data)
+
 
 class CommentSerializer(serializers.ModelSerializer):
     annotated_reaction_count = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
+    is_reacted = serializers.SerializerMethodField()
+    is_bookmarked = serializers.SerializerMethodField()
+
+    def get_is_reacted(self, obj):
+        user = self.context.get("request").user
+        return obj.reactions.filter(user=user).exists()
+
+    def get_is_bookmarked(self, obj):
+        user = self.context.get("request").user
+        return obj.bookmarks.filter(user=user).exists()
 
     class Meta:
         model = Comment
         fields = "__all__"
+
+    def create(self, validated_data):
+        # Add the user from the request context to the validated data
+        validated_data["user"] = self.context["request"].user
+        return super().create(validated_data)
 
 
 class ReactionSerializer(serializers.ModelSerializer):
@@ -68,9 +99,16 @@ class ViewSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
+    follower = UserSerializer(read_only=True)
+
     class Meta:
         model = Follow
         fields = "__all__"
+
+    def create(self, validated_data):
+        # Add the user from the request context to the validated data
+        validated_data["follower"] = self.context["request"].user
+        return super().create(validated_data)
 
 
 class BookmarkSerializer(serializers.ModelSerializer):

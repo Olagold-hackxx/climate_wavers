@@ -3,10 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getAuthToken } from "../utils/factory";
 import Cookies from "js-cookie";
+import Createcomment from "./Createcomment";
+import { useState } from "react";
 
 const Mainfeed = () => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
+  const [category, setCategory] = useState("");
 
   const headers = {
     "Content-Type": "application/json",
@@ -33,10 +36,59 @@ const Mainfeed = () => {
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
-      {/* <h2 className='text-left p-2 border-gray-500  font-semibold '>Home</h2> */}
-      <div className="pb-1 md:pb-3 text-lg md:text-xl border-b-2 border-gray-600 font-semibold">
-        Home
-      </div>
+      <div className=" text-lg md:text-xl border-gray-200 rounded-md h-[50px] pb-2 border-2 font-bold  ">
+      <div className="text-black font-bold text-xl grid grid-cols-4 px-2 justify-between content-end h-[100%] text-base gap-8 ">
+      <div
+            className={`cursor-pointer ${
+              category === "reports" ? "border-b-[2px] border-[#008080]" : null
+            } `}
+            onClick={() => {
+              setCategory("reports");
+            }}
+          >
+            Reports
+          </div>
+          <div
+            className={`cursor-pointer ${
+              category === "education"
+                ? "border-b-[2px] border-[#008080]"
+                : null
+            } `}
+            onClick={() => {
+              setCategory("education");
+            }}
+          >
+            Feeds
+          </div>
+          <div
+            className={`cursor-pointer ${
+              category === "community"
+                ? "border-b-[2px] border-[#008080]"
+                : null
+            } `}
+            onClick={() => {
+              setCategory("community");
+            }}
+          >
+            Community
+          </div>
+          <div
+            className={`cursor-pointer ${
+              category === "trending"
+                ? "border-b-[2px] border-[#008080]"
+                : null
+            } `}
+            onClick={() => {
+              setCategory("trending");
+            }}
+          >
+           Trending
+          </div>
+        </div>
+        </div>
+      <div className=" border-2  rounded-lg shadow-3xl h-[150px] my-4 shadow-white ">
+        < Createcomment />
+</div>
       <Postcomponent />
     </div>
   );

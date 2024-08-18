@@ -1,8 +1,9 @@
 from django.contrib import admin
 from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark
+from unfold.admin import ModelAdmin
 
-class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'user', 'is_donation', 'donation_approved']
+class PostAdmin(ModelAdmin):
+    list_display = ['content', 'user', 'is_donation', 'donation_approved']
     actions = ['approve_donations']
 
     def approve_donations(self, request, queryset):
@@ -11,7 +12,7 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-class PollAdmin(admin.ModelAdmin):
+class PollAdmin(ModelAdmin):
     list_display = ('question', 'user', 'created_at', 'updated_at', 'visibility', 'duration')
     list_filter = ('visibility', 'created_at', 'updated_at')
     search_fields = ('question', 'user__username')
@@ -19,7 +20,7 @@ class PollAdmin(admin.ModelAdmin):
 
 admin.site.register(Poll, PollAdmin)
 
-class PollVoteAdmin(admin.ModelAdmin):
+class PollVoteAdmin(ModelAdmin):
     list_display = ('user', 'poll', 'option', 'created_at')
     list_filter = ('poll', 'created_at')
     search_fields = ('user__username', 'poll__question')
@@ -28,7 +29,11 @@ class PollVoteAdmin(admin.ModelAdmin):
 admin.site.register(PollVote, PollVoteAdmin)
 
 # Register models with default configuration
-admin.site.register(Comment)
+class CommentAdmin(ModelAdmin):
+    list_display = ('user', 'content', 'post', "parent_comment", 'image')
+    
+admin.site.register(Comment, CommentAdmin)
+
 admin.site.register(Reaction)
 admin.site.register(Repost)
 admin.site.register(View)

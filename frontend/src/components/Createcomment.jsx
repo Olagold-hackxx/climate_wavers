@@ -34,7 +34,7 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
         data.image = data.image[0];
       }
       data.post = postId;
-     if (parentId) data.parent_comment = parentId;
+      if (parentId) data.parent_comment = parentId;
       await axios
         .post(`${backendUrl}/api/v1/comments/`, data, {
           headers,
@@ -73,17 +73,18 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
         onSubmit={handleSubmit(onSubmit)}
         className=" p-3 md:p-6 rounded-md d flex  w-[100%] max-md:w-[80vw] flex-col h-[100%]"
       >
-        <div className=" flex justify-between gap-4 ">
+        <div className=" flex justify-start gap-4 ">
           {/* <Accountcard user={user} /> */}
           <img src={user.profile_pic} alt="" className="w-10 h-10" />
+
+          <textarea
+            type="text"
+            placeholder="What's your comment"
+            className=" mb-3 text-inherit bg-inherit outline-0"
+            {...register("content", { required: true })}
+          />
         </div>
 
-        <textarea
-          type="text"
-          placeholder="What's your comment"
-          className=" p-8 pt-3 mb-3 text-inherit bg-inherit outline-0"
-          {...register("content", { required: true })}
-        />
         {imagePreview && (
           <div className="mb-3">
             <img
@@ -93,7 +94,7 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
             />
           </div>
         )}
-        <div className=" flex justify-between items-center ">
+        <div className=" flex justify-between items-start ">
           <label htmlFor="image">
             <MdOutlinePhotoCamera size={22} color={"#008080"} />
           </label>
@@ -107,7 +108,7 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
           />
 
           <button
-            className="px-10 py-1 mx-1 bg-[#008080] text-white rounded-full cursor-pointer z-10"
+            className="px-10 h-[40px] mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
             type="submit"
           >
             Post

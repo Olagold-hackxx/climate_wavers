@@ -7,9 +7,8 @@ const Community = () => {
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
-      <div className=" text-lg md:text-xl border-gray-200 h-[60px] border-2 font-semibold  ">
-      <div>
-        <div className="text-black flex flex-row px-2  justify-between h-[100%] content-start text-base gap-8 ">
+      <div className=" text-lg md:text-xl border-gray-200 rounded-md h-[50px] border-2 font-bold  ">
+        <div className="text-black font-bold text-xl grid grid-cols-4 px-2 justify-between content-end h-[100%] text-base gap-8 ">
           <div
             className={`cursor-pointer ${
               category === "reports" ? "border-b-[2px] border-[#008080]" : null
@@ -18,7 +17,7 @@ const Community = () => {
               setCategory("reports");
             }}
           >
-            Reports
+            Feeds
           </div>
           <div
             className={`cursor-pointer ${
@@ -30,7 +29,7 @@ const Community = () => {
               setCategory("education");
             }}
           >
-            Feeds
+            Reports
           </div>
           <div
             className={`cursor-pointer ${
@@ -58,7 +57,6 @@ const Community = () => {
           </div>
         </div>
         </div>
-      </div>
       {/* <div className='pb-1 md:pb-3 text-lg md:text-xl border-b-2 font-semibold'/> */}
       <Postcomponent category="community" />
     </div>

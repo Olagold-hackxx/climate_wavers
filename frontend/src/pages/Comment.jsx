@@ -10,12 +10,14 @@ const Comment = ({ type }) => {
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
-      <CommentPost type="post" postId={postId} />
-      <div className=" border-1 rounded-lg shadow-md shadow-[#008080] h-44 w-full mt-[-10px]">
+      <CommentPost type={type} postId={postId} />
+      <div className=" border-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 mt-[-10px] ">
         <Createcomment showCategory={false}/>
       </div>
-    
+      <div className="ml-8">
+
       <Postcomponent type={type} postId={postId} />
+      </div>
     </div>
   );
 };

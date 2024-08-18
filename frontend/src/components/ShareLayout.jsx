@@ -15,7 +15,7 @@ const SharedLayout = () => {
         <Leftsidebar />
         </div>
         {/* <Mainfeed/> */}
-        <div className="max-h-screen overflow-auto w-[55%]">
+        <div className="max-h-screen overflow-auto w-[60%] px-8">
           <Outlet />
         </div>
         <div className="w-[20%]">

@@ -123,8 +123,6 @@ class Post(models.Model):
             return self.audio.url
         return None
 
-    def __str__(self):
-        return self.title
 
 
 class Poll(models.Model):
@@ -250,6 +248,13 @@ class Repost(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="reposts", null=True, blank=True
     )
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name="reposts",
+        null=True,
+        blank=True,
+    )
     poll = models.ForeignKey(
         Poll, on_delete=models.CASCADE, related_name="reposts", null=True, blank=True
     )
@@ -276,6 +281,7 @@ class View(models.Model):
         Poll, on_delete=models.CASCADE, related_name="views", null=True, blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    
 
     class Meta:
         indexes = [
@@ -312,6 +318,13 @@ class Follow(models.Model):
 class Bookmark(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name="bookmarks", on_delete=models.CASCADE)
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name="bookmarks",
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

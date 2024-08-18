@@ -23,7 +23,7 @@ const Topbar = () => {
         <img src="../../Logo.png" />
       </div>
       <div className='md:pl-6 '>
-            <input className='bg-graylight-300 h-[60px]  p-1 md:p-2 w-[50vw] outline-[2px] w-[90%] border border-[#dadada] focus:border-2 focus:outline-2 focus:outline-gray-500 border-graydark rounded-2xl text-graydark ' type="text" placeholder='🔍 Search' />
+            <input className='bg-graylight-300 h-[60px]  p-1 md:p-2 w-[50vw] outline-[2px]  border border-[#dadada] focus:border-2 focus:outline-2 focus:outline-gray-500 border-graydark rounded-2xl text-graydark ' type="text" placeholder='🔍 Search' />
         </div>
       {/* </div> */}
       <div className="flex flex- items-center my-7 p-8 self-center text-gray-700 px-8">

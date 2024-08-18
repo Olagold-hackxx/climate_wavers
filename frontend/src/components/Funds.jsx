@@ -41,7 +41,7 @@ const Funds = () => {
       {!isConnected && <Wallet />}
 
       <h2 className="text-[25px] font-[700] my-4">Donation History</h2>
-      <section className="bg-gradient-to-r from-[#340178] to-[#450F67] via-[#4C0D74] rounded-lg py-2 px-6 mb-8">
+      <section className="bg-[#008080] rounded-lg py-2 px-6 mb-8">
         <h3 className="text-[21px] my-4 font-[700]">Beneficiaries</h3>
         <div className="flex">
           {dataInfo.map((info) => (
@@ -56,7 +56,7 @@ const Funds = () => {
           ))}
         </div>
       </section>
-      <section className="bg-gradient-to-r from-[#340178] to-[#450F67] via-[#4C0D74] rounded-lg py-2 px-6">
+      <section className="bg-[#008080] rounded-lg py-2 px-6">
         <h3 className="text-[21px] my-4 font-[700]">Recent Transactions</h3>
         <table className="w-[100%]">
           <thead>

@@ -115,7 +115,7 @@ const Menu = () => {
         </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-12"
-          to={""}
+          to={"/settings"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <img src="../../setting.png" className="mr-4 w-auto" />
