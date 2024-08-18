@@ -1,13 +1,9 @@
 const config = require("../config/config")
+const firebaseService = require("../services/firebase.service")
+const aiConfig = require('../config/ai.config')
 
-function cleanText(input) {
-    // Remove unnecessary asterisks
-    let cleanedText = input.replace(/\*\*/g, '');
-    cleanedText = cleanedText.replace(/^\s*\*\s*/gm, '');
-    return cleanedText;
-}
 
-async function getLocation(ip){
+exports.getLocationasync  = async function(ip){
     try{
         const response = await axios.get(`${config.ipInfo.url}/${ip}/?token=${config.ipInfo.token}`)
             return response.data 
@@ -17,25 +13,16 @@ async function getLocation(ip){
     }
 }
 
-function cleanUndefined(obj){
-    if (obj && typeof obj === 'object') {
-        const clone = Array.isArray(obj) ? [...obj] : { ...obj };
-
-        Object.keys(clone).forEach((key) => {
-            if (clone[key] === undefined) {
-                delete clone[key];
-            } else if (typeof clone[key] === 'object') {
-                clone[key] = cleanUndefined(clone[key]);
-                if (typeof clone[key] === 'object' && Object.keys(clone[key]).length === 0) {
-                    delete clone[key]; 
-                }
-            }
-        });
-        return clone;
-    }
-
-    return obj;
+exports.formatConversation = async function(chatId, limit=5){
+    if(!chatId)return 
+    const path = `ChatMessages/${chatId}/messages`
+    let conversation = ""
+    const {docs: messageDocs} = await firebaseService.getAll(path, {chatId})
+    const messages = messageDocs.map(d=>({...d.data(), remoteId: d.id, id: d.id})).sort((a,b)=>a.postedAt-b.postedAt)
+    if(!messages?.length)return
+    for(let i = messages.length >= 6? messages.length - 6: 0; i < messages.length; i++){
+        const messageObj = messages[i]
+        conversation += `${messageObj.postedBy == aiConfig.id? aiConfig.username: "User"}: ${messageObj.body} \n`
+    }   
+    return conversation
 }
-
-
-module.exports = {cleanText, getLocation, cleanUndefined}

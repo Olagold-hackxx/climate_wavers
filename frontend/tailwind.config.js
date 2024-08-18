@@ -10,8 +10,10 @@ export default {
           "radial-gradient(circle, rgba(63,94,251,0.8636642156862745) 17%, rgba(210,70,252,0.4042804621848739) 100%);",
         linear:
           "linear-gradient(90deg, rgba(26,41,116,1) 17%, rgba(95,22,117,1) 100%);",
+        // bgGradient:
+        //   "linear-gradient(175deg, rgba(34,5,81,1) 17%, rgba(15,2,25,1) 100%)",
         bgGradient:
-          "linear-gradient(175deg, rgba(34,5,81,1) 17%, rgba(15,2,25,1) 100%)",
+           "#ffffff"
       },
     },
   },
