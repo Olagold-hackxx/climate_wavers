@@ -23,8 +23,8 @@ export const configWeb3Modal = () => createWeb3Modal({
   projectId: import.meta.env.VITE_PROJECT_ID,
   enableAnalytics: false,
   themeVariables: {
-    '--w3m-accent': '#1a2974',
-    '--wcm-accent-fill-color': '#1a2974',
+    '--w3m-accent': '#008080',
+    '--wcm-accent-fill-color': '#008080',
     '--w3m-border-radius-master': '10'
   }
 })
