@@ -18,7 +18,6 @@ class FB{
  */
     async createOne(collectionName, data){
         let cleaned = cleanUndefined(data)
-        console.log({cleaned})
         return addDoc(collection(this.db, collectionName), cleaned)
     }
 

@@ -4,7 +4,7 @@ import Chatcomponent from "../../components/Chatcomponent";
 import "../styles/disax.css";
 import { getUser } from "../../utils/factory";
 import axios from "axios";
-import { watchCollection} from "../../services/firebase.service";
+import { watchCollection, watchDocument} from "../../services/firebase.service";
 import WaverxLeftBar from "./LeftSideBar";
 import ChatsListCard from "../../components/ChatsListCard";
 
@@ -30,6 +30,7 @@ const WaverXChatPage = () => {
         const sorted = data.sort((a, b) => a.postedAt - b.postedAt);
         setMessages(sorted);
       });
+      
     }
   }, [current, ]);
 
@@ -41,8 +42,15 @@ const WaverXChatPage = () => {
   }
 
   function handleChatCardClicked(id) {
-    
     setCurrent(id);
+    const path = `chats/${id}`
+    watchDocument(path, async function(data){
+      const chat = data.data()
+      const chatsMock = [...chats]
+      const chatIndex = chats.findIndex(c=>c.id=chat.id)
+      chatsMock[chatIndex] = chat
+      setChats(chatsMock)
+    })
   }
 
   async function handleCreateChat() {
@@ -72,7 +80,7 @@ const WaverXChatPage = () => {
         <div className="chats-list">
             {
               chats.map(c=>{
-                return <ChatsListCard handleClick={handleChatCardClicked} id={c.id} createdAt={c.createdAt} key={c.remoteId} />
+                return <ChatsListCard isCurrent={c.id == current} title={c.title} handleClick={handleChatCardClicked} id={c.id} createdAt={c.createdAt} key={c.remoteId} />
               })
             }
         </div>

@@ -62,7 +62,7 @@ const Chatcomponent = ({ messages, handlePostMessage, current }) => {
           color="#008080"
           type="submit"
         />
-      </div>: <div className="p-2" >
+      </div>: <div className="chat-input-null" >
           <p>select a chat to continue conversation or create a new one</p>
         </div>}
     </div>

@@ -10,7 +10,7 @@ export default function WaverxLeftBar({ handleCreateChat,  }) {
 
 
   return (
-    <div style={{border: "1px solid red"}} >
+    <div >
       <div className="flex items-center justify-between bg-white px-4 py-4 shadow-xs  border-b-2 border-gray-300">
         <div>
           <GoSidebarExpand size={32}  color={"#008080"}/>

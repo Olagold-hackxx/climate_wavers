@@ -15,9 +15,9 @@ const postMessage = catchAsyncErrors(async(req, res)=>{
     if(!chat?.id)return res.status(404).json({message: "chat not found"})
     const responseObj = await chatService.generateResponse(req.body.userId, req.params.id, req.body.body)
     const messages = await chatService.getMessages(chat.id)
-    if(messages.length == 2 || messages.length % 6 == 0){
+    // if(messages.length == 2 || messages.length % 6 == 0){
         sendToQueue(queues.generate_chat_title, {chatId: chat.id})
-    }
+    // }
     return res.status(201).json(responseObj)
 })
 
