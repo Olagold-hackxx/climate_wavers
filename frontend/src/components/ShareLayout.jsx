@@ -7,7 +7,7 @@ const SharedLayout = () => {
   return (
     //bg-gradient-to-r from-slate-900 to-slate-700
     <div className=" bg-white text-[#111111] min-h-screen">
-      <div className=" block md:hidden ">
+      <div className=" block ">
         <Topbar />
       </div>
       <div className="flex justify-between min-h-screen">

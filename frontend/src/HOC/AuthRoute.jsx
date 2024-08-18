@@ -4,7 +4,7 @@
 import PropTypes from "prop-types"
 
 const AuthRoute = ({ element: Component }) => {
-  // const isAuthenticated =  !!Cookies.get("token");
+  // const isAuthenticated =  !!Cookies.get("accessToken");
 
   // return isAuthenticated ? Component : <Navigate to="/login" />;
   return Component

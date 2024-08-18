@@ -1,11 +1,12 @@
 import Postcomponent from "./Postcomponent";
 import { useQuery } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { getAuthToken } from "../utils/factory";
+import Cookies from "js-cookie";
 
 const Mainfeed = () => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = Cookies.get("accessToken");
+  const accessToken = getAuthToken();
 
   const headers = {
     "Content-Type": "application/json",

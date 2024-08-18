@@ -10,21 +10,19 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import Wallet from "./Wallet";
 import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
 import Donate from "./Donate";
 import IncidentIntegration from "./IncidentIntegration";
-import { useWeb3ModalAccount } from "@web3modal/ethers/react";
+import { getAuthToken } from "../utils/factory";
 
-const Postcomponent = ({  type = "post", postId = "" }) => {
+const Postcomponent = ({ type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = Cookies.get("token");
+  const accessToken = getAuthToken();
   const navigate = useNavigate();
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
-  const { isConnected } = useWeb3ModalAccount();
 
   const queryClient = useQueryClient();
 
@@ -36,8 +34,10 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
 
   let url = `${BACKENDURL}/api/v1/${type}/`;
 
-  if (type !== "post") {
-    url = `${BACKENDURL}/api/v1/${type}/?post=${postId}`;
+  if (postId && type === "comments") {
+    url = `${url}?post=${postId}`;
+  } else if (postId && type === "subcomments") {
+    url = `${BACKENDURL}/api/v1/comments/?parent=${postId}`;
   }
 
   const fetchPosts = async () => {
@@ -53,55 +53,53 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
     isLoading: postsLoading,
     error,
   } = useQuery({
-    queryKey: ["posts"],
+    queryKey: [`${type}`],
     queryFn: fetchPosts,
   });
 
   const likeMutation = useMutation({
-    mutationFn: (postId) =>
-      axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "like" },
-        { headers, withCredentials: true }
-      ),
+    mutationFn: (post) => {
+      axios.post(`${BACKENDURL}/api/v1/post/${post}/react/`,{}, {
+        headers,
+        withCredentials: true,
+      });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries([`${type}`]);
     },
   });
 
   const unlikeMutation = useMutation({
-    mutationFn: (postId) =>
-      axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "like", like: false },
+    mutationFn: (post) =>
+      axios.post(
+        `${BACKENDURL}/api/v1/post/${post}/unreact/`,
+        {},
         { headers, withCredentials: true }
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries([`${type}`]);
     },
   });
 
   const saveMutation = useMutation({
-    mutationFn: (postId) =>
-      axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "save" },
+    mutationFn: (post) =>
+      axios.post(
+        `${BACKENDURL}/api/v1/post/${post}/bookmark/`,{},
         { headers, withCredentials: true }
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries([`${type}`]);
     },
   });
 
   const unsaveMutation = useMutation({
-    mutationFn: (postId) =>
-      axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "save", save: false },
-        { headers, withCredentials: true }
-      ),
+    mutationFn: (post) =>
+      axios.post(`${BACKENDURL}/api/v1/post/${post}/unbookmark/`, {}, {
+        headers,
+        withCredentials: true,
+      }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries([`${type}`]);
     },
   });
 
@@ -112,8 +110,8 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
   // };
 
   const commentPage = (post) => {
-    if (type === "subcomment") {
-      navigate(`/post/${post.id}/subcomments`, {
+    if (type === "comments") {
+      navigate(`/post/${post.id}/comments`, {
         state: { post: post },
       });
     } else {
@@ -139,7 +137,6 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
 
   return (
     <div className="py-3">
-      {!isConnected && <Wallet />}
       {posts?.map((post) => (
         <div key={post.id} className="border-b-[1px] border-gray-700 py-4">
           {isCommentModalOpen && (
@@ -172,18 +169,18 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
             <div
               className="flex flex-row items-center px-3 mt-2"
               onClick={() => {
-                post.is_liked
+                post.is_reacted
                   ? unlikeMutation.mutate(post.id)
                   : likeMutation.mutate(post.id);
               }}
             >
-              <AiFillHeart size={18} color={post.is_liked ? "#FF0000" : ""} />
-              <p className="text-xs ml-1 ">{post.likers_count}</p>
+              <AiFillHeart size={18} color={post.is_reacted ? "#FF0000" : ""} />
+              <p className="text-xs ml-1 ">{post.reaction_count}</p>
             </div>
             <Link onClick={() => setIsDonateModalOpen(true)}>
               <div className="flex flex-row items-center px-3 mt-2">
                 <FaDonate size={18} />
-                <p className="text-xs ml-1 ">{post.comments_count}</p>
+                <p className="text-xs ml-1 ">{post.repost_count}</p>
               </div>
             </Link>
             <Link onClick={() => setIsCommentModalOpen(true)}>
@@ -192,22 +189,22 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
                 onClick={() => setIsCommentModalOpen(true)}
               >
                 <IoChatboxEllipses size={18} />
-                <p className="text-xs ml-1 ">{post.comments_count}</p>
+                <p className="text-xs ml-1 ">{post.comment_count}</p>
               </div>
             </Link>
             <div
               className="flex flex-row items-center  px-3 mt-2"
               onClick={() => {
-                post.is_saved
+                post.is_bookmarked
                   ? unsaveMutation.mutate(post.id)
                   : saveMutation.mutate(post.id);
               }}
             >
               <PiBookmarkFill
                 size={18}
-                color={post.is_saved ? "rgb(0 128 128 / 1)" : ""}
+                color={post.is_bookmarked ? "rgb(0 128 128 / 1)" : ""}
               />
-              <p className="text-xs ml-1 ">{post.savers_count}</p>
+              <p className="text-xs ml-1 ">{post.bookmark_count}</p>
             </div>
             <div className="flex flex-row items-center  ">
               <IncidentIntegration />
@@ -220,7 +217,6 @@ const Postcomponent = ({  type = "post", postId = "" }) => {
 };
 
 Postcomponent.propTypes = {
-  category: PropTypes.string,
   type: PropTypes.string,
   postId: PropTypes.string,
 };

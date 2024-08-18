@@ -34,9 +34,9 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
         data.image = data.image[0];
       }
       data.post = postId;
-      data.parent_comment = parentId ? parentId : "";
+     if (parentId) data.parent_comment = parentId;
       await axios
-        .post(`${backendUrl}/api/v1/comment/`, data, {
+        .post(`${backendUrl}/api/v1/comments/`, data, {
           headers,
           withCredentials: true,
         })

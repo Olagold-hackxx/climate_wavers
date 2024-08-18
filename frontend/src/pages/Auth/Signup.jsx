@@ -43,14 +43,12 @@ const Signup = () => {
 
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     // Send data to API if needed
     const signupFn = async () => {
       toast.dismiss();
-      toast.info("Signing Up...", {
-        autoClose: 1500
-      });
+      toast.info("Signing Up...");
       await axios
         .post(`${backendUrl}/api/v1/auth/register/`, data)
         .then(() => {
@@ -69,7 +67,7 @@ const Signup = () => {
           toast.error("An Error occured 🤯",);
         });
     };
-    signupFn()
+   await signupFn()
   };
 
   return (

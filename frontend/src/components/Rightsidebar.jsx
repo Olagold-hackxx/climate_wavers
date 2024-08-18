@@ -9,7 +9,9 @@ const Rightsidebar = () => {
             <input className='bg-white bg-opacity-25 p-1 md:p-2 outline-[1px] w-[90%] border border-[#dadada] focus:border-none focus:outline-none border-graydark rounded-full text-graydark ' type="text" placeholder='🔍Search' />
         </div>
         <Communityselector />
+        <div className="mt-[30%]">
         <Popularaccounts />
+        </div>
     </div>
   )
 }

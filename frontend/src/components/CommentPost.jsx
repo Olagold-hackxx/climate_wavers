@@ -9,19 +9,16 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import Wallet from "./Wallet";
 import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
 import IncidentIntegration from "./IncidentIntegration";
-import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 import { getAuthToken } from "../utils/factory";
 
-const CommentPost = ({ postId = "" }) => {
+const CommentPost = ({ type="post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
   const [isModalOpen, setIsModalopen] = useState(false);
-  const { isConnected } = useWeb3ModalAccount();
 
   const queryClient = useQueryClient();
 
@@ -31,8 +28,12 @@ const CommentPost = ({ postId = "" }) => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  let url = `${BACKENDURL}/api/v1/comment/${postId}/`;
-
+  let url;
+  if (postId && type === "comments") {
+    url = `${BACKENDURL}/api/v1/post/${postId}`;
+  } else if (postId && type === "subcomments") {
+    url = `${BACKENDURL}/api/v1/comments/${postId}`;
+  }
   const fetchPosts = async () => {
     const res = await axios.get(url, {
       headers: headers,
@@ -114,7 +115,6 @@ const CommentPost = ({ postId = "" }) => {
 
   return (
     <div className="py-3">
-      {!isConnected && <Wallet />}
       <div className="border-b-[1px] border-gray-700 py-4">
         <Accountcard user={post?.user} />
         <div>
@@ -171,9 +171,10 @@ const CommentPost = ({ postId = "" }) => {
       </div>
       {isModalOpen && (
         <Modal closeFn={() => setIsModalopen(false)}>
-          <Createcomment />
+          <Createcomment postId={postId} parentId={post.id}  closeModal={() => setIsModalopen(false)} />
         </Modal>
       )}
+
     </div>
   );
 };

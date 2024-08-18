@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SharedLayout from "./components/ShareLayout";
 import Mainfeed from "./components/Mainfeed";
 import Community from "./components/Community";
-import Education from "./components/Education";
 import Happeningnow from "./components/Happeningnow";
 import DisaX from "./components/DisaX";
 import Profile from "./components/Profile";
@@ -50,26 +49,25 @@ function App() {
               element={<AuthRoute element={<Community />} />}
             />
             <Route
-              path="/education"
-              element={<AuthRoute element={<Education />} />}
+              path="/bookmark"
+              element={<AuthRoute element={<Community />} />}
             />
             <Route
               path="/happeningnow"
               element={<AuthRoute element={<Happeningnow />} />}
             />
-            <Route path="/disaX" element={<AuthRoute element={<DisaX />} />} />
-            <Route path="/funds" element={<AuthRoute element={<Funds />} />} />
+            <Route path="/wallet" element={<AuthRoute element={<Funds />} />} />
             <Route
               path="/profile"
               element={<AuthRoute element={<Profile />} />}
             />
             <Route
               path="/:postId/comments"
-              element={<AuthRoute element={<Comment type="comment" />} />}
+              element={<AuthRoute element={<Comment type="comments" />} />}
             />
             <Route
-              path="/post/:postId/subcomments"
-              element={<AuthRoute element={<Comment type="subcomment" />} />}
+              path="/post/:postId/comments"
+              element={<AuthRoute element={<Comment type="subcomments" />} />}
             />
             <Route
               path="/createpost"
