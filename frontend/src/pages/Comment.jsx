@@ -7,6 +7,7 @@ import Createcomment from "../components/Createcomment";
 
 const Comment = ({ type }) => {
   const { postId } = useParams();
+  console.log({postId, type})
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">

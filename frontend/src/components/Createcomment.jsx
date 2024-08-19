@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { MdOutlinePhotoCamera } from "react-icons/md";
 import { getUser, getAuthToken } from "../utils/factory";
 
 const Createcomment = ({ postId, parentId, closeModal }) => {
@@ -73,46 +72,69 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
         onSubmit={handleSubmit(onSubmit)}
         className=" p-3 md:p-6 rounded-md d flex  w-[100%] max-md:w-[80vw] flex-col h-[100%]"
       >
-        <div className=" flex justify-start gap-4 ">
-          {/* <Accountcard user={user} /> */}
-          <img src={user.profile_pic} alt="" className="w-10 h-10" />
+        <div className=" flex justify-between gap-4">
+          <div className=" flex justify-start gap-4 ">
+            {/* <Accountcard user={user} /> */}
+            <img src={user.profile_pic} alt="" className="w-10 h-10" />
 
-          <textarea
-            type="text"
-            placeholder="What's your comment"
-            className=" mb-3 text-inherit bg-inherit outline-0"
-            {...register("content", { required: true })}
-          />
-        </div>
-
-        {imagePreview && (
-          <div className="mb-3">
-            <img
-              src={imagePreview}
-              alt="Image Preview"
-              className="w-full h-auto rounded"
+            <textarea
+              type="text"
+              placeholder="What's on your mind"
+              className=" mb-3 text-inherit bg-inherit outline-0"
+              {...register("content", { required: true })}
             />
           </div>
-        )}
-        <div className=" flex justify-between items-start ">
-          <label htmlFor="image">
-            <MdOutlinePhotoCamera size={22} color={"#008080"} />
-          </label>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            className="p-0 mb-1 hidden border rounded focus:border-green focus:outline-none"
-            {...register("image", { required: false })}
-            onChange={handleImageChange}
-          />
+
+          {imagePreview && (
+            <div className="mb-3">
+              <img
+                src={imagePreview}
+                alt="Image Preview"
+                className="w-full h-auto rounded-md"
+              />
+            </div>
+          )}
 
           <button
-            className="px-10 h-[40px] mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
+            className="px-10 h-[50px] mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
             type="submit"
           >
             Post
           </button>
+        </div>
+        <div className=" flex justify-start gap-x-4 items-start ">
+          <label htmlFor="image">
+            <img
+              src="../../img_user_rectangle_5.svg"
+              alt="User"
+              className="h-[24px] ml-2 w-[24px]"
+            />
+          </label>
+
+          <img
+            src="../../img_thumbs_up_rectangle_5.svg"
+            alt="Thumbsup"
+            className="h-[24px] w-[24px]"
+          />
+          <img
+            src="../../img_emoji_normal.svg"
+            alt="Emojinormal"
+            className="h-[24px] w-[24px]"
+          />
+          <img
+            src="../../img_linkedin.svg"
+            alt="Linkedin"
+            className="h-[24px] w-[24px]"
+          />
+
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            className="p-0  hidden border rounded focus:border-green focus:outline-none"
+            {...register("image", { required: false })}
+            onChange={handleImageChange}
+          />
         </div>
       </form>
     </>

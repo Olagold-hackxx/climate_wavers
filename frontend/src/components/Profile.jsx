@@ -76,18 +76,18 @@ const Profile = () => {
       </div>
       </div>
       <div>
-        <div className="flex flex-col ml-3 mt-3 ">
-          <h2 className="text-center ml-4 text-lg md:text-xl font-semibold flex flex-row items-center  ">
+        <div className="flex flex-col mt-3 ">
+          <h2 className="text-center  text-2xl font-semibold flex flex-row items-center  ">
             {profile?.first_name} {profile?.last_name}
           </h2>
-          <h2 className=" text-center ml-4 text-sm md:text-md font-semibold flex flex-row items-center text-gray-500 ">
+          <h2 className=" text-center text-sm font-semibold flex flex-row items-center text-gray-500 ">
             @{profile?.username}
           </h2>
         </div>
         <p className=" font-normal text-left ml-2 text-base my-2 ">
           {profile?.bio}
         </p>
-        <div className="font-normal text-left white  ml-2 text-base my-4 flex flex-row items-center gap-5   ">
+        <div className="font-normal text-left text-xl white text-base my-4 flex flex-row items-center gap-5   ">
           <p className="flex flex-row items-center gap-1 ">
             <FiMapPin size={17} />
             {profile.country}
@@ -98,8 +98,8 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      <div className=" text-lg mt-8 md:text-xl border-gray-200 h-[60px] py-4 border-2 font-semibold  ">
-        <div className="text-black flex flex-row px-3 justify-between text-base gap-8 border-0 border-gray-500 ">
+      <div className=" text-lg mt-8 md:text-xl border-gray-200 h-[60px] py-4 border-2 ">
+        <div className="text-black flex flex-row px-3 justify-between text-base gap-8 font-bold border-0 border-gray-500 ">
           <h2
             className={`cursor-pointer ${
               category === "posts" ? "border-b-[2px] border-[#008080]" : null
@@ -136,7 +136,7 @@ const Profile = () => {
             </h2>
             <h2
             className={`cursor-pointer ${
-              category === "donationsy"
+              category === "donation"
                 ? "border-b-[2px] border-[#008080]"
                 : null
             } `}
@@ -147,7 +147,7 @@ const Profile = () => {
             Donations
           </h2>
         </div>
-        <Postcomponent category={category} />
+        <Postcomponent type={"post"} />
       </div>
     </div>
   );

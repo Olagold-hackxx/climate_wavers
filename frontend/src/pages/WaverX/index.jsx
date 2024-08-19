@@ -55,7 +55,7 @@ const WaverXChatPage = () => {
   }
 
   async function handleCreateChat() {
-    const userId = getUser()?.id;
+    const userId = String(getUser()?.id);
     const res = await axios.post(`${chatbot}/chats`, { userId });
     if (res.data) {
       setChats([res.data, ...chats]);
@@ -68,7 +68,7 @@ const WaverXChatPage = () => {
     if (!body) return;
     try {
       const url = `${chatbot}/chats/${current}`;
-      await axios.post(url, { body, userId: getUser()?.id });
+      await axios.post(url, { body, userId: String(getUser()?.id) });
     } catch (err) {
       console.log({ err });
     }

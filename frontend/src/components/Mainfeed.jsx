@@ -40,7 +40,7 @@ const Mainfeed = () => {
       <div className="text-black font-bold text-xl grid grid-cols-4 px-2 justify-between content-end h-[100%] text-base gap-8 ">
       <div
             className={`cursor-pointer ${
-              category === "reports" ? "border-b-[2px] border-[#008080]" : null
+              category === "reports" ? "border-b-4 border-[#008080]" : null
             } `}
             onClick={() => {
               setCategory("reports");
@@ -51,7 +51,7 @@ const Mainfeed = () => {
           <div
             className={`cursor-pointer ${
               category === "education"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-b-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -63,7 +63,7 @@ const Mainfeed = () => {
           <div
             className={`cursor-pointer ${
               category === "community"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-b-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -75,7 +75,7 @@ const Mainfeed = () => {
           <div
             className={`cursor-pointer ${
               category === "trending"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -86,10 +86,10 @@ const Mainfeed = () => {
           </div>
         </div>
         </div>
-      <div className=" border-2  rounded-lg shadow-3xl h-[150px] my-4 shadow-white ">
+      <div className=" border-2  rounded-lg shadow-3xl h-[140px] my-4 shadow-white ">
         < Createcomment />
 </div>
-      <Postcomponent />
+      <Postcomponent type={"post"}/>
     </div>
   );
 };

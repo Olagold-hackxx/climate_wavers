@@ -14,7 +14,7 @@ import Createcomment from "./Createcomment";
 import IncidentIntegration from "./IncidentIntegration";
 import { getAuthToken } from "../utils/factory";
 
-const CommentPost = ({ type="post", postId = "" }) => {
+const CommentPost = ({ type, postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
   const [isModalOpen, setIsModalopen] = useState(false);
@@ -29,9 +29,9 @@ const CommentPost = ({ type="post", postId = "" }) => {
 
   let url;
   if (postId && type === "comments") {
-    url = `${BACKENDURL}/api/v1/post/${postId}`;
+    url = `${BACKENDURL}/api/v1/post/${postId}/`;
   } else if (postId && type === "subcomments") {
-    url = `${BACKENDURL}/api/v1/comments/${postId}`;
+    url = `${BACKENDURL}/api/v1/comments/${postId}/`;
   }
   const fetchPosts = async () => {
     const res = await axios.get(url, {
@@ -117,9 +117,9 @@ const CommentPost = ({ type="post", postId = "" }) => {
       <div className="border-b-[1px] border-gray-100 py-4">
         <Accountcard user={post?.user} />
         <div>
-          <p className="text-left text-sm px-3 my-3 ">{post?.content}</p>
+          <p className="text-left  font-serif text-2xl px-3 my-3 ">{post?.content}</p>
           <img
-            className="w-[80%] px-3 rounded-3xl "
+            className="w-[100%] px-3 rounded-3xl "
             src={post?.image ? post.image : ""}
             alt=""
           />
@@ -146,7 +146,7 @@ const CommentPost = ({ type="post", postId = "" }) => {
             <p className="text-xs ml-1 ">{post?.reaction_count}</p>
           </div>
           <div className="flex flex-row items-center px-3 mt-2">
-            <AiOutlineRetweet size={18} />
+            <AiOutlineRetweet size={25} />
             <p className="text-xs ml-1 ">{post?.repost_count}</p>
           </div>
          

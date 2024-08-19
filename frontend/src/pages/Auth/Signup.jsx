@@ -19,6 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
 const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
+import "../styles/signup-page.css";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -71,22 +72,21 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-auto flex">
-      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
+    <div className="h-auto signup flex">
+      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center banner ">
         <div className="self-center">
         <div className="writeup">
             <h2>Join Climate Wavers</h2>
             <p>
-              Connect on our AI-driven social network for effectiive climate disaster
-              responses, donate to relief efforts, and together we plant
-              trees around the world. Be part of the solution — Sign up Now!
+              Connect on our AI-driven social network for effective climate disaster
+              responses, donate to relief efforts, and together we protect the world. <br /> Be part of the solution — Sign up Now!
             </p>
-            </div>
+          </div>
           <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
       <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
-        <div className="lg:w-[75%] md:w-[100%] px-12">
+        <div className="lg:w-[75%] self-center mb-12 md:w-[100%] px-12">
           <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
             Sign Up
           </h1>

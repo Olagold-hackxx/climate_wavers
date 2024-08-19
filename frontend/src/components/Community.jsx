@@ -8,10 +8,10 @@ const Community = () => {
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
       <div className=" text-lg md:text-xl border-gray-200 rounded-md h-[50px] border-2 font-bold  ">
-        <div className="text-black font-bold text-xl grid grid-cols-4 px-2 justify-between content-end h-[100%] text-base gap-8 ">
+        <div className="text-black font-bold text-xl grid grid-cols-4 px-2 py-2 justify-between content-end h-[100%] text-base gap-8 ">
           <div
             className={`cursor-pointer ${
-              category === "reports" ? "border-b-[2px] border-[#008080]" : null
+              category === "reports" ? "border-b-4 border-[#008080]" : null
             } `}
             onClick={() => {
               setCategory("reports");
@@ -22,7 +22,7 @@ const Community = () => {
           <div
             className={`cursor-pointer ${
               category === "education"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-b-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -34,7 +34,7 @@ const Community = () => {
           <div
             className={`cursor-pointer ${
               category === "community"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-b-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -46,7 +46,7 @@ const Community = () => {
           <div
             className={`cursor-pointer ${
               category === "trending"
-                ? "border-b-[2px] border-[#008080]"
+                ? "border-b-4 border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -58,7 +58,7 @@ const Community = () => {
         </div>
         </div>
       {/* <div className='pb-1 md:pb-3 text-lg md:text-xl border-b-2 font-semibold'/> */}
-      <Postcomponent category="community" />
+      <Postcomponent type={"post"} />
     </div>
   );
 };

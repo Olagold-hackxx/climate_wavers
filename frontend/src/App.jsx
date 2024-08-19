@@ -3,7 +3,6 @@ import SharedLayout from "./components/ShareLayout";
 import Mainfeed from "./components/Mainfeed";
 import Community from "./components/Community";
 import Happeningnow from "./components/Happeningnow";
-import DisaX from "./components/DisaX";
 import Profile from "./components/Profile";
 import Comment from "./pages/Comment";
 import Createpost from "./components/Createpost";
@@ -63,11 +62,11 @@ function App() {
             />
             <Route
               path="/:postId/comments"
-              element={<AuthRoute element={<Comment type="comments" />} />}
+              element={<AuthRoute element={<Comment type={"comments"} />} />}
             />
             <Route
               path="/post/:postId/comments"
-              element={<AuthRoute element={<Comment type="subcomments" />} />}
+              element={<AuthRoute element={<Comment type={"subcomments"} />} />}
             />
             <Route
               path="/createpost"

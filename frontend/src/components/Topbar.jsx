@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import Mobilemenu from "./Mobilemenu";
-// import { getUser } from "../utils/factory";
+import { getUser } from "../utils/factory";
 
-//made this changes just to get by to integrate the chatbot
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const user = getUser()
-  const user = {first_name: "Abdul"}
+  const user = getUser()
 
 
 

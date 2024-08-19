@@ -9,7 +9,7 @@ const Mobilemenu = ({ setIsOpen }) => {
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="relative top-0 left-0 h-[100vh]  w-[100%] border-r-[1px] border-gray-700"
+        className="relative top-0 left-0 h-[100vh]  w-[100%] border-r-[1px] border-gray-200"
       >
         <span
           className="absolute top-2 right-2 hover:cursor-pointer "

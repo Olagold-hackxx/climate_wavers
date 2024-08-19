@@ -8,6 +8,7 @@ const Accountcard = ({ user }) => {
   const [isFollow, setIsFollow] = useState(false);
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
+  // const me = getUser()
 
   const headers = {
     "Content-Type": "application/json",
@@ -64,11 +65,11 @@ const Accountcard = ({ user }) => {
           className="mr-2 rounded-full h-12"
           alt="Profile Pic"
         />{" "}
-        <div className="text-sm flex flex-col">
+        <div className="text-lg font-bold flex flex-col">
           <h3>
             {user?.first_name} {user?.last_name}
           </h3>
-          <p className="text-xs text-left text-gray-500">@{user?.username}</p>
+          <p className="text-md text-left text-gray-500">@{user?.username}</p>
         </div>
       </div>
       <button
@@ -77,7 +78,7 @@ const Accountcard = ({ user }) => {
           handleFollow(user?.id);
         }}
         // style={followStyle}
-        className={`bg-black text-xs text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
+        className={`bg-black text-sm text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
           isFollow &&
           "bg-stone-100 outline outline-2 outline-stone-500 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
         } `}
