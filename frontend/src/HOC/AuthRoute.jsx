@@ -1,13 +1,12 @@
 // AuthRoute.js
-import { Navigate } from 'react-router-dom';
 import Cookies from "js-cookie";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import { Signin } from "../pages/Auth";
 
 const AuthRoute = ({ element: Component }) => {
-  const isAuthenticated =  !!Cookies.get("accessToken");
+  const isAuthenticated = !!Cookies.get("accessToken");
 
-  return isAuthenticated ? Component : <Navigate to="/login" />;
-
+  return isAuthenticated ? Component : <Signin />;
 };
 
 AuthRoute.propTypes = {
