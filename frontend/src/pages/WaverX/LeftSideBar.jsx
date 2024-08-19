@@ -1,10 +1,13 @@
 import { GoSidebarExpand } from "react-icons/go";
+import { useState } from "react";
+import Mobilemenu from "../../components/Mobilemenu";
 
 export default function WaverxLeftBar({ handleCreateChat,  }) {
 
   // function handleBarToggle(){
 
   // }
+  const [isOpen, setIsOpen] = useState(false);
 
 
 
@@ -13,7 +16,9 @@ export default function WaverxLeftBar({ handleCreateChat,  }) {
     <div >
       <div className="flex items-center justify-between bg-white px-4 py-4 shadow-xs  border-b-2 border-gray-300">
         <div>
-          <GoSidebarExpand size={32}  color={"#008080"}/>
+          <GoSidebarExpand size={32}  color={"#008080"} onClick={() => setIsOpen(true)}/>
+          {isOpen === true ? <Mobilemenu setIsOpen={setIsOpen} /> : null}
+
         </div>
         <div className="flex flex-2 gap-3.5">
           <img

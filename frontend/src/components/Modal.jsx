@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 const Modal = ({ children, closeFn }) => {
   return (
     <div
-      className="h-screen w-screen bg-white bg-opacity-20 backdrop-blur-md absolute top-0 left-0 grid place-content-center z-30 shadow-none"
+      className="h-screen  w-screen bg-white bg-opacity-20 backdrop-blur-md absolute top-0 left-0 grid place-content-center z-30 shadow-none"
       onClick={closeFn}
     >
       <div
-        className="bg-white rounded-lg p-10 text-black relative overflow-hidden"
+        className="bg-white border-2 rounded-lg p-10 text-black relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <span
@@ -17,7 +17,7 @@ const Modal = ({ children, closeFn }) => {
         >
           <IoCloseSharp size={22} />
         </span>
-        <div>{children}</div>
+        <div >{children}</div>
       </div>
     </div>
   );

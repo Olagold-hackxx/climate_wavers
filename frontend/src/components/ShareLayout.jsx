@@ -7,7 +7,7 @@ const SharedLayout = () => {
   return (
     //bg-gradient-to-r from-slate-900 to-slate-700
     <div className=" bg-white text-[#111111] min-h-screen">
-      <div className=" block md:hidden ">
+      <div className=" block ">
         <Topbar />
       </div>
       <div className="flex justify-between min-h-screen">
@@ -15,7 +15,7 @@ const SharedLayout = () => {
         <Leftsidebar />
         </div>
         {/* <Mainfeed/> */}
-        <div className="max-h-screen overflow-auto w-[55%]">
+        <div className="max-h-screen overflow-auto w-[60%] px-8">
           <Outlet />
         </div>
         <div className="w-[20%]">

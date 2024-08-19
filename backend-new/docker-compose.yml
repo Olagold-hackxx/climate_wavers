@@ -1,0 +1,46 @@
+version: '3.12'
+
+services:
+
+  web:
+    build: .
+    command: sh entrypoint.sh
+    volumes:
+      - .:/backend
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=backend-new.db
+    ports:
+      - 8001:8000
+    container_name: backend-new
+    networks:
+      - climatewavers
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=waverx
+      - POSTGRES_DB=climatewaver
+      - POSTGRES_PASSWORD=waverx_pass
+    ports:
+      - 5432:5432
+    container_name: backend-new.db
+    volumes:
+      - data:/var/lib/postgres
+    networks:
+      - climatewavers
+  
+volumes:
+  data:
+    name: "data"
+
+networks:
+  climatewavers:
+    driver: bridge
+    external: true
+    name: climatewavers

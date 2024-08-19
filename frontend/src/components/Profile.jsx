@@ -3,17 +3,18 @@ import { BsBriefcase } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import Postcomponent from "./Postcomponent";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { getAuthToken, getUser } from "../utils/factory";
 
 const Profile = () => {
   const [category, setCategory] = useState("");
   // const user = JSON.parse(Cookies.get("user"));
   // const [profile, setprofile] = useState(user);
+  const [profile, setProfile] = useState(getUser())
 
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = Cookies.get("token");
+  const accessToken = getAuthToken();
 
   const headers = {
     "Content-Type": "application/json",
@@ -23,11 +24,12 @@ const Profile = () => {
   const {
     isPending,
     error,
-    data: profile,
+    isFetched,
+    data: user,
   } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ["user"],
     queryFn: async () => {
-      const profile = await axios.get(`${BACKENDURL}/api/user/me/`, {
+      const profile = await axios.get(`${BACKENDURL}/api/v1/auth/user/`, {
         headers: headers,
         withCredentials: true,
       });
@@ -42,22 +44,22 @@ const Profile = () => {
         autoClose: 200,
       });
     }
+    if(isFetched) {
+      setProfile(user)
+    }
 
     if (error) {
       toast.dismiss();
       toast.error("An error fetching profile");
     }
-  });
+  }, [isFetched, isPending, error, user]);
 
-  console.log(profile);
 
   return (
-    <div className="text-2xl text-center pt-1 md:pt-5  ">
-      <h2 className="pb-1 md:pb-3 text-center ml-4 text-lg md:text-xl font-semibold flex flex-row items-center  ">
-        {profile?.first_name} {profile?.last_name}
-      </h2>
+    <div className="text-2xl text-center pt-1 px-2 md:pt-5  ">
+      <div className="h-[35vh]">
       <div
-        className={`h-[240px] relative bg-cover bg-center rounded-[20px]`}
+        className={`h-[30vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
         style={{
           backgroundImage: `url(${
             profile?.cover ? `${profile.cover}` : "../../environ.jpeg"
@@ -72,22 +74,23 @@ const Profile = () => {
           alt=""
         />
       </div>
+      </div>
       <div>
-        <div className="flex flex-row ml-3 mt-3 ">
-          <h2 className="text-center ml-4 text-lg md:text-xl font-semibold flex flex-row items-center  ">
+        <div className="flex flex-col mt-3 ">
+          <h2 className="text-center  text-2xl font-semibold flex flex-row items-center  ">
             {profile?.first_name} {profile?.last_name}
           </h2>
-          <h2 className=" text-center ml-4 text-sm md:text-md font-semibold flex flex-row items-center text-gray-500 ">
+          <h2 className=" text-center text-sm font-semibold flex flex-row items-center text-gray-500 ">
             @{profile?.username}
           </h2>
         </div>
         <p className=" font-normal text-left ml-2 text-base my-2 ">
           {profile?.bio}
         </p>
-        <div className="font-normal text-left white  ml-2 text-base my-4 flex flex-row items-center gap-5   ">
+        <div className="font-normal text-left text-xl white text-base my-4 flex flex-row items-center gap-5   ">
           <p className="flex flex-row items-center gap-1 ">
             <FiMapPin size={17} />
-            United States
+            {profile.country}
           </p>
           <p className="flex flex-row items-center gap-1">
             <BsBriefcase size={17} />
@@ -95,29 +98,29 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      <div>
-        <div className="text-white flex flex-row justify-center text-base gap-8 border-0 border-b-[1px] border-gray-500 ">
+      <div className=" text-lg mt-8 md:text-xl border-gray-200 h-[60px] py-4 border-2 ">
+        <div className="text-black flex flex-row px-3 justify-between text-base gap-8 font-bold border-0 border-gray-500 ">
           <h2
             className={`cursor-pointer ${
-              category === "reports" ? "border-b-[2px] border-[#008080]" : null
+              category === "posts" ? "border-b-[2px] border-[#008080]" : null
             } `}
             onClick={() => {
-              setCategory("reports");
+              setCategory("posts");
             }}
           >
-            Disaster Reports
+            Posts
           </h2>
           <h2
             className={`cursor-pointer ${
-              category === "education"
+              category === "comment"
                 ? "border-b-[2px] border-[#008080]"
                 : null
             } `}
             onClick={() => {
-              setCategory("education");
+              setCategory("comment");
             }}
           >
-            Education
+            Comment
           </h2>
           <h2
             className={`cursor-pointer ${
@@ -129,10 +132,22 @@ const Profile = () => {
               setCategory("community");
             }}
           >
-            Community
+            Media
+            </h2>
+            <h2
+            className={`cursor-pointer ${
+              category === "donation"
+                ? "border-b-[2px] border-[#008080]"
+                : null
+            } `}
+            onClick={() => {
+              setCategory("donations");
+            }}
+          >
+            Donations
           </h2>
         </div>
-        <Postcomponent category={category} />
+        <Postcomponent type={"post"} />
       </div>
     </div>
   );

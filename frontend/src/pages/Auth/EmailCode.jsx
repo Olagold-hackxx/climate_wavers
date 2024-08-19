@@ -8,14 +8,52 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import bgReset from "../../assets/nextReset.svg";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const EmailCode = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [token, setToken] = useState("");
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const navigate = useNavigate();
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+  const handleChange = (event) => {
+    setToken(event.target.value);
+  };
+  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+
+  const verifyFn = async () => {
+    const email = Cookies.get("email");
+    toast.dismiss();
+    toast.info("Confirming email...", {
+      autoClose: 300,
+    });
+    console.log({ token, email });
+    await axios
+      .post(`${backendUrl}/api/v1/auth/verify-email/`, {
+        email: email,
+        otp: token,
+      })
+      .then(() => {
+        toast.dismiss();
+        toast.success("Succesful 👌 Welcome to the Climate family", {
+          autoClose: 100,
+        });
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.dismiss();
+        toast.error("Confirmation failed 🤯. Invalid or Expired code");
+      });
+  };
+  const handleSubmit = () => {
+    verifyFn();
   };
 
   return (
@@ -41,6 +79,8 @@ const EmailCode = () => {
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
+            value={token}
+            onChange={handleChange}
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -56,8 +96,18 @@ const EmailCode = () => {
             }
             label="Password"
           />
+          <NavLink
+            to="/verifymail"
+            className="text-gray-400 text-[14px] self-start pt-2"
+          >
+            Didn't get it?
+          </NavLink>
         </FormControl>
-        <button className="bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4">
+
+        <button
+          onClick={handleSubmit}
+          className="bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4"
+        >
           Confirm
         </button>
       </div>

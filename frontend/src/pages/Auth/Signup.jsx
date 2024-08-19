@@ -15,10 +15,11 @@ import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
 import MenuItem from "@mui/material/MenuItem";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
 const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
+import "../styles/signup-page.css";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +33,7 @@ const Signup = () => {
   };
 
   const {
+    register,
     control,
     handleSubmit,
     reset,
@@ -42,44 +44,49 @@ const Signup = () => {
 
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     // Send data to API if needed
-    const posterFn = async () => {
+    const signupFn = async () => {
+      toast.dismiss();
+      toast.info("Signing Up...");
       await axios
-        .post(`${backendUrl}/api/user/register/`, data)
-        .then((response) => {
-          Cookies.set("token", response.data.token);
-          // Cookies.set("confirmationLink", response.data.confirmation_url);
-          Cookies.set("userId", response.data.id);
+        .post(`${backendUrl}/api/v1/auth/register/`, data)
+        .then(() => {
+          Cookies.set("email", data.email)
+          toast.dismiss();
+          toast.success("Account created succesfully 👌 ", {
+            autoClose: 300,
+          });
+          // Reset the form after submission
+          reset();
+          navigate("/emailcode");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          toast.dismiss();
+          toast.error("An Error occured 🤯",);
+        });
     };
-    toast.promise(posterFn, {
-      pending: "Signing Up...",
-      success: "Account created succesfully 👌 ",
-      error: "An Error occured 🤯",
-    });
-    // Reset the form after submission
-    reset({
-      first_name: "",
-      last_name: "",
-      password: "",
-      username: "",
-      email: "",
-    });
-    navigate("/emailcode")
+   await signupFn()
   };
 
   return (
-    <div className="h-auto flex">
-      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center ">
+    <div className="h-auto signup flex">
+      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center banner ">
         <div className="self-center">
+        <div className="writeup">
+            <h2>Join Climate Wavers</h2>
+            <p>
+              Connect on our AI-driven social network for effective climate disaster
+              responses, donate to relief efforts, and together we protect the world. <br /> Be part of the solution — Sign up Now!
+            </p>
+          </div>
           <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
       <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
-        <div className="lg:w-[75%] md:w-[100%] px-12">
+        <div className="lg:w-[75%] self-center mb-12 md:w-[100%] px-12">
           <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
             Sign Up
           </h1>
@@ -98,18 +105,16 @@ const Signup = () => {
                 variant="outlined"
                 color="success"
                 sx={{ mr: 1, width: "50%" }}
-                control={control}
-                name={"first_name"}
-                />
+                {...register("first_name", { required: true, maxLength: 50 })}
+              />
               <TextField
                 id="outlined-lasts"
                 label="Last Name"
                 sx={{ ml: 1, width: "50%" }}
                 variant="outlined"
                 color="success"
-                control={control}
-                name={"last_name"}
-                />
+                {...register("last_name", { required: true, maxLength: 50 })}
+              />
             </div>
             <TextField
               id="outlined-username"
@@ -117,23 +122,27 @@ const Signup = () => {
               sx={{ m: 1, width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
-              name={"username"}
-              />
+              {...register("username", { required: true, maxLength: 50 })}
+            />
             <div className="w-[100%]">
-              <TextField
-                id="outlined-gender"
-                select
-                label="Gender"
-                defaultValue="Male"
-                sx={{ width: "100%" }}
-                color="success"
+              <Controller
+                name="gender"
                 control={control}
-                name={"gender"}
-                >
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-              </TextField>
+                defaultValue="Male"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="outlined-gender"
+                    select
+                    label="Gender"
+                    sx={{ width: "100%" }}
+                    color="success"
+                  >
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                  </TextField>
+                )}
+              />
             </div>
             <TextField
               id="outlined-email"
@@ -141,9 +150,7 @@ const Signup = () => {
               sx={{ width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
-              name={"email"}
-
+              {...register("email", { required: true, maxLength: 50 })}
             />
             <div className="flex justify-between w-[100%]">
               <TextField
@@ -151,9 +158,9 @@ const Signup = () => {
                 label="Country"
                 variant="outlined"
                 sx={{ mr: 1, width: "50%" }}
-                control={control}
                 name={"country"}
                 color="success"
+                {...register("country", { required: true, maxLength: 50 })}
               />
               <TextField
                 id="outlined-state"
@@ -161,20 +168,20 @@ const Signup = () => {
                 sx={{ ml: 1, width: "50%" }}
                 variant="outlined"
                 color="success"
-                control={control}
-                />
+                {...register("state", { required: true, maxLength: 50 })}
+              />
             </div>
             <FormControl
               sx={{ m: 1, width: "100%" }}
               variant="outlined"
               color="success"
-              control={control}
               name={"password"}
-              >
+            >
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>
               <OutlinedInput
+                {...register("password", { required: true, maxLength: 50 })}
                 id="outlined-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -201,6 +208,7 @@ const Signup = () => {
                 Confirm Password
               </InputLabel>
               <OutlinedInput
+                {...register("password2", { required: true, maxLength: 50 })}
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
