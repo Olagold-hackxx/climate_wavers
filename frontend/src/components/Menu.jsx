@@ -129,7 +129,7 @@ const Menu = () => {
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <img src="../../Immutable.png" className="mr-4 w-auto" />
+          <img src="../../waverbot.png" className="mr-4 w-auto" />
           WaverX
         </NavLink>
       </div>
