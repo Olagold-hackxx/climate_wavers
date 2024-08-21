@@ -9,21 +9,19 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaApple, FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
 import MenuItem from "@mui/material/MenuItem";
-import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
-import Cookies from "js-cookie";
-const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 import "../styles/signup-page.css";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -32,54 +30,42 @@ const Signup = () => {
     event.preventDefault();
   };
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    //formState
-  } = useForm();
+  const { register, control, handleSubmit, reset } = useForm();
 
-  //const formError = formState.errors;
-
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+  const toastMsg = {
+    info: "Signing Up",
+    success: "Account created succesfully 👌 ",
+    error: "An Error occured 🤯",
+  };
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // Send data to API if needed
-    const signupFn = async () => {
-      toast.dismiss();
-      toast.info("Signing Up...");
-      await axios
-        .post(`${backendUrl}/api/v1/auth/register/`, data)
-        .then(() => {
-          Cookies.set("email", data.email)
-          toast.dismiss();
-          toast.success("Account created succesfully 👌 ", {
-            autoClose: 300,
-          });
-          // Reset the form after submission
-          reset();
-          navigate("/emailcode");
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.dismiss();
-          toast.error("An Error occured 🤯",);
-        });
-    };
-   await signupFn()
+    try {
+      await client.run(
+        "post",
+        endpoints?.signup,
+        data,
+        false,
+        toastMsg,
+        false,
+        true
+      );
+      reset();
+      navigate("/emailcode");
+    } catch (error) {
+      console.log("Login failed");
+    }
   };
 
   return (
     <div className="h-auto signup flex">
       <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center banner ">
         <div className="self-center">
-        <div className="writeup">
+          <div className="writeup">
             <h2>Join Climate Wavers</h2>
             <p>
-              Connect on our AI-driven social network for effective climate disaster
-              responses, donate to relief efforts, and together we protect the world. <br /> Be part of the solution — Sign up Now!
+              Connect on our AI-driven social network for effective climate
+              disaster responses, donate to relief efforts, and together we
+              protect the world. <br /> Be part of the solution — Sign up Now!
             </p>
           </div>
           <img src="../../../logolargewhite.png" alt="" />
@@ -239,7 +225,6 @@ const Signup = () => {
             </div>
             <div className="flex justify-center items-center flex-col text-center">
               <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
-                <FaApple className="text-[24px]" />{" "}
                 <a href={`${oauthUrl}/api/v1/auth/github`}>
                   <FaGithub className="text-[24px]" />
                 </a>

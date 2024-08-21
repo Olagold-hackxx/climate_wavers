@@ -1,59 +1,45 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { getUser, getAuthToken } from "../utils/factory";
+import { getUser } from "../utils/factory";
+import { client } from "../api";
+import { endpoints } from "../utils/endpoints";
 
-const Createcomment = ({ postId, parentId, closeModal }) => {
+const Createcomment = ({ type, postId, parentId, closeModal }) => {
   const { register, handleSubmit, reset } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
   const user = getUser();
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = getAuthToken();
 
-  console.log(useParams());
-  const onSubmit = (data) => {
-    const posterFn = async () => {
-      toast.info("Submitting post...", {
-        autoClose: 200,
-      });
-      const headers = {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${accessToken}`,
-        "X-CSRFToken": `${Cookies.get("csrftoken")}`,
-      };
-      console.log(data.image);
-      if (!data.image[0]) {
-        delete data.image;
-        console.log(data);
-      } else {
-        data.image = data.image[0];
-      }
-      data.post = postId;
-      if (parentId) data.parent_comment = parentId;
-      await axios
-        .post(`${backendUrl}/api/v1/comments/`, data, {
-          headers,
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response.data);
-          toast.dismiss();
-          toast.success("Comment Successful 👌");
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.dismiss();
-          toast.error("Error occured 🤯");
-        });
-    };
-    posterFn();
-    // Reset the form after submission
-    reset();
-    closeModal();
+  const toastMsg = {
+    info: "Submitting post...",
+    success: "Post Successful 👌",
+    error: "An Error occured 🤯",
+  };
+
+  const onSubmit = async (data) => {
+    if (!data.image[0]) {
+      delete data.image;
+    } else {
+      data.image = data.image[0];
+    }
+    if (postId) data.post = postId;
+    if (parentId) data.parent_comment = parentId;
+    const endpoint = endpoints[type]
+    try {
+      await client.run(
+        "post",
+        endpoint,
+        data,
+        true,
+        toastMsg,
+        false,
+        false
+      );
+      reset();
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -144,7 +130,7 @@ const Createcomment = ({ postId, parentId, closeModal }) => {
 Createcomment.propTypes = {
   postId: PropTypes.string,
   parentId: PropTypes.string,
-  showCategory: PropTypes.bool,
+  type: PropTypes.string,
   closeModal: PropTypes.func,
 };
 

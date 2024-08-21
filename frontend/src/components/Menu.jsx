@@ -3,9 +3,12 @@ import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { useState } from "react";
+import { getUser } from "../utils/factory";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
+  const user = getUser()
+  console.log(user)
 
   const activeStyle = {
     borderLeft: "4px solid #008080",
@@ -60,7 +63,7 @@ const Menu = () => {
 
         <NavLink
           className="flex items-center py-2 lg:px-12"
-          to={"/profile"}
+          to={`/${user.id}/profile`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
@@ -126,7 +129,7 @@ const Menu = () => {
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <img src="../../Immutable.png" className="mr-4 w-auto" />
+          <img src="../../waverbot.png" className="mr-4 w-auto" />
           WaverX
         </NavLink>
       </div>
@@ -139,8 +142,8 @@ const Menu = () => {
         Post
       </button>
       {isModalOpen && (
-        <Modal closeFn={() => setIsModalopen(false)}>
-          <Createpost closeModal={() => setIsModalopen(false)} />
+        <Modal  closeFn={() => setIsModalopen(false)}>
+          <Createpost  closeModal={() => setIsModalopen(false)} />
         </Modal>
       )}
     </div>

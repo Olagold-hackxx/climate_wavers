@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { BiWinkSmile } from "react-icons/bi";
 import { FaRegSadTear } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 
 const VerifyResetRequest = () => {
   // const user = useParams();
@@ -15,35 +15,34 @@ const VerifyResetRequest = () => {
   const [isValid, setValidity] = useState(true);
   const navigate = useNavigate();
 
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  Cookies.set("uid", uid)
-  Cookies.set("reset_token", token)
+  Cookies.set("uid", uid);
+  Cookies.set("reset_token", token);
 
+  const toastMsg = {
+    info: "Confirming password reset...",
+    success: "Succesful 👌 You can now reset your password",
+    error: "Confirmation failed 🤯, Invalid or Expired link",
+  };
 
   useEffect(() => {
-    const verifyFn = async () => {
-      toast.dismiss();
-      toast.info("Sending code...");
-      toast.dismiss();
-      await axios
-        .get(
-          `${backendUrl}/api/v1/auth/password-reset-confirm/${uid}/${token}/`
-        )
-        .then(() => {
-          toast.success("Succesful 👌 You can now reset your password", {
-            autoClose: 100,
-          });
-          toast.dismiss();
-          navigate("/resetpassword");
-        })
-        .catch((error) => {
-          setValidity(false);
-          console.log(error);
-          toast.dismiss();
-          toast.error("Confirmation failed 🤯, Please try again");
-        });
+    const verifyReset = async () => {
+      try {
+        await client.run(
+          "get",
+          `${endpoints?.verifyresetrequest}${uid}/${token}/`,
+          {},
+          true,
+          toastMsg,
+          false,
+          false
+        );
+        navigate("/resetpassword");
+      } catch (error) {
+        console.log(error);
+        setValidity(false);
+      }
     };
-    verifyFn();
+    verifyReset();
   });
 
   return (

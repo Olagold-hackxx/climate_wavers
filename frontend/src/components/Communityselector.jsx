@@ -2,16 +2,20 @@ import { NavLink } from "react-router-dom";
 
 const Communityselector = () => {
   return (
-    <div className="flex flex-col gap-2 bg-white bg-opacity-10 text-[#111111] list-none  m-4 rounded-2xl ">
+    < div className="px-2">
+    <div className="border-2 h-[60px] text-center py-2 font-bold text-2xl shadow-xl">
+      Trending
+    </div>
+    <div className="flex flex-col gap-2 bg-white bg-opacity-10 border-2 text-[#111111] text-xl list-none w-[100%] h-[50%] py-4">
       <NavLink
         className={({ isActive }) =>
           isActive
-            ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25 rounded-b-none rounded-2xl"
+            ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25 "
             : "hover:bg-graydark p-2"
         }
         to={"/"}
       >
-        Home
+       WaverX
       </NavLink>
 
       <NavLink
@@ -22,7 +26,7 @@ const Communityselector = () => {
         }
         to={"/community"}
       >
-        Community
+        Nature
       </NavLink>
       <NavLink
         className={({ isActive }) =>
@@ -30,9 +34,9 @@ const Communityselector = () => {
             ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25   "
             : "hover:bg-graydark p-2"
         }
-        to={"/education"}
+        to={"/community"}
       >
-        Education
+        Climate Action
       </NavLink>
       <NavLink
         className={({ isActive }) =>
@@ -40,20 +44,21 @@ const Communityselector = () => {
             ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25   "
             : "hover:bg-graydark p-2"
         }
-        to={"/happeningnow"}
+        to={"/communtiy"}
       >
-        Disaster Reports
+        Wildlife
       </NavLink>
       <NavLink
         className={({ isActive }) =>
           isActive
-            ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25 rounded-t-none  rounded-2xl "
+            ? "hover:bg-graydark p-2 bg-gray-400 bg-opacity-25  "
             : "hover:bg-graydark p-2"
         }
-        to={"/disaX"}
+        to={"/community"}
       >
-        WaverX
+       Reforestation
       </NavLink>
+    </div>
     </div>
   );
 };

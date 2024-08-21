@@ -2,11 +2,10 @@ import Postcomponent from "../components/Postcomponent";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import CommentPost from "../components/CommentPost";
-// import { useLocation } from "react-router-dom";
 import Createcomment from "../components/Createcomment";
 
 const Comment = ({ type }) => {
-  const { postId } = useParams();
+  const { postId, commentId } = useParams();
   console.log({postId, type})
 
   return (
@@ -17,7 +16,7 @@ const Comment = ({ type }) => {
       </div>
       <div className="ml-8">
 
-      <Postcomponent type={type} postId={postId} />
+      <Postcomponent type={"comments"} postId={postId} comment={commentId}/>
       </div>
     </div>
   );

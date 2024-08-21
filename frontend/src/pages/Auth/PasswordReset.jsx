@@ -10,8 +10,8 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 
@@ -26,41 +26,30 @@ const PasswordReset = () => {
   };
   const { register, handleSubmit, reset } = useForm();
 
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  const onSubmit = (data) => {
-    const resetFn = async () => {
-      toast.dismiss();
-      toast.success("Signing in", {
-        autoClose: 200,
-      });
-      const uidb64 = Cookies.get("uid");
-      const token = Cookies.get("reset_token");
-      await axios
-        .patch(
-          `${backendUrl}/api/v1/auth/set-new-password/`,
-          { ...data, uidb64, token },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-          toast.dismiss();
-          reset();
-          toast.success("Password reset successful", {
-            autoClose: 200,
-          });
-          navigate("/login");
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.dismiss();
-          toast.error("Reset failed, try again");
-        });
-    };
-    resetFn()
+  const toastMsg = {
+    info: "Resetting password...",
+    success: "Password reset successful",
+    error: "Reset failed, try again",
   };
-
+  const uidb64 = Cookies.get("uid");
+  const token = Cookies.get("reset_token");
+  const onSubmit = async (data) => {
+    try {
+      await client.run(
+        "patch",
+        endpoints?.passwordreset,
+        { ...data, uidb64, token },
+        false,
+        toastMsg,
+        false,
+        false
+      );
+      reset();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="h-[100vh] flex justify-between">
       <div
@@ -118,7 +107,10 @@ const PasswordReset = () => {
               Confirm Password
             </InputLabel>
             <OutlinedInput
-              {...register("confirm_password", { required: true, maxLength: 50 })}
+              {...register("confirm_password", {
+                required: true,
+                maxLength: 50,
+              })}
               id="outlined-adornment-password"
               type={showPassword ? "text" : "confirm password"}
               endAdornment={

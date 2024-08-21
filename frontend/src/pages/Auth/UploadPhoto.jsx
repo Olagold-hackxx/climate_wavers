@@ -2,16 +2,13 @@ import { BsImageAlt } from "react-icons/bs";
 import avatar1 from "../../assets/girl-avatar.svg";
 import avatar2 from "../../assets/boy-avatar.svg";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { useState } from "react";
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 
 const UploadPhoto = () => {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
-  const accessToken = Cookies.get("accessToken");
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -24,41 +21,29 @@ const UploadPhoto = () => {
       setImage(null);
     }
   };
-  const onSubmit = () => {
-    // Send data to API if needed
-    // handleReportSubmission(data);
-    const uploadFn = async () => {
-      const headers = {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${accessToken}`,
-        "X-CSRFToken": `${Cookies.get("csrftoken")}`,
-      };
-      toast.info("Uploading Image..", {
-        autoClose: 200,
-      });
-      await axios
-        .patch(
-          `${backendUrl}/api/v1/auth/user/`,
-          { profile_pic: image },
-          {
-            headers,
-            withCredentials: true,
-          }
-        )
-        .then(async (response) => {
-          toast.dismiss();
-          toast.success("Profile Image Uploaded Successful 👌");
-          console.log(response.data);
-          setImagePreview(null)
-          navigate("/")
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.dismiss();
-          toast.error("An error occured 🤯");
-        });
-    };
-    uploadFn()
+
+  const toastMsg = {
+    info: "Uploading Image..",
+    success: "Profile Image Uploaded Successful 👌",
+    error: "An error occured 🤯, try again later",
+  };
+
+  const onSubmit = async () => {
+    try {
+      await client.run(
+        "patch",
+        endpoints?.user,
+        { profile_pic: image },
+        true,
+        toastMsg,
+        false,
+        false
+      );
+      setImagePreview(null);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -68,12 +53,12 @@ const UploadPhoto = () => {
           <img src="../../../HandsShow.png" alt="" />
         </div>
       </div>
-      <div className="w-[90%] lg:w-[30%] md:w-[40%] py-8 lg:px-16 md:px-16 m-auto justify-center">
-        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] font-[bold font-serif text-[#047857] text-start mb-8">
+      <div className="w-[90%] lg:w-[50%] md:w-[50%] grid px-4 place-content-center">
+        <h1 className="lg:text-[40px] md:text-[40px] text-[24px] font-[bold font-serif text-[#047857] text-center mb-8">
           Upload Profile Photo
         </h1>
 
-        <div className="bg-gray-200 w-[80%] rounded-lg h-[30vh] mb-6 flex justify-center items-center">
+        <div className="bg-gray-200 w-[100%] rounded-lg h-[30vh] mb-6 flex justify-center items-center">
           <input
             accept="image/*"
             id="upload-profile-image"
@@ -99,16 +84,16 @@ const UploadPhoto = () => {
 
         <button
           onClick={onSubmit}
-          className="bg-[#047857]  rounded-md text-white py-4 w-[80%]"
+          className="bg-[#047857]  rounded-md text-white py-4 w-[100%]"
         >
           Confirm
         </button>
-        <div className="flex items-center w-[80%] justify-between mt-4">
+        <div className="flex items-center w-[100%] justify-between mt-4">
           <p className="border-b border-gray-400 w-[40%]"></p>
           <p>Or</p>
           <p className="border-b border-gray-400 w-[40%]"></p>
         </div>
-        <div className="flex  w-[80%] justify-center items-center flex-col text-center">
+        <div className="flex  w-[100%] justify-center items-center flex-col text-center">
           <p className="pt-1">Use our Virtual avatar</p>
           <div className="w-[100%] md:w-[70%]  lg:w-[80%]  flex gap-x-4  my-6 justify-between">
             <Link to="/">

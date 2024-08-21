@@ -1,38 +1,36 @@
 import { NavLink } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import bgReset from "../../assets/password.svg";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useState } from "react";
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const handleChange = (event) => {
     setEmail(event.target.value);
   };
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 
-  const verifyFn = async () => {
-    toast.dismiss();
-    toast.info("Sending code...");
-    await axios
-      .post(`${backendUrl}/api/v1/auth/password-reset/`, {
-        email,
-      })
-      .then(() => {
-        toast.dismiss();
-        toast.success("Succesful 👌 Check your mail inbox for reset link", {
-          autoClose: 100,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.dismiss();
-        toast.error("An error occured 🤯, try again later");
-      });
+  const toastMsg = {
+    info: "Sending code...",
+    success: "Succesful 👌 Check your mail inbox for reset link",
+    error: "An error occured 🤯, try again later",
   };
-  const handleSubmit = () => {
-    verifyFn();
+
+  const handleSubmit = async () => {
+    try {
+      await client.run(
+        "post",
+        endpoints?.forgotpassword,
+        { email },
+        false,
+        toastMsg,
+        false,
+        false
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

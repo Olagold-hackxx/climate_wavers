@@ -14,10 +14,9 @@ import { FaApple, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
-import axios from "axios";
+import { client } from "../../api";
 import { useForm } from "react-hook-form";
+import { endpoints } from "../../utils/endpoints";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,48 +29,27 @@ const Signin = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
 
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  const onSubmit = (data) => {
-    try {
-      const loginFn = async () => {
-        toast.dismiss();
-        toast.success("Signing in", {
-          autoClose: 200,
-        });
-        await axios
-          .post(`${backendUrl}/api/v1/auth/login/`, data, {
-            withCredentials: true,
-          })
-          .then((response) => {
-            console.log(response.data);
-            // Use the cookies as needed
-            Cookies.set("accessToken", response.data.access_token);
-            Cookies.set("user", JSON.stringify(response.data));
-            toast.dismiss();
-            toast.success("Signed In successful", {
-              autoClose: 200,
-            });
-            // Reset the form
-            reset();
+  const toastMsg = {
+    info: "Signing In",
+    success: "Signed In successfully",
+    error: "Login failed. Please make sure the email and password are correct.",
+  };
 
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-            toast.dismiss();
-            toast.error(
-              "Login failed. Please make sure the password is correct."
-            );
-          });
-      };
-      loginFn();
+  const onSubmit = async (data) => {
+    try {
+      await client.run(
+        "post",
+        endpoints?.signin,
+        data,
+        false,
+        toastMsg,
+        true,
+        false
+      );
+      reset();
+      navigate("/");
     } catch (error) {
-      // Handle errors (display error toast, etc.)
-      console.error("Login error:", error);
-      toast.dismiss();
-      toast.error("Login failed. Please make sure the password is correct.", {
-        autoClose: 500,
-      });
+      console.log("Login failed");
     }
   };
   return (
@@ -150,7 +128,7 @@ const Signin = () => {
               <BsLinkedin className="text-[24px]" />
             </div>
             <NavLink to="/signup">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <span className="text-primary font-[500] text-[#008080]">
                 Sign Up
               </span>{" "}
