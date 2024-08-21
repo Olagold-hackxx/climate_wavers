@@ -22,8 +22,8 @@ export default function WaverxLeftBar({ handleCreateChat,  }) {
         </div>
         <div className="flex flex-2 gap-3.5">
           <img
-            src="../../../logodark.png"
-            alt="Immutablex"
+            src="/waverbot.png"
+            alt="WaverX"
             className="h-[40px] object-cover"
           />
           <h1
