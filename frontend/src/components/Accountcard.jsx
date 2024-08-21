@@ -1,53 +1,23 @@
 import { useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
 import PropTypes from "prop-types";
-import { getAuthToken } from "../utils/factory";
+import { endpoints } from "../utils/endpoints";
+import { client } from "../api";
+import { Link } from "react-router-dom";
 
 const Accountcard = ({ user }) => {
   const [isFollow, setIsFollow] = useState(false);
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = getAuthToken();
-  // const me = getUser()
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
-    "X-CSRFToken": `${Cookies.get("csrftoken")}`,
-  };
 
   const follow = async (userId) => {
-    await axios
-      .post(
-        `${backendUrl}/api/v1/follows/`,
-        { following: userId },
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    await client.run("post", endpoints?.follow, { following: userId }, true);
   };
+
   const unfollow = async (userId) => {
-    await axios
-      .delete(
-        `${backendUrl}/api/v1/follows/${userId}`,
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    await client.run(
+      "delete",
+      `${endpoints?.follow}${userId}`,
+      { following: userId },
+      true
+    );
   };
   const handleFollow = async (userId) => {
     if (!isFollow) {
@@ -59,6 +29,7 @@ const Accountcard = ({ user }) => {
 
   return (
     <div className="flex flex-row items-center px-3 py-1 justify-between ">
+      <Link to={`/${user?.id}/profile`}>
       <div className="flex flex-row items-center self-center text-black ">
         <img
           src={user?.profile_pic ? user.profile_pic : "../../pic1.png"}
@@ -72,6 +43,7 @@ const Accountcard = ({ user }) => {
           <p className="text-md text-left text-gray-500">@{user?.username}</p>
         </div>
       </div>
+      </Link>
       <button
         onClick={() => {
           setIsFollow(!isFollow);

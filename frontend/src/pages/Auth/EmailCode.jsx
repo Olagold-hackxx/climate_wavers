@@ -9,8 +9,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import bgReset from "../../assets/nextReset.svg";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { client } from "../../api";
+import { endpoints } from "../../utils/endpoints";
 import Cookies from "js-cookie";
 
 const EmailCode = () => {
@@ -25,35 +25,32 @@ const EmailCode = () => {
   const handleChange = (event) => {
     setToken(event.target.value);
   };
-  const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
+  const toastMsg = {
+    info: "Confirming email...",
+    success: "Succesful 👌 Welcome to the Climate family",
+    error: "Confirmation failed 🤯. Invalid or Expired code",
+  };
 
-  const verifyFn = async () => {
-    const email = Cookies.get("email");
-    toast.dismiss();
-    toast.info("Confirming email...", {
-      autoClose: 300,
-    });
-    console.log({ token, email });
-    await axios
-      .post(`${backendUrl}/api/v1/auth/verify-email/`, {
+  const handleSubmit = async () => {
+    try {
+      const email = Cookies.get("email");
+      const data = {
         email: email,
         otp: token,
-      })
-      .then(() => {
-        toast.dismiss();
-        toast.success("Succesful 👌 Welcome to the Climate family", {
-          autoClose: 100,
-        });
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.dismiss();
-        toast.error("Confirmation failed 🤯. Invalid or Expired code");
-      });
-  };
-  const handleSubmit = () => {
-    verifyFn();
+      };
+      await client.run(
+        "post",
+        endpoints?.emailcode,
+        data,
+        false,
+        toastMsg,
+        false,
+        false
+      );
+      navigate("/login");
+    } catch (error) {
+      console.log("Confirmation failed");
+    }
   };
 
   return (
@@ -100,7 +97,7 @@ const EmailCode = () => {
             to="/verifymail"
             className="text-gray-400 text-[14px] self-start pt-2"
           >
-            Didn't get it?
+            Didn&apos;t get it?
           </NavLink>
         </FormControl>
 

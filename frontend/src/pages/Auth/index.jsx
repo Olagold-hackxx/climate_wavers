@@ -7,5 +7,5 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import VerifyMail from "./VerifyMail";
 import PhoneCode from "./PhoneCode";
-
-export {EmailCode, PhoneCode, ForgotPassword, UploadPhoto, PasswordReset, PhoneVerification, Signin, Signup, VerifyMail}
+import VerifyResetRequest from "./VerifyResetRequest";
+export {EmailCode, PhoneCode, VerifyResetRequest, ForgotPassword, UploadPhoto, PasswordReset, PhoneVerification, Signin, Signup, VerifyMail}

@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BsBriefcase } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import Postcomponent from "./Postcomponent";
@@ -6,12 +6,21 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { getAuthToken, getUser } from "../utils/factory";
+import FeedHeader from "./FeedHeader";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const [category, setCategory] = useState("");
-  // const user = JSON.parse(Cookies.get("user"));
-  // const [profile, setprofile] = useState(user);
-  const [profile, setProfile] = useState(getUser())
+  const { userId } = useParams();
+  const [profile, setProfile] = useState(getUser());
+
+  const profileFeeds = [
+    "Posts",
+    "Comments",
+    "Donation",
+    "Reports",
+    "Media",
+    "Groups",
+  ];
 
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
@@ -20,7 +29,8 @@ const Profile = () => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
   };
-
+  const endpoint = `/api/v1/users/${userId}/`;
+ 
   const {
     isPending,
     error,
@@ -29,7 +39,7 @@ const Profile = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const profile = await axios.get(`${BACKENDURL}/api/v1/auth/user/`, {
+      const profile = await axios.get(`${BACKENDURL}${endpoint}`, {
         headers: headers,
         withCredentials: true,
       });
@@ -44,8 +54,8 @@ const Profile = () => {
         autoClose: 200,
       });
     }
-    if(isFetched) {
-      setProfile(user)
+    if (isFetched) {
+      setProfile(user);
     }
 
     if (error) {
@@ -54,33 +64,32 @@ const Profile = () => {
     }
   }, [isFetched, isPending, error, user]);
 
-
   return (
     <div className="text-2xl text-center pt-1 px-2 md:pt-5  ">
       <div className="h-[35vh]">
-      <div
-        className={`h-[30vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
-        style={{
-          backgroundImage: `url(${
-            profile?.cover ? `${profile.cover}` : "../../environ.jpeg"
-          })`,
-        }}
-      >
-        <img
-          src={
-            profile?.profile_pic ? `${profile.profile_pic}` : "../../pic1.png"
-          }
-          className="absolute bottom-0 left-0 w-28 ml-2 mb-2 transform translate-y-1/2"
-          alt=""
-        />
+        <div
+          className={`h-[30vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
+          style={{
+            backgroundImage: `url(${
+              profile?.cover ? `${profile.cover}` : "../../environ.jpeg"
+            })`,
+          }}
+        >
+          <img
+            src={
+              profile?.profile_pic ? `${profile.profile_pic}` : "../../pic1.png"
+            }
+            className="absolute bottom-0 left-0 w-28 ml-2 mb-2 transform translate-y-1/2"
+            alt=""
+          />
+        </div>
       </div>
-      </div>
-      <div>
+      <div className="pb-4">
         <div className="flex flex-col mt-3 ">
           <h2 className="text-center  text-2xl font-semibold flex flex-row items-center  ">
             {profile?.first_name} {profile?.last_name}
           </h2>
-          <h2 className=" text-center text-sm font-semibold flex flex-row items-center text-gray-500 ">
+          <h2 className=" text-center text-md font-semibold flex flex-row items-center text-gray-400 ">
             @{profile?.username}
           </h2>
         </div>
@@ -98,57 +107,8 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      <div className=" text-lg mt-8 md:text-xl border-gray-200 h-[60px] py-4 border-2 ">
-        <div className="text-black flex flex-row px-3 justify-between text-base gap-8 font-bold border-0 border-gray-500 ">
-          <h2
-            className={`cursor-pointer ${
-              category === "posts" ? "border-b-[2px] border-[#008080]" : null
-            } `}
-            onClick={() => {
-              setCategory("posts");
-            }}
-          >
-            Posts
-          </h2>
-          <h2
-            className={`cursor-pointer ${
-              category === "comment"
-                ? "border-b-[2px] border-[#008080]"
-                : null
-            } `}
-            onClick={() => {
-              setCategory("comment");
-            }}
-          >
-            Comment
-          </h2>
-          <h2
-            className={`cursor-pointer ${
-              category === "community"
-                ? "border-b-[2px] border-[#008080]"
-                : null
-            } `}
-            onClick={() => {
-              setCategory("community");
-            }}
-          >
-            Media
-            </h2>
-            <h2
-            className={`cursor-pointer ${
-              category === "donation"
-                ? "border-b-[2px] border-[#008080]"
-                : null
-            } `}
-            onClick={() => {
-              setCategory("donations");
-            }}
-          >
-            Donations
-          </h2>
-        </div>
-        <Postcomponent type={"post"} />
-      </div>
+      <FeedHeader feeds={profileFeeds} />
+      <Postcomponent type={"post"} />
     </div>
   );
 };
