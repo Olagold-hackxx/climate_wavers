@@ -51,6 +51,11 @@ export const dummyPost = [
 ];
 
 export const getUser = () => {
+
+  const backendStatus = import.meta.env.VITE_APP_BACKEND_STATUS === "true";
+  if (!backendStatus) {
+    return dummyUser
+  }
   const raw = Cookies.get("user");
   const token = Cookies.get("accessToken");
 
