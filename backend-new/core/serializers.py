@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_is_follower(self, obj):
         user = self.context.get("request").user
         return obj.followers.filter(following=user).exists()
+
     class Meta:
         model = User
         fields = "__all__"
@@ -40,6 +41,7 @@ class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     is_reacted = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
+    is_reposted = serializers.SerializerMethodField()
 
     def get_is_reacted(self, obj):
         user = self.context.get("request").user
@@ -48,6 +50,10 @@ class PostSerializer(serializers.ModelSerializer):
     def get_is_bookmarked(self, obj):
         user = self.context.get("request").user
         return obj.bookmarks.filter(user=user).exists()
+
+    def get_is_reposted(self, obj):
+        user = self.context.get("request").user
+        return obj.reposts.filter(user=user).exists()
 
     class Meta:
         model = Post
@@ -62,12 +68,17 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     annotated_reaction_count = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
+    is_reposted = serializers.SerializerMethodField()
     is_reacted = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
 
     def get_is_reacted(self, obj):
         user = self.context.get("request").user
         return obj.reactions.filter(user=user).exists()
+
+    def get_is_reposted(self, obj):
+        user = self.context.get("request").user
+        return obj.reposts.filter(user=user).exists()
 
     def get_is_bookmarked(self, obj):
         user = self.context.get("request").user
@@ -92,6 +103,8 @@ class ReactionSerializer(serializers.ModelSerializer):
 
 
 class RepostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Repost
         fields = "__all__"
