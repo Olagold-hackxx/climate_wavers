@@ -41,6 +41,11 @@ const ipInfo = {
   token: process.env.IP_INFO_TOKEN
 }
 
+const cronJob = {
+  unit: process.env.DEFAULT_JOB_TIME_UNIT || "sec",
+  value: process.env.DEFAULT_JOB_TIME_VALUE || 20
+}
+
 module.exports = {
     openai,
     firebase: firebaseConfig,
@@ -49,4 +54,6 @@ module.exports = {
     aiModels,
     cloudinaryConfig,
     ipInfo,
+    cronJob
 }
+

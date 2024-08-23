@@ -14,7 +14,8 @@ const chatsRouter = require("./routes/chat.router")
 const analyzePost = require('./helpers/analyze_post');
 const useCron = require('./lib/cron');
 const { generateTitle } = require('./helpers/generate_title');
-
+const generateAITips = require('./helpers/generate_ai_tips');
+const { defaultJobTimeUnit, defaultJobTimeValue } = require('./constants/defaults');
 
 // Use middleware
 app.use(express.json());
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use("/api/v1/posts", postsRouter)
 app.use("/api/v1/chats", chatsRouter)
 
-useCron()
+useCron(generateAITips, {[defaultJobTimeUnit]: defaultJobTimeValue})
 
 useQueue(queues.analyze_post, analyzePost)
 useQueue(queues.generate_chat_title, generateTitle)
