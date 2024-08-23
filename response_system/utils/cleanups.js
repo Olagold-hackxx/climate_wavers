@@ -5,7 +5,7 @@ exports.cleanText = function(input) {
     return cleanedText;
 }
 
-exports.cleanUndefined = function(obj){
+const cleanUndefined = function(obj){
     if (obj && typeof obj === 'object') {
         const clone = Array.isArray(obj) ? [...obj] : { ...obj };
 
@@ -24,3 +24,5 @@ exports.cleanUndefined = function(obj){
 
     return obj;
 }
+
+exports.cleanUndefined = cleanUndefined

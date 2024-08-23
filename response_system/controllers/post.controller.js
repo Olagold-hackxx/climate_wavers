@@ -13,17 +13,20 @@ const createPost = catchAsyncErrors(async(req, res)=>{
     const body = {...req.body}
     const validationRes = validator.validatePost(body)
     if(validationRes.error)return res.status(400).json({message: validationRes.error.message})
-    if(!body.location){
-        body.location = (await getLocation(req.socket.remoteAddress))?.city
-    }
     if(body.replyTo){
         const target = await postService.getById(body.replyTo)
         if(!target)return res.status(404).json({message: "post not found"})
+    }   
+    if(body.location){
+        body.coordinate = body.location
     }
+    !body.replyTo && (body.location = (await getLocation(req.socket.remoteAddress))?.city)
     const post = await postService.create({...body})
     if(!post)return res.status(400).json("failed to create post.")
     !body.replyTo && sendToQueue(queues.analyze_post, post)
+    sendToQueue(queues.backend_post, {...body, waver_id: body.userId, content: body.body, })
     return res.status(201).json(post)
+    
 })
 
 const getPosts = catchAsyncErrors(async(req, res)=>{
