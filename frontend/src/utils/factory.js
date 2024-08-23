@@ -8,14 +8,9 @@ import { dummyUser, dummyCampaigns } from "./dummies";
 
 const timeAgo = new TimeAgo("en-US");
 
-
 export const getCampaigns = () => {
-  const backendStatus = import.meta.env.VITE_APP_BACKEND_STATUS === "true";
-  if (!backendStatus) {
-    return dummyCampaigns;
-  }
-
-}
+  return dummyCampaigns;
+};
 
 export const getUser = () => {
   const backendStatus = import.meta.env.VITE_APP_BACKEND_STATUS === "true";
