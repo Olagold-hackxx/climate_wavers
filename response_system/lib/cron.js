@@ -3,12 +3,21 @@ const postService = require("../services/post.service")
 const aiService = require("../services/ai.service")
 const aiConfig = require("../config/ai.config")
 
-function useCron(){
-    cron.schedule("* * 6 * * *", async function(){
-        console.log("cron job started")
-        const body = await aiService.generateEducativeQuote()
-        const post = await postService.createTip({userId: aiConfig.id, username: aiConfig.username, body})
+
+const scheduleObj= {sec: "*", min: "*", hour: "*", dayOfMonth: "*", month: "*", dayOfWeek: "*"}
+
+
+function useCron(fn, schObj = {...scheduleObj}){
+    const obj = { ...scheduleObj}
+    for(let key in schObj){
+        schObj[key] && (obj[key] = schObj[key].toString())
+    }
+    const scheduleStr = Object.values(obj).join(" ")
+    cron.schedule(scheduleStr, async function(){
+        fn()
     })
 }
+
+
 
 module.exports = useCron
