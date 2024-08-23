@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const Modal = ({ children, closeFn }) => {
   return (
     <div
-      className="h-full  w-full bg-white bg-opacity-10 backdrop-blur-sm absolute top-0 left-0 grid place-content-center z-30 shadow-none"
+      className="h-[100vh] overflow-auto w-full bg-white bg-opacity-10 backdrop-blur-sm fixed inset-0 grid place-content-center z-10 shadow-none"
       onClick={closeFn}
     >
       <div

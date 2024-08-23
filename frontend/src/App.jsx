@@ -26,7 +26,7 @@ import {
   AuthProfile,
   AuthSharedLayout,
   AuthWaverX,
-  AuthReports
+  AuthCampaigns
 } from "./pages/AuthenticatedPages";
 
 configWeb3Modal();
@@ -39,13 +39,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/bot" element={<AuthWaverX />} />
+          <Route path="/campaigns" element={<AuthCampaigns />} />
+
           <Route path="/" element={<AuthSharedLayout />}>
             <Route index element={<AuthMainfeed />} />
             <Route path="/community" element={<AuthCommunity />} />
             <Route path="/bookmark" element={<  AuthCommunity />} />
             {/* <Route path="/happeningnow" element={<Happeningnow />} /> */}
             <Route path="/wallet" element={<AuthFunds />} />
-            <Route path="/reports" element={<AuthReports />} />
             <Route path="/:userId/profile" element={<AuthProfile />} />
             <Route
               path="/:postId/comments"

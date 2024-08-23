@@ -7,8 +7,8 @@ import WaverxChatPage from "../WaverX";
 import Funds from "../../components/Funds";
 import withAuth from "../../HOC/withAuth";
 import SharedLayout from "../../components/ShareLayout";
-import Reports
- from "../Reports";
+import CampaignsPage from "../CampaignsPage";
+
 const AuthSharedLayout = withAuth(SharedLayout)
 const AuthCommunity = withAuth(Community)
 const AuthMainfeed = withAuth(Mainfeed)
@@ -16,6 +16,6 @@ const AuthProfile = withAuth(Profile)
 const AuthComment = withAuth(Comment)
 const AuthWaverX = withAuth(WaverxChatPage)
 const AuthFunds = withAuth(Funds)
-const AuthReports = withAuth(Reports)
+const AuthCampaigns = withAuth(CampaignsPage)
 
-export {AuthSharedLayout, AuthReports, AuthComment, AuthCommunity, AuthFunds, AuthMainfeed, AuthWaverX, AuthProfile}
+export {AuthSharedLayout, AuthCampaigns, AuthComment, AuthCommunity, AuthFunds, AuthMainfeed, AuthWaverX, AuthProfile}

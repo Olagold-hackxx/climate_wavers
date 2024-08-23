@@ -55,7 +55,7 @@ const Signin = () => {
   return (
     <div className="lg:h-[100vh] md:h-[100vh] md:flex justify-between">
       <div
-        className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
+        className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover border-r-1 shadow-xl bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${signinBg})` }}
       ></div>
       <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 m-auto max-sm:pt-[200px]">

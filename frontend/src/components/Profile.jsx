@@ -99,7 +99,7 @@ const Profile = () => {
         <div className="font-normal text-left text-xl white text-base my-4 flex flex-row items-center gap-5   ">
           <p className="flex flex-row items-center gap-1 ">
             <FiMapPin size={17} />
-            {profile.country}
+            {profile?.country}
           </p>
           <p className="flex flex-row items-center gap-1">
             <BsBriefcase size={17} />

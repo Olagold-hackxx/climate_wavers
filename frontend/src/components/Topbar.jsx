@@ -2,8 +2,8 @@ import { useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import Mobilemenu from "./Mobilemenu";
 import { getUser } from "../utils/factory";
-import CreateReport from "../components/CreateReport";
 import Modal from "../components/Modal";
+import Report from "./Report";
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,38 +12,38 @@ const Topbar = () => {
   const user = getUser();
 
   return (
-    <div className=" grid grid-cols-[1fr_2fr_1frz] md:flex  items-center justify-between border-b-1 border-[#000000] shadow-xl md:h-[80px] px-2 py-2 md:px-10 md:py-4 w-[100%] ">
+    <div className="  md:fixed z-50 bg-white md:flex  items-center justify-between border-b-1 border-[#000000] shadow-xl md:h-[80px] px-2 py-2  w-[100%] sm:h-[100px] ">
       <HiOutlineMenuAlt1
         className="md:hidden"
         size={35}
         onClick={() => setIsOpen(true)}
       />
       {isOpen === true ? <Mobilemenu setIsOpen={setIsOpen} /> : null}
-      <div className=" justify-self-center md:justify-self-start ">
+      <div className="flex max-sm:hidden justify-self-center md:justify-self-start px-4">
         <img src="../../Logo.png" />
       </div>
-      <div className=" w-[65%] items-end">
+      <div className="px-8 w-[80%] justify-center  flex max-sm:hidden">
         <input
-          className="bg-graylight-300 h-[60px]  p-1 md:p-2 w-[80%] outline-[2px]  border border-[#dadada] focus:border-2 focus:outline-2 focus:outline-gray-500 border-graydark rounded-2xl text-graydark "
+          className="bg-graylight-300 h-[60px] relative left-[6%] p-1 md:p-2 w-[83%] outline-[2px]  border border-[#dadada] focus:border-2 focus:outline-2 focus:outline-gray-500 border-graydark rounded-2xl text-graydark "
           type="text"
           placeholder="🔍 Search"
         />
       </div>
-      <div className="flex items-center my-7 p-8 self-center text-gray-700 px-8">
+      <div className="flex max-sm:hidden justify-end  my-7 self-center">
         <button
-          className="text-xl text-center mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 w-[100%] px-4 lg:py-3 rounded-full"
+          className="text-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
           onClick={() => setIsModalopen(true)}
         >
-          Report Disaster
+          <p className="leading-5 "> Report Disaster</p>
         </button>
         {isModalOpen && (
           <Modal closeFn={() => setIsModalopen(false)}>
-            <CreateReport closeModal={() => setIsModalopen(false)} />
+            <Report closeModal={() => setIsModalopen(false)} />
           </Modal>
         )}
         <img
           src={user?.profile_pic ? user.profile_pic : "../../pic1.png"}
-          className="mr-2 rounded-full h-12 w-12"
+          className="ml-4 self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
       </div>

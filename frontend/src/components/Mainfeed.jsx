@@ -10,7 +10,13 @@ const Mainfeed = () => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
 
-  const homeFeeds = ["Feeds", "Reports", "Trending", "Climate Action", "Alerts"]
+  const homeFeeds = [
+    "Feeds",
+    "Reports",
+    "Trending",
+    "Climate Action",
+    "Alerts",
+  ];
 
   const headers = {
     "Content-Type": "application/json",
@@ -35,12 +41,12 @@ const Mainfeed = () => {
   }
 
   return (
-    <div className="text-2xl text-center pt-1 md:pt-5 ">
-      <div className=" text-lg md:text-xl border-gray-200 rounded-md h-[50px] pb-2 border-2 font-bold  ">
-        <FeedHeader feeds={homeFeeds}/>
+    <div className="text-2xl text-center pt-1 md:pt-5">
+      <div className=" text-lg md:text-xl max-sm:hidden border-gray-200  max-sm:hidden rounded-md h-[50px] pb-2 border-2 font-bold  ">
+        <FeedHeader feeds={homeFeeds} />
       </div>
-      <div className=" border-2  rounded-lg shadow-3xl h-[140px] my-4 shadow-white ">
-        <Createcomment  type={"post"} />
+      <div className=" border-2   max-sm:hidden rounded-lg shadow-3xl h-[140px] my-4 shadow-white ">
+        <Createcomment type={"post"} />
       </div>
       <Postcomponent type={"post"} />
     </div>
