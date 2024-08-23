@@ -31,8 +31,8 @@ const firebaseConfig = {
   }
 
   const aiModels = {
-    prediction: process.env.PREDICTION_AI_MODEL,
-    recognition: process.env.RECOGNITION_AI_MODEL
+    analysis: process.env.ANALYSIS_MODEL_URL,
+    recognition: process.env.RECOGNITION_MODEL_URL
   }
 
 

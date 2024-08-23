@@ -20,10 +20,13 @@ async function analyzePost(obj){
         await postService.create({userId:aiConfig.id, username: aiConfig.username, body, replyTo: post.id, isAlert: false})
         const aiPrediction  = await aiService.predictDisasterType(post.body)
         const aiMessage = await aiService.generateLiveDisasterResponse(location, aiPrediction)
+        let reportMessage = ""
+        
         //create a report here
         const reportBody = {userId:aiConfig.id, username: aiConfig.username, body: aiMessage, isAlert: true}
         if(body.image){
             reportBody.image = body.image
+            //get image inference
         }
         await postService.create(reportBody)
         //send queue event to notifications service
