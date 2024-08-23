@@ -82,10 +82,10 @@ DATABASES = {
     }
 }
 
-SSLMODE = env.bool("SSLMODE")
+SSLMODE = env.bool("SSLMODE", default=False)
 if SSLMODE:
     DATABASES["default"]["OPTIONS"] = {
-        "sslmode": env("SSLMODE"),
+        "sslmode": "require",
     }
 
 AUTH_USER_MODEL = "api.User"
