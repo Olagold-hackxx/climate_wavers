@@ -28,4 +28,4 @@ const logger = createLogger({
   level: 'info', 
 });
 
-module.exports = logger;
+export default logger;
