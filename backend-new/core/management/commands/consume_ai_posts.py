@@ -5,6 +5,11 @@ from django.core.management.base import BaseCommand
 from api.models import User
 from core.models import Post
 from django.conf import settings
+import logging
+
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -18,10 +23,13 @@ class Command(BaseCommand):
 
         def callback(ch, method, properties, body):
             data = json.loads(body)
-            user = User.objects.get(username=data["waverx_id"])
+            user = User.objects.get(username=data["username"])
+            logger.info("Received new post from AI")
             Post.objects.create(
                 user=user, content=data["content"], image=data.get("image", "")
             )
+            logger.info("Created post for AI")
+
 
         channel.basic_consume(
             queue="ai_posts", on_message_callback=callback, auto_ack=True

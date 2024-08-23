@@ -12,7 +12,7 @@ const Comment = ({ type }) => {
     <div className="text-2xl text-center pt-1 md:pt-5 ">
       <CommentPost type={type} postId={postId} />
       <div className=" border-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 mt-[-10px] ">
-        <Createcomment showCategory={false}/>
+        <Createcomment type={type} showCategory={false}/>
       </div>
       <div className="ml-8">
 

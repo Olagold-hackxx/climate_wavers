@@ -6,6 +6,7 @@ import DonationTable from './DonationTable';
 import { IoEye, IoCopyOutline } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import Deposit from './Deposit';
+import Wallet from "./Wallet";
 
 const Funds = () => {
   const { walletProvider } = useWeb3ModalProvider();
@@ -13,6 +14,8 @@ const Funds = () => {
   const [balance, setBalance] = useState(0);
   const [open, setOpen] = useState(true);
   const [copied, setCopied] = useState(false);
+  const { isConnected } = useWeb3ModalAccount();
+
 
   useEffect(() => {
     const fetchWalletDetails = async () => {
@@ -47,6 +50,8 @@ const Funds = () => {
 
   return (
     <main className='my-8'>
+            {!isConnected && <Wallet />}
+
       <h2 className='text-[20px] lg:text-[28px] md:text-[28px] my-4 font-[700]'>Your Wallet</h2>
       <div className='flex items-center'>
       <p className='text-[18px] lg:text-[24px] md:text-[24px] truncate'>{shortenAddress}</p>

@@ -14,10 +14,10 @@ export const usePostMutations = () => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  const useCreateMutation = (url) => {
+  const useCreateMutation = (url, type) => {
     return useMutation({
       mutationFn: (post) =>
-        axios.post(`${url}/${post}/`, {}, { headers, withCredentials: true }),
+        axios.post(`${url}${post}/${type}/`, {}, { headers, withCredentials: true }),
       onSuccess: () => {
         queryClient.invalidateQueries(["posts"]);
       },
@@ -25,12 +25,12 @@ export const usePostMutations = () => {
   };
 
   return {
-    likeMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/react`),
-    unlikeMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/unreact`),
-    repostMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/repost`),
-    unrepostMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/unrepost`),
-    saveMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/bookmark`),
-    unsaveMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/unbookmark`),
+    likeMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "react"),
+    unlikeMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "unreact"),
+    repostMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "repost"),
+    unrepostMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "unrepost"),
+    saveMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "bookmark"),
+    unsaveMutation: useCreateMutation(`${BACKENDURL}/api/v1/post/`, "unbookmark"),
   };
 };
 

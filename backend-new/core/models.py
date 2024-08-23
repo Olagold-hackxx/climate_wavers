@@ -123,6 +123,8 @@ class Post(models.Model):
             return self.audio.url
         return None
 
+    class Meta:
+        ordering = ["-created_at"]
 
 
 class Poll(models.Model):
@@ -214,6 +216,9 @@ class Comment(models.Model):
             stack.extend(comment.get_replies())
         return comments
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Reaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -281,7 +286,6 @@ class View(models.Model):
         Poll, on_delete=models.CASCADE, related_name="views", null=True, blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    
 
     class Meta:
         indexes = [
