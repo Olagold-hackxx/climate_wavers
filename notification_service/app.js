@@ -1,6 +1,7 @@
 import { useQueue } from "./lib/queue.js"
 import channels from "./constants/channels.js"
 import controller from "./services/controller.js";
+const express = require('express');
 
 const app = express();
 const port = process.env.PORT || 3000;
