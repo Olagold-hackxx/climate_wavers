@@ -5,10 +5,15 @@ import { getAuthToken } from "../utils/factory";
 import Cookies from "js-cookie";
 import Createcomment from "./Createcomment";
 import FeedHeader from "./FeedHeader";
+import { getLocation } from "../utils/location";
+import { useEffect } from "react";
 
 const Mainfeed = () => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
+  useEffect(() => {
+    getLocation();
+  });
 
   const homeFeeds = [
     "Feeds",

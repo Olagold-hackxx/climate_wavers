@@ -65,7 +65,7 @@ const Signup = () => {
             <p>
               Connect on our AI-driven social network for effective climate
               disaster responses, donate to relief efforts, and together we
-              protect the world. <br /> Be part of the solution — Sign up Now!
+              protect the world. Be part of the solution — Sign up Now!
             </p>
           </div>
           <img src="../../../logolargewhite.png" alt="" />

@@ -5,7 +5,7 @@ import { getUser } from "../utils/factory";
 import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
 
-const Createcomment = ({ type, postId, parentId, closeModal }) => {
+const Createcomment = ({ type, postId, parentId }) => {
   const { register, handleSubmit, reset } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
   const user = getUser();
@@ -25,6 +25,7 @@ const Createcomment = ({ type, postId, parentId, closeModal }) => {
     if (postId) data.post = postId;
     if (parentId) data.parent_comment = parentId;
     const endpoint = endpoints[type]
+    console.log(endpoint)
     try {
       await client.run(
         "post",
@@ -32,11 +33,8 @@ const Createcomment = ({ type, postId, parentId, closeModal }) => {
         data,
         true,
         toastMsg,
-        false,
-        false
       );
       reset();
-      closeModal();
     } catch (error) {
       console.log(error);
     }

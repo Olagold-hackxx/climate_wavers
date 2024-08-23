@@ -47,7 +47,7 @@ const EmailCode = () => {
         false,
         false
       );
-      navigate("/login");
+      navigate("/uploadphoto");
     } catch (error) {
       console.log("Confirmation failed");
     }

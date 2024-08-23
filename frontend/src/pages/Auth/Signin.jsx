@@ -47,7 +47,7 @@ const Signin = () => {
         false
       );
       reset();
-      navigate("/");
+      navigate("/bot");
     } catch (error) {
       console.log("Login failed");
     }

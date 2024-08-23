@@ -37,6 +37,11 @@ class Client {
         "X-CSRFToken": `${Cookies.get("csrftoken")}`,
       };
     }
+    if (toastMsg) {
+      toast.success(toastMsg.info, {
+        autoClose: 1500,
+      });
+    }
 
     try {
       let response;
@@ -49,8 +54,8 @@ class Client {
           response = { data: dummyUser };
         }
       } else if (
-        (!backendStatus && endpoint.endsWith("post/")) ||
-        endpoint.endsWith("comments/")
+        !backendStatus &&
+        (endpoint.endsWith("post/") || endpoint.endsWith("comments/"))
       ) {
         response = { data: dummyPost };
       } else response = await client(endpoint, config);
@@ -63,6 +68,7 @@ class Client {
         Cookies.set("email", data.email);
       }
       if (toastMsg) {
+        toast.dismiss();
         toast.success(toastMsg.success, {
           autoClose: 200,
         });

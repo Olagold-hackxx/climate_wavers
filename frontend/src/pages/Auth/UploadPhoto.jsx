@@ -40,7 +40,7 @@ const UploadPhoto = () => {
         false
       );
       setImagePreview(null);
-      navigate("/");
+      navigate("/bot");
     } catch (error) {
       console.log(error);
     }

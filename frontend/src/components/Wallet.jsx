@@ -55,7 +55,7 @@ const Wallet = () => {
       >
         {isModal && (
           <Modal closeFn={() => setIsModal(false)}>
-            <div className="flex flex-col text-base place-self-center">
+            <div className="flex flex-col text-base border-2 p-4 place-self-center">
               <h2 className="text-xl font-bold text-left">
                 Welcome to DisaXta Wallet 👋🏽
               </h2>

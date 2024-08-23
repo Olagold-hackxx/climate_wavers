@@ -25,8 +25,8 @@ const AiReportAnalyse = () => {
   return (
     <div>
       <h1 className="text-xl text-center font-semibold font-serif">{status}</h1>
-      <div className=" flex justify-center">
-        <img src="/Group.png" alt="WaverX" className="animate-rotate-smooth" />
+      <div className=" flex items-end justify-center">
+        <img src="/Group.png" alt="WaverX" className=" mt-8 h-48 animate-rotate-smooth" />
       </div>
     </div>
   );
