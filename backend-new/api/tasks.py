@@ -3,16 +3,11 @@ import os
 import json
 import logging
 from django.conf import settings
-from djoser.compat import get_user_email
-from app.models import User, Token
-
-from .utils import Util
+from .models import User, OneTimePassword
+from .utils import generate_otp
 
 # Configure logging
 logger = logging.getLogger(__name__)
-
-# Connection URL for RabbitMQ
-AMQP_URL = os.environ.get("AMQP_URL")
 
 # Define queues for different message types
 QUEUES = {
@@ -25,11 +20,11 @@ QUEUES = {
 # Define data types for different messages
 DATA_TYPES = {
     "custom_mail": {"email": str, "data": {"content": str}},
-    "disaster_alert": {"email": str, "data": {"location": str, "disasterType": str}},
     "forget_password": {"email": str, "data": {"token": str}},
     "onboarding": {"email": str, "data": {}},
     "verification": {"email": str, "data": {"code": str}},
 }
+
 
 def send_message(queue_name, message):
     """
@@ -39,7 +34,7 @@ def send_message(queue_name, message):
     :param message: The message to be sent.
     """
     # Connect to RabbitMQ
-    connection = pika.BlockingConnection(pika.URLParameters(AMQP_URL))
+    connection = pika.BlockingConnection(pika.URLParameters(settings.AMQP_URL))
     channel = connection.channel()
 
     # Declare the queue
@@ -55,58 +50,52 @@ def send_message(queue_name, message):
         ),
     )
 
-    print(f" [x] Sent {message} to {queue_name}")
+    print(f" [x] Sending data to {queue_name} queue")
 
     # Close connection
     connection.close()
 
-def send_activation_email(user_pk: int):
+
+def send_activation_email(email):
     """
     Send an activation email to the user.
 
-    :param user_pk: The primary key of the user.
+    :param email: Email to send verification mail.
     """
-    if user := User.objects.filter(pk=user_pk).first():
-        Token.objects.filter(user=user).delete()
-        token = Token.objects.create(user=user)
-        confirmation_url = f"{settings.FRONTEND_URL}/register/verify/{token.token}/"
-        send_message(
-            "verification",
-            message=json.dumps(
-                {
-                    "email": get_user_email(user),
-                    "data": {"link": confirmation_url, "city": "Lagos"},
-                    
-                }
-            ),
-        )
-        logger.info(
-            f"send_activation_email: Successfully sent message to user {user.pk}"  # noqa
-        )
-    else:
-        logger.warning(f"send_activation_email: User: {user_pk} not found")
+    otp_code = generate_otp()
+    user = User.objects.get(email=email)
+    # Hash the OTP before saving it
+    otp_instance = OneTimePassword(user=user, code=otp_code)
+    otp_instance.code = otp_instance.encrypt_code(otp_code)  # Encrypt the OTP
+    otp_instance.save()
+    data = dict(code=otp_code, city=user.state)
+    send_message(
+        "verification",
+        message=json.dumps(
+            {
+                "email": email,
+                "data": {"code": data["code"], "city": data["city"]},
+            }
+        ),
+    )
+    logger.info(f"Successfully sent verification mail to {email}")
 
-def send_reset_password_email(user_pk: int):
+
+def send_reset_password_email(data):
     """
     Send a reset password email to the user.
 
-    :param user_pk: The primary key of the user.
+    :param data: The data to send to queue.
     """
-    if user := User.objects.filter(pk=user_pk).first():
-        Token.objects.filter(user=user).delete()
-        token = Token.objects.create(user=user)
-        url = f"{settings.FRONTEND_URL}/forgot-password/{token.token}/"
-        send_message(
-            "forget_password",
-            message=json.dumps(
-                {
-                    "email": get_user_email(user),
-                    "data": {"token": url},  # Assuming token.token is a string
-                }
-            ),
-        )
-        logger.info(
-            f"send_reset_password_email: Successfully sent message to user {user.pk}"
-        )
-    else:
-        logger.warning(f"send_reset_password_email: User: {user_pk} not found")
+
+    send_message(
+        "forget_password",
+        message=json.dumps(
+            {
+                "email": data["email"],
+                "data": {"url": data["url"]},  # Assuming token.token is a string
+            }
+        ),
+    )
+    logger.info(f"Successfully sent pasword reset mail to {data['email']}")
+
