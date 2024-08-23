@@ -28,9 +28,9 @@ const Postcomponent = ({ type, postId, comment }) => {
 
   useEffect(() => {
     if (postsLoading) {
-      toast.dismiss();
+      toast.dismiss()
       toast.info("Fetching Posts...", {
-        autoClose: 500,
+        autoClose: 200,
       });
     }
 

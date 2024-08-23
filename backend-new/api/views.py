@@ -3,7 +3,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserRegisterSerializer, LoginSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer
-from .utils import send_code_to_user, send_normal_email
 from .models import OneTimePassword, User
 from rest_framework.permissions import IsAuthenticated
 from django.utils.http import urlsafe_base64_decode
@@ -11,6 +10,7 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import generics, permissions
 from core.serializers import UserSerializer
+from .tasks import send_activation_email
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
@@ -29,7 +29,7 @@ class RegisterUserView(GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             user = serializer.data
-            send_code_to_user(user['email'])
+            send_activation_email(user['email'])
             return Response({
                 'data': user,
                 'message': f"Hi {user['first_name']}, thank you for signing up. A passcode has been sent to your email."

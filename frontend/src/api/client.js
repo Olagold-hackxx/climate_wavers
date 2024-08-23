@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { getAuthToken } from "../utils/factory";
-import { dummyUser, dummyPost } from "../utils/factory";
+import { dummyUser, dummyPost } from "../utils/dummies";
 
 class Client {
   constructor(baseURL) {
@@ -19,12 +19,6 @@ class Client {
     authCookies = false,
     mail = false
   ) {
-    if (toastMsg) {
-      toast.dismiss();
-      toast.info(toastMsg.info, {
-        autoClose: 200,
-      });
-    }
     console.log(data);
     const client = axios.create({
       baseURL: this.baseUrl,
@@ -69,7 +63,6 @@ class Client {
         Cookies.set("email", data.email);
       }
       if (toastMsg) {
-        toast.dismiss();
         toast.success(toastMsg.success, {
           autoClose: 200,
         });

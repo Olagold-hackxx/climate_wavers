@@ -106,7 +106,7 @@ class PostViewSet(viewsets.ModelViewSet):
             reaction_count=Count("reactions"),
             view_count=Count("views"),
             repost_count=Count("reposts"),
-            bookmark_count=Count("bookmarks")
+            bookmark_count=Count("bookmarks"),
         )
         return queryset
 
@@ -184,6 +184,24 @@ class PostViewSet(viewsets.ModelViewSet):
         Reaction.objects.filter(user=request.user, post=post).delete()
         return Response({"status": "reaction removed"})
 
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def repost(self, request, pk=None):
+        """
+        Custom action to repost a post.
+        """
+        post = self.get_object()
+        Repost.objects.create(user=request.user, post=post)
+        return Response({"status": "a reaction to post"})
+
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def unrepost(self, request, pk=None):
+        """
+        Custom action to remove a repost of a post.
+        """
+        post = self.get_object()
+        Repost.objects.filter(user=request.user, post=post).delete()
+        return Response({"status": "reaction removed"})
+
     @action(detail=False, methods=["get"])
     def trending(self, request):
         """
@@ -216,8 +234,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 # ViewSet for User model
-class UserViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
 
     def get_object(self):
         return User.objects.get(pk=self.kwargs["pk"])
@@ -310,7 +329,29 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to remove a reaction from a post.
         """
         comment = self.get_object()
-        Reaction.objects.filter(user=request.user, comment=comment, post=comment.post).delete()
+        Reaction.objects.filter(
+            user=request.user, comment=comment, post=comment.post
+        ).delete()
+        return Response({"status": "reaction removed"})
+
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def repost(self, request, pk=None):
+        """
+        Custom action to repost a post.
+        """
+        comment = self.get_object()
+        Repost.objects.create(user=request.user, comment=comment, post=comment.post)
+        return Response({"status": "a reaction to post"})
+
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def unrepost(self, request, pk=None):
+        """
+        Custom action to remove a repost of a post.
+        """
+        comment = self.get_object()
+        Repost.objects.filter(
+            user=request.user, comment=comment, post=comment.post
+        ).delete()
         return Response({"status": "reaction removed"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -328,7 +369,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to remove a bookmark from a post.
         """
         comment = self.get_object()
-        Bookmark.objects.filter(user=request.user, comment=comment, post=comment.post).delete()
+        Bookmark.objects.filter(
+            user=request.user, comment=comment, post=comment.post
+        ).delete()
         return Response({"status": "bookmark removed"})
 
 

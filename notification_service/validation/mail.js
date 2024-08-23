@@ -19,7 +19,7 @@ class MailValidation{
     }
     validateVerificationEmailData(data){
         return Joi.object({
-            link: Joi.string().required(),
+            code: Joi.string().required(),
             city: Joi.string()
         }).validate(data)
     }

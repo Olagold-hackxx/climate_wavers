@@ -4,11 +4,12 @@ import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { useState } from "react";
 import { getUser } from "../utils/factory";
+import CampaignIcon from "@mui/icons-material/Campaign";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
-  const user = getUser()
-  console.log(user)
+  const user = getUser();
+  console.log(user);
 
   const activeStyle = {
     borderLeft: "4px solid #008080",
@@ -88,14 +89,14 @@ const Menu = () => {
           end
         >
           {({ isActive }) => (
-            <>
+            <div className="w-[200%] flex">
               {isActive ? (
                 <PiBookmarkFill className="mr-2" size={40} color="#008080" />
               ) : (
                 <PiBookmarkLight className="mr-2" size={40} />
               )}
               Bookmark
-            </>
+            </div>
           )}
         </NavLink>
         <NavLink
@@ -118,14 +119,15 @@ const Menu = () => {
         </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-12"
-          to={"/settings"}
+          to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <img src="../../setting.png" className="mr-4 w-auto" />
-          Settings
+          <CampaignIcon sx={{ color: "#008080", fontSize: "50px" }} fontSize={"large"} />
+         <p className="ml-2">Campaigns</p>
         </NavLink>
+
         <NavLink
-          className="flex items-center py-2 p lg:px-12"
+          className="flex items-center py-2  lg:px-12"
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -136,14 +138,14 @@ const Menu = () => {
       {/* Post btn */}
       <button
         // to={"./createpost"}
-        className="text-xl text-center font-semibold bg-[#008080] text-white shadow-xl self-center shadow-white-300 w-[80%] py-4 rounded-3xl"
+        className="text-xl text-center font-semibold bg-[#008080] text-white shadow-xl self-center shadow-white-300 w-[80%] max-sm:w-[50%] py-4 rounded-3xl"
         onClick={() => setIsModalopen(true)}
       >
         Post
       </button>
       {isModalOpen && (
-        <Modal  closeFn={() => setIsModalopen(false)}>
-          <Createpost  closeModal={() => setIsModalopen(false)} />
+        <Modal closeFn={() => setIsModalopen(false)}>
+          <Createpost closeModal={() => setIsModalopen(false)} />
         </Modal>
       )}
     </div>

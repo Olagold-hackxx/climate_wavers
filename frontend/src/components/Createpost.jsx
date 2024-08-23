@@ -33,26 +33,17 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
     }
     if (postId) data.post = postId;
     if (parentId) data.parent_comment = parentId;
-    const endpoint = endpoints[type]
+    const endpoint = endpoints[type];
 
     try {
-      await client.run(
-        "post",
-        endpoint,
-        data,
-        true,
-        toastMsg,
-        false,
-        false
-      );
+      await client.run("post", endpoint, data, true, toastMsg, false, false);
       reset();
       closeModal();
     } catch (error) {
       console.log(error);
+
     }
   };
-
-
 
   return (
     <>
