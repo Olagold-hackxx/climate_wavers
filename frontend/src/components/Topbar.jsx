@@ -42,7 +42,7 @@ const Topbar = () => {
           </Modal>
         )}
         <img
-          src={user?.profile_pic ? user.profile_pic : "../../pic1.png"}
+          src={user?.profile_pic ? user.profile_pic : user.profile_picture}
           className="ml-4 self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />

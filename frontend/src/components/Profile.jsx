@@ -77,7 +77,7 @@ const Profile = () => {
         >
           <img
             src={
-              profile?.profile_pic ? `${profile.profile_pic}` : "../../pic1.png"
+              profile?.profile_pic ? `${profile.profile_pic}` : profile.profile_picture
             }
             className="absolute bottom-0 left-0 w-28 ml-2 mb-2 transform translate-y-1/2"
             alt=""

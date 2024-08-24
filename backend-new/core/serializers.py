@@ -22,6 +22,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     is_follower = serializers.SerializerMethodField()
+    profile_picture = serializers.ReadOnlyField()
 
     def get_is_follower(self, obj):
         user = self.context.get("request").user
