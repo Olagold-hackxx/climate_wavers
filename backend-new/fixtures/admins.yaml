@@ -1,0 +1,72 @@
+- model: api.user
+  pk: 1
+  fields:
+    is_superuser: true
+    first_name: Admin
+    last_name: Wavers
+    is_staff: true
+    is_active: true
+    email: admin@climatewavers.dev
+    password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
+    is_verified: true
+    country: "Nigeria"
+    state: "Lagos"
+    gender: "male"
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    groups: []
+    user_permissions: []
+- model: api.user
+  pk: 2
+  fields:
+    is_superuser: false
+    first_name: 'Abdul'
+    last_name: 'Aileru'
+    is_staff: false
+    is_active: true
+    email: abdul@climatewavers.dev
+    password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
+    is_verified: true
+    country: "Nigeria"
+    state: "Lagos"
+    gender: "male"
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    groups: []
+    user_permissions: []
+- model: accounts.customuser
+  pk: 3
+  fields:
+    last_login: null
+    is_superuser: true
+    first_name: 'Ismael'
+    last_name: 'Kiprop'
+    is_staff: true
+    is_active: true
+    date_joined: 2023-10-01 19:35:45+00:00
+    email: ismael@climatewavers.dev
+    password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
+    is_verified: true
+    country: "Kenya"
+    state: "Nairobi"
+    gender: "male"
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    groups: []
+    user_permissions: []
+- model: accounts.customuser
+  pk: 3
+  fields:
+    last_login: null
+    is_superuser: true
+    first_name: 'Farouq'
+    last_name: 'Daniju'
+    is_staff: true
+    is_active: true
+    date_joined: 2023-10-01 19:35:45+00:00
+    email: farouq@climatewavers.dev
+    password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
+    is_verified: true
+    country: "Nigeria"
+    state: "Lagos"
+    gender: "male"
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    groups: []
+    user_permissions: []
