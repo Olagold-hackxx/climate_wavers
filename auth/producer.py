@@ -1,32 +1,37 @@
-import pika
 import requests
+import pika
 import json
 
-# Step 1: Fetch aggregated data from your API
+# Step 1: Fetch Aggregated Data from API
 api_url = "http://127.0.0.1:8000/api/v1/user-data/"
 response = requests.get(api_url)
 
 if response.status_code == 200:
-    data = response.json()
+    data = response.json()  # Assuming the API returns JSON data
 else:
-    print(f"Failed to fetch data from API. Status code: {response.status_code}")
-    exit(1)
+    print(f"Failed to fetch data. Status code: {response.status_code}")
+    exit()
 
-# Step 2: Set up the RabbitMQ connection and channel
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+# Step 2: Setup RabbitMQ Connection
+rabbitmq_host = 'localhost'  # Adjust as needed
+connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
 channel = connection.channel()
 
-# Step 3: Declare a queue (if it doesn't exist)
-channel.queue_declare(queue='user_data_queue')
+# Declare a queue (name it appropriately for your use case)
+queue_name = 'aggregated_data_queue'
+channel.queue_declare(queue=queue_name, durable=True)
 
-# Step 4: Send (publish) the data to RabbitMQ
+# Step 3: Push Data to RabbitMQ Queue
+message = json.dumps(data)
 channel.basic_publish(
     exchange='',
-    routing_key='user_data_queue',
-    body=json.dumps(data)
-)
+    routing_key=queue_name,
+    body=message,
+    properties=pika.BasicProperties(
+        delivery_mode=2,  # Make the message persistent
+    ))
 
-print(" [x] Sent aggregated data to RabbitMQ")
+print("Aggregated data pushed to RabbitMQ queue.")
 
-# Step 5: Close the connection
+# Step 4: Close Connection
 connection.close()
