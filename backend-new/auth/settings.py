@@ -159,4 +159,6 @@ DEFAULT_FROM_EMAIL = "climatewaver@gmail.com"
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = True
 
-FERNET_KEY = env("FERNET_KEY").encode()  # Make sure to encode the key
+FERNET_KEY = env("FERNET_KEY").encode() 
+# Make sure to encode the key
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),
