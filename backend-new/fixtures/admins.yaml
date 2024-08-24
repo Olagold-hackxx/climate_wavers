@@ -19,7 +19,7 @@
 - model: api.user
   pk: 2
   fields:
-    is_superuser: false
+    is_superuser: true
     first_name: 'Abdul'
     last_name: 'Aileru'
     is_staff: false

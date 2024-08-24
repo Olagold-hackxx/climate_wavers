@@ -2,6 +2,7 @@ const github = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/User");
 const Token = require("../models/Token");
+const localRegister = require("../utils/register");
 
 github.serializeUser(function (user, done) {
   done(null, user.id);
@@ -54,10 +55,9 @@ github.use(
           return done(null, userDetails);
         }
 
-        console.log(profile._json)
 ;
         const data = {
-          username: profile_json.login,
+          username: profile._json.login,
           email: profile._json.email,
           first_name: profile._json.name.split(" ")[0],
           last_name: profile._json.name.split(" ")[1],
