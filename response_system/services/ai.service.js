@@ -4,7 +4,8 @@ const postCategories = require("../constants/post_categories")
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} = require("@google/generative-ai");
 const { cleanText } = require("../utils/cleanups");
 const aiConfig = require("../config/ai.config");
-const {formatConversation} = require("../utils/factory")
+const {formatConversation} = require("../utils/factory");
+const { logBuilder } = require("../lib/log");
 
 
 class AI{
@@ -30,7 +31,9 @@ class AI{
         this.ai = new GoogleGenerativeAI(config.gemini.apiKey)
         this.promptCategories = postCategories
 
-        this.usePrePrompt = (prompt, prevConversation)=>`you are integrated as an AI chatbot named ${aiConfig.username} for a climate mitigation app "Climate wavers", generate a response for this prompt "${prompt}".${prevConversation && `generate your response based on previous conversation (if necessary) shown below: \n ${prevConversation}`}. respond with only the generated response, no label (e.g waver-x), and keep it brief and concise`
+        this.usePrePrompt = (prompt, prevConversation, appLogs)=>{
+            return `you are integrated as an AI chatbot named ${aiConfig.username} for a climate mitigation app "Climate wavers", generate a response for this prompt "${prompt}".${prevConversation && `generate your response based on previous conversation (if necessary) shown below: \n ${prevConversation}`}${appLogs && `. Also generate response from activities from the app using the logs below is applicable: ${appLogs}`}. respond with only the generated response, no label (e.g waver-x), and keep it brief and concise`
+        }
 
         this.exec = async function(prompt, imageUrl = undefined) {
             const model = this.ai.getGenerativeModel({ model: "gemini-pro", ...this.getSafetySettings() });
@@ -65,7 +68,8 @@ class AI{
 
     async handleChatResponse(chatId, text, imageFile){
         const conversation = await formatConversation(chatId)
-        const prompt = this.usePrePrompt(text, conversation)
+        const appLogs = await logBuilder.formatLogs()
+        const prompt = this.usePrePrompt(text, conversation, appLogs)
         return this.exec(prompt, imageFile)
     }
 

@@ -6,7 +6,6 @@ const aiConfig = require("../config/ai.config")
 
 const scheduleObj= {sec: "*", min: "*", hour: "*", dayOfMonth: "*", month: "*", dayOfWeek: "*"}
 
-
 function useCron(fn, schObj = {...scheduleObj}){
     const obj = { ...scheduleObj}
     for(let key in schObj){
@@ -18,7 +17,5 @@ function useCron(fn, schObj = {...scheduleObj}){
         fn()
     })
 }
-
-
 
 module.exports = useCron
