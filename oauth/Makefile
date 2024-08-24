@@ -25,7 +25,7 @@ ssh:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) /bin/sh
 
 db-shell:
-	docker exec -it $(LOCAL_DB_CONTAINER_NAME) mysql -u disaXta -p
+	docker exec -it $(LOCAL_DB_CONTAINER_NAME) mysql -u climatewavers -p
 
 db-ssh:
 	docker exec -it $(LOCAL_DB_CONTAINER_NAME) /bin/sh

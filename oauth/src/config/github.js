@@ -35,7 +35,7 @@ github.use(
           },
         });
         if (userExists) {
-          await userExists.update({ isGithubUser: true });
+          await userExists.update({ auth_provider: "github" });
           await userExists.save();
           // generate an jwt token for user
           const userDetails = {
@@ -54,7 +54,7 @@ github.use(
           return done(null, userDetails);
         }
 
-        console.log(accessToken)
+        console.log(profile._json)
 ;
         const data = {
           username: profile_json.login,

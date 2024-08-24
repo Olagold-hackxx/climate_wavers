@@ -22,8 +22,11 @@ services:
 
   db:
     image: mysql
-    env_file:
-      - ./.env
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - 3307:3306
     container_name: oauth.db
@@ -34,8 +37,7 @@ services:
   
 volumes:
   mysql_data:
-    name: "oauth-data"
-    external: true
+    name: "oauth"
   node_modules:
   .env:
 

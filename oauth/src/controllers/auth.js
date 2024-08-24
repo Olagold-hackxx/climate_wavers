@@ -109,7 +109,7 @@ const linkedInOauth = async (req, res, next) => {
         },
       });
       if (userExists) {
-        await userExists.update({ isLinkedinUser: true });
+        await userExists.update({auth_provider: "linkedin"});
         await userExists.save();
         // generate an jwt token for user
         const userDetails = {

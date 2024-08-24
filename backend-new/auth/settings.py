@@ -142,7 +142,7 @@ AMQP_URL = env("AMQP_URL", default="amqp://localhost")
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Media settings

@@ -20,7 +20,7 @@ google.use(
           },
         });
         if (userExists) {
-          await userExists.update({ isGoogleUser: true });
+          await userExists.update({ auth_provider: "google"});
           await userExists.save();
           // generate an jwt token for user
           const userDetails = {

@@ -46,7 +46,7 @@ facebook.use(
             email: userExists.email,
             accessToken,
           };
-          await userExists.update({ isFacebookUser: true });
+          await userExists.update({ auth_provider: "facebook" });
           await userExists.save();
           existingToken = await Token.update(
             { refreshToken: accessToken },

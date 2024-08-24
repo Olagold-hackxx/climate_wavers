@@ -47,7 +47,7 @@ const User = sequelize.define(
 	state: {
 		type: DataTypes.STRING
 	},
-	auth_provide: {
+	auth_provider: {
 		type: DataTypes.STRING
 	},
 
