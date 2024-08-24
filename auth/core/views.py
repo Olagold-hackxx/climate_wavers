@@ -11,7 +11,6 @@ from .serializers import (NotificationSerializer, UserSerializer, PostSerializer
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
-from django.db.models import Prefetch
 
 # Get the custom user model
 User = get_user_model()
