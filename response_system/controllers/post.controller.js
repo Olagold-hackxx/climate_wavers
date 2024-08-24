@@ -23,8 +23,8 @@ const createPost = catchAsyncErrors(async(req, res)=>{
     !body.replyTo && (body.location = (await getLocation(req.socket.remoteAddress))?.city)
     const post = await postService.create({...body})
     if(!post)return res.status(400).json("failed to create post.")
-    !body.replyTo && sendToQueue(queues.analyze_post, post)
-    sendToQueue(queues.backend_post, {...body, waver_id: body.userId, content: body.body, })
+    // !body.replyTo && sendToQueue(queues.analyze_post, post)
+    // sendToQueue(queues.backend_post, {...body, waver_id: body.userId, content: body.body, })
     return res.status(201).json(post)
     
 })

@@ -13,6 +13,7 @@ function useCron(fn, schObj = {...scheduleObj}){
         schObj[key] && (obj[key] = schObj[key].toString())
     }
     const scheduleStr = Object.values(obj).join(" ")
+    console.log("scheduled string " + scheduleStr + "active...")
     cron.schedule(scheduleStr, async function(){
         fn()
     })

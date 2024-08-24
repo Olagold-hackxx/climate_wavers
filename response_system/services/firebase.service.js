@@ -34,6 +34,14 @@ class FB{
         return getDocs(q)
     }
 
+    async queryCollection(collectionName, lh, op, rh){
+        if(!lh || !op || !rh)throw Error("invalid firebase query")
+        const operations = ["<", ">", "<=", ">=", "==", "<=", "!="]
+        if(!operations.includes(op))throw Error(`firebase query error: query operator can only be (${operations.join(", ")})`)
+        const q = query(collection(this.db, collectionName), where(lh,op, rh))
+        return getDocs(q)
+    }
+
     /**
      * 
      * @param {string} collectionName 
