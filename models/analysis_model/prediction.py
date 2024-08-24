@@ -24,9 +24,6 @@ earthquake_model = joblib.load("analysis_model/model/Earthquake.pkl")
 flood_model = joblib.load("analysis_model/model/Flood.pkl")
 storm_model = joblib.load("analysis_model/model/Storm.pkl")
 
-# Set test Visual crossing weather API key
-os.environ["API_KEY"] = "R9M7HHCH4EDADEUBCU3ZENKXN"
-
 
 def fetch_climate_data(location, start_date, end_date, api_key):
     """
@@ -38,7 +35,7 @@ def fetch_climate_data(location, start_date, end_date, api_key):
     end_date = "{}T23:59:59Z".format(end_date)
 
     if not api_key:
-        api_key = os.getenv("API_KEY")
+        api_key = os.getenv("API_KEY", "R9M7HHCH4EDADEUBCU3ZENKXN"), 
 
     params = {
         "location": location,
