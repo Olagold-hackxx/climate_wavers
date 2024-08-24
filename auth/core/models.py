@@ -230,11 +230,11 @@ class Follow(models.Model):
         """
         Ensures a user cannot follow themselves.
         """
-        if self.follower == self.followed:
+        if self.follower == self.following:
             raise ValidationError("User cannot follow themselves.")
 
     def __str__(self):
-        return f'{self.follower.username} follows {self.followed.username}'
+        return f'{self.follower.username} follows {self.following.username}'
 
 class Bookmark(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

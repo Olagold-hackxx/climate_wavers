@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     PostViewSet, PollViewSet, PollVoteViewSet, CommentViewSet, 
     ReactionViewSet, RepostViewSet, ViewViewSet, FollowViewSet, 
-    BookmarkViewSet, UserViewSet, NotificationListView, MarkNotificationsAsReadView
+    BookmarkViewSet, UserViewSet, NotificationListView, MarkNotificationsAsReadView,AggregatedDataView
 )
 
 
@@ -27,7 +27,10 @@ urlpatterns = [
     # Include all the router URLs
     path('', include(router.urls)),
     path('notifications/', NotificationListView.as_view(), name='notification_list'),
-    path('notifications/mark-read/', MarkNotificationsAsReadView.as_view(), name='mark_notifications_as_read'),
+    path('notifications/mark-read/', MarkNotificationsAsReadView.as_view(), name='mark_notifications_as_read'), 
+    path('user-data/', AggregatedDataView.as_view(), name='aggregate_user_data'),
+
+
     
     # Additional custom actions for PostViewSet
     path('search-by-hashtag/', PostViewSet.as_view({'get': 'search_by_hashtag'})),

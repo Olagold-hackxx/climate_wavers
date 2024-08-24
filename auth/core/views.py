@@ -9,8 +9,9 @@ from django.contrib.auth import get_user_model
 from .models import Notification, Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark
 from .serializers import (NotificationSerializer, UserSerializer, PostSerializer, PollSerializer, PollVoteSerializer, CommentSerializer, ReactionSerializer, RepostSerializer, ViewSerializer, FollowSerializer, BookmarkSerializer, UserActivitySerializer)
 from rest_framework import generics, status
-from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
+from django.db.models import Prefetch
 
 # Get the custom user model
 User = get_user_model()
@@ -20,6 +21,41 @@ class PostPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
+
+class AggregatedDataView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Fetch all data without filters
+        posts = Post.objects.all()
+        comments = Comment.objects.all()
+        reactions = Reaction.objects.all()
+        reposts = Repost.objects.all()
+        polls = Poll.objects.all()
+        poll_votes = PollVote.objects.all()
+        follows = Follow.objects.all()
+
+        # Serialize the data
+        post_serializer = PostSerializer(posts, many=True)
+        comment_serializer = CommentSerializer(comments, many=True)
+        reaction_serializer = ReactionSerializer(reactions, many=True)
+        repost_serializer = RepostSerializer(reposts, many=True)
+        poll_serializer = PollSerializer(polls, many=True)
+        poll_vote_serializer = PollVoteSerializer(poll_votes, many=True)
+        follow_serializer = FollowSerializer(follows, many=True)
+
+        # Prepare the aggregated response
+        data = {
+            "posts": post_serializer.data,
+            "comments": comment_serializer.data,
+            "reactions": reaction_serializer.data,
+            "reposts": repost_serializer.data,
+            "polls": poll_serializer.data,
+            "poll_votes": poll_vote_serializer.data,
+            "follows": follow_serializer.data,
+        }
+
+        return Response(data, status=200)
 
 class NotificationListView(generics.ListAPIView):
     serializer_class = NotificationSerializer
