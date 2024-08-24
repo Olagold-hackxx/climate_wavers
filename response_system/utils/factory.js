@@ -37,3 +37,22 @@ exports.isEndpointOk = async function (testUrl) {
         return false
     }
 }
+
+exports.formatLog = function (req){
+    const date = new Date()
+    let res = ""
+    const method = req.method
+    const path = req.path
+    const body = req.body
+    if(method == "POST" || method == "PUT" || method == "PATCH"){
+        res += `\n timestamp: ${date}`
+        res += `\n action: ${method} request to ${path} endpoint`
+        res += `\n request data: `
+        let reqData = ""
+        for(let key in body){
+            reqData += `\n    ${key}: ${body[key]}`
+        }
+        reqData && (res += reqData)
+    }
+    return res
+}

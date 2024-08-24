@@ -47,10 +47,14 @@ class AI{
                     },
                 };
             }
-            const result = await model.generateContent(!image ? prompt : [prompt, image]);
-            const response = result.response;
-            const text = cleanText(response.text());
-            return text;
+            try{
+                const result = await model.generateContent(!image ? prompt : [prompt, image]);
+                const response = result.response;
+                const text = cleanText(response.text());
+                return text;
+            }catch(err){
+                console.log(`Generative AI Error: ${err.message} \n${err} `)
+            }
         }
     }
 
