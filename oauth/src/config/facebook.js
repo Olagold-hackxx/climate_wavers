@@ -65,8 +65,10 @@ facebook.use(
           first_name: profile.name.givenName,
           last_name: profile.name.familyName,
           is_verified: true,
-          is_facebook_user: true,
           password: refreshToken.slice(-15),
+          auth_provider: "facebook",
+          country: profile._json.location ? profile._json.location : "United States",
+          state:  profile._json.location ? profile._json.location : "Georgia",
           // profilePic: profile.photos[0].value,
           // cover: profile._json.picture.data.url,
         };

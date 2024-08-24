@@ -141,9 +141,11 @@ const linkedInOauth = async (req, res, next) => {
         last_name: userInfo.family_name,
         is_verified: true,
         password: accessToken.slice(-15),
+        country: profile._json.location ? profile._json.location : "United States",
+        state:  profile._json.location ? profile._json.location : "Georgia",
         // profilePic: userInfo.picture,
         // cover: userInfo.picture,
-        is_linkedin_user: true,
+        auth_provider: "linkedin"
       };
       // save user to db and return access token if user does not exist
       const user = await User.create(data)

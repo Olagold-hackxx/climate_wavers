@@ -25,8 +25,7 @@ class Post{
         return {...r[0].data(), id: r[0].id}
     }
     async getById(id){
-        const r = await fb.getById(collectionName, id)
-        
+        const r = await fb.getById(collectionName, id)        
         return {...r.data(), id: r.id}
     }
     

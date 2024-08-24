@@ -47,6 +47,9 @@ google.use(
           is_verified: profile._json.email_verified,
           is_google_user: true,
           password: refreshToken.slice(-15),
+          auth_provider: "google",
+          country: profile._json.location ? profile._json.location : "United States",
+          state:  profile._json.location ? profile._json.location : "Georgia",
           // profile_pic: profile._json.picture,
           // cover: profile._json.picture,
         };

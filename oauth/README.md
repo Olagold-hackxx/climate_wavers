@@ -1,122 +1,141 @@
-### README for OAuth Microservice
-
----
-
-# OAuth Microservice
+# Climate Wavers - Authentication microservices
 
 ## Overview
-The OAuth Microservice provides seamless integration with LinkedIn, GitHub, Facebook, and Google for authentication purposes. This microservice connects with our backend to allow users to authenticate using their preferred social media accounts, enhancing the user experience by offering quick and secure login options.
+
+This microservice is a part of Climate Wavers  an AI-driven disaster response application that utilizes multiple authentication providers such as Red Hat SSO, Facebook, LinkedIn, GitHub, and Google. The microservices architecture is implemented in Node.js, with passport and openid connect libraries for authentication. The application securely stores user data in a MariaDB database and uses refresh tokens for extended access.
 
 ## Features
-- **LinkedIn Authentication**
-- **GitHub Authentication**
-- **Facebook Authentication**
-- **Google Authentication**
-- **Integration with Backend**
 
-## Technical Stack
-### Programming Languages
-- **JavaScript:** Used for the microservice development.
+- **Authentication Providers:** Integrates Red Hat SSO, Facebook, LinkedIn, GitHub, and Google for user authentication.
+- **Token Management:** Utilizes refresh tokens for prolonged access and sends access tokens to users for accessing other microservices.
+- **Database:** Stores user data securely in the application main MariaDB database, to enable synchronise with other microservices in the application using same database
+ 
+## Technologies Used
 
-### Frameworks and Libraries
-- **Express.js:** Server framework for Node.js.
-- **Passport.js:** Middleware for authentication.
-- **OAuth2:** Protocol for authorization.
-- **Axios:** For making HTTP requests.
-
-### Tools
-- **Git:** Version control.
-- **Docker:** Containerization.
-- **Firebase:** For real-time features.
-
-## Endpoints
-### LinkedIn Authentication
-- **/api/v1/auth/linkedin**: Initiates LinkedIn OAuth flow.
-  - **Method:** GET
-  - **Description:** Redirects the user to LinkedIn for authentication.
-  
-- **/api/v1/auth/linkedin/callback**: Handles LinkedIn OAuth callback.
-  - **Method:** GET
-  - **Description:** Receives the authorization code and exchanges it for an access token. Then, it retrieves user information and sends it to the backend.
-
-### GitHub Authentication
-- **/api/v1/auth/github**: Initiates GitHub OAuth flow.
-  - **Method:** GET
-  - **Description:** Redirects the user to GitHub for authentication.
-
-- **/api/v1/auth/github/callback**: Handles GitHub OAuth callback.
-  - **Method:** GET
-  - **Description:** Receives the authorization code and exchanges it for an access token. Then, it retrieves user information and sends it to the backend.
-
-### Facebook Authentication
-- **/api/v1/auth/facebook**: Initiates Facebook OAuth flow.
-  - **Method:** GET
-  - **Description:** Redirects the user to Facebook for authentication.
-
-- **/api/v1/auth/facebook/callback**: Handles Facebook OAuth callback.
-  - **Method:** GET
-  - **Description:** Receives the authorization code and exchanges it for an access token. Then, it retrieves user information and sends it to the backend.
-
-### Google Authentication
-- **/api/v1/auth/google**: Initiates Google OAuth flow.
-  - **Method:** GET
-  - **Description:** Redirects the user to Google for authentication.
-
-- **/api/v1/auth/google/callback**: Handles Google OAuth callback.
-  - **Method:** GET
-  - **Description:** Receives the authorization code and exchanges it for an access token. Then, it retrieves user information and sends it to the backend.
-
-## Installation
-### Prerequisites
 - Node.js
+- Passport
+- OpenID Connect
+- Red Hat SSO
+- Facebook Login API
+- LinkedIn API
+- GitHub API
+- Google API
+- MariaDB
+- OpenShift (for deploying Red Hat SSO server)
 
-### Steps
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/climatewavers.git
-   cd oauth
-   ```
+## Setup
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### Prerequisites
 
-3. **Set up environment variables:**
-   Create a `.env` file in the root directory and add the following variables:
-   ```bash
-   LINKEDIN_CLIENT_ID=your_linkedin_client_id
-   LINKEDIN_CLIENT_SECRET=your_linkedin_client_secret
-   GITHUB_CLIENT_ID=your_github_client_id
-   GITHUB_CLIENT_SECRET=your_github_client_secret
-   FACEBOOK_CLIENT_ID=your_facebook_client_id
-   FACEBOOK_CLIENT_SECRET=your_facebook_client_secret
-   GOOGLE_CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
-   BACKEND_URL=http://your-backend-url
-   ```
+- Node.js installed
+- MariaDB installed
+- OpenShift cluster set up
 
-4. **Run the microservice:**
-   ```bash
-   npm start
-   ```
+### Installation
 
-## Usage
-- **LinkedIn Authentication:**
-  Navigate to `http://localhost:3000/api/v1/auth/linkedin` to start the LinkedIn authentication process.
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Configure environment variables:
+
+   - Set up credentials for authentication providers (Red Hat SSO, Facebook, LinkedIn, GitHub, Google).
+   - Configure the database connection details.
+
+4. Start the application:
+
+```bash
+npm start
+```
+
+## Deployment
+We provide three different methods for deploying this microservice to openshift clusters.
+### Import Git Repositoy (Recommended)
+Use the import git repository feature on openshift console.
+- Navigate to Add page in the Developer console on openshift
+- Select Dockerfile strategy
+- Deployment type should be Deployment Config
+- Secure routes
+- Supply the environment variables after deployment
   
-- **GitHub Authentication:**
-  Navigate to `http://localhost:3000/api/v1/auth/github` to start the GitHub authentication process.
-  
-- **Facebook Authentication:**
-  Navigate to `http://localhost:3000/api/v1/auth/facebook` to start the Facebook authentication process.
-  
-- **Google Authentication:**
-  Navigate to `http://localhost:3000/api/v1/auth/google` to start the Google authentication process.
+### Automated Command line Deployment
+Using the scripts provided in `automate_development` folder, simplifies deployment. To use the scripts, docker and oc must be installed.
 
-## Contributing
-We welcome contributions from the community. Please read our [Contributing Guide](CONTRIBUTING.md) for more details on how to get started.
+#### Build and push image
+You can replace the image repository in the scripts `build.sh` in `automate_deployment` or use the repository we provided.
+  ```bash
+   automate_deployment/./build.sh
+   ```
+#### Deploy 
+If the image repository was changed when building, update the `development.yaml` file in `k8s` folder with your image repository
+  ```bash
+   automate_deployment/./deploy.sh
+   ```
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
+### Tekton pipeline deployment script
+Deploy with tekton with the pipeline deployment script in `automated_deployment` directory. Setup environment variabes after deployment
+   ```bash
+   automate_deployment/./pipeline.sh
+   ```
 
+
+### Red Hat SSO Server on OpenShift Cluster
+
+1. Instantiate the Redhat SSO Persistent volume template to deploy SSO server on your OpenShift cluster.
+2. Configure the necessary realms, clients, and users within the Red Hat SSO administration console.
+
+
+## Environment Variables
+
+This project uses several environment variables to configure various aspects. These variables are stored in a file named `.env` in the project root directory. Below is a list of available environment variables and their purposes:
+
+### Database Configuration
+
+- **MARIADB_USER**: Username for MariaDB database.
+- **MARIADB_PASSWORD**: Password for MariaDB database.
+- **MARIADB_DB_NAME**: Name of the MariaDB database.
+- **MARIADB_PORT**: Port on which MariaDB is running.
+- **MARIADB_SERVER**: Server or host address for MariaDB.
+
+### Google OAuth Configuration
+
+- **GOOGLE_CLIENT_ID**: Client ID for Google OAuth.
+- **GOOGLE_CLIENT_SECRET**: Client Secret for Google OAuth.
+
+### JWT Token Configuration
+
+- **ACCESS_SECRET**: Secret key for JWT token.
+- **ACCESS_EXPIRES_IN**: Expiry time for JWT token in seconds.
+
+### Server Configuration
+
+- **PORT**: Port on which the server will run.
+- **BASE_URL**: Base URL for the application.
+
+### Keycloak Configuration
+
+- **KEYCLOAK_SERVER_URL**: URL of the Keycloak server.
+- **KEYCLOAK_CLIENT_SECRET**: Client secret for Keycloak.
+
+### LinkedIn OAuth Configuration
+
+- **LINKEDIN_CLIENT_ID**: Client ID for LinkedIn OAuth.
+- **LINKEDIN_CLIENT_SECRET**: Client Secret for LinkedIn OAuth.
+
+### Facebook OAuth Configuration
+
+- **FB_CLIENT_ID**: Client ID for Facebook OAuth.
+- **FB_CLIENT_SECRET**: Client Secret for Facebook OAuth.
+
+### License
+
+This project is licensed under the [MIT License](LICENSE).

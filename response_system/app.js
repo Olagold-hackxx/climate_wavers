@@ -33,7 +33,7 @@ app.use((req, res)=>{
 app.use("/api/v1/posts", postsRouter)
 app.use("/api/v1/chats", chatsRouter)
 
-// useCron(generateAITips, {[defaultJobTimeUnit]: defaultJobTimeValue})
+useCron(generateAITips, {[defaultJobTimeUnit]: defaultJobTimeValue})
 
 // useQueue(queues.analyze_post, analyzePost)
 // useQueue(queues.generate_chat_title, generateTitle)

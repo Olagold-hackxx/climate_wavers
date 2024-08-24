@@ -88,6 +88,11 @@ if SSLMODE:
         "sslmode": "require",
     }
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = env("ALLOWED_ORIGINS")
+
 AUTH_USER_MODEL = "api.User"
 
 
