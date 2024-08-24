@@ -41,11 +41,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-# Add the following at the end of your settings.py
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React development server
-    # Add other origins as needed
-]
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 FRONTEND_URL = env("FRONTEND_URL")
@@ -88,10 +84,8 @@ if SSLMODE:
         "sslmode": "require",
     }
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-
-CORS_ALLOWED_ORIGINS = env("ALLOWED_ORIGINS")
+CORS_ALLOW_ALL_ORIGINS = env.bool("ALLOW_ALL_ORIGINS")
+CORS_ALLOWED_ORIGINS = env.list("ALLOWED_ORIGINS")
 
 AUTH_USER_MODEL = "api.User"
 

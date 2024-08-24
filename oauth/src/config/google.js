@@ -38,6 +38,7 @@ google.use(
           }
           return done(null, userDetails);
         }
+        console.log(profile._json)
         const username = `${profile._json.given_name}-${accessToken.slice(-5)}`;
         const data = {
           username: username,

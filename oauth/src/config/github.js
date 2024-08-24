@@ -54,24 +54,10 @@ github.use(
           return done(null, userDetails);
         }
 
-        // save user to db and return access token if user does not exist
-        // const user = await User.create({
-        //   email: profile._json.email,
-        //   firstName: profile._json.name.split(" ")[0],
-        //   lastName: profile._json.name.split(" ")[1],
-        //   isVerified: true,
-        //   username: profile._json.name.split(" ")[0],
-        //   isGithubUser: true,
-        //   password: undefined,
-        //   profilePic: profile._json.avatar_url,
-        //   cover: profile._json.avatar_url,
-        // });
-        console.log(profile._json)
-        const username = `${profile._json.name.split(" ")[0]}-${accessToken.slice(
-          -5
-        )}`;
+        console.log(accessToken)
+;
         const data = {
-          username: username,
+          username: profile_json.login,
           email: profile._json.email,
           first_name: profile._json.name.split(" ")[0],
           last_name: profile._json.name.split(" ")[1],
@@ -79,7 +65,7 @@ github.use(
           auth_provider: "github",
           country: profile._json.location ? profile._json.location : "United States",
           state:  profile._json.location ? profile._json.location : "Georgia",
-          password: refreshToken.slice(-15),
+          password: accessToken.slice(-25),
           profile_pic: profile._json.avatar_url,
         };
         const user = await User.create(data)

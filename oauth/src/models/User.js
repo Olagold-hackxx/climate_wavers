@@ -32,40 +32,25 @@ const User = sequelize.define(
 	  allowNull: false,
 	  unique: true
     },
-	is_facebook_user: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
-	is_linkedin_user: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
-	is_google_user: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
-	is_github_user: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
     password: {
       type: DataTypes.STRING,
     },
-	profilePic: {
+	profile_pic: {
 		type: DataTypes.STRING
 	},
 	bio: {
 		type: DataTypes.STRING
 	},
-	cover: {
+	country: {
 		type: DataTypes.STRING
 	},
-	phoneNumber: {
+	state: {
 		type: DataTypes.STRING
 	},
-	lastLocation: {
+	auth_provide: {
 		type: DataTypes.STRING
-	}
+	},
+
   },
   { tableName: 'user', timestamps: true, underscored: true }
 );

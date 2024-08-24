@@ -7,10 +7,10 @@ up:
 	docker compose  $(LOCAL_DOCKER_OPTIONS) up -d 
 
 down:
-	docker-compose $(LOCAL_DOCKER_OPTIONS) down
+	docker compose $(LOCAL_DOCKER_OPTIONS) down
 
 stop:
-	docker-compose $(LOCAL_DOCKER_OPTIONS) stop
+	docker compose $(LOCAL_DOCKER_OPTIONS) stop
 
 server:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) npm start
@@ -19,7 +19,7 @@ build:
 	docker compose $(LOCAL_DOCKER_OPTIONS) build
 
 rebuild:
-	docker-compose $(LOCAL_DOCKER_OPTIONS) build --force-recreate --no-deps
+	docker compose $(LOCAL_DOCKER_OPTIONS) build --force-recreate --no-deps
 
 ssh:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) /bin/sh
