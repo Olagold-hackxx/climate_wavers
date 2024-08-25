@@ -47,6 +47,15 @@ class Validator{
             userId: Joi.string().required()
         }).validate(obj)
     }
+
+    validateLogObject(obj){
+        return Joi.object({
+            username: Joi.string(),
+            action: Joi.string().required(),
+            timestamp: Joi.string(),
+            data: Joi.object().unknown(true)
+        }).validate(obj)
+    }
 }
 
 const validator = new Validator()

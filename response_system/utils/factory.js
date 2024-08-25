@@ -2,6 +2,7 @@ const config = require("../config/config")
 const firebaseService = require("../services/firebase.service")
 const aiConfig = require('../config/ai.config')
 const axios = require("axios")
+const validatorService = require("../services/validator.service")
 
 
 exports.getLocation  = async function(ip){
@@ -38,21 +39,29 @@ exports.isEndpointOk = async function (testUrl) {
     }
 }
 
-exports.formatLog = function (req){
-    const date = new Date()
-    let res = ""
-    const method = req.method
-    const path = req.path
-    const body = req.body
-    if(method == "POST" || method == "PUT" || method == "PATCH"){
-        res += `\n timestamp: ${date}`
-        res += `\n action: ${method} request to ${path} endpoint`
-        res += `\n request data: `
+exports.formatLog = function (logObj){
+    const {error} = validatorService.validateLogObject(logObj)
+    if(error)return
+        let res = ""
+        logObj.timestamp && (res += `\n timestamp: ${logObj.timestamp}`)
+        res += `\n action: ${logObj.action}`
+        res += `\n data: `
         let reqData = ""
-        for(let key in body){
-            reqData += `\n    ${key}: ${body[key]}`
+        for(let key in logObj.data){
+            reqData += `\n    ${key}: ${logObj.data[key]}`
         }
         reqData && (res += reqData)
-    }
+    res += reqData
+
     return res
+}
+
+exports.getLogAction = (ns, method, username)=>{
+    const logActions = {
+        post: {
+            "POST": username? (username + " created post"):"post created",
+            "PUT": username? (username + " updated post"):"post updated",
+        }
+    }
+    return logActions[ns]? logActions[ns][method]: ""
 }
