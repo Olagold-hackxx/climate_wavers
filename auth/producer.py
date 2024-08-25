@@ -17,7 +17,7 @@ rabbitmq_host = 'localhost'  # Adjust as needed
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
 channel = connection.channel()
 
-# Declare a queue (name it appropriately for your use case)
+# Declare a queue 
 queue_name = 'aggregated_data_queue'
 channel.queue_declare(queue=queue_name, durable=True)
 
