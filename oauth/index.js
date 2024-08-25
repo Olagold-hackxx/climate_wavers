@@ -61,6 +61,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(passport.initialize());
 
 // setup routes
+app.get("/status", (req, res)=>res.status(200).send("OK"))
 app.use("/api/v1/auth", authRouter);
 
 app.get("/status", (req, res) => {

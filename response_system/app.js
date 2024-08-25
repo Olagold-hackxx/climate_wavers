@@ -17,6 +17,7 @@ const { generateTitle } = require('./helpers/generate_title');
 const generateAITips = require('./helpers/generate_ai_tips');
 const { defaultJobTimeUnit, defaultJobTimeValue } = require('./constants/defaults');
 const { logBuilder } = require('./lib/log');
+const buildLog = require("./helpers/build_log")
 
 // Use middleware
 app.use(express.json());
@@ -25,18 +26,17 @@ app.use(helmet());
 app.use(morgan('combined'));
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(logBuilder.listen())
-app.use((req, res)=>{
-  console.log("nothing works...")
-})
 
-app.use("/api/v1/posts", postsRouter)
+//status endpoint
+app.get("/status", (req, res)=>res.status(200).send("OK"))
+
+app.use("/api/v1/posts", logBuilder.listen("post"), postsRouter)
 app.use("/api/v1/chats", chatsRouter)
 
 useCron(generateAITips, {[defaultJobTimeUnit]: defaultJobTimeValue})
-
-// useQueue(queues.analyze_post, analyzePost)
-// useQueue(queues.generate_chat_title, generateTitle)
+useQueue(queues.analyze_post, analyzePost)
+useQueue(queues.generate_chat_title, generateTitle)
+useQueue(queues.build_log, buildLog)
 
 app.listen(port, () => {
   logger.info(`Server is running on port ${port}`);
