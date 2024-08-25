@@ -5,6 +5,8 @@ import Createpost from "./Createpost";
 import { getUser } from "../utils/factory";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import { useState } from "react";
+import { RiAlarmWarningFill } from "react-icons/ri";
+import { RiAlarmWarningLine } from "react-icons/ri";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
@@ -127,7 +129,22 @@ const Menu = () => {
           />
           <p className="ml-2">Campaigns</p>
         </NavLink>
-
+        <NavLink
+          className="flex items-center py-2 lg:px-12"
+          to={`/`}
+          style={({ isActive }) => (isActive ? activeStyle : null)}
+        >
+          {({ isActive }) => (
+            <div className="w-[200%] flex">
+              {isActive ? (
+                <RiAlarmWarningFill className="mr-2" size={40} color="#008080" />
+              ) : (
+                <RiAlarmWarningLine className="mr-2" size={40} />
+              )}
+             <p className="self-center"> Disasters </p>
+            </div>
+          )}
+        </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-12"
           to={`/bot`}
@@ -136,6 +153,7 @@ const Menu = () => {
           <img src="../../waverbot.png" className="mr-4 w-auto" />
           WaverX
         </NavLink>
+       
       </div>
       {/* Post btn */}
       <button

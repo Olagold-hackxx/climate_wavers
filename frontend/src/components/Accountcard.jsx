@@ -32,7 +32,7 @@ const Accountcard = ({ user }) => {
       <Link to={`/${user?.id}/profile`}>
       <div className="flex flex-row items-center self-center text-black ">
         <img
-          src={user?.profile_pic ? user.profile_pic : user.profile_picture}
+          src={user?.profile_pic ? user.profile_pic : user?.profile_picture}
           className="mr-2 rounded-full h-12"
           alt="Profile Pic"
         />{" "}
