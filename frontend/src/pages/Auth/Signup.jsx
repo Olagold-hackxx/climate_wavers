@@ -240,7 +240,7 @@ const Signup = () => {
               </div>
               <NavLink to="/">
                 Already have an account?{" "}
-                <span className="text-[#008080]  text-xl px-2 font-[500]">Sign In</span>{" "}
+                <span className="text-[#008080] font-[700] font-serif text-xl px-2 font-[500]">Sign In</span>{" "}
               </NavLink>
             </div>
           </Box>

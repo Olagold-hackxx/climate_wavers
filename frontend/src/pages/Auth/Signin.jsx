@@ -137,7 +137,7 @@ const Signin = () => {
             </div>
             <NavLink to="/signup">
               Don&apos;t have an account?{" "}
-              <span className="text-xl px-2 font-[500] text-[#008080]">
+              <span className="text-xl px-2 font-[700] font-serif text-[#008080]">
                 Sign Up
               </span>{" "}
             </NavLink>
