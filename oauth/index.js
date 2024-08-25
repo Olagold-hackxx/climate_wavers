@@ -30,26 +30,28 @@ app.use(morgan("tiny"));
 app.use(
   cors({
     origin: process.env.HOMEPAGE,
-	credentials: true
+    credentials: true,
   })
 );
-
 
 //built-in middleware for json
 app.use(express.json());
 
 //express session middleware
-app.use(session({
-	secret: "secret",
-	resave: true,
-	saveUninitialized: true,
-	cookie: {
-		maxAge: 24 * 60 * 60 * 1000 * 7, //seven days
-		secure: false
-	},
-	store: memoryStore,
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 * 7, //seven days
+      secure: true,
+      sameSite: 'none',
+      httpOnly: false
+    },
+    store: memoryStore,
   })
-  );
+);
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
@@ -65,9 +67,9 @@ app.get("/error", (req, res) => {
   try {
     const error = req.flash("error");
     console.log(error);
-    return res.redirect(`${process.env.HOMEPAGE/signup}`);
+    return res.redirect(`${process.env.HOMEPAGE / signup}`);
   } catch (err) {
-    return res.redirect(`${process.env.HOMEPAGE/signup}`);
+    return res.redirect(`${process.env.HOMEPAGE / signup}`);
   }
 });
 
