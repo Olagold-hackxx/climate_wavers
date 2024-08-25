@@ -8,6 +8,11 @@ const sequelize = new Sequelize(
   {
     host: process.env.MYSQL_HOST,
     dialect: "mysql",
+    dialectOptions: {
+      ssl: {
+        require: process.env.SSLMODE === "True",
+      },
+    },
     define: {
       underscored: true,
     },
