@@ -29,8 +29,8 @@ const attachCookiesToResponse = ({ res, user }) => {
   res.cookie("user", JSON.stringify(user), {
     httpOnly: false,
     sameSite: 'None',
-    secure: process.env.NODE_ENV === "production",
-    signed: false,
+    secure: true,
+    signed: true,
     expires: new Date(Date.now() + oneDay),
     encode: (cookie) => cookie,
   });
@@ -38,7 +38,7 @@ const attachCookiesToResponse = ({ res, user }) => {
   res.cookie("accessToken", user.access_token, {
     httpOnly: false,
     sameSite: 'None',
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     signed: false,
     expires: new Date(Date.now() + longerExp),
     encode: (cookie) => cookie,
