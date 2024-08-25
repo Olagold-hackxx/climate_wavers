@@ -11,7 +11,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-BASE_URL = env("BASE_URL", default="http://localhost:8000")
+BASE_URL = env("BASE_URL")
+
 INSTALLED_APPS = [
     "unfold",
     "django.contrib.admin",
