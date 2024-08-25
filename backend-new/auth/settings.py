@@ -85,11 +85,10 @@ if SSLMODE:
         "sslmode": "require",
     }
 
-CORS_ALLOW_ALL_ORIGINS = env.bool("ALLOW_ALL_ORIGINS")
 CORS_ALLOWED_ORIGINS = env.list("ALLOWED_ORIGINS")
+CORS_ALLOW_ALL_ORIGINS = env.bool("ALLOW_ALL_ORIGINS")
 
 AUTH_USER_MODEL = "api.User"
-
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -112,7 +111,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 UNFOLD = {
-    "SITE_TITLE": "CLimateWavers",
+    "SITE_TITLE": "ClimateWavers",
     "SITE_HEADER": "ClimateWavers Portal",
 }
 
@@ -145,7 +144,6 @@ AMQP_URL = env("AMQP_URL", default="amqp://localhost")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 # Media settings
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
