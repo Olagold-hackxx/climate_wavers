@@ -57,8 +57,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-auto signup flex">
-      <div className="bg-[#008080] h-[100vh] lg:w-[50%] md:w-[50%] flex justify-center banner ">
+    <div className="h-[100vh] signup flex">
+      <div className="bg-[#008080] min-h-screen overflow-hidden lg:w-[50%] md:w-[50%] flex justify-center banner ">
         <div className="self-center">
           <div className="writeup">
             <h2>Join Climate Wavers</h2>
@@ -71,7 +71,7 @@ const Signup = () => {
           <img src="../../../logolargewhite.png" alt="" />
         </div>
       </div>
-      <div className="w-[100%] lg:w-[50%] md:w-[50%] pt-8 flex justify-center  ">
+      <div className="w-[100%] lg:w-[50%] md:w-[50%] flex justify-center  ">
         <div className="lg:w-[75%] self-center mb-12 md:w-[100%] px-12">
           <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
             Sign Up
@@ -224,7 +224,7 @@ const Signup = () => {
               <p className="border-b border-gray-400 w-[45%]"></p>
             </div>
             <div className="flex justify-center items-center flex-col text-center">
-              <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
+              <div className="w-[80%]  md:w-[50%] flex my-6 justify-between">
                 <a href={`${oauthUrl}/api/v1/auth/github`}>
                   <FaGithub size={32} />
                 </a>

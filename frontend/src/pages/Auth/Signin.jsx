@@ -121,7 +121,7 @@ const Signin = () => {
             <p className="border-b border-gray-400 w-[45%]"></p>
           </div>
           <div className="flex justify-center items-center flex-col text-center">
-            <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
+            <div className="w-[80%]  md:w-[50%] flex my-6 justify-between">
             <a href={`${oauthUrl}/api/v1/auth/github`}>
                   <FaGithub size={32} />
                 </a>
