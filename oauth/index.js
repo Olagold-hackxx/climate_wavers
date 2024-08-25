@@ -46,8 +46,8 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000 * 7, //seven days
       secure: true,
-      sameSite: 'none',
-      httpOnly: false
+      sameSite: "none",
+      httpOnly: false,
     },
     store: memoryStore,
   })
@@ -63,6 +63,11 @@ app.use(passport.initialize());
 // setup routes
 app.use("/api/v1/auth", authRouter);
 
+app.get("/status", (req, res) => {
+  console.log("Keep server up");
+  return res.send({ status: "up" });
+});
+
 app.get("/error", (req, res) => {
   try {
     const error = req.flash("error");
@@ -76,3 +81,4 @@ app.get("/error", (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port: ${port}`);
 });
+module.exports = app;

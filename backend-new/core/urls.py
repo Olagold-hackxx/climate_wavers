@@ -1,9 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    PostViewSet, PollViewSet, PollVoteViewSet, CommentViewSet, 
-    ReactionViewSet, RepostViewSet, ViewViewSet, FollowViewSet, 
-    BookmarkViewSet, UserViewSet, NotificationListView, MarkNotificationsAsReadView
+    PostViewSet, PollViewSet, PollVoteViewSet, CommentViewSet,
+    ReactionViewSet, RepostViewSet, ViewViewSet, FollowViewSet,
+    BookmarkViewSet, UserViewSet, NotificationListView, MarkNotificationsAsReadView, status_view
 )
 
 
@@ -26,10 +26,14 @@ router.register(r'bookmark', BookmarkViewSet)
 urlpatterns = [
     # Include all the router URLs
     path('', include(router.urls)),
-    path('notifications/', NotificationListView.as_view(), name='notification_list'),
-    path('notifications/mark-read/', MarkNotificationsAsReadView.as_view(), name='mark_notifications_as_read'),
-    
+    path("status/", status_view, name='status'),
+    path('notifications/', NotificationListView.as_view(),
+         name='notification_list'),
+    path('notifications/mark-read/', MarkNotificationsAsReadView.as_view(),
+         name='mark_notifications_as_read'),
+
     # Additional custom actions for PostViewSet
-    path('search-by-hashtag/', PostViewSet.as_view({'get': 'search_by_hashtag'})),
+    path('search-by-hashtag/',
+         PostViewSet.as_view({'get': 'search_by_hashtag'})),
     path('trending/', PostViewSet.as_view({'get': 'trending'})),
 ]

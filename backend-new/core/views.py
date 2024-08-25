@@ -35,6 +35,7 @@ from .serializers import (
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from django.http import JsonResponse
 
 # Get the custom user model
 User = get_user_model()
@@ -432,3 +433,6 @@ class PollVoteViewSet(viewsets.ModelViewSet):
     queryset = PollVote.objects.all()
     serializer_class = PollVoteSerializer
     permission_classes = [IsAuthenticated]
+
+def status_view(request):
+    return JsonResponse({"status": "up"})
