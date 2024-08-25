@@ -24,16 +24,10 @@ const Createcomment = ({ type, postId, parentId }) => {
     }
     if (postId) data.post = postId;
     if (parentId) data.parent_comment = parentId;
-    const endpoint = endpoints[type]
-    console.log(endpoint)
+    const endpoint = endpoints[type];
+    console.log(endpoint);
     try {
-      await client.run(
-        "post",
-        endpoint,
-        data,
-        true,
-        toastMsg,
-      );
+      await client.run("post", endpoint, data, true, toastMsg);
       reset();
     } catch (error) {
       console.log(error);
@@ -59,7 +53,15 @@ const Createcomment = ({ type, postId, parentId }) => {
         <div className=" flex justify-between gap-4">
           <div className=" flex justify-start gap-4 ">
             {/* <Accountcard user={user} /> */}
-            <img src={user.profile_pic} alt="" className="w-10 h-10" />
+            <img
+              src={
+                user?.profile_pic
+                  ? user.profile_pic
+                  : user.profile_picture
+              }
+              alt=""
+              className="w-10 h-10 rounded-full"
+            />
 
             <textarea
               type="text"

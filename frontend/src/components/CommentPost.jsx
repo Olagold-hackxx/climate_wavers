@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import Posts from "./Posts";
-import useFetchPost from "../hooks/useFetchPost";
-import usePostMutations from "../hooks/usePostMutations";
+import { useFetchPost } from "../hooks/useFetchPost";
+import { usePostMutations } from "../hooks/usePostMutations";
 
 const CommentPost = ({ type, postId }) => {
- 
   const { data: post } = useFetchPost({
     type,
     postId,
@@ -19,7 +18,6 @@ const CommentPost = ({ type, postId }) => {
     unsaveMutation,
   } = usePostMutations();
 
-  
   return (
     <div>
       <Posts

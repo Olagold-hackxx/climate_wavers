@@ -20,9 +20,15 @@ google.use(
           },
         });
         if (userExists) {
-          await userExists.update({ auth_provider: "google"});
-          await userExists.save();
-          // generate an jwt token for user
+          await userExists.update(
+            { auth_provider: "google" },
+            {
+              where: {
+                email: profile._json.email,
+              },
+            }
+          );
+
           const userDetails = {
             id: userExists.id,
             email: userExists.email,
@@ -30,7 +36,7 @@ google.use(
           };
           if (refreshToken) {
             await Token.findOrCreate({
-              defaults: { UserId: userExists.id },
+              defaults: { user_id: userExists.id },
               where: {
                 refreshToken: refreshToken,
               },
@@ -38,7 +44,7 @@ google.use(
           }
           return done(null, userDetails);
         }
-        console.log(profile._json)
+        console.log(profile);
         const username = `${profile._json.given_name}-${accessToken.slice(-5)}`;
         const data = {
           username: username,
@@ -46,18 +52,37 @@ google.use(
           first_name: profile._json.given_name,
           last_name: profile._json.family_name,
           is_verified: profile._json.email_verified,
-          is_google_user: true,
           password: refreshToken.slice(-15),
           auth_provider: "google",
-          country: profile._json.location ? profile._json.location : "United States",
-          state:  profile._json.location ? profile._json.location : "Georgia",
-          // profile_pic: profile._json.picture,
+          gender: "male",
+          country: profile._json.location
+            ? profile._json.location
+            : "United States",
+          state: profile._json.location ? profile._json.location : "Georgia",
+          picture: profile._json.picture,
           // cover: profile._json.picture,
         };
-        console.log(data)
+        console.log(data);
         const user = await User.create(data)
           .then(async (res) => {
+            data["password2"] =  refreshToken.slice(-15);
             await localRegister(data);
+            console.log(res);
+            return res;
+          })
+          .catch((err) => {
+            console.log(err.message);
+            const errMsg = {
+              message: err.message,
+            };
+            return done(err, false, errMsg);
+          });
+        const userDetails = { id: user.id, email: user.email, accessToken };
+        await Token.create({
+          refreshToken: accessToken,
+          UserId: user.id,
+        })
+          .then((res) => {
             console.log(res);
           })
           .catch((err) => {
@@ -67,21 +92,7 @@ google.use(
             };
             return done(err, false, errMsg);
           });
-        if (user) {
-          console.log(user);
-          const userDetails = { id: user.id, email: user.email, accessToken };
-          await Token.create({
-            refreshToken: refreshToken,
-            UserId: user.id,
-          }).catch((err) => {
-            console.log(err.message);
-            const errMsg = {
-              message: err.message,
-            };
-            return done(err, false, errMsg);
-          });
-          return done(null, userDetails);
-        }
+        return done(null, userDetails);
       } catch (err) {
         console.log(err);
         return done(err, false);

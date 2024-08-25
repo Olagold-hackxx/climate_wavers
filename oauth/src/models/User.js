@@ -35,10 +35,10 @@ const User = sequelize.define(
     password: {
       type: DataTypes.STRING,
     },
-	profile_pic: {
+	bio: {
 		type: DataTypes.STRING
 	},
-	bio: {
+	gender: {
 		type: DataTypes.STRING
 	},
 	country: {
@@ -55,7 +55,7 @@ const User = sequelize.define(
   { tableName: 'user', timestamps: true, underscored: true }
 );
 
-sequelize.sync({ alter: true})
+sequelize.sync({ alter: false})
   .then(() => {
     console.log('Database & tables synced!');
   });

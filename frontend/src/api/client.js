@@ -61,7 +61,7 @@ class Client {
       } else response = await client(endpoint, config);
       if (authCookies) {
         Cookies.set("accessToken", response.data.access_token);
-        Cookies.set("user", JSON.stringify(response.data));
+        Cookies.set("user", JSON.stringify(response.data.user));
       }
 
       if (mail) {

@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaApple, FaGithub } from "react-icons/fa";
+import {  FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
@@ -20,6 +20,7 @@ import { endpoints } from "../../utils/endpoints";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -47,7 +48,7 @@ const Signin = () => {
         false
       );
       reset();
-      navigate("/bot");
+      navigate("/");
     } catch (error) {
       console.log("Login failed");
     }
@@ -121,15 +122,22 @@ const Signin = () => {
           </div>
           <div className="flex justify-center items-center flex-col text-center">
             <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
-              <FaApple className="text-[24px]" />
-              <FaGithub className="text-[24px]" />
-              <FcGoogle className="text-[24px]" />
-              <IoLogoFacebook className="text-[24px]" />
-              <BsLinkedin className="text-[24px]" />
+            <a href={`${oauthUrl}/api/v1/auth/github`}>
+                  <FaGithub size={32} />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/google`}>
+                  <FcGoogle size={32} />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/facebook`}>
+                  <IoLogoFacebook color={"#1877F2"} size={32} />
+                </a>
+                <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
+                  <BsLinkedin color={"#0077B5"} size={32} />
+                </a>
             </div>
             <NavLink to="/signup">
               Don&apos;t have an account?{" "}
-              <span className="text-primary font-[500] text-[#008080]">
+              <span className="text-xl px-2 font-[500] text-[#008080]">
                 Sign Up
               </span>{" "}
             </NavLink>

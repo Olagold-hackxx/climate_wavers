@@ -3,6 +3,7 @@ const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/User");
 const Token = require("../models/Token");
 const localRegister = require("../utils/register");
+const ensureEmail = require("../utils/factory");
 
 github.serializeUser(function (user, done) {
   done(null, user.id);
@@ -32,11 +33,18 @@ github.use(
         // return access token if user already exists
         const userExists = await User.findOne({
           where: {
-            email: profile._json.email,
+            email: ensureEmail(profile._json.email, "github"),
           },
         });
         if (userExists) {
-          await userExists.update({ auth_provider: "github" });
+          await userExists.update(
+            { auth_provider: "github" },
+            {
+              where: {
+                email: ensureEmail(profile._json.email, "github"),
+              },
+            }
+          );
           await userExists.save();
           // generate an jwt token for user
           const userDetails = {
@@ -44,33 +52,49 @@ github.use(
             email: userExists.email,
             accessToken,
           };
-          existingToken = await Token.update(
+          await Token.update(
             { refreshToken: accessToken },
             {
               where: {
-                UserId: userExists.id,
+                user_id: userExists.id,
               },
             }
           );
           return done(null, userDetails);
         }
-
-;
         const data = {
           username: profile._json.login,
-          email: profile._json.email,
+          email: ensureEmail(profile._json.email, "github"),
           first_name: profile._json.name.split(" ")[0],
           last_name: profile._json.name.split(" ")[1],
           bio: profile._json.bio,
           auth_provider: "github",
-          country: profile._json.location ? profile._json.location : "United States",
-          state:  profile._json.location ? profile._json.location : "Georgia",
+          country: profile._json.location
+            ? profile._json.location
+            : "United States",
+          gender: "male",
+          state: profile._json.location ? profile._json.location : "Georgia",
           password: accessToken.slice(-25),
-          profile_pic: profile._json.avatar_url,
         };
         const user = await User.create(data)
-          .then(async (res) => {
+          .then(async (user) => {
+            data["password2"] = accessToken.slice(-25);
             await localRegister(data);
+            return user
+          })
+          .catch((err) => {
+            console.log(err.message);
+            const errMsg = {
+              message: err.message,
+            };
+            return done(err, false, errMsg);
+          });
+        const userDetails = { id: user.id, email: user.email, accessToken };
+        await Token.create({
+          refreshToken: accessToken,
+          UserId: user.id,
+        })
+          .then((res) => {
             console.log(res);
           })
           .catch((err) => {
@@ -80,21 +104,7 @@ github.use(
             };
             return done(err, false, errMsg);
           });
-        if (user) {
-          console.log(user);
-          const userDetails = { id: user.id, email: user.email, accessToken };
-          await Token.create({
-            refreshToken: refreshToken,
-            UserId: user.id,
-          }).catch((err) => {
-            console.log(err.message);
-            const errMsg = {
-              message: err.message,
-            };
-            return done(err, false, errMsg);
-          });
-          return done(null, userDetails);
-        }
+        return done(null, userDetails);
       } catch (err) {
         console.log(err);
         return done(err, false);

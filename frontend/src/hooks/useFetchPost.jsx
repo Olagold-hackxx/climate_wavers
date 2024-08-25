@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "../utils/endpoints";
 import { client } from "../api";
 
-const useFetchPost = ({ type, postId }) => {
+export const useFetchPost = ({ type, postId }) => {
 
   let url;
   if (postId && type === "post") {
@@ -22,4 +22,3 @@ const useFetchPost = ({ type, postId }) => {
   });
 };
 
-export default useFetchPost;

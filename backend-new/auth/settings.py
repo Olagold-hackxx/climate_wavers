@@ -11,6 +11,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+BASE_URL = env("BASE_URL", default="http://localhost:8000")
 INSTALLED_APPS = [
     "unfold",
     "django.contrib.admin",
@@ -159,6 +160,6 @@ DEFAULT_FROM_EMAIL = "climatewaver@gmail.com"
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = True
 
-FERNET_KEY = env("FERNET_KEY").encode() 
+FERNET_KEY = env("FERNET_KEY").encode()
 # Make sure to encode the key
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),

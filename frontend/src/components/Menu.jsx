@@ -5,11 +5,16 @@ import Createpost from "./Createpost";
 import { useState } from "react";
 import { getUser } from "../utils/factory";
 import CampaignIcon from "@mui/icons-material/Campaign";
+import { useEffect } from "react";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
-  const user = getUser();
-  console.log(user);
+  const cached_user = getUser();
+  const [user, setUser] = useState(cached_user);
+
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
 
   const activeStyle = {
     borderLeft: "4px solid #008080",
@@ -122,8 +127,11 @@ const Menu = () => {
           to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <CampaignIcon sx={{ color: "#008080", fontSize: "50px" }} fontSize={"large"} />
-         <p className="ml-2">Campaigns</p>
+          <CampaignIcon
+            sx={{ color: "#008080", fontSize: "50px" }}
+            fontSize={"large"}
+          />
+          <p className="ml-2">Campaigns</p>
         </NavLink>
 
         <NavLink

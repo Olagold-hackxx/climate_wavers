@@ -41,7 +41,6 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
       closeModal();
     } catch (error) {
       console.log(error);
-
     }
   };
 
@@ -53,7 +52,11 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
       >
         <div className=" flex justify-start gap-4 ">
           <img
-            src={user.profile_pic}
+            src={
+              user?.profile_pic
+                ? user.profile_pic
+                : user.profile_picture
+            }
             alt=""
             className="w-12 h-12 rounded-full h-10"
           />

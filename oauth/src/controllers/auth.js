@@ -1,46 +1,29 @@
 const Token = require("../models/Token");
 const User = require("../models/User");
 const axios = require("axios");
-const { isTokenValid, attachCookiesToResponse } = require("../utils/jwt");
+const { attachCookiesToResponse } = require("../utils/jwt");
 const TokenError = require("../errors/tokenError");
 const loginLocal = require("../utils/login");
+const localRegister = require("../utils/register");
+const ensureEmail = require("../utils/factory");
 
 const oauthSignIn = async (req, res) => {
   try {
     const user = req.user;
     // check for existing refresh token
-    const existingToken = await Token.findOne({ where: { UserId: user.id } });
+    const existingToken = await Token.findOne({ where: { user_id: user.id } });
 
     if (existingToken === null || existingToken.refreshToken === null) {
-      // Set Google oauth option to resend refresh token
       const error = new TokenError(
         "Session expired, Please reauthenticate your account"
       );
-      return res.redirect(`${process.env.HOMEPAGE}/login`);
+      throw error;
     }
-    refreshToken = existingToken.refreshToken;
-    user.refreshToken = refreshToken;
-    req.session.user = user;
-    req.session.save();
-    // data = {
-    //   username: user.username,
-    //   email: user.email,
-    //   first_name: user.first_name,
-    //   last_name: user.last_name,
-    //   is_verified: user.isVerified,
-    //   is_google_user: user.isGoogleUser,
-    //   is_github_user: user.isGithubUser,
-    //   is_linkedin_user: user.isLinkedInUser,
-    //   password: user.refreshToken,
-    //   profile_pic: user.profile_pic,
-    //   cover: user.cover,
-    // };
     user_login = await User.findOne({ where: { id: user.id } });
     user_details = await loginLocal({
-      username: user_login.username,
+      email: user_login.email,
       password: user_login.password,
     });
-    console.log(user_details);
     attachCookiesToResponse({ res, user: user_details });
     return res.redirect(process.env.HOMEPAGE);
   } catch (err) {
@@ -56,7 +39,6 @@ const getUserData = (req, res) => {
 
 const linkedInOauth = async (req, res, next) => {
   try {
-    console.log(req.query.id);
     //here we get this code from passport linkedin strategy.
     const code = req.query.code;
 
@@ -67,10 +49,10 @@ const linkedInOauth = async (req, res, next) => {
     const clientSecret = process.env.LINKEDIN_CLIENT_SECRET;
     //step 2 : access token retrieval
     const accessTokenUrl = `https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}&client_id=${clientId}&client_secret=${clientSecret}`;
-    await axios
+    accessToken = await axios
       .post(accessTokenUrl)
       .then((res) => {
-        accessToken = res.data.access_token;
+        return res.data.access_token;
       })
       .catch((err) => {
         console.log(err);
@@ -78,12 +60,12 @@ const linkedInOauth = async (req, res, next) => {
     //Fetching User Data
     const userInfoUrl = `https://api.linkedin.com/v2/userinfo`;
     if (accessToken) {
-      await axios
+      userInfo = await axios
         .get(userInfoUrl, {
           headers: { Authorization: `Bearer ${accessToken}` },
         })
         .then((response) => {
-          userInfo = response.data;
+          return response.data;
           // res.send(res.data);
         })
         .catch((err) => {
@@ -105,11 +87,18 @@ const linkedInOauth = async (req, res, next) => {
       // return access token if user already exists
       const userExists = await User.findOne({
         where: {
-          username: userInfo.email,
+          email: userInfo.email,
         },
       });
       if (userExists) {
-        await userExists.update({auth_provider: "linkedin"});
+        await userExists.update(
+          { auth_provider: "linkedin" },
+          {
+            where: {
+              email: ensureEmail(userInfo.email, "linkedin"),
+            },
+          }
+        );
         await userExists.save();
         // generate an jwt token for user
         const userDetails = {
@@ -119,7 +108,7 @@ const linkedInOauth = async (req, res, next) => {
         };
         if (accessToken) {
           existingToken = await Token.findOne({
-            where: { UserId: userExists.id },
+            where: { user_id: userExists.id },
           });
           if (existingToken) {
             existingToken.refreshToken == accessToken;
@@ -127,7 +116,7 @@ const linkedInOauth = async (req, res, next) => {
           } else {
             await Token.create({
               refreshToken: accessToken,
-              UserId: userExists.id,
+              user_id: userExists.id,
             });
           }
         }
@@ -135,23 +124,27 @@ const linkedInOauth = async (req, res, next) => {
         return next();
       }
       const data = {
-        username: `${userInfo.given_name}-${accessToken.slice(4)}`,
-        email: userInfo.email,
+        username: `${userInfo.given_name}-${accessToken.slice(-4)}`,
+        email: ensureEmail(userInfo.email, "linkedin"),
         first_name: userInfo.given_name,
         last_name: userInfo.family_name,
-        is_verified: true,
+        is_verified: userInfo.email_verified,
         password: accessToken.slice(-15),
-        country: profile._json.location ? profile._json.location : "United States",
-        state:  profile._json.location ? profile._json.location : "Georgia",
-        // profilePic: userInfo.picture,
+        gender: "male",
+        country: userInfo.locale.country
+          ? userInfo.locale.country
+          : "United States",
+        state: userInfo.locale.country ? userInfo.locale.country : "Georgia",
+        picture: userInfo.picture,
         // cover: userInfo.picture,
-        auth_provider: "linkedin"
+        auth_provider: "linkedin",
       };
       // save user to db and return access token if user does not exist
       const user = await User.create(data)
         .then(async (res) => {
+          data["password2"] = accessToken.slice(-15);
           await localRegister(data);
-          console.log(res);
+          return res;
         })
         .catch((err) => {
           console.log(err.message);
@@ -161,7 +154,12 @@ const linkedInOauth = async (req, res, next) => {
         refreshToken: accessToken,
         UserId: user.id,
       });
-      req.user = user;
+      const userDetails = {
+        id: user.id,
+        email: user.email,
+        accessToken,
+      };
+      req.user = userDetails;
       return next();
     }
     return res.status(400).json({ error: "User not found" });

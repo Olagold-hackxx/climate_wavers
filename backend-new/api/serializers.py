@@ -9,11 +9,11 @@ from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.conf import settings
 from .tasks import send_reset_password_email
 
-
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
     password2 = serializers.CharField(max_length=68, min_length=6, write_only=True)
     profile_pic = serializers.ImageField(required=False)
+    picture = serializers.CharField(required=False)
 
     class Meta:
         model = User
@@ -28,7 +28,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password",
             "password2",
             "profile_pic",
+            "picture",
             "default_avatar",
+            "auth_provider"
         ]
 
     def validate(self, attrs):
@@ -67,10 +69,12 @@ class LoginSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(max_length=255, read_only=True)
     access_token = serializers.CharField(max_length=255, read_only=True)
     refresh_token = serializers.CharField(max_length=255, read_only=True)
+    id = serializers.CharField(read_only=True)
+    username = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ["email", "password", "full_name", "access_token", "refresh_token"]
+        fields = ["email", "password", "id", "full_name", "username", "access_token", "refresh_token"]
 
     def validate(self, attrs):
         email = attrs.get("email")
@@ -82,12 +86,15 @@ class LoginSerializer(serializers.ModelSerializer):
         if not user.is_verified:
             raise AuthenticationFailed("Email is not verified")
         user_tokens = user.tokens()
+        
 
         return {
             "email": user.email,
             "full_name": user.get_full_name,
             "access_token": str(user_tokens.get("access")),
             "refresh_token": str(user_tokens.get("refresh")),
+            "id": user.id,
+            "username": user.username
         }
 
 

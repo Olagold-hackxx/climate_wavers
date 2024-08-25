@@ -5,6 +5,7 @@ from unfold.admin import ModelAdmin
 @admin.register(User)
 class UserAdmin(ModelAdmin):
     list_display = (
+        'id',
         'email', 
         'first_name', 
         'last_name', 

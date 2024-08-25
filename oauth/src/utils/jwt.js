@@ -26,7 +26,7 @@ const attachCookiesToResponse = ({ res, user }) => {
   const oneDay = 1000 * 60 * 60 * 24;
   const longerExp = 1000 * 60 * 60 * 24 * 30;
 
-  res.cookie("user", JSON.stringify(user.user), {
+  res.cookie("user", JSON.stringify(user), {
     httpOnly: false,
     secure: process.env.NODE_ENV === "production",
     signed: false,
@@ -34,7 +34,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     encode: (cookie) => cookie,
   });
 
-  res.cookie("token", user.token, {
+  res.cookie("accessToken", user.access_token, {
     httpOnly: false,
     secure: process.env.NODE_ENV === "production",
     signed: false,

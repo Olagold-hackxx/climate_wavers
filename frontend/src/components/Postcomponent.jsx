@@ -2,11 +2,15 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Posts from "./Posts";
 import { toast } from "react-toastify";
-import useFetchPosts from "../hooks/useFetchPosts";
-import usePostMutations from "../hooks/usePostMutations";
+import { useFetchPosts } from "../hooks/useFetchPosts";
+import { usePostMutations } from "../hooks/usePostMutations";
 
 const Postcomponent = ({ type, postId, comment }) => {
-  const { data: posts, isLoading: postsLoading, error } = useFetchPosts({
+  const {
+    data: posts,
+    isLoading: postsLoading,
+    error,
+  } = useFetchPosts({
     type,
     postId,
     comment,
@@ -28,7 +32,7 @@ const Postcomponent = ({ type, postId, comment }) => {
 
   useEffect(() => {
     if (postsLoading) {
-      toast.dismiss()
+      toast.dismiss();
       toast.info("Fetching Posts...", {
         autoClose: 200,
       });

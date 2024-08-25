@@ -1,5 +1,4 @@
 - model: api.user
-  pk: 1
   fields:
     is_superuser: true
     first_name: Admin
@@ -13,16 +12,15 @@
     state: "Lagos"
     gender: "male"
     username: admin
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    profile_pic: '/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
-  pk: 2
   fields:
     is_superuser: true
     first_name: 'Abdul'
     last_name: 'Aileru'
-    is_staff: false
+    is_staff: true
     username: abdul123
     is_active: true
     email: abdul@climatewavers.dev
@@ -31,11 +29,10 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    profile_pic: '/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
-  pk: 3
   fields:
     last_login: null
     is_superuser: true
@@ -51,11 +48,10 @@
     country: "Kenya"
     state: "Nairobi"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    profile_pic: '/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
-  pk: 3
   fields:
     last_login: null
     is_superuser: true
@@ -71,6 +67,6 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
+    profile_pic: '/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []

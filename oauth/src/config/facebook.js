@@ -2,6 +2,8 @@ const facebook = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../models/User");
 const Token = require("../models/Token");
+const localRegister = require("../utils/register");
+const ensureEmail = require("../utils/factory");
 
 facebook.serializeUser(function (user, done) {
   done(null, user.id);
@@ -25,9 +27,7 @@ facebook.use(
       profileFields: ["id", "displayName", "name", "photos", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log();
-      console.log(refreshToken);
-      console.log(accessToken);
+      console.log(profile)
       try {
         // save user to db and return access token if user does not exist
         if (!profile._json.email) {
@@ -36,7 +36,7 @@ facebook.use(
         // return access token if user already exists
         const userExists = await User.findOne({
           where: {
-            email: profile._json.email,
+            email: ensureEmail(profile._json.email, "facebook"),
           },
         });
         if (userExists) {
@@ -46,13 +46,20 @@ facebook.use(
             email: userExists.email,
             accessToken,
           };
-          await userExists.update({ auth_provider: "facebook" });
+          await userExists.update(
+            { auth_provider: "facebook" },
+            {
+              where: {
+                email: ensureEmail(profile._json.email, "facebook"),
+              },
+            }
+          );
           await userExists.save();
           existingToken = await Token.update(
             { refreshToken: accessToken },
             {
               where: {
-                UserId: userExists.id,
+                user_id: userExists.id,
               },
             }
           );
@@ -60,22 +67,41 @@ facebook.use(
         }
         const username = `${profile.name.givenName}-${accessToken.slice(-5)}`;
         const data = {
-          username: username,
-          email: profile._json.email,
+          username: profile.username ? profile.username : username,
+          email: ensureEmail(profile._json.email, "facebook"),
           first_name: profile.name.givenName,
           last_name: profile.name.familyName,
           is_verified: true,
-          password: refreshToken.slice(-15),
+          gender: "male",
+          password: accessToken.slice(-15),
           auth_provider: "facebook",
-          country: profile._json.location ? profile._json.location : "United States",
-          state:  profile._json.location ? profile._json.location : "Georgia",
-          // profilePic: profile.photos[0].value,
+          country: profile._json.location
+            ? profile._json.location
+            : "United States",
+          state: profile._json.location ? profile._json.location : "Georgia",
+          picture: profile.photos[0].value,
           // cover: profile._json.picture.data.url,
         };
         // save user to db and return access token if user does not exist
         const user = await User.create(data)
           .then(async (res) => {
+            data["password2"] =  accessToken.slice(-15);
             await localRegister(data);
+            return res
+          })
+          .catch((err) => {
+            console.log(err.message);
+            const errMsg = {
+              message: err.message,
+            };
+            return done(err, false, errMsg);
+          });
+          const userDetails = { id: user.id, email: user.email, accessToken };
+        await Token.create({
+          refreshToken: accessToken,
+          UserId: user.id,
+        })
+          .then((res) => {
             console.log(res);
           })
           .catch((err) => {
@@ -85,26 +111,7 @@ facebook.use(
             };
             return done(err, false, errMsg);
           });
-        if (user) {
-          const userDetails = {
-            id: user.id,
-            email: user.email,
-            accessToken,
-          };
-          await Token.create({
-            refreshToken: accessToken,
-            UserId: user.id,
-          }).catch((err) => {
-            console.log(err.message);
-            const errMsg = {
-              message: err.message,
-            };
-            return done(err, false, errMsg);
-          });
-          console.log("Autenticated successfully");
-          return done(null, userDetails);
-        }
-        return done(null, false);
+        return done(null, userDetails);
       } catch (err) {
         console.log(err);
         return done(err, false);

@@ -3,9 +3,11 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.templatetags.static import static
+from django.conf.urls.static import static
 from .manager import UserManager
 from cryptography.fernet import Fernet
+from django.conf import settings
+
 
 AUTH_PROVIDERS = {
     "email": "email",
@@ -23,8 +25,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
 
     AVATAR_CHOICES = [
-        ("avatar 1.jpg", "Male Avatar"),  # Male avatar
-        ("avatar 2.jpg", "Female Avatar"),  # Female avatar
+        ("avatar1.png", "Male Avatar"),  # Male avatar
+        ("avatar2.png", "Female Avatar"),  # Female avatar
     ]
 
     first_name = models.CharField(max_length=100, verbose_name=_("First Name"))
@@ -52,6 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(auto_now=True)
     bio = models.TextField(max_length=500, blank=True, null=True)
     auth_provider = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
+    picture = models.URLField(max_length=500, blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = [
@@ -86,16 +89,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     def profile_picture(self):
         if self.profile_pic:
             return self.profile_pic.url
+        elif self.picture:
+            return self.picture
         elif self.default_avatar:
-            return static(f"avatars/{self.default_avatar}")
+            return f"{settings.BASE_URL}/media/avatars/{self.default_avatar}"
         return None
 
     def save(self, *args, **kwargs):
-        if not self.default_avatar:
-            if self.gender == "male":
-                self.default_avatar = "avatar 1.jpg"
-            elif self.gender == "female":
-                self.default_avatar = "avatar 2.jpg"
+        if self.auth_provider != "email":
+            self.is_verified = True
         super(User, self).save(*args, **kwargs)
 
 

@@ -226,21 +226,21 @@ const Signup = () => {
             <div className="flex justify-center items-center flex-col text-center">
               <div className="w-[80%] lg:w-[40%] md:w-[40%] flex mx-auto my-6 justify-between">
                 <a href={`${oauthUrl}/api/v1/auth/github`}>
-                  <FaGithub className="text-[24px]" />
+                  <FaGithub size={32} />
                 </a>
                 <a href={`${oauthUrl}/api/v1/auth/new-google`}>
-                  <FcGoogle className="text-[24px]" />
+                  <FcGoogle size={32} />
                 </a>
-                <a href={`${oauthUrl}/api/v1/auth/facebbok`}>
-                  <IoLogoFacebook className="text-[24px]" />
+                <a href={`${oauthUrl}/api/v1/auth/facebook`}>
+                  <IoLogoFacebook color={"#1877F2"} size={32} />
                 </a>
                 <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
-                  <BsLinkedin className="text-[24px]" />
+                  <BsLinkedin  color={"#0077B5"} size={32}/>
                 </a>
               </div>
               <NavLink to="/">
                 Already have an account?{" "}
-                <span className="text-[#008080] font-[500]">Sign In</span>{" "}
+                <span className="text-[#008080]  text-xl px-2 font-[500]">Sign In</span>{" "}
               </NavLink>
             </div>
           </Box>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Accountcard = ({ user }) => {
   const [isFollow, setIsFollow] = useState(false);
-
+  
   const follow = async (userId) => {
     await client.run("post", endpoints?.follow, { following: userId }, true);
   };
