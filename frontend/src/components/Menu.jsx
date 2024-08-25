@@ -2,19 +2,13 @@ import { PiBookmarkFill, PiBookmarkLight } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
-import { useState } from "react";
 import { getUser } from "../utils/factory";
 import CampaignIcon from "@mui/icons-material/Campaign";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
-  const cached_user = getUser();
-  const [user, setUser] = useState(cached_user);
-
-  useEffect(() => {
-    setUser(getUser());
-  }, []);
+  const user = getUser();
 
   const activeStyle = {
     borderLeft: "4px solid #008080",
