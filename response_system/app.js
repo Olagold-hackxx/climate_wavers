@@ -24,14 +24,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan('combined'));
-app.use(cors());
+app.use(cors("*"));
 app.use(express.static(path.join(__dirname, 'views')));
 
 //status endpoint
 app.get("/status", (req, res)=>res.status(200).send("OK"))
 
 app.use("/api/v1/posts", logBuilder.listen("post"), postsRouter)
-app.use("/api/v1/chats", chatsRouter)
+app.use("/api/v1/chats", chatsRouter);
 
 useCron(generateAITips, {[defaultJobTimeUnit]: defaultJobTimeValue})
 useQueue(queues.analyze_post, analyzePost)

@@ -42,15 +42,14 @@ exports.isEndpointOk = async function (testUrl) {
 exports.formatLog = function (logObj){
     const {error} = validatorService.validateLogObject(logObj)
     if(error)return
-        let res = ""
-        logObj.timestamp && (res += `\n timestamp: ${logObj.timestamp}`)
-        res += `\n action: ${logObj.action}`
-        res += `\n data: `
-        let reqData = ""
-        for(let key in logObj.data){
-            reqData += `\n    ${key}: ${logObj.data[key]}`
-        }
-        reqData && (res += reqData)
+    let res = ""
+    logObj.timestamp && (res += `\n timestamp: ${logObj.timestamp}`)
+    res += `\n action: ${logObj.action}`
+    res += `\n data: `
+    let reqData = ""
+    for(let key in logObj.data){
+        reqData += `\n    ${key}: ${logObj.data[key]}`
+    }
     res += reqData
 
     return res
