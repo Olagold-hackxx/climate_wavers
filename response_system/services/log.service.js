@@ -13,7 +13,7 @@ class Log{
 
     async getLogs(from){
         const result = await firebaseService.queryCollection(this.collection, "createdAt", ">=", from)
-        return result.docs.map(d=>d.data().details)
+        return result.docs.map(d=>`\ndate: ${new Date(d.data().createdAt)}\n${d.data().details}`)
     }
 }
 
