@@ -38,6 +38,33 @@ class Notification(models.Model):
         return f'Notification for {self.user.username}: {self.message}'
 
 class Post(models.Model):
+    DISASTER_CHOICES = [
+        ('flood', 'Flood'),
+        ('wildfire', 'Wildfire'),
+        ('drought', 'Drought'),
+        ('storm', 'Storm'),
+        ('heatwave', 'Heatwave'),
+        ('earthquake', 'Earthquake'),
+        ('tsunami', 'Tsunami'),
+        ('volcano', 'Volcanic Eruption'),
+        ('landslide', 'Landslide'),
+        ('tornado', 'Tornado'),
+        ('hurricane', 'Hurricane'),
+        ('cyclone', 'Cyclone'),
+        ('pandemic', 'Pandemic'),
+        ('epidemic', 'Epidemic'),
+        ('avalanche', 'Avalanche'),
+        ('blizzard', 'Blizzard'),
+        ('hailstorm', 'Hailstorm'),
+        ('sandstorm', 'Sandstorm'),
+        ('sinkhole', 'Sinkhole'),
+        ('locust', 'Locust Infestation'),
+        ('oilspill', 'Oil Spill'),
+        ('chemical', 'Chemical Hazard'),
+        ('nuclear', 'Nuclear Disaster'),
+        ('other', 'Other'),
+    ]
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -46,12 +73,13 @@ class Post(models.Model):
     audio = models.FileField(upload_to='posts/audio/', blank=True, null=True)
     location = models.CharField(max_length=255, blank=True)
     emoji = models.CharField(max_length=255, blank=True)
-    gif = models.URLField(blank=True)
+    gif = models.FileField(upload_to='posts/gif/', null=True, blank=True)
     is_donation = models.BooleanField(default=False)
     donation_approved = models.BooleanField(default=False)
     visibility = models.CharField(max_length=10, choices=[('Everyone', 'Everyone'), ('Friends', 'Friends')], default='Everyone')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    disaster_type = models.CharField(max_length=20, choices=DISASTER_CHOICES, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.content:

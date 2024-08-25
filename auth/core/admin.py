@@ -2,14 +2,18 @@ from django.contrib import admin
 from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'user', 'is_donation', 'donation_approved']
     actions = ['approve_donations']
+    list_display = ('title', 'user', 'location', 'is_donation', 'donation_approved', 'disaster_type', 'created_at', 'visibility')
+    list_filter = ('disaster_type', 'visibility')
+    search_fields = ('title', 'content', 'location')
 
     def approve_donations(self, request, queryset):
         queryset.update(donation_approved=True)
     approve_donations.short_description = "Approve selected donation posts"
 
 admin.site.register(Post, PostAdmin)
+    
+
 
 class PollAdmin(admin.ModelAdmin):
     list_display = ('question', 'user', 'created_at', 'updated_at', 'visibility', 'duration')

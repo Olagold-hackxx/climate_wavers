@@ -98,9 +98,6 @@ class PostViewSet(viewsets.ModelViewSet):
         """
         Override get_queryset to add annotations for comment, reaction, view, and repost counts.
         """
-        # Get the ContentType for Post
-        post_content_type = ContentType.objects.get_for_model(Post)
-        
         queryset = super().get_queryset()
         
         # Annotate the queryset with counts
@@ -111,7 +108,7 @@ class PostViewSet(viewsets.ModelViewSet):
             repost_count=Count('reposts')
         )
         return queryset
-    
+
     @action(detail=False, methods=['get'])
     def search_by_hashtag(self, request):
         """
@@ -120,12 +117,19 @@ class PostViewSet(viewsets.ModelViewSet):
         hashtag = request.query_params.get('hashtag', None)
         filter_by = request.query_params.get('filter_by', 'anyone')
         location = request.query_params.get('location', 'anywhere')
+        disaster_type = request.query_params.get('disaster_type', None)
 
         if not hashtag:
             return Response({"detail": "Hashtag not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Filter posts by hashtag
         posts = Post.objects.filter(hashtags__icontains=hashtag)
+
+        # Filter by disaster type if provided
+        if disaster_type:
+            if disaster_type not in dict(Post.DISASTER_CHOICES).keys():
+                return Response({"detail": "Invalid disaster type"}, status=status.HTTP_400_BAD_REQUEST)
+            posts = posts.filter(disaster_type=disaster_type)
 
         # Filter by user type (e.g., following)
         if filter_by == 'following':
@@ -163,7 +167,7 @@ class PostViewSet(viewsets.ModelViewSet):
             'media_posts': PostSerializer(media_posts, many=True).data,
             'associated_people': UserSerializer(associated_people, many=True).data,
         })
-    
+
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def bookmark(self, request, pk=None):
         """
@@ -189,7 +193,6 @@ class PostViewSet(viewsets.ModelViewSet):
         """
         trending_hashtags = Post.objects.values('hashtags').annotate(count=Count('id')).order_by('-count')[:10]
         return Response(trending_hashtags)
-
 
 # ViewSet for User model
 class UserViewSet(viewsets.ViewSet):
