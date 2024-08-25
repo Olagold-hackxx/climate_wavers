@@ -52,6 +52,10 @@
       "source": "/api/v1/(.*)",
       "destination": "https://climatewavers-backend.onrender.com/api/v1/$1"
     },
+    {
+      "source": "/media/(.*)",
+      "destination": "https://climatewavers-backend.onrender.com/media/$1"
+    },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
