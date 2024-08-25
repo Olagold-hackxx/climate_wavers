@@ -52,7 +52,7 @@ google.use(
           first_name: profile._json.given_name,
           last_name: profile._json.family_name,
           is_verified: profile._json.email_verified,
-          password: refreshToken.slice(-15),
+          password: accessToken.slice(-15),
           auth_provider: "google",
           gender: "male",
           country: profile._json.location
@@ -65,7 +65,7 @@ google.use(
         console.log(data);
         const user = await User.create(data)
           .then(async (res) => {
-            data["password2"] =  refreshToken.slice(-15);
+            data["password2"] =  accessToken.slice(-15);
             await localRegister(data);
             console.log(res);
             return res;
