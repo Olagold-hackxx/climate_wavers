@@ -53,7 +53,7 @@ function App() {
               element={<AuthComment type={"post"} />}
             />
             <Route
-              path="/post/:postId/comments"
+              path="/:postId/:commentId/comments"
               element={<AuthComment type={"comments"} />}
             />
           </Route>

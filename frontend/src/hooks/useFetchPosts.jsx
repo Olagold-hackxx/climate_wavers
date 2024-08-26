@@ -19,7 +19,7 @@ export const useFetchPosts = ({ type, postId, comment }) => {
   };
 
   return useQuery({
-    queryKey: ["posts", postId, comment],
+    queryKey: ["post", postId, comment],
     queryFn: fetchPosts,
   });
 };

@@ -63,7 +63,8 @@ class MarkNotificationsAsReadView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, *args, **kwargs):
-        notifications = Notification.objects.filter(user=request.user, is_read=False)
+        notifications = Notification.objects.filter(
+            user=request.user, is_read=False)
         notifications.update(is_read=True)
         return Response(
             {"status": "Notifications marked as read"}, status=status.HTTP_200_OK
@@ -103,11 +104,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
         # Annotate the queryset with counts
         queryset = queryset.annotate(
-            comment_count=Count("comments"),
-            reaction_count=Count("reactions"),
-            view_count=Count("views"),
-            repost_count=Count("reposts"),
-            bookmark_count=Count("bookmarks"),
+            total_comments=Count("comments"),
+            total_reactions=Count("reactions"),
+            total_views=Count("views"),
+            total_reposts=Count("reposts"),
+            total_bookmarks=Count("bookmarks"),
         )
         return queryset
 
@@ -130,30 +131,32 @@ class PostViewSet(viewsets.ModelViewSet):
 
         # Filter by user type (e.g., following)
         if filter_by == "following":
-            posts = posts.filter(user__in=request.user.following.values("following"))
+            posts = posts.filter(
+                user__in=request.user.following.values("following"))
 
         # Filter by location (e.g., near_me)
         if location == "near_me":
-            user_country = request.user.country  # Assuming user has a country field
+            usersry = request.user.country  # Assuming user has a country field
             user_state = request.user.state  # Assuming user has a state field
-            posts = posts.filter(user__country=user_country, user__state=user_state)
+            posts = posts.filter(user_sry=usersry, user__state=user_state)
 
-        # Annotate the queryset with reaction_count, comment_count, etc.
+        # Annotate the queryset with reactions, comments, etc.
         posts = posts.annotate(
-            reaction_count=Count("reactions"),
-            comment_count=Count("comments"),
-            view_count=Count("views"),
-            repost_count=Count("reposts"),
+            total_reactions=Count("reactions"),
+            total_comments=Count("comments"),
+            total_views=Count("views"),
+            total_reposts=Count("reposts")
         )
 
         # Get top posts (based on reactions)
-        top_posts = posts.order_by("-reaction_count")[:10]
+        top_posts = posts.order_by("-reactions")[:10]
 
         # Get latest posts
         latest_posts = posts.order_by("-created_at")[:10]
 
         # Get media posts (posts with images or audio)
-        media_posts = posts.filter(Q(image__isnull=False) | Q(audio__isnull=False))
+        media_posts = posts.filter(
+            Q(image__isnull=False) | Q(audio__isnull=False))
 
         # Get people associated with the hashtag
         associated_people = User.objects.filter(post__in=posts).distinct()
@@ -173,7 +176,8 @@ class PostViewSet(viewsets.ModelViewSet):
         Custom action to react to a post.
         """
         post = self.get_object()
-        Reaction.objects.create(user=request.user, post=post)
+        Reaction.objects.create(
+            user=request.user, post=post, content_object=post)
         return Response({"status": "a reaction to post"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -182,7 +186,8 @@ class PostViewSet(viewsets.ModelViewSet):
         Custom action to remove a reaction from a post.
         """
         post = self.get_object()
-        Reaction.objects.filter(user=request.user, post=post).delete()
+        Reaction.objects.filter(
+            user=request.user, post=post).delete()
         return Response({"status": "reaction removed"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -191,7 +196,8 @@ class PostViewSet(viewsets.ModelViewSet):
         Custom action to repost a post.
         """
         post = self.get_object()
-        Repost.objects.create(user=request.user, post=post)
+        Repost.objects.create(
+            user=request.user, post=post, content_object=post)
         return Response({"status": "a reaction to post"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -221,7 +227,8 @@ class PostViewSet(viewsets.ModelViewSet):
         Custom action to bookmark a post.
         """
         post = self.get_object()
-        Bookmark.objects.create(user=request.user, post=post)
+        Bookmark.objects.create(
+            user=request.user, post=post, content_object=post)
         return Response({"status": "post bookmarked"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -237,37 +244,52 @@ class PostViewSet(viewsets.ModelViewSet):
 # ViewSet for User model
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
+    serializer_class = UserActivitySerializer
 
     def get_object(self):
         return User.objects.get(pk=self.kwargs["pk"])
 
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["post"])
     def activity(self, request):
         """
         Custom action to get user activity statistics.
         """
-        user = request.user
-        post_count = Post.objects.filter(user=user).count()
-        comment_count = Comment.objects.filter(user=user).count()
-        reaction_count = Reaction.objects.filter(user=user).count()
-        view_count = View.objects.filter(user=user).count()
-        repost_count = Repost.objects.filter(user=user).count()
-        follower_count = Follow.objects.filter(following=user).count()
-        following_count = Follow.objects.filter(follower=user).count()
-        bookmark_count = Bookmark.objects.filter(user=user).count()
+        user_id = request.data["user_id"]
+        user = User.objects.get(id=user_id)
+        posts = Post.objects.filter(user=user).annotate(
+            total_comments=Count('comments'),
+            total_reactions=Count('reactions'),
+            total_views=Count('views'),
+            total_reposts=Count('reposts'),
+            total_bookmarks=Count('bookmarks')
+        )
+        comments = Comment.objects.filter(user=user).annotate(
+            total_comments=Count('subcomments'),
+            total_reactions=Count('reactions'),
+            total_reposts=Count('reposts'),
+            total_bookmarks=Count('bookmarks')
+        )
+        reactions = Reaction.objects.filter(user=user)
+        reposts = Repost.objects.filter(user=user)
+        followers = Follow.objects.filter(following=user)
+        followings = Follow.objects.filter(follower=user)
+        bookmarks = Bookmark.objects.filter(user=user)
+        polls = Poll.objects.filter(user=user)
+        
 
         data = {
-            "post_count": post_count,
-            "comment_count": comment_count,
-            "reaction_count": reaction_count,
-            "view_count": view_count,
-            "repost_count": repost_count,
-            "follower_count": follower_count,
-            "following_count": following_count,
-            "bookmark_count": bookmark_count,
+            "posts": posts,
+            "comments": comments,
+            "reactions": reactions,
+            "repost": reposts,
+            "followers": followers,
+            "followings": followings,
+            "bookmarks": bookmarks,
+            "polls": polls,
+            "user_id": user_id,
+            "user": user
         }
-        serializer = UserActivitySerializer(data)
+        serializer = self.get_serializer(data, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -276,7 +298,8 @@ class UserViewSet(viewsets.ModelViewSet):
         Custom action to follow a user.
         """
         user_to_follow = self.get_object()
-        Follow.objects.create(follower=request.user, following=user_to_follow)
+        Follow.objects.create(
+            follower=request.user, following=user_to_follow)
         return Response({"status": f"following {user_to_follow.username}"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -298,8 +321,21 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        """
+        Override get_queryset to add annotations for subcomment, reaction, view, and repost counts.
+        """
+        # Get the ContentType for Post
+        post_content_type = ContentType.objects.get_for_model(Post)
+
         queryset = super().get_queryset()
-        queryset = queryset.annotate(annotated_reaction_count=Count("reactions"))
+
+        # Annotate the queryset with counts
+        queryset = queryset.annotate(
+            total_comments=Count("subcomments"),
+            total_reactions=Count("reactions"),
+            total_reposts=Count("reposts"),
+            total_bookmarks=Count("bookmarks"),
+        )
         return queryset
 
     def list(self, request):
@@ -321,7 +357,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to react to a post.
         """
         comment = self.get_object()
-        Reaction.objects.create(user=request.user, comment=comment, post=comment.post)
+        Reaction.objects.create(
+            user=request.user, content_object=comment, comment=comment)
         return Response({"status": "a reaction to post"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -331,7 +368,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         comment = self.get_object()
         Reaction.objects.filter(
-            user=request.user, comment=comment, post=comment.post
+            user=request.user, comment=comment
         ).delete()
         return Response({"status": "reaction removed"})
 
@@ -341,7 +378,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to repost a post.
         """
         comment = self.get_object()
-        Repost.objects.create(user=request.user, comment=comment, post=comment.post)
+        Repost.objects.create(
+            user=request.user, content_object=comment, comment=comment)
         return Response({"status": "a reaction to post"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -351,7 +389,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         comment = self.get_object()
         Repost.objects.filter(
-            user=request.user, comment=comment, post=comment.post
+            user=request.user, comment=comment
         ).delete()
         return Response({"status": "reaction removed"})
 
@@ -361,7 +399,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to bookmark a post.
         """
         comment = self.get_object()
-        Bookmark.objects.create(user=request.user, comment=comment, post=comment.post)
+        Bookmark.objects.create(
+            user=request.user, content_object=comment, comment=comment)
         return Response({"status": "post bookmarked"})
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
@@ -371,7 +410,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         comment = self.get_object()
         Bookmark.objects.filter(
-            user=request.user, comment=comment, post=comment.post
+            user=request.user, comment=comment
         ).delete()
         return Response({"status": "bookmark removed"})
 
@@ -433,6 +472,7 @@ class PollVoteViewSet(viewsets.ModelViewSet):
     queryset = PollVote.objects.all()
     serializer_class = PollVoteSerializer
     permission_classes = [IsAuthenticated]
+
 
 def status_view(request):
     return JsonResponse({"status": "up"})

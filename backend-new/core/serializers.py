@@ -34,11 +34,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    comment_count = serializers.IntegerField(read_only=True)
-    reaction_count = serializers.IntegerField(read_only=True)
-    view_count = serializers.IntegerField(read_only=True)
-    repost_count = serializers.IntegerField(read_only=True)
-    bookmark_count = serializers.IntegerField(read_only=True)
+    total_comments = serializers.IntegerField(read_only=True)
+    total_reactions = serializers.IntegerField(read_only=True)
+    total_views = serializers.IntegerField(read_only=True)
+    total_reposts = serializers.IntegerField(read_only=True)
+    total_bookmarks = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
     is_reacted = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
@@ -67,7 +67,11 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    annotated_reaction_count = serializers.IntegerField(read_only=True)
+    total_comments = serializers.IntegerField(read_only=True)
+    total_reactions = serializers.IntegerField(read_only=True)
+    total_views = serializers.IntegerField(read_only=True)
+    total_reposts = serializers.IntegerField(read_only=True)
+    total_bookmarks = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
     is_reposted = serializers.SerializerMethodField()
     is_reacted = serializers.SerializerMethodField()
@@ -97,24 +101,27 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class ReactionSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    post = PostSerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+    content_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Reaction
         fields = "__all__"
+    
+    def get_content_type(self, obj):
+        return 'post' if obj.content_type.model == 'post' else 'comments'
 
-
-class RepostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Repost
-        fields = "__all__"
 
 
 class ViewSerializer(serializers.ModelSerializer):
+    content_type = serializers.SerializerMethodField()
     class Meta:
         model = View
         fields = "__all__"
+    
+    def get_content_type(self, obj):
+        return 'post' if obj.content_type.model == 'post' else 'comments'
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -131,20 +138,17 @@ class FollowSerializer(serializers.ModelSerializer):
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
+    post = PostSerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+    content_type = serializers.SerializerMethodField()
+
+
     class Meta:
         model = Bookmark
         fields = "__all__"
 
-
-class UserActivitySerializer(serializers.Serializer):
-    post_count = serializers.IntegerField()
-    comment_count = serializers.IntegerField()
-    reaction_count = serializers.IntegerField()
-    view_count = serializers.IntegerField()
-    repost_count = serializers.IntegerField()
-    follower_count = serializers.IntegerField()
-    following_count = serializers.IntegerField()
-    bookmark_count = serializers.IntegerField()
+    def get_content_type(self, obj):
+        return 'post' if obj.content_type.model == 'post' else 'comments'
 
 
 class PollSerializer(serializers.ModelSerializer):
@@ -157,3 +161,30 @@ class PollVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = PollVote
         fields = "__all__"
+
+class RepostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    post = PostSerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+    content_type = serializers.SerializerMethodField()
+    poll = PollSerializer(read_only=True)
+
+    class Meta:
+        model = Repost
+        fields = "__all__"
+    
+    def get_content_type(self, obj):
+        return 'post' if obj.content_type.model == 'post' else 'comments'
+
+
+class UserActivitySerializer(serializers.Serializer):
+    posts = PostSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    repost = RepostSerializer(many=True, read_only=True)
+    reactions = ReactionSerializer(many=True, read_only=True)
+    followers = FollowSerializer(many=True, read_only=True)
+    followings = FollowSerializer(many=True, read_only=True)
+    bookmarks = BookmarkSerializer(many=True, read_only=True)
+    polls = PollSerializer(many=True, read_only=True)
+    user_id = serializers.CharField()
+    user = UserSerializer(read_only=True)

@@ -35,7 +35,11 @@ class Command(BaseCommand):
     def on_channel_open(self, channel):
         """Called when the channel is opened."""
         self.channel = channel
-        self.channel.basic_consume(self.queue_name, self.on_message)
+        self.channel.queue_declare(queue=self.queue_name, durable=False, callback=self.on_queue_declared)
+
+    def on_queue_declared(self, frame):
+        # Start consuming after the queue has been declared
+        self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.on_message)
         self.channel.add_on_cancel_callback(self.on_cancel)
 
     def on_message(self, channel, method, properties, body):

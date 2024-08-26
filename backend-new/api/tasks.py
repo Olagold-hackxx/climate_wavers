@@ -34,6 +34,7 @@ def send_message(queue_name, message):
     :param message: The message to be sent.
     """
     # Connect to RabbitMQ
+    print(settings.AMQP_URL)
     connection = pika.BlockingConnection(pika.URLParameters(settings.AMQP_URL))
     channel = connection.channel()
 

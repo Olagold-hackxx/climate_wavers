@@ -69,3 +69,7 @@ export const getTimeAgo = (timeRef) => {
   const ref = new Date(timeRef);
   return timeAgo.format(curr - ref);
 };
+
+export const stripLastS = (string) => {
+  return string.endsWith('s') ? string.slice(0, -1) : string;
+}

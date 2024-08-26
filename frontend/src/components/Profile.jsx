@@ -1,51 +1,34 @@
 import { useState, useEffect } from "react";
 import { BsBriefcase } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
-import Postcomponent from "./Postcomponent";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { getAuthToken, getUser } from "../utils/factory";
-import FeedHeader from "./FeedHeader";
+import { getUser } from "../utils/factory";
+import Feed from "./Feed";
 import { useParams } from "react-router-dom";
+import { useProfile } from "../hooks/useProfile";
 
 const Profile = () => {
   const { userId } = useParams();
   const [profile, setProfile] = useState(getUser());
-
-  const profileFeeds = [
-    "Posts",
-    "Comments",
-    "Donation",
-    "Reports",
-    "Media",
-    "Groups",
-  ];
-
-  const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
-  const accessToken = getAuthToken();
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
-  };
-  const endpoint = `/api/v1/users/${userId}/`;
+  const [feed, setFeeds] = useState({});
 
   const {
     isPending,
     error,
     isFetched,
     data: user,
-  } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const profile = await axios.get(`${BACKENDURL}${endpoint}`, {
-        headers: headers,
-        withCredentials: true,
-      });
-      return profile.data;
-    },
+  } = useProfile({
+    user_id: userId,
   });
+
+  const profileFeeds = [
+    "post",
+    "comments",
+    "reposts",
+    "bookmarks",
+    "likes",
+    "polls",
+  ];
 
   useEffect(() => {
     if (isPending) {
@@ -55,7 +38,16 @@ const Profile = () => {
       });
     }
     if (isFetched) {
-      setProfile(user);
+      setProfile(user.user);
+      const feeds = {
+        post: user.posts,
+        comments: user.comments,
+        reposts: user.repost,
+        bookmarks: user.bookmarks,
+        likes: user.reactions,
+        polls: user.polls,
+      };
+      setFeeds(feeds);
     }
 
     if (error) {
@@ -109,8 +101,7 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      <FeedHeader feeds={profileFeeds} />
-      <Postcomponent type={"post"} />
+      <Feed feeds={profileFeeds} feedData={feed} />
     </div>
   );
 };

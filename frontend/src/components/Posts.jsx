@@ -25,8 +25,6 @@ const Posts = ({
   const [commentId, setCommentId] = useState("");
   const navigate = useNavigate();
 
-  console.log(posts);
-
   const commentPage = (post) => {
     if (type === "post") {
       navigate(`/${post.id}/comments`, {
@@ -76,13 +74,15 @@ const Posts = ({
                 }}
               >
                 <IoChatboxEllipsesOutline size={25} />
-                <p className="text-xs ml-1 ">{post?.comment_count}</p>
+                <p className="text-xs ml-1 ">{post?.total_comments}</p>
               </div>
             </Link>
             <div
               className="flex flex-row items-center px-3 mt-2"
               onClick={() => {
-                post?.is_reacted ? unlike.mutate(post.id) : like.mutate(post.id);
+                post?.is_reacted
+                  ? unlike.mutate({ postType: type, post: post.id })
+                  : like.mutate({ postType: type, post: post.id });
               }}
             >
               {post?.is_reacted ? (
@@ -90,29 +90,29 @@ const Posts = ({
               ) : (
                 <AiOutlineHeart size={25} />
               )}
-              <p className="text-xs ml-1 ">{post?.reaction_count}</p>
+              <p className="text-xs ml-1 ">{post?.total_reactions}</p>
             </div>
             <div
               className="flex flex-row items-center px-3 mt-2"
               onClick={() => {
                 post?.is_reposted
-                  ? unrepost.mutate(post.id)
-                  : repost.mutate(post.id);
+                  ? unrepost.mutate({ postType: type, post: post.id })
+                  : repost.mutate({ postType: type, post: post.id });
               }}
             >
               <AiOutlineRetweet
                 size={25}
                 color={post?.is_reposted ? "#047857" : ""}
               />
-              <p className="text-xs ml-1 ">{post?.repost_count}</p>
+              <p className="text-xs ml-1 ">{post?.total_reposts}</p>
             </div>
 
             <div
               className="flex flex-row items-center  px-3 mt-2"
               onClick={() => {
                 post?.is_bookmarked
-                  ? unsave.mutate(post.id)
-                  : save.mutate(post.id);
+                  ? unsave.mutate({ postType: type, post: post.id })
+                  : save.mutate({ postType: type, post: post.id });
               }}
             >
               {post?.is_bookmarked ? (
@@ -120,7 +120,7 @@ const Posts = ({
               ) : (
                 <PiBookmark size={25} />
               )}
-              <p className="text-xs ml-1 ">{post?.bookmark_count}</p>
+              <p className="text-xs ml-1 ">{post?.total_bookmarks}</p>
             </div>
             <div className="flex flex-row items-center  ">
               <IncidentIntegration />

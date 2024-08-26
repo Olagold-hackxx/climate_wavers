@@ -9,4 +9,5 @@ export const endpoints = {
     "post": "/api/v1/post/",
     "comments": "/api/v1/comments/",
     "follow": "/api/v1/follows/",
+    "profile": "/api/v1/users/activity/"
 }

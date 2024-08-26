@@ -1,4 +1,3 @@
-import { PiBookmarkFill, PiBookmarkLight } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
@@ -6,7 +5,7 @@ import { getUser } from "../utils/factory";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import { useState } from "react";
 import { RiAlarmWarningFill } from "react-icons/ri";
-import { RiAlarmWarningLine } from "react-icons/ri";
+import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 
 const Menu = () => {
   const [isModalOpen, setIsModalopen] = useState(false);
@@ -82,23 +81,12 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          to={`/bookmark`}
-          className="flex items-center py-2 lg:px-12"
-          style={({ isActive }) => {
-            return isActive ? activeStyle : null;
-          }}
-          end
+          className="flex items-center py-2  lg:px-12"
+          to={`/bot`}
+          style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          {({ isActive }) => (
-            <div className="w-[200%] flex">
-              {isActive ? (
-                <PiBookmarkFill className="mr-2" size={40} color="#008080" />
-              ) : (
-                <PiBookmarkLight className="mr-2" size={40} />
-              )}
-              Bookmark
-            </div>
-          )}
+          <img src="../../waverbot.png" className="mr-4 w-auto" />
+          WaverX
         </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-12"
@@ -127,33 +115,38 @@ const Menu = () => {
             sx={{ color: "#008080", fontSize: "50px" }}
             fontSize={"large"}
           />
-          <p className="ml-2">Campaigns</p>
+          <p className="ml-1">Campaigns</p>
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-12"
           to={`/`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
+          <div className="w-[200%] flex">
+            <RiAlarmWarningFill className="mr-2" size={35} color="#FFA500" />
+
+            <p className="self-center"> Disasters </p>
+          </div>
+        </NavLink>
+        <NavLink
+          to={`/bookmark`}
+          className="flex items-center py-2 lg:px-12"
+          style={({ isActive }) => {
+            return isActive ? activeStyle : null;
+          }}
+          end
+        >
           {({ isActive }) => (
             <div className="w-[200%] flex">
               {isActive ? (
-                <RiAlarmWarningFill className="mr-2" size={40} color="#008080" />
+                <IoMdNotifications className="mr-2" size={40} color="#008080" />
               ) : (
-                <RiAlarmWarningLine className="mr-2" size={40} />
+                <IoMdNotificationsOutline className="mr-2" size={40} />
               )}
-             <p className="self-center"> Disasters </p>
+              Notifications
             </div>
           )}
         </NavLink>
-        <NavLink
-          className="flex items-center py-2  lg:px-12"
-          to={`/bot`}
-          style={({ isActive }) => (isActive ? activeStyle : null)}
-        >
-          <img src="../../waverbot.png" className="mr-4 w-auto" />
-          WaverX
-        </NavLink>
-       
       </div>
       {/* Post btn */}
       <button

@@ -30,6 +30,9 @@ test:
 ssh:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) /bin/sh
 
+shell:
+	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) python manage.py shell
+
 superuser:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) python manage.py createsuperuser
 

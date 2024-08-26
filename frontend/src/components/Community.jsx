@@ -1,11 +1,18 @@
 import Postcomponent from "./Postcomponent";
-import FeedHeader from "./FeedHeader";
+import Feed from "./Feed";
 const Community = () => {
+
+  const feeds = [
+    "Trending",
+    "Climate Action",
+    "Alerts",
+    "Disasters"
+  ];
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
-      <div className=" text-lg md:text-xl border-gray-200 rounded-md h-[50px] max-sm:hidden border-2 font-bold  ">
-        <FeedHeader />
+      <div className=" text-lg md:text-xl max-sm:hidden border-gray-200  max-sm:hidden rounded-md h-[50px] pb-2 border-2 font-bold  ">
+      <Feed feeds={feeds} feedData={{}}/>
         </div>
       {/* <div className='pb-1 md:pb-3 text-lg md:text-xl border-b-2 font-semibold'/> */}
       <Postcomponent type={"post"}  />

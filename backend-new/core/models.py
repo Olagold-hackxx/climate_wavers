@@ -21,7 +21,8 @@ class Notification(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications"
     )
-    notification_type = models.CharField(max_length=10, choices=NOTIFICATION_TYPES)
+    notification_type = models.CharField(
+        max_length=10, choices=NOTIFICATION_TYPES)
     content_type = models.ForeignKey(
         ContentType, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -44,7 +45,8 @@ class Notification(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True, null=True)
     content = models.TextField()
     hashtags = models.CharField(max_length=255, blank=True, null=True)
@@ -105,7 +107,8 @@ class Post(models.Model):
             self.visibility
             not in dict(self._meta.get_field("visibility").choices).keys()
         ):
-            raise ValidationError(f"Invalid value for 'visibility': {self.visibility}")
+            raise ValidationError(
+                f"Invalid value for 'visibility': {self.visibility}")
 
     def image_url(self):
         """
@@ -128,7 +131,8 @@ class Post(models.Model):
 
 
 class Poll(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     question = models.CharField(max_length=255)
     options = models.JSONField()
     duration = models.DurationField()
@@ -157,8 +161,10 @@ class PollInteraction(models.Model):
 
 
 class PollVote(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="votes")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    poll = models.ForeignKey(
+        Poll, on_delete=models.CASCADE, related_name="votes")
     option = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -170,7 +176,8 @@ class Comment(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments"
     )
-    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post, related_name="comments", on_delete=models.CASCADE)
     parent_comment = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -181,7 +188,8 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to="comment/images/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="comment/images/", blank=True, null=True)
 
     def __str__(self):
         return self.content[:20]
@@ -221,8 +229,11 @@ class Comment(models.Model):
 
 
 class Reaction(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, related_name="reactions", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post, related_name="reactions", on_delete=models.CASCADE, null=True,
+        blank=True,)
     comment = models.ForeignKey(
         Comment,
         on_delete=models.CASCADE,
@@ -230,6 +241,11 @@ class Reaction(models.Model):
         null=True,
         blank=True,
     )
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey("content_type", "object_id")
     reaction_type = models.CharField(
         max_length=10,
         choices=[
@@ -249,7 +265,8 @@ class Reaction(models.Model):
 
 
 class Repost(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="reposts", null=True, blank=True
     )
@@ -260,6 +277,11 @@ class Repost(models.Model):
         null=True,
         blank=True,
     )
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey("content_type", "object_id")
     poll = models.ForeignKey(
         Poll, on_delete=models.CASCADE, related_name="reposts", null=True, blank=True
     )
@@ -278,13 +300,19 @@ class Repost(models.Model):
 
 
 class View(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="views", null=True, blank=True
     )
     poll = models.ForeignKey(
         Poll, on_delete=models.CASCADE, related_name="views", null=True, blank=True
     )
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey("content_type", "object_id")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -320,8 +348,10 @@ class Follow(models.Model):
 
 
 class Bookmark(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, related_name="bookmarks", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name="bookmarks",  null=True,
+                             blank=True, on_delete=models.CASCADE)
     comment = models.ForeignKey(
         Comment,
         on_delete=models.CASCADE,
@@ -329,6 +359,11 @@ class Bookmark(models.Model):
         null=True,
         blank=True,
     )
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey("content_type", "object_id")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
