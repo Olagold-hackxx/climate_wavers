@@ -41,7 +41,6 @@
     username: ismael
     is_staff: true
     is_active: true
-    date_joined: 2023-10-01 19:35:45+00:00
     email: ismael@climatewavers.dev
     password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
     is_verified: true
@@ -60,7 +59,6 @@
     username: farouq
     is_staff: true
     is_active: true
-    date_joined: 2023-10-01 19:35:45+00:00
     email: farouq@climatewavers.dev
     password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
     is_verified: true
@@ -79,7 +77,6 @@
     username: waverxai
     is_staff: true
     is_active: true
-    date_joined: 2023-10-01 19:35:45+00:00
     email: waverx@climatewavers.dev
     password: pbkdf2_sha256$600000$CungeJjzVwg9fD9LWNPYOF$4NJM4JEu4QzxGudCXOcvNzp6Hdl93NqDsE96m3k+xCg=
     is_verified: true
