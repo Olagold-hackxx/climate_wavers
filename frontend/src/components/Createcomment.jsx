@@ -1,14 +1,24 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { getUser } from "../utils/factory";
 import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
+import { uploadFiles } from "../services/upload.service";
+import { useState } from "react";
 
 const Createcomment = ({ type, postId, parentId }) => {
   const { register, handleSubmit, reset } = useForm();
-  const [imagePreview, setImagePreview] = useState(null);
   const user = getUser();
+  const [imageName, setImageName] = useState("");
+
+  const handleImageChange = (e) => {
+  
+    const file = e.target.files[0];
+    if (file) {
+      console.log(file);
+      setImageName(file.name);
+    }
+  };
 
   const toastMsg = {
     info: "Submitting post...",
@@ -17,29 +27,27 @@ const Createcomment = ({ type, postId, parentId }) => {
   };
 
   const onSubmit = async (data) => {
-    if (!data.image[0]) {
-      delete data.image;
-    } else {
-      data.image = data.image[0];
+    let imageUrl;
+    if (data.image) {
+      console.log(data.image)
+      imageUrl = await uploadFiles(data.image[0]);
+    }
+    if (imageUrl) {
+      if (imageUrl.length == 1) {
+        data.image = imageUrl[0];
+      } else {
+        data.image = imageUrl;
+      }
     }
     if (postId) data.post = postId;
     if (parentId) data.parent_comment = parentId;
     const endpoint = endpoints[type];
-    console.log(endpoint);
     try {
       await client.run("post", endpoint, data, true, toastMsg);
       reset();
+      setImageName("")
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setImagePreview(null);
     }
   };
 
@@ -54,11 +62,7 @@ const Createcomment = ({ type, postId, parentId }) => {
           <div className=" flex justify-start gap-4 ">
             {/* <Accountcard user={user} /> */}
             <img
-              src={
-                user?.profile_pic
-                  ? user.profile_pic
-                  : user.profile_picture
-              }
+              src={user?.profile_pic ? user.profile_pic : user.profile_picture}
               alt=""
               className="w-10 h-10 rounded-full"
             />
@@ -70,16 +74,6 @@ const Createcomment = ({ type, postId, parentId }) => {
               {...register("content", { required: true })}
             />
           </div>
-
-          {imagePreview && (
-            <div className="mb-3">
-              <img
-                src={imagePreview}
-                alt="Image Preview"
-                className="w-full h-auto rounded-md"
-              />
-            </div>
-          )}
 
           <button
             className="px-10 h-[50px] mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
@@ -118,9 +112,9 @@ const Createcomment = ({ type, postId, parentId }) => {
             type="file"
             accept="image/*"
             className="p-0  hidden border rounded focus:border-green focus:outline-none"
-            {...register("image", { required: false })}
-            onChange={handleImageChange}
+            {...register("image", { required: false, onChange: handleImageChange })}
           />
+          <p>{imageName}</p>
         </div>
       </form>
     </>

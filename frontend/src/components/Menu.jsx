@@ -27,7 +27,7 @@ const Menu = () => {
       >
         <NavLink
           to={"/"}
-          className="flex items-center py-2 lg:px-12"
+          className="flex items-center py-2 lg:px-8"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
@@ -44,7 +44,7 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-12"
+          className="flex items-center py-2 lg:px-8"
           to={"/community"}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -63,7 +63,7 @@ const Menu = () => {
         </NavLink>
 
         <NavLink
-          className="flex items-center py-2 lg:px-12"
+          className="flex items-center py-2 lg:px-8"
           to={`/${user.id}/profile`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -81,7 +81,7 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-12"
+          className="flex items-center py-2  lg:px-8"
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -89,7 +89,7 @@ const Menu = () => {
           WaverX
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-12"
+          className="flex items-center py-2  lg:px-8"
           to={`/wallet`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -107,7 +107,7 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-12"
+          className="flex items-center py-2  lg:px-8"
           to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -118,7 +118,7 @@ const Menu = () => {
           <p className="ml-1">Campaigns</p>
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-12"
+          className="flex items-center py-2 lg:px-8"
           to={`/`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -129,8 +129,8 @@ const Menu = () => {
           </div>
         </NavLink>
         <NavLink
-          to={`/bookmark`}
-          className="flex items-center py-2 lg:px-12"
+          to={`/notifications`}
+          className="flex items-center py-2 lg:px-8"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}

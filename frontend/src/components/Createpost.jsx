@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
 import { getUser } from "../utils/factory";
+import { uploadFiles } from "../services/upload.service";
 
 export default function Createpost({ type, postId, parentId, closeModal }) {
   const { register, handleSubmit, reset } = useForm();
@@ -26,10 +27,16 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   };
 
   const onSubmit = async (data) => {
-    if (!data.image[0]) {
-      delete data.image;
-    } else {
-      data.image = data.image[0];
+    let imageUrl
+    if (data.image) {
+      imageUrl = await uploadFiles(data.image[0]);
+    }
+    if (imageUrl) {
+      if (imageUrl.length == 1) {
+        data.image = imageUrl[0];
+      } else {
+        data.image = imageUrl;
+      }
     }
     if (postId) data.post = postId;
     if (parentId) data.parent_comment = parentId;
@@ -48,7 +55,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" md:w-[45vw] md:h-[45vh] p-3 md:p-6 bg-white rounded-md d flex  w-[30vw] flex-col"
+        className=" md:w-[40vw] md:min-h-[45vh] max-h-[70vh]  p-3 md:p-6 bg-white rounded-md d flex justify-between w-[30vw] flex-col"
       >
         <div className=" flex justify-start gap-4 ">
           <img
@@ -73,11 +80,11 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
         <textarea
           type="text"
           placeholder="What's on your mind"
-          className=" p-8 mb-3 border-b-2 h-[100%] text-black text-3xl  overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
+          className=" p-8 border-b-2 h-[100%] text-black text-3xl  overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
           {...register("content", { required: true })}
         />
         {imagePreview && (
-          <div className="mb-3">
+          <div className="mb-3 max-h[60%] overflow-y-auto">
             <img
               src={imagePreview}
               alt="Image Preview"
@@ -115,8 +122,8 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
               type="file"
               accept="image/*"
               className="p-0 mb-1 hidden border rounded focus:border-green focus:outline-none"
-              {...register("image", { required: false })}
-              onChange={handleImageChange}
+              {...register("image", { required: false, onChange: handleImageChange })}
+
             />
           </div>
           <button

@@ -50,7 +50,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     content = models.TextField()
     hashtags = models.CharField(max_length=255, blank=True, null=True)
-    image = models.ImageField(upload_to="posts/images/", blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
     audio = models.FileField(upload_to="posts/audio/", blank=True, null=True)
     location = models.CharField(max_length=255, blank=True)
     emoji = models.CharField(max_length=255, blank=True)
@@ -188,8 +188,7 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(
-        upload_to="comment/images/", blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.content[:20]

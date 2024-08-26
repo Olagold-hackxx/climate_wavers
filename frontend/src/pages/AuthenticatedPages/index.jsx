@@ -8,14 +8,26 @@ import Funds from "../../components/Funds";
 import withAuth from "../../HOC/withAuth";
 import SharedLayout from "../../components/ShareLayout";
 import CampaignsPage from "../CampaignsPage";
+import WaverXPosts from "../../components/WaverXPosts";
 
-const AuthSharedLayout = withAuth(SharedLayout)
-const AuthCommunity = withAuth(Community)
-const AuthMainfeed = withAuth(Mainfeed)
-const AuthProfile = withAuth(Profile)
-const AuthComment = withAuth(Comment)
-const AuthWaverX = withAuth(WaverxChatPage)
-const AuthFunds = withAuth(Funds)
-const AuthCampaigns = withAuth(CampaignsPage)
+const AuthSharedLayout = withAuth(SharedLayout);
+const AuthCommunity = withAuth(Community);
+const AuthMainfeed = withAuth(Mainfeed);
+const AuthProfile = withAuth(Profile);
+const AuthComment = withAuth(Comment);
+const AuthWaverX = withAuth(WaverxChatPage);
+const AuthFunds = withAuth(Funds);
+const AuthCampaigns = withAuth(CampaignsPage);
+const AuthWaverXPosts = withAuth(WaverXPosts);
 
-export {AuthSharedLayout, AuthCampaigns, AuthComment, AuthCommunity, AuthFunds, AuthMainfeed, AuthWaverX, AuthProfile}
+export {
+  AuthSharedLayout,
+  AuthWaverXPosts,
+  AuthCampaigns,
+  AuthComment,
+  AuthCommunity,
+  AuthFunds,
+  AuthMainfeed,
+  AuthWaverX,
+  AuthProfile,
+};
