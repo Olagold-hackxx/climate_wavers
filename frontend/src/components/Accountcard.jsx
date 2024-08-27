@@ -5,8 +5,8 @@ import { client } from "../api";
 import { Link } from "react-router-dom";
 
 const Accountcard = ({ user }) => {
-  const [isFollow, setIsFollow] = useState(false);
-  
+  const [isFollow, setIsFollow] = useState(user?.is_following);
+
   const follow = async (userId) => {
     await client.run("post", endpoints?.follow, { following: userId }, true);
   };
@@ -14,8 +14,8 @@ const Accountcard = ({ user }) => {
   const unfollow = async (userId) => {
     await client.run(
       "delete",
-      `${endpoints?.follow}${userId}`,
-      { following: userId },
+      `${endpoints?.follow}${userId}/`,
+      {},
       true
     );
   };
@@ -30,19 +30,19 @@ const Accountcard = ({ user }) => {
   return (
     <div className="flex flex-row items-center px-3 py-1 justify-between ">
       <Link to={`/${user?.id}/profile`}>
-      <div className="flex flex-row items-center self-center text-black ">
-        <img
-          src={user?.profile_pic ? user.profile_pic : user?.profile_picture}
-          className="mr-2 rounded-full h-12"
-          alt="Profile Pic"
-        />{" "}
-        <div className="text-lg font-bold flex flex-col">
-          <h3>
-            {user?.first_name} {user?.last_name}
-          </h3>
-          <p className="text-md text-left text-gray-500">@{user?.username}</p>
+        <div className="flex flex-row items-center self-center text-black ">
+          <img
+            src={user?.profile_pic ? user.profile_pic : user?.profile_picture}
+            className="mr-2 rounded-full h-12"
+            alt="Profile Pic"
+          />{" "}
+          <div className="text-lg font-bold flex flex-col">
+            <h3>
+              {user?.first_name} {user?.last_name}
+            </h3>
+            <p className="text-md text-left text-gray-500">@{user?.username}</p>
+          </div>
         </div>
-      </div>
       </Link>
       <button
         onClick={() => {
@@ -50,12 +50,12 @@ const Accountcard = ({ user }) => {
           handleFollow(user?.id);
         }}
         // style={followStyle}
-        className={`bg-black text-sm text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
+        className={`bg-black text-sm  text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
           isFollow &&
           "bg-stone-100 outline outline-2 outline-stone-500 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
         } `}
       >
-        {isFollow === true ? "Following" : "Follow"}
+        {isFollow ? "Following" : "Follow"}
       </button>
     </div>
   );

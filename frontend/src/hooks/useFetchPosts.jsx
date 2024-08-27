@@ -3,9 +3,8 @@ import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
 
 export const useFetchPosts = ({ type, postId, comment }) => {
- 
   let url;
-  if (postId && type === "comments") {
+  if (postId && type === "comments" && !comment) {
     url = `${endpoints.comments}?post=${postId}`;
   } else if (comment && type === "comments") {
     url = `${endpoints.comments}?parent=${comment}`;
@@ -23,4 +22,3 @@ export const useFetchPosts = ({ type, postId, comment }) => {
     queryFn: fetchPosts,
   });
 };
-

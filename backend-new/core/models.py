@@ -342,8 +342,11 @@ class Follow(models.Model):
         if self.follower == self.followed:
             raise ValidationError("User cannot follow themselves.")
 
+    class Meta:
+        unique_together = ('follower', 'following')
+
     def __str__(self):
-        return f"{self.follower.username} follows {self.followed.username}"
+        return f"{self.follower.username} follows {self.following.username}"
 
 
 class Bookmark(models.Model):

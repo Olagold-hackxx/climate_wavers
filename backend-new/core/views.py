@@ -35,7 +35,7 @@ from .serializers import (
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 
 # Get the custom user model
 User = get_user_model()
@@ -98,17 +98,17 @@ class PostViewSet(viewsets.ModelViewSet):
         Override get_queryset to add annotations for comment, reaction, view, and repost counts.
         """
         # Get the ContentType for Post
-        post_content_type = ContentType.objects.get_for_model(Post)
+        # post_content_type = ContentType.objects.get_for_model(Post)
 
         queryset = super().get_queryset()
 
         # Annotate the queryset with counts
         queryset = queryset.annotate(
             total_comments=Count("comments"),
-            total_reactions=Count("reactions"),
-            total_views=Count("views"),
-            total_reposts=Count("reposts"),
-            total_bookmarks=Count("bookmarks"),
+            total_reactions=Count("reactions", distinct=True),
+            total_views=Count("views",  distinct=True),
+            total_reposts=Count("reposts",  distinct=True),
+            total_bookmarks=Count("bookmarks",  distinct=True),
         )
         return queryset
 
@@ -275,7 +275,6 @@ class UserViewSet(viewsets.ModelViewSet):
         followings = Follow.objects.filter(follower=user)
         bookmarks = Bookmark.objects.filter(user=user)
         polls = Poll.objects.filter(user=user)
-        
 
         data = {
             "posts": posts,
@@ -434,6 +433,20 @@ class FollowViewSet(viewsets.ModelViewSet):
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
+
+    def destroy(self, request, *args, **kwargs):
+        following_id = kwargs.get('pk')
+
+        if not following_id:
+            raise Http404("Following ID is required.")
+
+        try:
+            follow = Follow.objects.get(
+                follower=request.user, following_id=following_id)
+            follow.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Follow.DoesNotExist:
+            raise Http404("Follow not found.")
 
 
 # ViewSet for View model

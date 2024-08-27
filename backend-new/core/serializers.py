@@ -21,12 +21,12 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    is_follower = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
     profile_picture = serializers.ReadOnlyField()
 
-    def get_is_follower(self, obj):
+    def get_is_following(self, obj):
         user = self.context.get("request").user
-        return obj.followers.filter(following=user).exists()
+        return obj.followers.filter(follower=user).exists()
 
     class Meta:
         model = User

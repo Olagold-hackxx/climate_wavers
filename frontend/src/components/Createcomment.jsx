@@ -28,8 +28,7 @@ const Createcomment = ({ type, postId, parentId }) => {
 
   const onSubmit = async (data) => {
     let imageUrl;
-    if (data.image) {
-      console.log(data.image)
+    if (data.image[0]) {
       imageUrl = await uploadFiles(data.image[0]);
     }
     if (imageUrl) {

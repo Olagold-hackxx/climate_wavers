@@ -21,6 +21,9 @@ RUN pip install --upgrade pip
 
 # Copy project
 COPY . /backend/
+
+RUN python manage.py collectstatic --noinput
+
 # Copy media files
 COPY ./media /backend/media
 

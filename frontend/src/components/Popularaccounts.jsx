@@ -36,9 +36,11 @@ const Popularaccounts = () => {
     <div>
       <div className="flex flex-col gap-2 text-black bg-[#F4F4F4] list-none py-4 m-4 rounded-2xl ">
         <h2 className="text-lg font-semibold p-3">Popular accounts</h2>
+        <div className="">
         {users.map((user) => {
           return <Accountcard key={user.id} user={user} />;
         })}
+        </div>
         {/* <Accountcard user={user} />
         <Accountcard user={user} /> */}
       </div>

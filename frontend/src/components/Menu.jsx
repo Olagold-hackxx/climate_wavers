@@ -119,7 +119,7 @@ const Menu = () => {
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-8"
-          to={`/`}
+          to={`/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <div className="w-[200%] flex">
