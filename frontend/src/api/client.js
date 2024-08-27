@@ -7,7 +7,6 @@ import { dummyUser, dummyPost } from "../utils/dummies";
 class Client {
   constructor(baseURL) {
     this.baseUrl = baseURL;
-    this.token = getAuthToken();
   }
 
   async run(
@@ -19,11 +18,12 @@ class Client {
     authCookies = false,
     mail = false
   ) {
-    console.log(data);
     const client = axios.create({
       baseURL: this.baseUrl,
       method: method,
     });
+
+    const token = await getAuthToken();
 
     const config = {
       withCredentials: authheaders,
@@ -33,7 +33,7 @@ class Client {
     if (authheaders) {
       config.headers = {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${token}`,
         "X-CSRFToken": `${Cookies.get("csrftoken")}`,
       };
     }

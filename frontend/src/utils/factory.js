@@ -49,7 +49,8 @@ export const getUser = () => {
 };
 
 export const getAuthToken = () => {
-  return Cookies.get("accessToken");
+  const token = Cookies.get("accessToken");
+  return token;
 };
 
 export const authRequest = (fn) => {
@@ -71,5 +72,5 @@ export const getTimeAgo = (timeRef) => {
 };
 
 export const stripLastS = (string) => {
-  return string.endsWith('s') ? string.slice(0, -1) : string;
-}
+  return string.endsWith("s") ? string.slice(0, -1) : string;
+};
