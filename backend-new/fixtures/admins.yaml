@@ -12,7 +12,7 @@
     state: "Lagos"
     gender: "male"
     username: admin
-    profile_pic: '/profile_pic/img_frame_30139.png'
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
@@ -29,7 +29,7 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/profile_pic/img_frame_30139.png'
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
@@ -47,7 +47,7 @@
     country: "Kenya"
     state: "Nairobi"
     gender: "male"
-    profile_pic: '/profile_pic/img_frame_30139.png'
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
@@ -65,7 +65,7 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/profile_pic/img_frame_30139.png'
+    profile_pic: '/media/profile_pic/img_frame_30139.png'
     groups: []
     user_permissions: []
 - model: api.user
@@ -83,6 +83,6 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/profile_pic/Group.png'
+    profile_pic: '/media/profile_pic/Group.png'
     groups: []
     user_permissions: []

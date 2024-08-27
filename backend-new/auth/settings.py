@@ -155,7 +155,10 @@ WHITENOISE_USE_FINDERS = True
 WHITENOISE_ALLOW_ALL_ORIGINS = True
 WHITENOISE_STATIC_PREFIX = MEDIA_URL
 
-# Default primary key field type
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_HOST = "sandbox.smtp.mailtrap.io"
