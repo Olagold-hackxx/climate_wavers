@@ -29,7 +29,8 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/doc/", SpectacularRedocView.as_view(url_name="schema"), name="schema-redoc"),
+    path("api/doc/", SpectacularRedocView.as_view(url_name="schema"),
+         name="schema-redoc"),
     path(
         "api/swagger/",
         SpectacularSwaggerView.as_view(url_name="schema"),
@@ -41,5 +42,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
 
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
