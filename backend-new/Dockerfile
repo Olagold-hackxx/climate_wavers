@@ -21,6 +21,9 @@ RUN pip install --upgrade pip
 
 # Copy project
 COPY . /backend/
+# Copy media files
+COPY ./media /backend/media
+
 
 # Install dependencies
 RUN pip install -r requirements.txt
