@@ -30,7 +30,8 @@ const attachCookiesToResponse = ({ res, user }) => {
     httpOnly: false,
     sameSite: 'None',
     secure: true,
-    signed: true,
+    signed: false,
+    domain: process.env.DOMAIN,
     expires: new Date(Date.now() + oneDay),
     encode: (cookie) => cookie,
   });
@@ -40,6 +41,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     sameSite: 'None',
     secure: true,
     signed: false,
+    domain: process.env.DOMAIN,
     expires: new Date(Date.now() + longerExp),
     encode: (cookie) => cookie,
   });

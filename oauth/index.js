@@ -48,6 +48,7 @@ app.use(
       secure: true,
       sameSite: "none",
       httpOnly: false,
+      domain: process.env.DOMAIN
     },
     store: memoryStore,
   })
