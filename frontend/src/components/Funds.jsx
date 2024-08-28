@@ -35,7 +35,7 @@ const Funds = () => {
     }
   }, [walletProvider]);
 
-  const shortenAddress = `${address?.slice(0, 7)}.........${address?.slice(-2)}`;
+  const shortenAddress = address ? `${address?.slice(0, 7)}.........${address?.slice(-2)}` : "Connect your wallet"
 
   const toggleBalanceVisibility = () => {
     setOpen(!open);

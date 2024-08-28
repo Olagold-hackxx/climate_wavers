@@ -5,6 +5,7 @@ import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
 import { uploadFiles } from "../services/upload.service";
 import { useState } from "react";
+import { IoSend } from "react-icons/io5";
 
 const Createcomment = ({ type, postId, parentId }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -12,7 +13,6 @@ const Createcomment = ({ type, postId, parentId }) => {
   const [imageName, setImageName] = useState("");
 
   const handleImageChange = (e) => {
-  
     const file = e.target.files[0];
     if (file) {
       console.log(file);
@@ -44,7 +44,7 @@ const Createcomment = ({ type, postId, parentId }) => {
     try {
       await client.run("post", endpoint, data, true, toastMsg);
       reset();
-      setImageName("")
+      setImageName("");
     } catch (error) {
       console.log(error);
     }
@@ -75,11 +75,18 @@ const Createcomment = ({ type, postId, parentId }) => {
           </div>
 
           <button
-            className="px-10 h-[50px] mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
+            className="px-10 h-[50px] max-sm:hidden mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
             type="submit"
           >
             Post
           </button>
+          <IoSend
+            size={34}
+            className="md:hidden absolute right-4 cursor-pointer "
+            color="#008080"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          />
         </div>
         <div className=" flex justify-start gap-x-4 items-start ">
           <label htmlFor="image">
@@ -111,7 +118,10 @@ const Createcomment = ({ type, postId, parentId }) => {
             type="file"
             accept="image/*"
             className="p-0  hidden border rounded focus:border-green focus:outline-none"
-            {...register("image", { required: false, onChange: handleImageChange })}
+            {...register("image", {
+              required: false,
+              onChange: handleImageChange,
+            })}
           />
           <p>{imageName}</p>
         </div>

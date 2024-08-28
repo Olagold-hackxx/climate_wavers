@@ -28,21 +28,21 @@ const data = [
 
 export default function NewChat() {
   return (
-    <div className="h-[90vh] px-8 grid gap-y-4 place-content-center">
+    <div className="h-[80vh] max-sm:w-[100%] md:px-8 max-sm:px-1 grid gap-y-4 place-content-end">
       <div className="flex flex-row">
         <img
           src="/Group.png"
           alt="WaverX"
           className="h-[80px] object-cover"
         />
-        <h1 className="text-[#047857] font-serif font-[300px]  md:text-[65px]">
+        <h1 className="text-[#047857] ml-2 font-serif font-[300px] max-sm:self-center  md:text-[65px] max-sm:text-4xl">
           Waver
         </h1>
         <div>
           <img
             src="../../img_immutable_x.png"
             alt="Immutablex"
-            className="h-[98px] w-[60%] object-contain"
+            className="h-[98px] w-[60%] max-sm:w-[40%] object-contain"
           />
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function NewChat() {
           today
         </p>
       </div>
-      <div className=" flex flex-row self-center gap-[40px]">
+      <div className="flex flex-row max-sm:grid max-sm:grid-cols-2 md:self-center max-sm:items-center gap-[30px]">
         {data.map((d, index) => (
           <QuestionContainer {...d} key={"waverxchat" + index} />
         ))}

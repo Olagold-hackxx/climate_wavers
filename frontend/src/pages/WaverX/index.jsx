@@ -4,9 +4,13 @@ import Chatcomponent from "../../components/Chatcomponent";
 import "../styles/disax.css";
 import { getUser } from "../../utils/factory";
 import axios from "axios";
-import { watchCollection, watchDocument} from "../../services/firebase.service";
+import {
+  watchCollection,
+  watchDocument,
+} from "../../services/firebase.service";
 import WaverxLeftBar from "./LeftSideBar";
 import ChatsListCard from "../../components/ChatsListCard";
+import { HiOutlineMenuAlt1 } from "react-icons/hi";
 
 const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1`;
 
@@ -14,6 +18,7 @@ const WaverXChatPage = () => {
   const [chats, setChats] = useState([]);
   const [current, setCurrent] = useState("");
   const [messages, setMessages] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     fetchChats().then((res) => {
@@ -28,14 +33,13 @@ const WaverXChatPage = () => {
           remoteId: d.id,
         }));
         const sorted = data.sort((a, b) => a.postedAt - b.postedAt);
-        console.log({sorted})
+        console.log({ sorted });
         setMessages(sorted);
       });
-      
     }
-  }, [current, ]);
+  }, [current]);
 
-// const messageBodyRef = useRef()
+  // const messageBodyRef = useRef()
 
   async function fetchChats() {
     const url = `${chatbot}/chats?userId=${getUser()?.id}`;
@@ -44,14 +48,14 @@ const WaverXChatPage = () => {
 
   function handleChatCardClicked(id) {
     setCurrent(id);
-    const path = `chats/${id}`
-    watchDocument(path, async function(data){
-      const chat = data.data()
-      const chatsMock = [...chats]
-      const chatIndex = chats.findIndex(c=>c.id=chat.id)
-      chatsMock[chatIndex] = chat
-      setChats(chatsMock)
-    })
+    const path = `chats/${id}`;
+    watchDocument(path, async function (data) {
+      const chat = data.data();
+      const chatsMock = [...chats];
+      const chatIndex = chats.findIndex((c) => (c.id = chat.id));
+      chatsMock[chatIndex] = chat;
+      setChats(chatsMock);
+    });
   }
 
   async function handleCreateChat() {
@@ -61,8 +65,6 @@ const WaverXChatPage = () => {
       setChats([res.data, ...chats]);
     }
   }
-
-
 
   async function handlePostMessage(body) {
     if (!body) return;
@@ -76,18 +78,35 @@ const WaverXChatPage = () => {
 
   return (
     <div className=" w-[100vw] text-black flex">
-      <div className=" w-[25%] border-r-2 border-gray-200">
+      <div className="md:hidden p-2">
+        <HiOutlineMenuAlt1 size={35} onClick={() => setIsOpen(true)} />
+      </div>
+      {isOpen === true ? <WaverxLeftBar setIsOpen={setIsOpen} /> : null}
+      <div className="max-sm:hidden md:w-[25%] border-r-2 border-gray-200 ">
         <WaverxLeftBar handleCreateChat={handleCreateChat} />
         <div className="chats-list">
-            {
-              chats.map(c=>{
-                return <ChatsListCard isCurrent={c.id == current} title={c.title} handleClick={handleChatCardClicked} id={c.id} createdAt={c.createdAt} key={c.remoteId} />
-              })
-            }
+          {chats.map((c) => {
+            return (
+              <ChatsListCard
+                isCurrent={c.id == current}
+                title={c.title}
+                handleClick={handleChatCardClicked}
+                id={c.id}
+                createdAt={c.createdAt}
+                key={c.remoteId}
+              />
+            );
+          })}
         </div>
       </div>
-      <div className=" w-[75%] h-[100vh]">
-        <Chatcomponent current={current} messages={messages} handlePostMessage={handlePostMessage} />
+
+      <div className=" w-[75%] h-[100vh] max-sm:w-[100vw] max-sm:relative max-sm:right-8 max-sm:p">
+        <Chatcomponent
+          current={current}
+          messages={messages}
+          handlePostMessage={handlePostMessage}
+          handleCreateChat={handleCreateChat}
+        />
       </div>
     </div>
   );

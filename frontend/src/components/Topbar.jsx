@@ -4,6 +4,7 @@ import Mobilemenu from "./Mobilemenu";
 import { getUser } from "../utils/factory";
 import Modal from "../components/Modal";
 import Report from "./Report";
+import { MdReportGmailerrorred } from "react-icons/md";
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ const Topbar = () => {
   const user = getUser();
 
   return (
-    <div className="  md:fixed z-50 bg-white md:flex  items-center justify-between border-b-1 border-[#000000] shadow-xl md:h-[80px] px-2 py-2  w-[100%] sm:h-[100px] ">
+    <div className=" fixed z-50 bg-white flex  items-center justify-between border-b-1 border-[#000000] shadow-xl md:h-[80px] px-2 py-2  w-[100%] sm:h-[100px] ">
       <HiOutlineMenuAlt1
         className="md:hidden"
         size={35}
@@ -36,17 +37,19 @@ const Topbar = () => {
         >
           <p className="leading-5 "> Report Disaster</p>
         </button>
-        {isModalOpen && (
-          <Modal closeFn={() => setIsModalopen(false)}>
-            <Report closeModal={() => setIsModalopen(false)} />
-          </Modal>
-        )}
+       
         <img
           src={user?.profile_pic ? user.profile_pic : user.profile_picture}
           className="ml-4 self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
       </div>
+      {isModalOpen && (
+          <Modal closeFn={() => setIsModalopen(false)}>
+            <Report closeModal={() => setIsModalopen(false)} />
+          </Modal>
+        )}
+      <MdReportGmailerrorred size={35} color={"#FFA500"} className="md:hidden"  onClick={() => setIsModalopen(true)}/>
     </div>
   );
 };

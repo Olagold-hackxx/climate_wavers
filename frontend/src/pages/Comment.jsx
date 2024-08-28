@@ -10,7 +10,7 @@ const Comment = ({ type }) => {
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
       <CommentPost type={type} postId={commentId ? commentId : postId} />
-      <div className=" border-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 mt-[-10px] ">
+      <div className=" md:border-2 max-sm:border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 mt-[-10px] ">
         <Createcomment type={"comments"} postId={postId} parentId={commentId}/>
       </div>
       <div className="ml-8">

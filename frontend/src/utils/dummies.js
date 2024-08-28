@@ -27,7 +27,7 @@ export const dummyPost = [
     content: "Dummy post on climate wavers",
   },
   {
-    id: 1,
+    id: 2,
     comment_count: 2,
     reaction_count: 4,
     view_count: 0,

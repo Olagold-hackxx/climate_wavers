@@ -7,7 +7,7 @@ import { useState } from "react";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 
-const Menu = () => {
+const Menu = ({ setIsOpen }) => {
   const [isModalOpen, setIsModalopen] = useState(false);
   const user = getUser();
 
@@ -19,7 +19,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="flex flex-col px-2 w-[100%]">
+    <div className="flex flex-col px-2 w-[100%] max-sm:pl-4">
       {/* Menu */}
       <div
         className="list-none text-base lg:text-2xl  md:text-lg
@@ -27,10 +27,11 @@ const Menu = () => {
       >
         <NavLink
           to={"/"}
-          className="flex items-center py-2 lg:px-8"
+          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
+          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -44,11 +45,12 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-8"
+          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           to={"/community"}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
+          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -63,11 +65,12 @@ const Menu = () => {
         </NavLink>
 
         <NavLink
-          className="flex items-center py-2 lg:px-8"
+          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           to={`/${user.id}/profile`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
+          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -81,7 +84,7 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8"
+          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -89,11 +92,12 @@ const Menu = () => {
           WaverX
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8"
+          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={`/wallet`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
+          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -107,7 +111,7 @@ const Menu = () => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8"
+          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -118,32 +122,33 @@ const Menu = () => {
           <p className="ml-1">Campaigns</p>
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-8"
+          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           to={`/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <div className="w-[200%] flex">
             <RiAlarmWarningFill className="mr-2" size={35} color="#FFA500" />
 
-            <p className="self-center"> Disasters </p>
+            <p className="self-center pl-2"> Disasters </p>
           </div>
         </NavLink>
         <NavLink
           to={`/notifications`}
-          className="flex items-center py-2 lg:px-8"
+          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
+          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
-            <div className="w-[200%] flex">
+            <div className="w-[200%] flex max-sm:">
               {isActive ? (
                 <IoMdNotifications className="mr-2" size={40} color="#008080" />
               ) : (
                 <IoMdNotificationsOutline className="mr-2" size={40} />
               )}
-              Notifications
+              <p className="self-center"> Notifications</p>
             </div>
           )}
         </NavLink>
@@ -158,7 +163,13 @@ const Menu = () => {
       </button>
       {isModalOpen && (
         <Modal closeFn={() => setIsModalopen(false)}>
-          <Createpost type={"post"} closeModal={() => setIsModalopen(false)} />
+          <Createpost
+            type={"post"}
+            closeModal={() => {
+              setIsModalopen(false);
+              setIsOpen(false);
+            }}
+          />
         </Modal>
       )}
     </div>

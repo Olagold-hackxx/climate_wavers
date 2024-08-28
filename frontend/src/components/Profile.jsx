@@ -57,7 +57,7 @@ const Profile = () => {
   }, [isFetched, isPending, error, user]);
 
   return (
-    <div className="text-2xl text-center pt-1 px-2 md:pt-5  ">
+    <div className="text-2xl text-center px-2 pt-5  ">
       <div className="h-[35vh]">
         <div
           className={`h-[30vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
@@ -79,11 +79,11 @@ const Profile = () => {
         </div>
       </div>
       <div className="pb-4">
-        <div className="flex flex-col mt-3 ">
-          <h2 className="text-center  text-2xl font-semibold flex flex-row items-center  ">
+        <div className="flex flex-col mt-3 max-sm:px-2 ">
+          <h2 className="text-center  md:text-2xl  font-semibold flex flex-row items-center  ">
             {profile?.first_name} {profile?.last_name}
           </h2>
-          <h2 className=" text-center text-md font-semibold flex flex-row items-center text-gray-400 ">
+          <h2 className=" text-center text-md max-sm:text-sm font-semibold flex flex-row items-center text-gray-400 ">
             @{profile?.username}
           </h2>
         </div>

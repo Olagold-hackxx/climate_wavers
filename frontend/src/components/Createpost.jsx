@@ -5,6 +5,7 @@ import { client } from "../api";
 import { endpoints } from "../utils/endpoints";
 import { getUser } from "../utils/factory";
 import { uploadFiles } from "../services/upload.service";
+import { IoSend } from "react-icons/io5";
 
 export default function Createpost({ type, postId, parentId, closeModal }) {
   const { register, handleSubmit, reset } = useForm();
@@ -28,7 +29,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
 
   const onSubmit = async (data) => {
     let imageUrl
-    if (data.image) {
+    if (data.image[0]) {
       imageUrl = await uploadFiles(data.image[0]);
     }
     if (imageUrl) {
@@ -53,9 +54,9 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
 
   return (
     <>
-      <form
+      <div
         onSubmit={handleSubmit(onSubmit)}
-        className=" md:w-[40vw] md:min-h-[45vh] max-h-[70vh]  p-3 md:p-6 bg-white rounded-md d flex justify-between w-[30vw] flex-col"
+        className=" md:w-[40vw] md:min-h-[45vh] max-h-[70vh] p-3 md:p-6 bg-white rounded-md flex justify-between w-[70vw] flex-col"
       >
         <div className=" flex justify-start gap-4 ">
           <img
@@ -84,7 +85,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
           {...register("content", { required: true })}
         />
         {imagePreview && (
-          <div className="mb-3 max-h[60%] overflow-y-auto">
+          <div className="mb-3 max-h-[60%] overflow-y-auto">
             <img
               src={imagePreview}
               alt="Image Preview"
@@ -93,7 +94,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
           </div>
         )}
         <div className="flex justify-between items-center w-[100%]">
-          <div className="flex justify-start gap-8 ">
+          <div className="flex justify-start gap-8 pt-4 h-14">
             <label htmlFor="image">
               <img
                 src="../../img_user_rectangle_5.svg"
@@ -127,13 +128,20 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
             />
           </div>
           <button
-            className="px-12 h-[60px]  bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
+            className="px-12 h-[60px] max-sm:hidden  bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
             type="submit"
           >
             Post
           </button>
+          <IoSend
+            size={34}
+            className="md:hidden absolute right-4 pt-1 cursor-pointer "
+            color="#008080"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          />
         </div>
-      </form>
+      </div>
     </>
   );
 }

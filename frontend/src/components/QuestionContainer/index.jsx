@@ -7,15 +7,15 @@ export default function QuestionContainer({
 }) {
   return (
     <div
-      className={` text-black  flex flex-col ${color} items-end w-[20%] min-h-[25%] gap-[62px] p-4 rounded-[24px]`}
+      className={` text-black  flex flex-col ${color} items-end w-[20%] max-sm:p-2 md:min-h-[25%] max-sm:min-h-[20vh] max-sm:w-[100%] md:gap-[62px] max-sm:gap-1 md:p-4 rounded-[24px]`}
     >
-      <p className="mt-5 w-[98%] leading-8 text-white">{questionText}</p>
+      <p className="md:mt-5 w-[98%] md:leading-8 text-white">{questionText}</p>
       <div className="grid rounded-[16px] px-1.5 place-content-end h-[100%]">
         <div>
         <img
           src={imageSrc}
           alt="Image"
-          className="h-[52px] w-[98%] object-contain"
+          className="md:h-[52px] md:w-[98%] object-contain"
         />
         </div>
       </div>

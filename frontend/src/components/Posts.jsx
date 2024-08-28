@@ -40,7 +40,7 @@ const Posts = ({
   return (
     <div className="py-3">
       {posts?.map((post) => (
-        <div key={post?.id} className="border-b-[1px] border-gray-100 py-4">
+        <div key={`${post?.user?.id}${post?.id}`} className="border-b-[1px] border-gray-100 py-4">
           {isCommentModalOpen && (
             <div className="">
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
@@ -135,7 +135,7 @@ const Posts = ({
 Posts.propTypes = {
   posts: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired,
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.string,
   unlike: PropTypes.object.isRequired,
   like: PropTypes.object.isRequired,
   repost: PropTypes.object.isRequired,

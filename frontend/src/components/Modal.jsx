@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const Modal = ({ children, closeFn }) => {
   return (
     <div
-      className="h-[100vh] overflow-auto w-full bg-white bg-opacity-10 backdrop-blur-sm fixed inset-0 grid place-content-center z-10 shadow-none"
+      className="h-[100vh] overflow-auto w-full bg-white bg-opacity-10 backdrop-blur-xl fixed inset-0 grid place-content-center z-10 shadow-none"
       onClick={closeFn}
     >
       <div
@@ -17,7 +17,7 @@ const Modal = ({ children, closeFn }) => {
         >
           <IoCloseSharp size={25} />
         </span>
-        <div >{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );
