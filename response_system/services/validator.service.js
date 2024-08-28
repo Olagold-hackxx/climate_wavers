@@ -56,6 +56,25 @@ class Validator{
             data: Joi.object().unknown(true)
         }).validate(obj)
     }
+
+    validateCreateDisasterPayload(obj){
+        return Joi.object({
+            startDate: Joi.number().default(Date.now()),
+            endDate: Joi.number(),
+            totalDeath: Joi.number().default(0),
+            injured: Joi.number().default(0),
+            homeless: Joi.number().default(0),
+            magnitude: Joi.number(),
+            magnitudeScale: Joi.string(),
+            coordinate: Joi.object({
+                lng: Joi.number().required(),
+                lat: Joi.number().required()
+            }),
+            disasterType: Joi.string().required(),
+            country: Joi.string().required(),
+            region: Joi.string().required()
+        }).validate(obj)
+    }
 }
 
 const validator = new Validator()
