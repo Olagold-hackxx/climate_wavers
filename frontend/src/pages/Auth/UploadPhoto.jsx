@@ -53,7 +53,7 @@ const UploadPhoto = () => {
           <img src="../../../HandsShow.png" alt="" />
         </div>
       </div>
-      <div className="w-[90%] lg:w-[50%] md:w-[50%] grid px-4 place-content-center">
+      <div className="w-[90%] lg:w-[50%] md:w-[50%] grid px-4 place-content-center m-auto pt-20">
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] font-[bold font-serif text-[#047857] text-center mb-8">
           Upload Profile Photo
         </h1>

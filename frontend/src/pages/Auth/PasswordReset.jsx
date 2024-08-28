@@ -56,7 +56,7 @@ const PasswordReset = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${resetBg})` }}
       ></div>
-      <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 m-auto text-center">
+      <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 pt-1 m-auto text-center ">
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
           Set New Password
         </h1>

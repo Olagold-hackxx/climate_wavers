@@ -59,7 +59,7 @@ const EmailCode = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${bgReset})` }}
       ></div>
-      <div className="w-[100%] lg:w-[35%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center">
+      <div className="w-[100%] lg:w-[35%] md:w-[50%] py-8 lg:px-16 md:px-16 px-6 m-auto text-center max-sm:pt-[200px]">
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-serif font-bold  mb-4">
           Email Verification
         </h1>

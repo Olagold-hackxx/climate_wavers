@@ -14,7 +14,8 @@ const Notification = () => {
 
   return (
     <div className="grid">
-      <h2 className="text-4xl  font-semibold py-8">Notifications</h2>
+        <div className="fixed z-30 max-sm:left-0 md:w-[57%] bg-white w-[100%]">
+      <h2 className="md:text-4xl  text-2xl px-2 font-semibold py-8">Notifications</h2>
       <div className="text-black text-xl flex flex-row px-4 py-2 justify-between gap-x-4 h-[100%] text-base border-y-2 shadow-md py-4  overflow-x-auto">
         {feeds?.map((pageFeed) => (
           <div
@@ -32,6 +33,8 @@ const Notification = () => {
           </div>
         ))}
       </div>
+      </div>
+      <div className="mt-44">
       {notifications.map((notices) => (
         <div
           key={notices.id}
@@ -43,6 +46,7 @@ const Notification = () => {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 };
