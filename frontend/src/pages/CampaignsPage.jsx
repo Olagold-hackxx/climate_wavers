@@ -38,7 +38,7 @@ const CampaignsPage = () => {
       <div className="flex justify-center md:px-4 pt-28">
         <img
           src="/arrow-left.png"
-          className="absolute right-[95%] max-sm:right-[93%] max-sm:top-[80px] h-12 py-2"
+          className="absolute right-[95%] max-sm:hidden h-12 py-2"
           onClick={handleGoBack}
         />
         <h1 className="text-center max-sm:ml-2 bg-gradient-to-b from-green-500 py-2  via-geen-300 to-green-700 bg-clip-text text-transparent pt-4 md:text-4xl max-sm:text-2xl font-bold">

@@ -9,6 +9,7 @@ import withAuth from "../../HOC/withAuth";
 import SharedLayout from "../../components/ShareLayout";
 import CampaignsPage from "../CampaignsPage";
 import WaverXPosts from "../../components/WaverXPosts";
+import Notification from "../../components/Notification";
 
 const AuthSharedLayout = withAuth(SharedLayout);
 const AuthCommunity = withAuth(Community);
@@ -19,6 +20,7 @@ const AuthWaverX = withAuth(WaverxChatPage);
 const AuthFunds = withAuth(Funds);
 const AuthCampaigns = withAuth(CampaignsPage);
 const AuthWaverXPosts = withAuth(WaverXPosts);
+const AuthNotification = withAuth(Notification);
 
 export {
   AuthSharedLayout,
@@ -30,4 +32,5 @@ export {
   AuthMainfeed,
   AuthWaverX,
   AuthProfile,
+  AuthNotification,
 };

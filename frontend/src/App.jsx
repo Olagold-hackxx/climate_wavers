@@ -28,6 +28,7 @@ import {
   AuthWaverX,
   AuthCampaigns,
   AuthWaverXPosts,
+  AuthNotification,
 } from "./pages/AuthenticatedPages";
 
 configWeb3Modal();
@@ -44,7 +45,7 @@ function App() {
           <Route path="/" element={<AuthSharedLayout />}>
             <Route index element={<AuthMainfeed />} />
             <Route path="/community" element={<AuthCommunity />} />
-            <Route path="/notifications" element={""} />
+            <Route path="/notifications" element={<AuthNotification />} />
             <Route path="/disasters" element={""} />
             <Route path="/waverx" element={<AuthWaverXPosts />} />
             {/* <Route path="/happeningnow" element={<Happeningnow />} /> */}

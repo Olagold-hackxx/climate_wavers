@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const ChatsListCard = ({ id, createdAt, handleClick, title, isCurrent }) => {
+const ChatsListCard = ({ id, handleClick, title, isCurrent }) => {
   return (
     <div
       onClick={() => {

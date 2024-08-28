@@ -12,6 +12,17 @@ export const dummyUser = {
   access_token: "edgyui359r8dgwhjryrrewvoiy8rjennbrrn",
 };
 
+export const dummyNotification = [{
+  id: 10,
+  image: "/img_frame_30156.png",
+  content: "new post from admin",
+},
+{
+  id: 11,
+  image: "/Group.png",
+  content: "new post from waverx",
+}]
+
 export const dummyPost = [
   {
     id: 1,
