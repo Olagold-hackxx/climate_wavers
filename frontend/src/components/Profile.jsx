@@ -58,9 +58,9 @@ const Profile = () => {
 
   return (
     <div className="text-2xl text-center px-2 pt-5  ">
-      <div className="h-[35vh]">
+      <div className="h-[35vh] lg:h-[40vh]">
         <div
-          className={`h-[30vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
+          className={`h-[30vh] lg:h-[35vh] w-[100%] relative bg-cover bg-center rounded-[20px]`}
           style={{
             backgroundImage: `url(${
               profile?.cover ? `${profile.cover}` : "../../environ.jpeg"

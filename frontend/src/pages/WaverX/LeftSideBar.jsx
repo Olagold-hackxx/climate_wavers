@@ -1,11 +1,16 @@
 import { GoSidebarExpand } from "react-icons/go";
 import { useState } from "react";
 import Mobilemenu from "../../components/Mobilemenu";
+import ChatsListCard from "../../components/ChatsListCard";
 
-export default function WaverxLeftBar({ setIsOpen, handleCreateChat }) {
-  // function handleBarToggle(){
-
-  // }
+export default function WaverxLeftBar({
+  setIsOpen,
+  handleCreateChat,
+  chats,
+  current,
+  handleChatCardClicked,
+}) {
+ 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -48,6 +53,20 @@ export default function WaverxLeftBar({ setIsOpen, handleCreateChat }) {
               className="h-[32px] w-[32px] "
             />
           </div>
+        </div>
+        <div className="chats-list h-[90vh] overflow-y-auto ">
+          {chats.map((c) => {
+            return (
+              <ChatsListCard
+                isCurrent={c.id == current}
+                title={c.title}
+                handleClick={handleChatCardClicked}
+                id={c.id}
+                // createdAt={c.createdAt}
+                key={c.remoteId}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

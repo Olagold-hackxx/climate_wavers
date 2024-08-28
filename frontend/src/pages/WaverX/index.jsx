@@ -9,7 +9,6 @@ import {
   watchDocument,
 } from "../../services/firebase.service";
 import WaverxLeftBar from "./LeftSideBar";
-import ChatsListCard from "../../components/ChatsListCard";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 
 const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1`;
@@ -48,6 +47,7 @@ const WaverXChatPage = () => {
 
   function handleChatCardClicked(id) {
     setCurrent(id);
+    setIsOpen(false)
     const path = `chats/${id}`;
     watchDocument(path, async function (data) {
       const chat = data.data();
@@ -64,12 +64,18 @@ const WaverXChatPage = () => {
     if (res.data) {
       setChats([res.data, ...chats]);
     }
+    setCurrent(res.data.id)
+    return res.data;
   }
 
-  async function handlePostMessage(body) {
+  async function handlePostMessage(body, newCurrent) {
     if (!body) return;
     try {
-      const url = `${chatbot}/chats/${current}`;
+      let url;
+      console.log(newCurrent)
+      if (newCurrent) {
+        url = `${chatbot}/chats/${newCurrent}`;
+      } else url = `${chatbot}/chats/${current}`;
       await axios.post(url, { body, userId: String(getUser()?.id) });
     } catch (err) {
       console.log({ err });
@@ -80,27 +86,28 @@ const WaverXChatPage = () => {
     <div className=" w-[100vw] text-black flex">
       <div className="md:hidden p-2">
         <HiOutlineMenuAlt1 size={35} onClick={() => setIsOpen(true)} />
-      </div>
-      {isOpen === true ? <WaverxLeftBar setIsOpen={setIsOpen} /> : null}
-      <div className="max-sm:hidden md:w-[25%] border-r-2 border-gray-200 ">
-        <WaverxLeftBar handleCreateChat={handleCreateChat} />
-        <div className="chats-list">
-          {chats.map((c) => {
-            return (
-              <ChatsListCard
-                isCurrent={c.id == current}
-                title={c.title}
-                handleClick={handleChatCardClicked}
-                id={c.id}
-                createdAt={c.createdAt}
-                key={c.remoteId}
-              />
-            );
-          })}
-        </div>
+        {isOpen === true ? (
+          <WaverxLeftBar
+            handleCreateChat={handleCreateChat}
+            chats={chats}
+            current={current}
+            handleChatCardClicked={handleChatCardClicked}
+            setIsOpen={setIsOpen}
+          />
+        ) : null}
       </div>
 
-      <div className=" w-[75%] h-[100vh] max-sm:w-[100vw] max-sm:relative max-sm:right-8 max-sm:p">
+      <div className="max-sm:hidden md:w-[25%] border-r-2 border-gray-200 ">
+        <WaverxLeftBar
+          handleCreateChat={handleCreateChat}
+          chats={chats}
+          current={current}
+          handleChatCardClicked={handleChatCardClicked}
+          setIsOpen={setIsOpen}
+        />
+      </div>
+
+      <div className=" w-[75%] h-[100vh] max-sm:w-[100vw] max-sm:relative max-sm:right-8">
         <Chatcomponent
           current={current}
           messages={messages}

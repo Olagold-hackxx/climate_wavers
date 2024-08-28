@@ -123,6 +123,7 @@ Scrollbar styling for the message list
     float: left;
     width: 90%;
     max-width: 550px;
+    min-width: 100px;
     margin: 8px 12px;
     border-radius: 16px;
     padding: 12px;

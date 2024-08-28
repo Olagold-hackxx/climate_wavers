@@ -1,15 +1,32 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import MessageCard from "./message-card";
 import PropTypes from "prop-types";
 import NewChat from "./NewChat";
 import ChatInput from "./ChatInput";
 
-const Chatcomponent = ({ messages, handlePostMessage, handleCreateChat, current }) => {
+const Chatcomponent = ({
+  messages,
+  handlePostMessage,
+  handleCreateChat,
+  current,
+}) => {
   const bodyRef = useRef();
+  const [newCurrent, setCurrent] = useState(current)
+
+  const handleClick = async (body) => {
+    const newChat = await handleCreateChat();
+    console.log(newChat);
+    setCurrent(newChat.id);
+    console.log(newCurrent)
+  
+    await handlePostMessage(body.current?.value, newChat.id);
+  
+    body.current.value = "";
+  };
 
   return (
-    <div className="max-h-fit h-[100%] flex flex-col justify-between">
-      <div className="overflow-auto max-sm:w-[90vw] message-card-list">
+    <div className="max-h-fit  h-[100%] max-sm:h-[97%] max-sm:w-[90vw] flex flex-col justify-between">
+      <div className="overflow-y-auto  mt-8 message-card-list">
         {!messages?.length ? (
           <NewChat />
         ) : (
@@ -25,7 +42,7 @@ const Chatcomponent = ({ messages, handlePostMessage, handleCreateChat, current 
           })
         )}
       </div>
-      {current ? (
+      {newCurrent ? (
         <ChatInput
           body={bodyRef}
           handleClick={() => {
@@ -34,15 +51,8 @@ const Chatcomponent = ({ messages, handlePostMessage, handleCreateChat, current 
           }}
         />
       ) : (
-        <div className="chat-input-null">
-          <ChatInput
-            body={bodyRef}
-            handleClick={() => {
-              handleCreateChat
-              handlePostMessage(bodyRef.current?.value);
-              bodyRef.current.value = "";
-            }}
-          />
+        <div className="">
+          <ChatInput body={bodyRef} handleClick={handleClick} />
         </div>
       )}
     </div>

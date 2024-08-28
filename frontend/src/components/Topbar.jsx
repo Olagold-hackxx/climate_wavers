@@ -32,7 +32,7 @@ const Topbar = () => {
       </div>
       <div className="flex max-sm:hidden justify-end  my-7 self-center">
         <button
-          className="text-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
+          className="text-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
           onClick={() => setIsModalopen(true)}
         >
           <p className="leading-5 "> Report Disaster</p>
