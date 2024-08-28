@@ -2,39 +2,39 @@
   "rewrites": [
     {
       "source": "/api/v1/auth/google",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/google"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/google"
     },
     {
       "source": "/api/v1/auth/new-google",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/new-google"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/new-google"
     },
     {
       "source": "/api/v1/auth/facebook",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/facebook"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/facebook"
     },
     {
       "source": "/api/v1/auth/linkedin",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/linkedin"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/linkedin"
     },
     {
       "source": "/api/v1/auth/github",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/github"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/github"
     },
     {
       "source": "/api/v1/auth/google/(.*)",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/google/$1"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/google/$1"
     },
     {
       "source": "/api/v1/auth/github/(.*)",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/github/$1"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/github/$1"
     },
     {
       "source": "/api/v1/auth/linkedin/(.*)",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/linkedin/$1"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/linkedin/$1"
     },
     {
       "source": "/api/v1/auth/facebook/(.*)",
-      "destination": "https://climate-wavers-e7cr.onrender.com/api/v1/auth/facebook/$1"
+      "destination": "https://oauth.climatewavers.me/api/v1/auth/facebook/$1"
     },
     {
       "source": "/api/v1/auth/(.*)",
