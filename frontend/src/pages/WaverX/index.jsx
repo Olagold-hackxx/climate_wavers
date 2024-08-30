@@ -73,6 +73,7 @@ const WaverXChatPage = () => {
     try {
       let url;
       console.log(newCurrent)
+      console.log(body)
       if (newCurrent) {
         url = `${chatbot}/chats/${newCurrent}`;
       } else url = `${chatbot}/chats/${current}`;

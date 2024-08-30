@@ -11,24 +11,20 @@ const Chatcomponent = ({
   current,
 }) => {
   const bodyRef = useRef();
-  const [newCurrent, setCurrent] = useState(current)
+  const [newCurrent, setCurrent] = useState(current);
 
   const handleClick = async (body) => {
     const newChat = await handleCreateChat();
-    console.log(newChat);
     setCurrent(newChat.id);
-    console.log(newCurrent)
-  
-    await handlePostMessage(body.current?.value, newChat.id);
-  
-    body.current.value = "";
+
+    await handlePostMessage(body, newChat.id);
   };
 
   return (
     <div className="max-h-fit  h-[100%] max-sm:h-[97%] max-sm:w-[90vw] flex flex-col justify-between">
       <div className="overflow-y-auto  mt-8 message-card-list">
         {!messages?.length ? (
-          <NewChat />
+          <NewChat handleClick={handleClick} />
         ) : (
           messages.map((m) => {
             return (

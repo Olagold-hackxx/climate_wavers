@@ -31,7 +31,10 @@ const ChatInput = ({ body, handleClick }) => {
       />{" "}
       <IoSend
         size={34}
-        onClick={() => handleClick(body)}
+        onClick={() => {
+          handleClick(body.current?.value);
+          body.current.value = "";
+        }}
         className="items-end p-.5 ml-1 cursor-pointer "
         color="#008080"
         type="submit"

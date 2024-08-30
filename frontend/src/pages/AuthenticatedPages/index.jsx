@@ -10,6 +10,20 @@ import SharedLayout from "../../components/ShareLayout";
 import CampaignsPage from "../CampaignsPage";
 import WaverXPosts from "../../components/WaverXPosts";
 import Notification from "../../components/Notification";
+import {
+  OnboardingLayout,
+  Welcome,
+  Home,
+  Campaign,
+  Notifications,
+  Profile as OnboardingProfile,
+  Community as OnboardingCommunity,
+  Wallet,
+  Disasters,
+  Chatbot,
+  BotLeg,
+  GrabLeg,
+} from "../../components/Onboarding";
 
 const AuthSharedLayout = withAuth(SharedLayout);
 const AuthCommunity = withAuth(Community);
@@ -21,6 +35,18 @@ const AuthFunds = withAuth(Funds);
 const AuthCampaigns = withAuth(CampaignsPage);
 const AuthWaverXPosts = withAuth(WaverXPosts);
 const AuthNotification = withAuth(Notification);
+const AuthOnboardingLayout = withAuth(OnboardingLayout);
+const AuthWelcome = withAuth(Welcome);
+const AuthHome = withAuth(Home);
+const AuthOnboardingCampaign = withAuth(Campaign);
+const AuthOnboardingNotification = withAuth(Notifications);
+const AuthOnboardingProfile = withAuth(OnboardingProfile);
+const AuthOnboardingWallet = withAuth(Wallet);
+const AuthOnboardingDisaster = withAuth(Disasters);
+const AuthOnboardingChatbot = withAuth(Chatbot);
+const AuthOnboardingCommunity = withAuth(OnboardingCommunity);
+const AuthGrabLeg = withAuth(GrabLeg);
+const AuthBotLeg = withAuth(BotLeg);
 
 export {
   AuthSharedLayout,
@@ -33,4 +59,16 @@ export {
   AuthWaverX,
   AuthProfile,
   AuthNotification,
+  AuthOnboardingLayout,
+  AuthWelcome,
+  AuthHome,
+  AuthOnboardingCampaign,
+  AuthOnboardingNotification,
+  AuthOnboardingProfile,
+  AuthOnboardingWallet,
+  AuthOnboardingDisaster,
+  AuthOnboardingChatbot,
+  AuthOnboardingCommunity,
+  AuthBotLeg,
+  AuthGrabLeg,
 };

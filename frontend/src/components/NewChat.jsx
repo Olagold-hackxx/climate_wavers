@@ -26,7 +26,7 @@ const data = [
   },
 ];
 
-export default function NewChat() {
+export default function NewChat({handleClick}) {
   return (
     <div className="h-[80vh] max-sm:w-[100%] md:px-8 max-sm:px-1 grid gap-y-4 place-content-end">
       <div className="flex flex-row">
@@ -54,7 +54,7 @@ export default function NewChat() {
       </div>
       <div className="flex flex-row max-sm:grid max-sm:grid-cols-2 md:self-center max-sm:items-center gap-[30px]">
         {data.map((d, index) => (
-          <QuestionContainer {...d} key={"waverxchat" + index} />
+          <QuestionContainer {...d} key={"waverxchat" + index} handleClick={handleClick} />
         ))}
       </div>
     </div>

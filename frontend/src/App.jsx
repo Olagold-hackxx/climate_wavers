@@ -29,6 +29,18 @@ import {
   AuthCampaigns,
   AuthWaverXPosts,
   AuthNotification,
+  AuthOnboardingLayout,
+  AuthWelcome,
+  AuthHome,
+  AuthOnboardingCampaign,
+  AuthOnboardingNotification,
+  AuthOnboardingProfile,
+  AuthOnboardingWallet,
+  AuthOnboardingDisaster,
+  AuthOnboardingChatbot,
+  AuthOnboardingCommunity,
+  AuthBotLeg,
+  AuthGrabLeg,
 } from "./pages/AuthenticatedPages";
 
 configWeb3Modal();
@@ -60,7 +72,25 @@ function App() {
               element={<AuthComment type={"comments"} />}
             />
           </Route>
-          {/* <Route path="/signup" element={<Signuppage />} /> */}
+          <Route path="/onboarding" element={<AuthOnboardingLayout />}>
+            <Route index element={<AuthWelcome />} />
+            <Route path="/onboarding/bot" element={<AuthOnboardingChatbot />} />
+            <Route path="/onboarding/campaigns" element={<AuthOnboardingCampaign />} />
+            <Route path="/onboarding/home" element={<AuthHome />} />
+            <Route path="/onboarding/community" element={<AuthOnboardingCommunity/>} />
+            <Route
+              path="/onboarding/notifications"
+              element={<AuthOnboardingNotification />}
+            />
+            <Route path="/onboarding/disasters" element={< AuthOnboardingDisaster/>} />
+            <Route path="/onboarding/waverx" element={<AuthWaverXPosts />} />
+            {/* <Route path="/happeningnow" element={<Happeningnow />} /> */}
+            <Route path="/onboarding/wallet" element={<AuthOnboardingWallet />} />
+            <Route path="/onboarding/profile" element={<AuthOnboardingProfile />} />
+            <Route path="/onboarding/grableg" element={<AuthGrabLeg />} />
+            <Route path="/onboarding/botleg" element={<AuthBotLeg/>} />
+          </Route>
+
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Signin />} />
 
@@ -68,7 +98,6 @@ function App() {
             path="/verifypasswordreset/:uid/:token"
             element={<VerifyResetRequest />}
           />
-          {/* <Route path="/login" element={<Loginpage />} /> */}
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/emailcode" element={<EmailCode />} />
           <Route path="/resetpassword" element={<PasswordReset />} />

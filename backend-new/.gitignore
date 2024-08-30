@@ -60,4 +60,5 @@ docs/_build/
 # Jupyter Notebook
 .ipynb_checkpoints/
 .env
+.env.prod
 static/

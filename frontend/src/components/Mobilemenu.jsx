@@ -19,6 +19,6 @@ const Mobilemenu = ({ setIsOpen }) => {
 };
 
 Mobilemenu.propTypes = {
-  setIsOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
 };
 export default Mobilemenu;
