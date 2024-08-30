@@ -72,9 +72,8 @@ const WaverXChatPage = () => {
     if (!body) return;
     try {
       let url;
-      console.log(newCurrent)
-      console.log(body)
       if (newCurrent) {
+        setCurrent(newCurrent)
         url = `${chatbot}/chats/${newCurrent}`;
       } else url = `${chatbot}/chats/${current}`;
       await axios.post(url, { body, userId: String(getUser()?.id) });
