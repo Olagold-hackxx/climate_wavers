@@ -12,14 +12,12 @@
     state: "Lagos"
     gender: "male"
     username: admin
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
-    groups: []
-    user_permissions: []
+    picture: "http://res.cloudinary.com/lahri/image/upload/v1725138447/disax/smxvslqnc5pkdbp9ymbi.png"
 - model: api.user
   fields:
     is_superuser: true
-    first_name: 'Abdul'
-    last_name: 'Aileru'
+    first_name: "Abdul"
+    last_name: "Aileru"
     is_staff: true
     username: abdul123
     is_active: true
@@ -29,15 +27,13 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
-    groups: []
-    user_permissions: []
+    picture: "http://res.cloudinary.com/lahri/image/upload/v1725138447/disax/smxvslqnc5pkdbp9ymbi.png"
 - model: api.user
   fields:
     last_login: null
     is_superuser: true
-    first_name: 'Ismael'
-    last_name: 'Kiprop'
+    first_name: "Ismael"
+    last_name: "Kiprop"
     username: ismael
     is_staff: true
     is_active: true
@@ -47,15 +43,13 @@
     country: "Kenya"
     state: "Nairobi"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
-    groups: []
-    user_permissions: []
+    picture: "http://res.cloudinary.com/lahri/image/upload/v1725138292/disax/rw6uzednhfamkheaazvy.png"
 - model: api.user
   fields:
     last_login: null
     is_superuser: true
-    first_name: 'Farouq'
-    last_name: 'Daniju'
+    first_name: "Farouq"
+    last_name: "Daniju"
     username: farouq
     is_staff: true
     is_active: true
@@ -65,15 +59,13 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/media/profile_pic/img_frame_30139.png'
-    groups: []
-    user_permissions: []
+    default_avatar: "http://res.cloudinary.com/lahri/image/upload/v1725138494/disax/uljz6lf0hbazo9cfzfse.png"
 - model: api.user
   fields:
     last_login: null
     is_superuser: true
-    first_name: 'WaverX'
-    last_name: 'AI'
+    first_name: "WaverX"
+    last_name: "AI"
     username: waverxai
     is_staff: true
     is_active: true
@@ -83,6 +75,4 @@
     country: "Nigeria"
     state: "Lagos"
     gender: "male"
-    profile_pic: '/media/profile_pic/Group.png'
-    groups: []
-    user_permissions: []
+    picture: "http://res.cloudinary.com/lahri/image/upload/v1725139572/disax/ay6dliwjaklxtt7bozgr.png"

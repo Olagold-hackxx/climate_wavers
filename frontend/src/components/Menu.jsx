@@ -127,7 +127,7 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <div className="w-[200%] flex">
-            <RiAlarmWarningFill className="mr-2" size={35} color="#FFA500" />
+            <RiAlarmWarningFill className="mr-2" size={35} color="#EA4335" />
 
             <p className="self-center pl-2"> Disasters </p>
           </div>

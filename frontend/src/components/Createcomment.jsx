@@ -61,7 +61,7 @@ const Createcomment = ({ type, postId, parentId }) => {
           <div className=" flex justify-start gap-4 ">
             {/* <Accountcard user={user} /> */}
             <img
-              src={user?.profile_pic ? user.profile_pic : user.profile_picture}
+              src={user?.profile_picture}
               alt=""
               className="w-10 h-10 rounded-full"
             />
@@ -75,10 +75,10 @@ const Createcomment = ({ type, postId, parentId }) => {
           </div>
 
           <button
-            className="px-10 h-[50px] max-sm:hidden mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
+            className="px-10 h-[50px] capitalize max-sm:hidden mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
             type="submit"
           >
-            Post
+            {type === "post" ? type : "Reply"}
           </button>
           <IoSend
             size={34}

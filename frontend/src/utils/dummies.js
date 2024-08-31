@@ -7,7 +7,7 @@ export const dummyUser = {
   email: "admin@dev",
   country: "Nigeria",
   state: "Lagos",
-  profile_pic: "/img_frame_30156.png",
+  profile_picture: "/img_frame_30156.png",
   password: "admin123",
   access_token: "edgyui359r8dgwhjryrrewvoiy8rjennbrrn",
 };

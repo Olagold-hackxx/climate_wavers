@@ -28,7 +28,8 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   };
 
   const onSubmit = async (data) => {
-    let imageUrl
+    console.log("Here");
+    let imageUrl;
     if (data.image[0]) {
       imageUrl = await uploadFiles(data.image[0]);
     }
@@ -60,11 +61,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
       >
         <div className=" flex justify-start gap-4 ">
           <img
-            src={
-              user?.profile_pic
-                ? user.profile_pic
-                : user.profile_picture
-            }
+            src={user?.profile_picture}
             alt=""
             className="w-12 h-12 rounded-full h-10"
           />
@@ -123,21 +120,22 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
               type="file"
               accept="image/*"
               className="p-0 mb-1 hidden border rounded focus:border-green focus:outline-none"
-              {...register("image", { required: false, onChange: handleImageChange })}
-
+              {...register("image", {
+                required: false,
+                onChange: handleImageChange,
+              })}
             />
           </div>
           <button
             className="px-12 h-[60px] max-sm:hidden  bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
-            type="submit"
+            onClick={handleSubmit(onSubmit)}
           >
-            Post
+            {type === "post" ? type : "Reply"}
           </button>
           <IoSend
             size={34}
             className="md:hidden absolute right-4 pt-1 cursor-pointer "
             color="#008080"
-            type="submit"
             onClick={handleSubmit(onSubmit)}
           />
         </div>

@@ -170,3 +170,6 @@ EMAIL_USE_TLS = True
 FERNET_KEY = env("FERNET_KEY").encode()
 # Make sure to encode the key
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),
+
+MALE_AVATAR = env("MALE_AVATAR")
+FEMALE_AVATAR = env("FEMALE_AVATAR")

@@ -8,6 +8,9 @@ from .manager import UserManager
 from cryptography.fernet import Fernet
 from django.conf import settings
 
+male_avatar = settings.MALE_AVATAR
+female_avatar = settings.FEMALE_AVATAR
+
 
 AUTH_PROVIDERS = {
     "email": "email",
@@ -25,8 +28,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
 
     AVATAR_CHOICES = [
-        ("avatar1.png", "Male Avatar"),  # Male avatar
-        ("avatar2.png", "Female Avatar"),  # Female avatar
+        (male_avatar, "Male Avatar"),  # Male avatar
+        (female_avatar, "Female Avatar"),  # Female avatar
     ]
 
     first_name = models.CharField(max_length=100, verbose_name=_("First Name"))
@@ -40,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_pic = models.ImageField(
         upload_to="profile_pic/", blank=True, null=True, max_length=300
     )
-    default_avatar = models.CharField(
+    default_avatar = models.URLField(
         max_length=100, choices=AVATAR_CHOICES, blank=True, null=True
     )
     gender = models.CharField(
@@ -88,11 +91,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def profile_picture(self):
         if self.profile_pic:
-            return self.profile_pic.url
+            return f"{settings.BASE_URL}{self.profile_pic.url}"
         elif self.picture:
             return self.picture
         elif self.default_avatar:
-            return f"{settings.BASE_URL}/media/avatars/{self.default_avatar}"
+            return self.default_avatar
         return None
 
     def save(self, *args, **kwargs):

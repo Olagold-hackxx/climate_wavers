@@ -37,19 +37,24 @@ const Topbar = () => {
         >
           <p className="leading-5 "> Report Disaster</p>
         </button>
-       
+
         <img
-          src={user?.profile_pic ? user.profile_pic : user.profile_picture}
+          src={user?.profile_picture}
           className="ml-4 self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
       </div>
       {isModalOpen && (
-          <Modal closeFn={() => setIsModalopen(false)}>
-            <Report closeModal={() => setIsModalopen(false)} />
-          </Modal>
-        )}
-      <MdReportGmailerrorred size={35} color={"#FFA500"} className="md:hidden"  onClick={() => setIsModalopen(true)}/>
+        <Modal closeFn={() => setIsModalopen(false)}>
+          <Report closeModal={() => setIsModalopen(false)} />
+        </Modal>
+      )}
+      <MdReportGmailerrorred
+        size={35}
+        color={"#EA4335"}
+        className="md:hidden"
+        onClick={() => setIsModalopen(true)}
+      />
     </div>
   );
 };
