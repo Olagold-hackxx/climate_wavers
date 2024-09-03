@@ -130,11 +130,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = 'climatewaver@gmail.com'
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_USE_TLS = True
 
 FERNET_KEY = env('FERNET_KEY').encode()  # Make sure to encode the key
+
+
+# AWS SES Configuration
+EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'  # Change to your SES region
+
+# Default from email
+DEFAULT_FROM_EMAIL = 'info@climatewavers.com'
+AWS_SES_REGION_NAME = 'us-east-1'  # Adjust based on your region
+AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

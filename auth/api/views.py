@@ -11,6 +11,23 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import generics, permissions
 from core.serializers import UserSerializer
+from django.http import HttpResponse
+from django.core.mail import send_mail
+
+def test_email(request):
+    try:
+        send_mail(
+            'Test Email',
+            'This is a test email sent using Amazon SES.',
+            'info@climatewavers.com',
+            ['recipient@example.com'],
+            fail_silently=False,
+        )
+        return HttpResponse("Test email sent successfully.")
+    except Exception as e:
+        return HttpResponse(f"Failed to send email: {e}")
+
+
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
