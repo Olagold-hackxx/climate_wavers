@@ -24,3 +24,4 @@ requests-oauthlib==2.0.0
 pipdeptree==2.23.1
 pika
 django-ses==4.1.1
+boto3<=1.15.3
