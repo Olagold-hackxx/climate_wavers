@@ -5,7 +5,7 @@ function catchAsyncErrors(fn){
             await fn(req, res, next)
         } catch (error) {
             console.log(`error occured: ${error}`)
-            return res.status(500).json("internal server error.")
+            return res.status(500).json({message: "internal server error."})
         }
     }
 
