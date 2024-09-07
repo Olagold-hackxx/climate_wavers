@@ -23,7 +23,7 @@ class Client {
       method: method,
     });
 
-    const token = await getAuthToken();
+    const token = getAuthToken();
 
     const config = {
       withCredentials: authheaders,

@@ -254,42 +254,46 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Custom action to get user activity statistics.
         """
-        user_id = request.data["user_id"]
-        user = User.objects.get(id=user_id)
-        posts = Post.objects.filter(user=user).annotate(
-            total_comments=Count('comments'),
-            total_reactions=Count('reactions'),
-            total_views=Count('views'),
-            total_reposts=Count('reposts'),
-            total_bookmarks=Count('bookmarks')
-        )
-        comments = Comment.objects.filter(user=user).annotate(
-            total_comments=Count('subcomments'),
-            total_reactions=Count('reactions'),
-            total_reposts=Count('reposts'),
-            total_bookmarks=Count('bookmarks')
-        )
-        reactions = Reaction.objects.filter(user=user)
-        reposts = Repost.objects.filter(user=user)
-        followers = Follow.objects.filter(following=user)
-        followings = Follow.objects.filter(follower=user)
-        bookmarks = Bookmark.objects.filter(user=user)
-        polls = Poll.objects.filter(user=user)
+        try:
+            user_id = request.data["user_id"]
+            user = User.objects.get(id=user_id)
+            posts = Post.objects.filter(user=user).annotate(
+                total_comments=Count('comments'),
+                total_reactions=Count('reactions'),
+                total_views=Count('views'),
+                total_reposts=Count('reposts'),
+                total_bookmarks=Count('bookmarks')
+            )
+            comments = Comment.objects.filter(user=user).annotate(
+                total_comments=Count('subcomments'),
+                total_reactions=Count('reactions'),
+                total_reposts=Count('reposts'),
+                total_bookmarks=Count('bookmarks')
+            )
+            reactions = Reaction.objects.filter(user=user)
+            reposts = Repost.objects.filter(user=user)
+            followers = Follow.objects.filter(following=user)
+            followings = Follow.objects.filter(follower=user)
+            bookmarks = Bookmark.objects.filter(user=user)
+            polls = Poll.objects.filter(user=user)
 
-        data = {
-            "posts": posts,
-            "comments": comments,
-            "reactions": reactions,
-            "repost": reposts,
-            "followers": followers,
-            "followings": followings,
-            "bookmarks": bookmarks,
-            "polls": polls,
-            "user_id": user_id,
-            "user": user
-        }
-        serializer = self.get_serializer(data, context={'request': request})
-        return Response(serializer.data)
+            data = {
+                "posts": posts,
+                "comments": comments,
+                "reactions": reactions,
+                "repost": reposts,
+                "followers": followers,
+                "followings": followings,
+                "bookmarks": bookmarks,
+                "polls": polls,
+                "user_id": user_id,
+                "user": user
+            }
+            serializer = self.get_serializer(
+                data, context={'request': request})
+            return Response(serializer.data)
+        except Exception:
+            raise Http404("User Activities not found")
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
     def follow(self, request, pk=None):

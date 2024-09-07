@@ -127,7 +127,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
             />
           </div>
           <button
-            className="px-12 h-[60px] max-sm:hidden  bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
+            className="px-12 h-[60px] max-sm:hidden capitalize bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
             onClick={handleSubmit(onSubmit)}
           >
             {type === "post" ? type : "Reply"}

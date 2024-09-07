@@ -39,8 +39,11 @@ services:
       - climatewavers
 
   queue-consumer:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
     command: sh worker.sh
+    
     environment:
       - DB_HOST=backend-new.db
     container_name: backend-new.worker
