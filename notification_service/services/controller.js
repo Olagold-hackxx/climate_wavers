@@ -79,7 +79,7 @@ class Controller{
     async onboardUser(d){
         const {email, city}= d
         const sub = new Subscription(email, city)
-        await sub
+        await sub.exec()
         await mailer.sendOnboarding(email)
     }
 
