@@ -2,6 +2,7 @@ import Topbar from "./Topbar";
 import Leftsidebar from "./Leftsidebar";
 import Rightsidebar from "./Rightsidebar";
 import { Outlet } from "react-router-dom";
+import Footer from "./FooterBar";
 
 const SharedLayout = () => {
   return (
@@ -21,7 +22,11 @@ const SharedLayout = () => {
         <div className="w-[20%] max-sm:hidden">
         <Rightsidebar />
         </div>
+        
       </div>
+      <div className="md:hidden h-24 sm:flex">
+        <Footer />
+        </div>
     </div>
   );
 };

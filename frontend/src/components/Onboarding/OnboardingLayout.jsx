@@ -1,6 +1,7 @@
-import Topbar from "../Topbar";
+import Topbar from "./Topbar";
 import Leftsidebar from "./Leftsidebar";
 import { Outlet } from "react-router-dom";
+import Footer from "./FooterBar";
 
 const OnboardingLayout = () => {
   return (
@@ -16,7 +17,11 @@ const OnboardingLayout = () => {
         <div className="md:w-[75%] overflow-hidden items-center">
           <Outlet />
         </div>
+        
       </div>
+      <div className="md:hidden w-full h-24 sm:flex">
+        <Footer />
+        </div>
     </div>
   );
 };

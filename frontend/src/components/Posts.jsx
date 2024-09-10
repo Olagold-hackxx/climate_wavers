@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Accountcard from "./Accountcard";
 import { AiOutlineHeart, AiFillHeart, AiOutlineRetweet } from "react-icons/ai";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { PiBookmark, PiBookmarkFill } from "react-icons/pi";
-import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import IncidentIntegration from "./IncidentIntegration";
 import Createpost from "./Createpost";
@@ -40,7 +39,10 @@ const Posts = ({
   return (
     <div className="py-3">
       {posts?.map((post) => (
-        <div key={`${post?.user?.id}${post?.id}`} className="border-b-[1px] border-gray-100 py-4">
+        <div
+          key={`${post?.user?.id}${post?.id}`}
+          className="border-b-[1px] border-gray-100 py-4"
+        >
           {isCommentModalOpen && (
             <div className="">
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
@@ -55,7 +57,7 @@ const Posts = ({
           )}
           <Accountcard user={post?.user} />
           <div onClick={() => commentPage(post)}>
-            <p className="text-left text-2xl font-serif px-3 my-3 ">
+            <p className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 ">
               {post?.content}
             </p>
             <img
@@ -86,9 +88,16 @@ const Posts = ({
               }}
             >
               {post?.is_reacted ? (
-                <AiFillHeart size={25} color={"#FF0000"} />
+                <AiFillHeart
+                  size={25}
+                  color={"#FF0000"}
+                  className="transition active:animate-ping   ease-in-out duration-150 hover:scale-125"
+                />
               ) : (
-                <AiOutlineHeart size={25} />
+                <AiOutlineHeart
+                  size={25}
+                  className="transition active:animate-ping ease-in-out duration-150 hover:scale-125 "
+                />
               )}
               <p className="text-xs ml-1 ">{post?.total_reactions}</p>
             </div>
@@ -102,6 +111,7 @@ const Posts = ({
             >
               <AiOutlineRetweet
                 size={25}
+                className="transition active:animate-ping ease-in-out duration-150 hover:scale-125 "
                 color={post?.is_reposted ? "#047857" : ""}
               />
               <p className="text-xs ml-1 ">{post?.total_reposts}</p>
@@ -116,9 +126,16 @@ const Posts = ({
               }}
             >
               {post?.is_bookmarked ? (
-                <PiBookmarkFill size={25} color={"rgb(0 128 128 / 1)"} />
+                <PiBookmarkFill
+                  size={25}
+                  color={"rgb(0 128 128 / 1)"}
+                  className="transition ease-in-out active:animate-ping duration-150 hover:scale-125 "
+                />
               ) : (
-                <PiBookmark size={25} />
+                <PiBookmark
+                  size={25}
+                  className="transition ease-in-out active:animate-ping duration-150 hover:scale-125 "
+                />
               )}
               <p className="text-xs ml-1 ">{post?.total_bookmarks}</p>
             </div>

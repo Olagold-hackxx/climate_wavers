@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { getProvider } from '../constants/providers';
 import { useWeb3ModalProvider, useWeb3ModalAccount } from "@web3modal/ethers/react";
@@ -33,7 +33,7 @@ const Funds = () => {
     if (walletProvider) {
       fetchWalletDetails();
     }
-  }, [walletProvider]);
+  }, [walletProvider, address]);
 
   const shortenAddress = address ? `${address?.slice(0, 7)}.........${address?.slice(-2)}` : "Connect your wallet"
 
@@ -64,7 +64,7 @@ const Funds = () => {
         {copied && <span className="text-green-500 ml-2 text-sm">Copied!</span>}
         </div>
       <div className='flex items-center my-6'>
-        <h2 className='lg:text-[56px] md:text-[56px] text-[36px]'>{open ? `${balance} ETH` : "***********"} </h2>
+        <h2 className='lg:text-[56px] md:text-[56px] text-[36px]'>{open ? `${balance} disaXta` : "***********"} </h2>
         {open ? (
           <IoMdEyeOff onClick={toggleBalanceVisibility} className='text-4xl mx-8' style={{ cursor: 'pointer' }} />
         ) : (
@@ -72,10 +72,9 @@ const Funds = () => {
         )}
         <p className='bg-[#008080]/25 rounded-lg text-[#008080] py-2 px-4'>$30.00</p>
       </div>
-      <section className='flex items-center flex-col lg:flex-row md:flex-row'>
+      <section className='flex items-center gap-x-4 lg:flex-row md:flex-row'>
        <Deposit address={address} />
-        <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 mb-4 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]'>Withdraw</button>
-        <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 mb-4 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]'>+ Buy</button>
+        <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 mb-4 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]'>Donate</button>
       </section>
       <section>
         <h2 className='text-[18px] lg:text-[24px] md:text-[24px] my-4'>All Transaction details</h2>

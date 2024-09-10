@@ -69,7 +69,7 @@ const Createcomment = ({ type, postId, parentId }) => {
             <textarea
               type="text"
               placeholder="What's on your mind"
-              className=" mb-3 text-inherit bg-inherit outline-0"
+              className=" mb-3 w-[40vw] text-inherit bg-inherit outline-0"
               {...register("content", { required: true })}
             />
           </div>

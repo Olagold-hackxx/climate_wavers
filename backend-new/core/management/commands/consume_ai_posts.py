@@ -25,8 +25,11 @@ class Command(BaseCommand):
         def callback(ch, method, properties, body):
             try:
                 # Process the incoming message
+                logger.info("Received message")
                 data = json.loads(body)
                 logger.info("Received new content from AI")
+                
+                print(data)
                 
                 user = User.objects.get(username=data["username"])
                 Post.objects.create(

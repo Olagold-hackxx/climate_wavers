@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import DonateCampaign from "../components/DonateCampaign";
 import Modal from "../components/Modal";
 import { useState } from "react";
+import Footer from "../components/FooterBar";
 
 const CampaignsPage = () => {
   const campaigns = getCampaigns();
@@ -82,6 +83,9 @@ const CampaignsPage = () => {
           />
         </Modal>
       )}
+      <div className="md:hidden h-24 sm:flex">
+        <Footer />
+        </div>
     </div>
   );
 };

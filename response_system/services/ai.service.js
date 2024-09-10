@@ -88,7 +88,7 @@ class AI{
     }
 
     generateEducativeQuote(){
-        const topics = ["climate actions", "natural disasters", "carbon footprint", "global warming", "reforestaion and deforestaion", ]
+        const topics = ["climate actions", "natural disasters", "carbon footprint", "global warming", "reforestation and deforestation", ]
 
         const prompt = `generate a tip/quote/message about ${topics[Math.floor(Math.random() * topics.length)]}. note: no prefix or title or suffix is expected, return only the message in your response`
         return this.exec(this.usePrePrompt(prompt))

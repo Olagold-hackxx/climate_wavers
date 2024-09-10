@@ -1,9 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 const Menu = ({ setIsOpen }) => {
   const [active, setActive] = useState(false);
@@ -12,7 +11,7 @@ const Menu = ({ setIsOpen }) => {
   const activeStyle = {
     borderLeft: "4px solid #008080",
     backgroundColor: "#264653",
-    width: "104%",
+    width: "103%",
     color: "white",
     fontWeight: "500",
   };
@@ -57,10 +56,11 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <>
               <img
+                alt=""
                 src={isActive ? "../../home1.png" : "../../home.svg"}
                 className="mr-4 w-auto"
               />
-              Home
+              Home{""}
             </>
           )}
         </NavLink>
@@ -81,10 +81,11 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <>
               <img
+                alt=""
                 src={isActive ? "../../people1.png" : "../../people.png"}
                 className="mr-4 w-auto"
               />
-              Community
+              Community{""}
             </>
           )}
         </NavLink>
@@ -106,10 +107,11 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <>
               <img
+                alt=""
                 src={isActive ? "../../profile1.png" : "../../profile.png"}
                 className="mr-4 w-auto"
               />
-              Profile
+              Profile{""}
             </>
           )}
         </NavLink>
@@ -125,8 +127,8 @@ const Menu = ({ setIsOpen }) => {
             return isActive ? activeStyle : null;
           }}
         >
-          <img src="../../waverbot.png" className="mr-4 w-auto" />
-          WaverX
+          <img src="../../waverbot.png" alt="" className="mr-4 w-auto" />
+          WaverX{""}
         </NavLink>
         <NavLink
           className={({ isActive }) => {
@@ -145,10 +147,11 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <>
               <img
+                alt=""
                 src={isActive ? "../../wallet1.png" : "../../wallet.png"}
                 className="mr-4 w-auto"
               />
-              Wallet
+              Wallet{""}
             </>
           )}
         </NavLink>

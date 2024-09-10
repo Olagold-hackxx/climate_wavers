@@ -1,32 +1,23 @@
 import { NavLink } from "react-router-dom";
-import Modal from "./Modal";
-import Createpost from "./Createpost";
-import { getUser } from "../utils/factory";
 import CampaignIcon from "@mui/icons-material/Campaign";
-import { useState } from "react";
 import { RiAlarmWarningFill } from "react-icons/ri";
-import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
+// import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 
-const Menu = ({ setIsOpen }) => {
-  const [isModalOpen, setIsModalopen] = useState(false);
-  const user = getUser();
+const Footer = ({ setIsOpen }) => {
 
   const activeStyle = {
-    borderLeft: "4px solid #008080",
-    backgroundColor: "#00808014",
-    maxWidth: "100%",
-    fontWeight: "500",
+
   };
 
   return (
-    <div className="flex flex-col px-2 w-[100%] max-sm:pl-4">
+    <div className="flex w-full">
       {/* Menu */}
       <div
-        className="list-none text-base lg:text-2xl  md:text-lg
-        flex flex-col lg:gap-y-4 pt-10 w-auto mb-10"
+        className="list-none w-[100%] px-2 fixed z-30 bg-white bottom-0 text-base
+        flex justify-between"
       >
         <NavLink
-          to={"/"}
+          to={"/onboarding/home"}
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -38,15 +29,14 @@ const Menu = ({ setIsOpen }) => {
             <>
               <img
                 src={isActive ? "../../home.png" : "../../home.svg"}
-                className="mr-4 w-auto"
+                className=" w-[30px]"
               />
-              Home
             </>
           )}
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
-          to={"/community"}
+          to={"/onboarding/community"}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
@@ -57,16 +47,15 @@ const Menu = ({ setIsOpen }) => {
             <>
               <img
                 src={isActive ? "../../people1.png" : "../../people.png"}
-                className="mr-4 w-auto"
+                className="  w-[30px]"
               />
-              Community
             </>
           )}
         </NavLink>
 
         <NavLink
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
-          to={`/${user.id}/profile`}
+          to={`/onboarding/profile`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
@@ -77,21 +66,19 @@ const Menu = ({ setIsOpen }) => {
             <>
               <img
                 src={isActive ? "../../profile1.png" : "../../profile.png"}
-                className="mr-4 w-auto"
+                className="  w-[30px]"
               />
-              Profile
             </>
           )}
         </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
-          to={`/bot`}
+          to={`/onboarding/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <img src="../../waverbot.png" className="mr-4 w-auto" />
-          WaverX
+          <img src="../../waverbot.png" className=" w-auto w-[2rem]" />
         </NavLink>
-        <NavLink
+        {/* <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={`/wallet`}
           style={({ isActive }) => {
@@ -104,35 +91,33 @@ const Menu = ({ setIsOpen }) => {
             <>
               <img
                 src={isActive ? "../../wallet1.png" : "../../wallet.png"}
-                className="mr-4 w-auto"
+                className=" w-auto w-[30px]"
               />
               Wallet
             </>
           )}
-        </NavLink>
+        </NavLink> */}
         <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
-          to={"/campaigns"}
+          to={"/onboarding/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <CampaignIcon
-            sx={{ color: "#008080", fontSize: "50px" }}
-            fontSize={"large"}
+            sx={{ color: "#008080", fontSize: "40px" }}
+            fontSize={"small"}
           />
-          <p className="ml-1">Campaigns</p>
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
-          to={`/disasters`}
+          to={`/onboarding/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <div className="w-[200%] flex">
-            <RiAlarmWarningFill className="mr-2" size={35} color="#EA4335" />
+            <RiAlarmWarningFill className="w-[30px]" size={35} color="#EA4335" />
 
-            <p className="self-center pl-2"> Disasters </p>
           </div>
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to={`/notifications`}
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           style={({ isActive }) => {
@@ -144,36 +129,20 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <div className="w-[200%] flex max-sm:">
               {isActive ? (
-                <IoMdNotifications className="mr-2" size={40} color="#008080" />
+                <IoMdNotifications
+                  className=" w-[30px]"
+                  size={40}
+                  color="#008080"
+                />
               ) : (
-                <IoMdNotificationsOutline className="mr-2" size={40} />
+                <IoMdNotificationsOutline className="w-[30px]" size={40} />
               )}
-              <p className="self-center"> Notifications</p>
             </div>
           )}
-        </NavLink>
+        </NavLink> */}
       </div>
-      {/* Post btn */}
-      <button
-        // to={"./createpost"}
-        className="text-xl text-center font-semibold bg-[#008080] text-white shadow-xl self-center shadow-white-300 w-[80%] max-sm:w-[80%] py-4 rounded-3xl"
-        onClick={() => setIsModalopen(true)}
-      >
-        Post
-      </button>
-      {isModalOpen && (
-        <Modal closeFn={() => setIsModalopen(false)}>
-          <Createpost
-            type={"post"}
-            closeModal={() => {
-              setIsModalopen(false);
-              setIsOpen(false);
-            }}
-          />
-        </Modal>
-      )}
     </div>
   );
 };
 
-export default Menu;
+export default Footer;

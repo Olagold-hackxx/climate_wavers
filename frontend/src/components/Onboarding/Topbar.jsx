@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Mobilemenu from "./Mobilemenu";
-import { getUser } from "../utils/factory";
-import Modal from "../components/Modal";
-import Report from "./Report";
+import { getUser } from "../../utils/factory";
+import Modal from "../Modal";
+import Report from "../Report";
 import { NavLink } from "react-router-dom";
 import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
@@ -57,7 +57,7 @@ const Topbar = () => {
         </Modal>
       )}
       <NavLink
-          to={`/notifications`}
+          to={`/onboarding/notifications`}
           className="flex md:hidden"
           onClick={() => setIsOpen(false)}
           end
