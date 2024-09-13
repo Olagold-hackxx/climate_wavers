@@ -46,6 +46,11 @@ const cronJob = {
   value: process.env.DEFAULT_JOB_TIME_VALUE || 20
 }
 
+const bedrockAi = {
+  key: "",
+  model: ""
+}
+
 module.exports = {
     openai,
     firebase: firebaseConfig,
