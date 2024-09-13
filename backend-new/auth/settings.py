@@ -1,3 +1,5 @@
+#auth/settings.py
+
 import os
 import environ
 from datetime import timedelta
@@ -66,7 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "auth.wsgi.application"
-ASGI_APPLICATION = "core.asgi.application"
+ASGI_APPLICATION = "auth.asgi.application"
 
 DATABASES = {
     "default": {
@@ -161,3 +163,12 @@ EMAIL_USE_TLS = True
 FERNET_KEY = env("FERNET_KEY").encode()
 # Make sure to encode the key
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
