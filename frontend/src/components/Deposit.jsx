@@ -27,7 +27,7 @@ const Deposit = ({ address }) => {
 
   return (
     <div>
-      <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 mb-4 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]' onClick={handleOpen}>Deposit</button>
+      <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]' onClick={handleOpen}>Deposit</button>
       <Modal
         open={open}
         onClose={handleClose}
