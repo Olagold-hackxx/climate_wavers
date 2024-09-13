@@ -76,7 +76,18 @@ button:focus-visible {
  body::-webkit-scrollbar {
   display: none;
 }
-
+::-webkit-scrollbar {
+  display: none;
+ }
+ 
+ ::-webkit-scrollbar-track {
+  display: none;
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+  display: none;
+ }
+ 
 @keyframes rotate-smooth {
   0% {
     transform: rotate(0deg);

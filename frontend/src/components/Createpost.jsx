@@ -54,7 +54,6 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   };
 
   return (
-    <>
       <div
         onSubmit={handleSubmit(onSubmit)}
         className=" md:w-[40vw] md:min-h-[45vh] max-h-[70vh] p-3 md:p-6 bg-white rounded-md flex justify-between w-[70vw] flex-col"
@@ -66,7 +65,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
             className="w-12 h-12 rounded-full h-10"
           />
           <select
-            className=" rounded-full p-2 mb-3 border-2 border-[#008080] text-xl font-bold text-[#008080] focus:border-green focus:outline-none"
+            className=" rounded-full px-2  mb-3 border-2 border-[#008080] text-xl font-bold text-[#008080] focus:border-green focus:outline-none"
             {...register("visibility", { required: true })}
           >
             <option value="Everyone">Everyone</option>
@@ -78,14 +77,14 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
         <textarea
           type="text"
           placeholder="What's on your mind"
-          className=" p-8 border-b-2 h-[100%] text-black text-3xl  overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
+          className=" p-8 border-b-2 h-[100%] max:sm:placeholder:text-[15px] text-black text-3xl overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
           {...register("content", { required: true })}
         />
         {imagePreview && (
           <div className="mb-3 max-h-[60%] overflow-y-auto">
             <img
               src={imagePreview}
-              alt="Image Preview"
+              alt="Preview"
               className="w-full h-auto rounded"
             />
           </div>
@@ -140,7 +139,6 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
           />
         </div>
       </div>
-    </>
   );
 }
 

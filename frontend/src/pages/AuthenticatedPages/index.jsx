@@ -10,6 +10,7 @@ import SharedLayout from "../../components/ShareLayout";
 import CampaignsPage from "../CampaignsPage";
 import WaverXPosts from "../../components/WaverXPosts";
 import Notification from "../../components/Notification";
+import DisasterPage from "../Disasters";
 import {
   OnboardingLayout,
   Welcome,
@@ -47,6 +48,7 @@ const AuthOnboardingChatbot = withAuth(Chatbot);
 const AuthOnboardingCommunity = withAuth(OnboardingCommunity);
 const AuthGrabLeg = withAuth(GrabLeg);
 const AuthBotLeg = withAuth(BotLeg);
+const AuthDisasterPage = withAuth(DisasterPage)
 
 export {
   AuthSharedLayout,
@@ -71,4 +73,5 @@ export {
   AuthOnboardingCommunity,
   AuthBotLeg,
   AuthGrabLeg,
+  AuthDisasterPage
 };

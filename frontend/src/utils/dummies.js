@@ -12,16 +12,18 @@ export const dummyUser = {
   access_token: "edgyui359r8dgwhjryrrewvoiy8rjennbrrn",
 };
 
-export const dummyNotification = [{
-  id: 10,
-  image: "/img_frame_30156.png",
-  content: "new post from admin",
-},
-{
-  id: 11,
-  image: "/Group.png",
-  content: "new post from waverx",
-}]
+export const dummyNotification = [
+  {
+    id: 10,
+    image: "/img_frame_30156.png",
+    content: "new post from admin",
+  },
+  {
+    id: 11,
+    image: "/Group.png",
+    content: "new post from waverx",
+  },
+];
 
 export const dummyPost = [
   {
@@ -184,5 +186,74 @@ export const dummyCampaigns = [
     location: "",
     disaster: "",
     date: "",
+  },
+];
+
+export const dummyDisasters = [
+  {
+    image: "/disaster.png",
+    id: "2",
+    description: `In the early hours of August 20, 2024, 
+      the Kiri Dam in Tudun Tsira, Shelleng LGA, Adamawa State,
+      breached its banks, resulting in severe flooding across the communities of Kwakwambe, 
+      Lure, Nbalang, Imburu, and Bare in the Numan Local Government Area. The deluge caused extensive damage,
+      overwhelming local capacities and necessitating immediate humanitarian intervention. Just one day later,
+      the communities of Duhu, Mayowandu, Kirchinga, Maiwandu, Jahili, Kokohu, Lumadu, Zhau, Pallam, Kwambula,
+      Shuware, and Shuwa in Madagali Local Government Area were struck by another catastrophic flood, triggered by
+      the upstream flow of waters from the Cameroonian highlands. This secondary flooding event exacerbated the already 
+      dire situation, compounding the devastation and further straining local resources. According to the State Emergency 
+      Management Agency (SEMA), the floodwaters rose with alarming speed, catching residents off guard and resulting
+      in the widespread destruction of homes, infrastructure, and livelihoods. The disaster has affected 12,583 individuals,
+      displaced 2,079 households, and caused the destruction of 298 buildings, 203 farmlands, and 509 livestock. The immediate
+      humanitarian needs include shelter, food, non-food items, medical assistance, and access to clean water. (OCHA, 26 Aug 2024),`,
+    title: "",
+    disaster_type: "Earthquake",
+    location: "Ethiopia",
+    status: "Past",
+    date: "August 2024",
+  },
+  {
+    image: "/disaster.png",
+    id: "3",
+    description: `In the early hours of August 20, 2024, 
+      the Kiri Dam in Tudun Tsira, Shelleng LGA, Adamawa State,
+      breached its banks, resulting in severe flooding across the communities of Kwakwambe, 
+      Lure, Nbalang, Imburu, and Bare in the Numan Local Government Area. The deluge caused extensive damage,
+      overwhelming local capacities and necessitating immediate humanitarian intervention. Just one day later,
+      the communities of Duhu, Mayowandu, Kirchinga, Maiwandu, Jahili, Kokohu, Lumadu, Zhau, Pallam, Kwambula,
+      Shuware, and Shuwa in Madagali Local Government Area were struck by another catastrophic flood, triggered by
+      the upstream flow of waters from the Cameroonian highlands. This secondary flooding event exacerbated the already 
+      dire situation, compounding the devastation and further straining local resources. According to the State Emergency 
+      Management Agency (SEMA), the floodwaters rose with alarming speed, catching residents off guard and resulting
+      in the widespread destruction of homes, infrastructure, and livelihoods. The disaster has affected 12,583 individuals,
+      displaced 2,079 households, and caused the destruction of 298 buildings, 203 farmlands, and 509 livestock. The immediate
+      humanitarian needs include shelter, food, non-food items, medical assistance, and access to clean water. (OCHA, 26 Aug 2024),`,
+    title: "Extreme Drought took several lives",
+    disaster_type: "Drought",
+    location: "Kenya",
+    status: "Ongoing",
+    date: "August 2024",
+  },
+  {
+    image: "/disaster.png",
+    id: "4",
+    description: `In the early hours of August 20, 2024, 
+      the Kiri Dam in Tudun Tsira, Shelleng LGA, Adamawa State,
+      breached its banks, resulting in severe flooding across the communities of Kwakwambe, 
+      Lure, Nbalang, Imburu, and Bare in the Numan Local Government Area. The deluge caused extensive damage,
+      overwhelming local capacities and necessitating immediate humanitarian intervention. Just one day later,
+      the communities of Duhu, Mayowandu, Kirchinga, Maiwandu, Jahili, Kokohu, Lumadu, Zhau, Pallam, Kwambula,
+      Shuware, and Shuwa in Madagali Local Government Area were struck by another catastrophic flood, triggered by
+      the upstream flow of waters from the Cameroonian highlands. This secondary flooding event exacerbated the already 
+      dire situation, compounding the devastation and further straining local resources. According to the State Emergency 
+      Management Agency (SEMA), the floodwaters rose with alarming speed, catching residents off guard and resulting
+      in the widespread destruction of homes, infrastructure, and livelihoods. The disaster has affected 12,583 individuals,
+      displaced 2,079 households, and caused the destruction of 298 buildings, 203 farmlands, and 509 livestock. The immediate
+      humanitarian needs include shelter, food, non-food items, medical assistance, and access to clean water. (OCHA, 26 Aug 2024),`,
+    title: "Disastrous Flood",
+    disaster_type: "Flood",
+    location: "Nigeria",
+    status: "Alert",
+    date: "August 2024",
   },
 ];

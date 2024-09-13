@@ -9,7 +9,7 @@ import Footer from "../components/FooterBar";
 
 const CampaignsPage = () => {
   const campaigns = getCampaigns();
-  const [isModalOpen, setIsModalopen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [campaign, setCampaign] = useState({});
   const navigate = useNavigate();
 
@@ -19,8 +19,8 @@ const CampaignsPage = () => {
 
   const chooseCampaign = (campaign) => {
     setCampaign(campaign);
-    console.log(campaign)
-    setIsModalopen(true);
+    console.log(campaign);
+    setIsModalOpen(true);
   };
 
   const filters = [
@@ -37,12 +37,14 @@ const CampaignsPage = () => {
     <div className="grid gap-y-3 w-[100%]">
       <Topbar />
       <div className="flex justify-center md:px-4 pt-28">
-        <img
-          src="/arrow-left.png"
-          className="absolute right-[95%] max-sm:hidden h-12 py-2"
-          onClick={handleGoBack}
-        />
-        <h1 className="text-center max-sm:ml-2 bg-gradient-to-b from-green-500 py-2  via-geen-300 to-green-700 bg-clip-text text-transparent pt-4 md:text-4xl max-sm:text-2xl font-bold">
+        <button onClick={handleGoBack} >
+          <img
+            alt="back-arrow"
+            src="/arrow-left.png"
+            className="absolute right-[95%] max-sm:hidden h-12 py-2"
+          />
+        </button>
+        <h1 className="text-center max-sm:ml-2 bg-gradient-to-b from-green-500 py-2  via-geen-300 to-green-700 bg-clip-text text-transparent md:pt-4 md:text-4xl max-sm:text-2xl font-bold">
           Support Climate Action: Be the Change!
         </h1>
       </div>
@@ -76,16 +78,16 @@ const CampaignsPage = () => {
         ))}
       </div>
       {isModalOpen && (
-        <Modal closeFn={() => setIsModalopen(false)}>
+        <Modal closeFn={() => setIsModalOpen(false)}>
           <DonateCampaign
             campaign={campaign}
-            closeModal={() => setIsModalopen(false)}
+            closeModal={() => setIsModalOpen(false)}
           />
         </Modal>
       )}
       <div className="md:hidden h-24 sm:flex">
         <Footer />
-        </div>
+      </div>
     </div>
   );
 };

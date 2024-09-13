@@ -2,19 +2,21 @@ import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { getUser } from "../utils/factory";
-import CampaignIcon from "@mui/icons-material/Campaign";
 import { useState } from "react";
-import { RiAlarmWarningFill } from "react-icons/ri";
-import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
+import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
+import { IoIosNotifications, IoIosNotificationsOutline } from "react-icons/io";
 
 const Menu = ({ setIsOpen }) => {
-  const [isModalOpen, setIsModalopen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const user = getUser();
 
   const activeStyle = {
-    borderLeft: "4px solid #008080",
+    borderLeft: "5px solid #008080",
+    borderRadius: "20px",
+    paddingLeft: "4px",
     backgroundColor: "#00808014",
-    maxWidth: "100%",
+    width: "100%",
     fontWeight: "500",
   };
 
@@ -37,6 +39,7 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <>
               <img
+                alt="home"
                 src={isActive ? "../../home.png" : "../../home.svg"}
                 className="mr-4 w-auto"
               />
@@ -115,22 +118,40 @@ const Menu = ({ setIsOpen }) => {
           to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <CampaignIcon
-            sx={{ color: "#008080", fontSize: "50px" }}
-            fontSize={"large"}
-          />
-          <p className="ml-1">Campaigns</p>
+          {({ isActive }) => (
+            <div className="w-[200%] flex">
+              {isActive ? (
+                <MdCampaign className="mr-2" size={40} color="#008080" />
+              ) : (
+                <MdOutlineCampaign className="mr-2" size={40} color="#434343" />
+              )}
+              <p className="ml-1">Campaigns</p>
+            </div>
+          )}
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           to={`/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <div className="w-[200%] flex">
-            <RiAlarmWarningFill className="mr-2" size={35} color="#EA4335" />
-
-            <p className="self-center pl-2"> Disasters </p>
-          </div>
+          {({ isActive }) => (
+            <div className="w-[200%] flex">
+              {isActive ? (
+                <RiAlarmWarningFill
+                  className="mr-2"
+                  size={35}
+                  color="#EA4335"
+                />
+              ) : (
+                <RiAlarmWarningLine
+                  className="mr-2"
+                  size={35}
+                  color="#434343"
+                />
+              )}
+              <p className="self-center pl-2"> Disasters </p>
+            </div>
+          )}
         </NavLink>
         <NavLink
           to={`/notifications`}
@@ -144,9 +165,13 @@ const Menu = ({ setIsOpen }) => {
           {({ isActive }) => (
             <div className="w-[200%] flex max-sm:">
               {isActive ? (
-                <IoMdNotifications className="mr-2" size={40} color="#008080" />
+                <IoIosNotifications
+                  className="mr-2"
+                  size={40}
+                  color="#008080"
+                />
               ) : (
-                <IoMdNotificationsOutline className="mr-2" size={40} />
+                <IoIosNotificationsOutline className="mr-2" size={40} />
               )}
               <p className="self-center"> Notifications</p>
             </div>
@@ -157,16 +182,19 @@ const Menu = ({ setIsOpen }) => {
       <button
         // to={"./createpost"}
         className="text-xl text-center font-semibold bg-[#008080] text-white shadow-xl self-center shadow-white-300 w-[80%] max-sm:w-[80%] py-4 rounded-3xl"
-        onClick={() => setIsModalopen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
       >
         Post
       </button>
+
       {isModalOpen && (
-        <Modal closeFn={() => setIsModalopen(false)}>
+        <Modal closeFn={() => setIsModalOpen(false)}>
           <Createpost
             type={"post"}
             closeModal={() => {
-              setIsModalopen(false);
+              setIsModalOpen(false);
               setIsOpen(false);
             }}
           />

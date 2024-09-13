@@ -8,7 +8,7 @@ const Modal = ({ children, closeFn }) => {
       onClick={closeFn}
     >
       <div
-        className="bg-white border-2 rounded-lg px-2 pt-8 text-black relative overflow-hidden"
+        className="bg-white border-2 rounded-lg px-2 pt-8 text-black absolute left-44 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <span

@@ -41,6 +41,7 @@ import {
   AuthOnboardingCommunity,
   AuthBotLeg,
   AuthGrabLeg,
+  AuthDisasterPage
 } from "./pages/AuthenticatedPages";
 
 configWeb3Modal();
@@ -53,12 +54,13 @@ function App() {
         <Routes>
           <Route path="/bot" element={<AuthWaverX />} />
           <Route path="/campaigns" element={<AuthCampaigns />} />
+          <Route path="/disasters" element={<AuthDisasterPage/>} />
+
 
           <Route path="/" element={<AuthSharedLayout />}>
             <Route index element={<AuthMainfeed />} />
             <Route path="/community" element={<AuthCommunity />} />
             <Route path="/notifications" element={<AuthNotification />} />
-            <Route path="/disasters" element={""} />
             <Route path="/waverx" element={<AuthWaverXPosts />} />
             {/* <Route path="/happeningnow" element={<Happeningnow />} /> */}
             <Route path="/wallet" element={<AuthFunds />} />

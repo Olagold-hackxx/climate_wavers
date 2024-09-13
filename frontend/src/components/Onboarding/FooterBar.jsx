@@ -1,13 +1,9 @@
 import { NavLink } from "react-router-dom";
-import CampaignIcon from "@mui/icons-material/Campaign";
-import { RiAlarmWarningFill } from "react-icons/ri";
-// import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
+import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
 
 const Footer = ({ setIsOpen }) => {
-
-  const activeStyle = {
-
-  };
+  const activeStyle = {};
 
   return (
     <div className="flex w-full">
@@ -26,12 +22,11 @@ const Footer = ({ setIsOpen }) => {
           end
         >
           {({ isActive }) => (
-            <>
-              <img
-                src={isActive ? "../../home.png" : "../../home.svg"}
-                className=" w-[30px]"
-              />
-            </>
+            <img
+              alt="home"
+              src={isActive ? "../../home.png" : "../../home.svg"}
+              className=" w-[30px]"
+            />
           )}
         </NavLink>
         <NavLink
@@ -44,12 +39,11 @@ const Footer = ({ setIsOpen }) => {
           end
         >
           {({ isActive }) => (
-            <>
-              <img
-                src={isActive ? "../../people1.png" : "../../people.png"}
-                className="  w-[30px]"
-              />
-            </>
+            <img
+              alt="community"
+              src={isActive ? "../../people1.png" : "../../people.png"}
+              className="  w-[30px]"
+            />
           )}
         </NavLink>
 
@@ -63,83 +57,75 @@ const Footer = ({ setIsOpen }) => {
           end
         >
           {({ isActive }) => (
-            <>
-              <img
-                src={isActive ? "../../profile1.png" : "../../profile.png"}
-                className="  w-[30px]"
-              />
-            </>
+            <img
+              alt="profile"
+              src={isActive ? "../../profile1.png" : "../../profile.png"}
+              className="  w-[30px]"
+            />
           )}
         </NavLink>
-        <NavLink
+        {/* <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={`/onboarding/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
           <img src="../../waverbot.png" className=" w-auto w-[2rem]" />
-        </NavLink>
-        {/* <NavLink
+        </NavLink> */}
+        <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={`/wallet`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
-            <>
-              <img
-                src={isActive ? "../../wallet1.png" : "../../wallet.png"}
-                className=" w-auto w-[30px]"
-              />
-              Wallet
-            </>
+            <img
+              alt=""
+              src={isActive ? "../../wallet1.png" : "../../wallet.png"}
+              className=" w-auto w-[30px]"
+            />
           )}
-        </NavLink> */}
+        </NavLink>
         <NavLink
           className="flex items-center py-2  lg:px-8  max-sm:text-xl"
           to={"/onboarding/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <CampaignIcon
-            sx={{ color: "#008080", fontSize: "40px" }}
-            fontSize={"small"}
-          />
+          {({ isActive }) =>
+            isActive ? (
+              <MdCampaign className="w-[38px]" size={35} color="#008080" />
+            ) : (
+              <MdOutlineCampaign
+                className="w-[38px]"
+                size={35}
+                color="#434343"
+              />
+            )
+          }
         </NavLink>
         <NavLink
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           to={`/onboarding/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
-          <div className="w-[200%] flex">
-            <RiAlarmWarningFill className="w-[30px]" size={35} color="#EA4335" />
-
-          </div>
+          {({ isActive }) =>
+            isActive ? (
+              <RiAlarmWarningFill
+                className="w-[30px]"
+                size={35}
+                color="#EA4335"
+              />
+            ) : (
+              <RiAlarmWarningLine
+                className="w-[30px] "
+                size={35}
+                color="#434343"
+              />
+            )
+          }
         </NavLink>
-        {/* <NavLink
-          to={`/notifications`}
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
-          style={({ isActive }) => {
-            return isActive ? activeStyle : null;
-          }}
-          onClick={() => setIsOpen(false)}
-          end
-        >
-          {({ isActive }) => (
-            <div className="w-[200%] flex max-sm:">
-              {isActive ? (
-                <IoMdNotifications
-                  className=" w-[30px]"
-                  size={40}
-                  color="#008080"
-                />
-              ) : (
-                <IoMdNotificationsOutline className="w-[30px]" size={40} />
-              )}
-            </div>
-          )}
-        </NavLink> */}
+       
       </div>
     </div>
   );
