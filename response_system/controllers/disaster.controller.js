@@ -36,3 +36,11 @@ exports.getDisasters = catchAsyncErrors(async(req, res)=>{
     }
     return res.status(200).json(data)
 })
+
+exports.getDisaster = catchAsyncErrors(async(req, res)=>{
+    const {disasterId} = req.params
+    if(!disasterId)
+        return res.status(400).json({message: 'disasterId is required'})
+    
+    
+})

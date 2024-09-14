@@ -1,3 +1,5 @@
+#auth/settings.py
+
 import os
 import environ
 from datetime import timedelta
@@ -68,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "auth.wsgi.application"
-ASGI_APPLICATION = "core.asgi.application"
+ASGI_APPLICATION = "auth.asgi.application"
 
 DATABASES = {
     "default": {
@@ -173,3 +175,11 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),
 
 MALE_AVATAR = env("MALE_AVATAR")
 FEMALE_AVATAR = env("FEMALE_AVATAR")
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

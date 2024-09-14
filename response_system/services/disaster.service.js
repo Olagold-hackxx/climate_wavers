@@ -35,7 +35,17 @@ class DisasterService{
         return data
     }
 
+    async deleteDisaster(id){
+        const res = await fbService.deleteOne(disasterCollection, id)
+        return res
+    }
 
+    async updateOne(id, updates){
+        const updatedDoc = await fbService.updateOne(disasterCollection, id, (doc)=>({..doc, ...updates}))
+        return updatedDoc
+    }
+
+    
 }
 
 module.exports = Object.freeze(new DisasterService())

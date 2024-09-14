@@ -1,7 +1,6 @@
-version: '3.12'
+version: '3.8'
 
 services:
-
   web:
     build: .
     command: sh entrypoint.sh
@@ -18,9 +17,9 @@ services:
       - climatewavers
     depends_on:
       - db
+      - redis
     extra_hosts:
       - host.docker.internal:host-gateway
-
 
   db:
     image: postgres
@@ -55,12 +54,27 @@ services:
       - host.docker.internal:host-gateway
     depends_on:
       - db
+      - redis
     networks:
       - climatewavers
-  
+      - "host.docker.internal:host-gateway"
+
+
+  redis:
+    image: redis:6.2
+    restart: always
+    ports:
+      - "6380:6379"
+    volumes:
+      - redisdata:/data
+    networks:
+      - climatewavers
+
 volumes:
   data:
     name: "data"
+  redisdata:
+    name: "redisdata"
 
 networks:
   climatewavers:
