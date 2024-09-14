@@ -7,6 +7,7 @@ import { IoEye, IoCopyOutline } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import Deposit from './Deposit';
 import Wallet from "./Wallet";
+import Donate from './Donate';
 
 const Funds = () => {
   const { walletProvider } = useWeb3ModalProvider();
@@ -72,9 +73,9 @@ const Funds = () => {
         )}
         <p className='bg-[#008080]/25 rounded-lg text-[#008080] py-2 px-4'>$30.00</p>
       </div>
-      <section className='flex items-center gap-x-4 lg:flex-row md:flex-row'>
+      <section className='flex items-center gap-x-4 lg:flex-row md:flex-row mb-8'>
        <Deposit address={address} />
-        <button className='bg-[#008080] py-2 px-12 lg:mr-6 md:mr-6 mb-4 rounded-full text-white text-[18px] lg:text-[24px] md:text-[24px]'>Donate</button>
+        <Donate />
       </section>
       <section>
         <h2 className='text-[18px] lg:text-[24px] md:text-[24px] my-4'>All Transaction details</h2>
