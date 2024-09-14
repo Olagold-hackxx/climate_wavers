@@ -8,7 +8,7 @@ import Footer from "../components/FooterBar";
 const DisasterPage = () => {
   return (
     <div className="w-full overflow-hidden">
-      <div className="md:pb-20 max-sm:pb-10">
+      <div className="md:pb-20 max-sm:pb-12">
         <Topbar />
       </div>
 
@@ -17,8 +17,8 @@ const DisasterPage = () => {
           <Menu/>
         </div>
         {/* <Mainfeed/> */}
-        <div className="md:w-[80vw] max-sm:w-full  px-2 md:items-center">
-          <div className="2xl:h-[50%] md:h-[42%] h-[35vh]">
+        <div className="md:w-[80vw] max-sm:w-full  px-2  md:items-center">
+          <div className="2xl:h-[50%] md:h-[42%] h-[35vh] max-sm:py-2">
           <DisasterImage disasters={dummyDisasters} />
           </div >
           <div className=" flex">

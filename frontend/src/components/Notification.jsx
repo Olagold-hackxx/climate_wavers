@@ -16,7 +16,7 @@ const Notification = () => {
       {notifications.map((notices) => (
         <div
           key={notices.id}
-          className="md:w-[100%] w-[100vw] relative left-[-5px] h-28 border-y-2  border-[#E6EAEE66] shadow-sm my-1 "
+          className="md:w-[100%] w-[100vw]  h-28 border-y-2  border-[#E6EAEE66] shadow-sm my-1 "
         >
           <div className="flex pt-4 px-8 gap-4">
             <img  alt="profile pic" src={notices.image} className="w-16" />
