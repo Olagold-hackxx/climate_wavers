@@ -1,3 +1,5 @@
+import Donate from "./Donate";
+
 const DonateCampaign = ({ campaign }) => {
   console.log(campaign);
   return (
@@ -33,7 +35,8 @@ const DonateCampaign = ({ campaign }) => {
           <div >Amount Raised: ${campaign.raised}</div>
           <div className="text-start">Campaign Details: <span >{campaign.details}</span></div>
         </div>
-        <button className="rounded-full w-[60%] h-[60px] text-white self-center bg-[#008080]">Donate</button>
+        {/* <button className="rounded-full w-[60%] h-[60px] text-white self-center bg-[#008080]">Donate</button> */}
+        <Donate />
       </div>
     </div>
   );

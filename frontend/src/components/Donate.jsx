@@ -7,12 +7,30 @@ import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import { useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  color: "white",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  borderRadius: 10,
+  boxShadow: 24,
+  border: "1px solid #42714262",
+  backgroundColor: "#1E1D34",
+  p: 4,
+};
 
 const Donate = () => {
   // const { chainId } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [eventId, setEventId] = useState();
   const [amount, setAmount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   async function handleDonate() {
     // if (!isSupportedChain(chainId)) return console.error("Wrong network");
@@ -84,7 +102,7 @@ const Donate = () => {
         });
       }
     } catch (error) {
-      toast.error("Claim failed", {
+      toast.error(`Claim failed`, {
         position: "top-center",
       });
       console.log(error);
@@ -92,26 +110,40 @@ const Donate = () => {
   }
 
   return (
-    <>
-      <div className="flex flex-col max-md:w-[70vw]">
-        <div className="flex ">
+    <div>
+      <div>
+        <button
+          className="rounded-full w-[100%] px-8 py-2 [18px] lg:text-[24px] md:text-[24px] text-white self-center bg-[#008080]"
+          onClick={handleOpen}
+        >
+          Donate
+        </button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+          <div className="flex flex-col w-[100%]">
+        <div className="flex justify-between items-center mb-4">
           <p>Need DSX token</p>
-          <button
+         <button
             onClick={handleMint}
-            className="bg-linear py-2  justify-end items-center mb-2 px-4 ml-[100px] rounded-lg"
+            className="bg-linear py-2  justify-end items-center mb-2 px-8 rounded-lg"
           >
             Claim
           </button>
         </div>
-        <div className="flex flex-row text-[#340178]">
-          <div className="border-[1.5px] mx-2 border-gray-400 px-4 py-.1 ">
+        <div className="flex justify-between text-white">
+          <div className="border-[1.5px] border-gray-400 px-4 py-1 ">
             {""}50 DSX
           </div>
           {/* <div className="border-[1.5px] mx-2 border-gray-400 px-3 py-1">{""}$100</div> */}
-          <div className="border-[1.5px] mx-2 border-gray-400 px-3 py-1">
+          <div className="border-[1.5px] border-gray-400 px-3 py-1">
             {""}100 DSX
           </div>
-          <div className="border-[1.5px] mx-2 border-gray-400 px-3 py-1">
+          <div className="border-[1.5px]  border-gray-400 px-3 py-1">
             {""}500 DSX
           </div>
         </div>
@@ -122,18 +154,21 @@ const Donate = () => {
             onChange={(e) => setAmount(e.target.value)}
             placeholder=" Enter amount"
             type="number"
-            className="border-[1.5px] text-black border-gray-400 h-[55px]  px-2 focus:outline outline-1 outline-gray-400"
+            className="border-[1.5px] text-black border-gray-400 py-4 rounded-lg w-[100%] px-2 focus:outline outline-1 outline-gray-400"
           />
         </div>
         <button
-          className="w-[] py-2 bg-linear text-white rounded-lg cursor-pointer z-10"
+          className="w-[100%] py-4 bg-linear text-white rounded-lg cursor-pointer"
           type="submit"
           onClick={handleDonate}
         >
           Donate
         </button>
       </div>
-    </>
+          </Box>
+        </Modal>
+      </div>
+    </div>
   );
 };
 
