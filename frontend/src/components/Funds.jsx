@@ -50,7 +50,7 @@ const Funds = () => {
   };
 
   return (
-    <main className='my-8'>
+    <main className='my-8 px-2'>
             {!isConnected && <Wallet />}
 
       <h2 className='text-[20px] lg:text-[28px] md:text-[28px] my-4 font-[700]'>Your Wallet</h2>

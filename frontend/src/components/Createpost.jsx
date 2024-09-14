@@ -56,7 +56,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   return (
       <div
         onSubmit={handleSubmit(onSubmit)}
-        className=" md:w-[40vw] md:h-[45vh] h-full p-3 md:p-6 bg-white rounded-md flex w-[70vw] flex-col gap-y-2"
+        className=" md:w-[40vw] md:h-[45vh] md:max-h-fit h-full p-3 md:p-6 bg-white rounded-md flex w-[70vw] flex-col gap-y-2"
       >
         <div className=" flex justify-start gap-4 ">
           <img
