@@ -1,6 +1,5 @@
 import Mainfeed from "../../components/Mainfeed";
 import Community from "../../components/Community";
-// import Happeningnow from "../../components/Happeningnow";
 import Profile from "../../components/Profile";
 import Comment from "../Comment";
 import WaverxChatPage from "../WaverX";
@@ -10,7 +9,8 @@ import SharedLayout from "../../components/ShareLayout";
 import CampaignsPage from "../CampaignsPage";
 import WaverXPosts from "../../components/WaverXPosts";
 import Notification from "../../components/Notification";
-import DisasterPage from "../Disasters";
+import Disasters from "../Disasters";
+import DisasterPage from "../DisasterPage";
 import {
   OnboardingLayout,
   Welcome,
@@ -20,7 +20,7 @@ import {
   Profile as OnboardingProfile,
   Community as OnboardingCommunity,
   Wallet,
-  Disasters,
+  Disasters as OnboardingDisasters,
   Chatbot,
   BotLeg,
   GrabLeg,
@@ -43,11 +43,12 @@ const AuthOnboardingCampaign = withAuth(Campaign);
 const AuthOnboardingNotification = withAuth(Notifications);
 const AuthOnboardingProfile = withAuth(OnboardingProfile);
 const AuthOnboardingWallet = withAuth(Wallet);
-const AuthOnboardingDisaster = withAuth(Disasters);
+const AuthOnboardingDisaster = withAuth(OnboardingDisasters);
 const AuthOnboardingChatbot = withAuth(Chatbot);
 const AuthOnboardingCommunity = withAuth(OnboardingCommunity);
 const AuthGrabLeg = withAuth(GrabLeg);
 const AuthBotLeg = withAuth(BotLeg);
+const AuthDisasters = withAuth(Disasters)
 const AuthDisasterPage = withAuth(DisasterPage)
 
 export {
@@ -73,5 +74,6 @@ export {
   AuthOnboardingCommunity,
   AuthBotLeg,
   AuthGrabLeg,
-  AuthDisasterPage
+  AuthDisasterPage,
+  AuthDisasters
 };

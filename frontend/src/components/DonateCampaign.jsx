@@ -6,7 +6,7 @@ const DonateCampaign = ({ campaign }) => {
         className="bg-cover overflow-hidden max-sm:hidden border-2 rounded-3xl text-white h-[100%] w-[120%] flex flex-col justify-end"
         style={{ backgroundImage: `url(${campaign.image})` }}
       >
-        <div className="px-4 text-lg">
+        <div className="px-4 text-lg flex flex-col items-start ">
           <div className="font-bold py-2">
             Location:
             <p className=" text-start leading-5">{campaign.location}</p>
@@ -27,12 +27,11 @@ const DonateCampaign = ({ campaign }) => {
         </div>
       </div>
       <div className="flex flex-col font-montserrat justify-between">
-        <div className="flex text-xl py-4 flex-col gap-y-6 p-4 ">
-          <div>Project:   {campaign.title}</div>
-          <div>Goal Amount: ${campaign.amount}</div>
-          <div>Amount Raised: ${campaign.raised}</div>
-          <div>Campaign Details:</div>
-          <div className="relative bottom-4">{campaign.details}</div>
+        <div className="flex text-xl items-start py-4 flex-col gap-y-6  md:px-4">
+          <div >{campaign.title}</div>
+          <div >Goal Amount: ${campaign.amount}</div>
+          <div >Amount Raised: ${campaign.raised}</div>
+          <div className="text-start">Campaign Details: <span >{campaign.details}</span></div>
         </div>
         <button className="rounded-full w-[60%] h-[60px] text-white self-center bg-[#008080]">Donate</button>
       </div>

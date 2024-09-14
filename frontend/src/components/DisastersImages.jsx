@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const DisasterImages = ({ disasters }) => {
   return (
@@ -9,7 +10,7 @@ const DisasterImages = ({ disasters }) => {
           <div className="text-white relative px-8 bottom-[55%]">
           <span className="relative font-semibold relative md:bottom-[5rem] text-xl">Trending Now</span>
           <h2 className="font-bold  text-2xl ">{disaster.title}</h2>
-          <button className="rounded-lg bg-[#008080] w-fit h-12  px-4"> See details</button>
+          <Link to={`/disasters/${disaster.id}`}><button className="rounded-lg bg-[#008080] w-fit h-12  px-4" > See details</button></Link>
           </div>
         </div>
       ))}

@@ -13,7 +13,7 @@ const Disasters = ({ disasters }) => {
       {disasters.map((disaster) => (
         <div key={disaster.date} className="py-4">
           <div className="flex justify-between">
-            <Link to="">
+            <Link to={`/disasters/${disaster.id}`}>
               {" "}
               <h2 className="capitalize font-bold text-[#047857] md:text-2xl text-xl">
                 {disaster.location}: {disaster.title} - {disaster.date}

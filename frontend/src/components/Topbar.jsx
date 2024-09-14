@@ -5,7 +5,7 @@ import Modal from "../components/Modal";
 import Report from "./Report";
 import { NavLink } from "react-router-dom";
 import { IoIosNotifications, IoIosNotificationsOutline } from "react-icons/io";
-// import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { MdOutlineAddAlarm } from "react-icons/md";
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,41 +34,54 @@ const Topbar = () => {
           placeholder="🔍 Search"
         />
       </div>
-      <div className="flex max-sm:hidden justify-end  my-7 self-center">
+      <div className="flex  justify-end self-center">
         <button
-          className="text-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
+          className="text-center max-sm:hidden  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
           onClick={() => setIsModalOpen(true)}
         >
           <p className="leading-5 "> Report Disaster</p>
         </button>
 
+        {isModalOpen && (
+          <Modal closeFn={() => setIsModalOpen(false)}>
+            <Report closeModal={() => setIsModalOpen(false)} />
+          </Modal>
+        )}
+        <div className="flex gap-x-4">
+          <NavLink
+            to={`/notifications`}
+            className="flex"
+            onClick={() => setIsOpen(false)}
+            end
+          >
+            {({ isActive }) => (
+              <div className="w-[200%] md:px-4  flex ">
+                {isActive ? (
+                  <IoIosNotifications
+                    className=" w-12"
+                    size={40}
+                    color="#008080"
+                  />
+                ) : (
+                  <IoIosNotificationsOutline className="w-12" size={40} />
+                )}
+              </div>
+            )}
+          </NavLink>
+          <MdOutlineAddAlarm
+            className="md:hidden"
+            size={35}
+            color="#434343"
+            onClick={() => setIsModalOpen(true)}
+          />
+        </div>
+
         <img
           src={user?.profile_picture}
-          className="ml-4 self-end rounded-full h-12 w-12"
+          className="ml-2 max-sm:hidden self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
       </div>
-      {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
-          <Report closeModal={() => setIsModalOpen(false)} />
-        </Modal>
-      )}
-      <NavLink
-        to={`/notifications`}
-        className="flex md:hidden"
-        onClick={() => setIsOpen(false)}
-        end
-      >
-        {({ isActive }) => (
-          <div className="w-[200%] flex ">
-            {isActive ? (
-              <IoIosNotifications className=" w-12" size={40} color="#008080" />
-            ) : (
-              <IoIosNotificationsOutline className="w-12" size={40} />
-            )}
-          </div>
-        )}
-      </NavLink>
     </div>
   );
 };

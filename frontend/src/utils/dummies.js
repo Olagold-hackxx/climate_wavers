@@ -56,6 +56,7 @@ export const dummyPost = [
 
 export const dummyCampaigns = [
   {
+    id: "1",
     image: "/campaign2.png",
     title: "Rise Above the Floods",
     details:
@@ -67,6 +68,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "2",
     image: "/campaign1.png",
     title: "Wildfire Relief: Healing the Earth",
     details:
@@ -78,6 +80,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "3",
     image: "/campaign4.png",
     title: "Volcano Resilience: Rebuilding Lives",
     details:
@@ -89,6 +92,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "4",
     image: "/campaign3.png",
     title: "QuakeSafe: Earthquake Preparedness",
     details:
@@ -100,6 +104,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "5",
     image: "/campaign10.png",
     title: "Drought Resilience: Water for All",
     details:
@@ -111,6 +116,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "6",
     image: "/campaign9.png",
     title: "Tornado Relief: Rebuilding Homes",
     details:
@@ -122,6 +128,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "7",
     image: "/campaign5.png",
     title: "Glacier Retreat Awareness",
     details:
@@ -133,6 +140,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "8",
     image: "/campaign7.png",
     title: "Typhoon Resilience: Preparedness Kits",
     details:
@@ -144,6 +152,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "9",
     image: "/campaign1.png",
     title: "Heatwave Relief: Cooling Centers",
     details:
@@ -155,6 +164,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "10",
     image: "/campaign11.png",
     title: "Avalanche Safety: Mountain Communities",
     details:
@@ -166,6 +176,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "11",
     image: "/campaign8.png",
     title: "Cyclone Recovery: Rebuilding Schools",
     details:
@@ -177,6 +188,7 @@ export const dummyCampaigns = [
     date: "",
   },
   {
+    id: "12",
     image: "/campaign6.png",
     title: "Landslide Prevention: Slope Stabilization",
     details:
@@ -190,6 +202,28 @@ export const dummyCampaigns = [
 ];
 
 export const dummyDisasters = [
+  {
+    image: "/disaster.png",
+    id: "1",
+    description: `In the early hours of August 20, 2024, 
+      the Kiri Dam in Tudun Tsira, Shelleng LGA, Adamawa State,
+      breached its banks, resulting in severe flooding across the communities of Kwakwambe, 
+      Lure, Nbalang, Imburu, and Bare in the Numan Local Government Area. The deluge caused extensive damage,
+      overwhelming local capacities and necessitating immediate humanitarian intervention. Just one day later,
+      the communities of Duhu, Mayowandu, Kirchinga, Maiwandu, Jahili, Kokohu, Lumadu, Zhau, Pallam, Kwambula,
+      Shuware, and Shuwa in Madagali Local Government Area were struck by another catastrophic flood, triggered by
+      the upstream flow of waters from the Cameroonian highlands. This secondary flooding event exacerbated the already 
+      dire situation, compounding the devastation and further straining local resources. According to the State Emergency 
+      Management Agency (SEMA), the floodwaters rose with alarming speed, catching residents off guard and resulting
+      in the widespread destruction of homes, infrastructure, and livelihoods. The disaster has affected 12,583 individuals,
+      displaced 2,079 households, and caused the destruction of 298 buildings, 203 farmlands, and 509 livestock. The immediate
+      humanitarian needs include shelter, food, non-food items, medical assistance, and access to clean water. (OCHA, 26 Aug 2024),`,
+    title: "",
+    disaster_type: "Earthquake",
+    location: "South Africa",
+    status: "Reported",
+    date: "August 2024",
+  },
   {
     image: "/disaster.png",
     id: "2",

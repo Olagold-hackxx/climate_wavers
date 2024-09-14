@@ -15,7 +15,7 @@ const Report = () => {
   };
 
   return (
-    <div className="">
+    <div className="relative">
       {isCreateReportOpen && <CreateReport closeModal={handleFormSubmit} />}
       {isModalOpen && (
         <div className="h-[40vh] w-[40vw]">

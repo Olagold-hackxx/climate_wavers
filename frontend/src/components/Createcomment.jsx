@@ -7,7 +7,7 @@ import { uploadFiles } from "../services/upload.service";
 import { useState } from "react";
 import { IoSend } from "react-icons/io5";
 
-const Createcomment = ({ type, postId, parentId }) => {
+const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
   const { register, handleSubmit, reset } = useForm();
   const user = getUser();
   const [imageName, setImageName] = useState("");
@@ -78,7 +78,7 @@ const Createcomment = ({ type, postId, parentId }) => {
             className="px-10 h-[50px] capitalize max-sm:hidden mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
             type="submit"
           >
-            {type === "post" ? type : "Reply"}
+            {type === "post" ? type : button}
           </button>
           <IoSend
             size={34}
@@ -134,6 +134,7 @@ Createcomment.propTypes = {
   postId: PropTypes.string,
   parentId: PropTypes.string,
   type: PropTypes.string,
+  button: PropTypes.string,
   closeModal: PropTypes.func,
 };
 

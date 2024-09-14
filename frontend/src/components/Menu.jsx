@@ -17,6 +17,7 @@ const Menu = ({ setIsOpen }) => {
     paddingLeft: "4px",
     backgroundColor: "#00808014",
     width: "100%",
+    height: "60px",
     fontWeight: "500",
   };
 
@@ -153,7 +154,7 @@ const Menu = ({ setIsOpen }) => {
             </div>
           )}
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to={`/notifications`}
           className="flex items-center py-2 lg:px-8  max-sm:text-xl"
           style={({ isActive }) => {
@@ -176,7 +177,7 @@ const Menu = ({ setIsOpen }) => {
               <p className="self-center"> Notifications</p>
             </div>
           )}
-        </NavLink>
+        </NavLink> */}
       </div>
       {/* Post btn */}
       <button
@@ -188,18 +189,17 @@ const Menu = ({ setIsOpen }) => {
       >
         Post
       </button>
-
-      {isModalOpen && (
-        <Modal closeFn={() => setIsModalOpen(false)}>
-          <Createpost
-            type={"post"}
-            closeModal={() => {
-              setIsModalOpen(false);
-              setIsOpen(false);
-            }}
-          />
-        </Modal>
-      )}
+        {isModalOpen && (
+          <Modal closeFn={() => setIsModalOpen(false)}>
+            <Createpost
+              type={"post"}
+              closeModal={() => {
+                setIsModalOpen(false);
+                setIsOpen(false);
+              }}
+            />
+          </Modal>
+        )}
     </div>
   );
 };

@@ -41,6 +41,7 @@ import {
   AuthOnboardingCommunity,
   AuthBotLeg,
   AuthGrabLeg,
+  AuthDisasters,
   AuthDisasterPage
 } from "./pages/AuthenticatedPages";
 
@@ -54,7 +55,9 @@ function App() {
         <Routes>
           <Route path="/bot" element={<AuthWaverX />} />
           <Route path="/campaigns" element={<AuthCampaigns />} />
-          <Route path="/disasters" element={<AuthDisasterPage/>} />
+          <Route path="/disasters/:disasterId" element={<AuthDisasterPage/>} />
+          <Route path="/disasters" element={<AuthDisasters/>} />
+
 
 
           <Route path="/" element={<AuthSharedLayout />}>

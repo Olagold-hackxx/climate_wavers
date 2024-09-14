@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Campaign from "../components/Campaign";
 import Topbar from "../components/Topbar";
 import { getCampaigns } from "../utils/factory";
-import { useNavigate } from "react-router-dom";
 import DonateCampaign from "../components/DonateCampaign";
 import Modal from "../components/Modal";
-import { useState } from "react";
 import Footer from "../components/FooterBar";
 
 const CampaignsPage = () => {
@@ -12,16 +12,35 @@ const CampaignsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [campaign, setCampaign] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
+
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const campaignId = params.get("campaignId");
+  
+    if (campaignId) {
+      // Find the campaign by ID and open the modal
+      const selectedCampaign = campaigns.find(
+        (campaign) => campaign.id === campaignId
+      );
+      if (selectedCampaign) {
+        setCampaign(selectedCampaign);
+        setIsModalOpen(true);
+      }
+    } else {
+      setIsModalOpen(false); // Close modal if no campaignId in the query
+    }
+  }, [location.search, campaigns]); // Depend on location.search so it updates when the URL changes
 
   const handleGoBack = () => {
-    navigate(-1); // This navigates back to the previous page
+    navigate(-1);
   };
 
   const chooseCampaign = (campaign) => {
-    setCampaign(campaign);
-    console.log(campaign);
-    setIsModalOpen(true);
+    navigate(`?campaignId=${campaign.id}`); // Update the query parameter
   };
+  
 
   const filters = [
     "most popular",
@@ -37,7 +56,7 @@ const CampaignsPage = () => {
     <div className="grid gap-y-3 w-[100%]">
       <Topbar />
       <div className="flex justify-center md:px-4 pt-28">
-        <button onClick={handleGoBack} >
+        <button onClick={handleGoBack}>
           <img
             alt="back-arrow"
             src="/arrow-left.png"

@@ -74,7 +74,7 @@ const CreateReport = ({ closeModal }) => {
   // }
   return (
     <div className="mb-12 md:w-[100%] h-[100%]  max-sm:h-[80vh] px-12 ">
-      <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
+      <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] md:text-center text-start md:mb-8 mb-2">
         Report Disaster
       </h1>
       <div className="grid place-content-center">
@@ -92,14 +92,14 @@ const CreateReport = ({ closeModal }) => {
             label="Type of disaster"
             variant="outlined"
             color="success"
-            sx={{ mr: 1, width: "50" }}
+            sx={{ width: "50" }}
             {...register("disaster_type", {
               required: true,
               maxLength: 50,
             })}
           />
-          <div className="py-2 px-1">
-            <h3 className="text-xl w-[35vw]">Situation</h3>
+          <div className="px-1">
+            <h3 className="text-xl w-[35vw] text-start">Situation</h3>
           <Slider
             aria-label="Custom marks"
             defaultValue={0}
