@@ -11,7 +11,7 @@ services:
     environment:
       - DB_HOST=backend-new.db
     ports:
-      - 8000:8000
+      - 8001:8000
     container_name: backend-new
     networks:
       - climatewavers
@@ -57,6 +57,7 @@ services:
       - redis
     networks:
       - climatewavers
+      - "host.docker.internal:host-gateway"
 
 
   redis:

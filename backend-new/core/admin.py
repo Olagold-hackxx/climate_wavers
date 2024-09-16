@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark, Notification
+from .models import Post, Poll, PollVote, Comment, Reaction, Repost, View, Follow, Bookmark
 from unfold.admin import ModelAdmin
 
 class PostAdmin(ModelAdmin):
@@ -39,5 +39,4 @@ admin.site.register(Repost)
 admin.site.register(View)
 admin.site.register(Follow)
 admin.site.register(Bookmark)
-admin.site.register(Notification)
 
