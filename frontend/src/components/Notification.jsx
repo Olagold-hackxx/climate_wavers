@@ -42,20 +42,12 @@ const Notification = () => {
           className="md:w-[100%] w-[100vw]  h-28 border-y-2  border-[#E6EAEE66] shadow-sm my-1 "
         >
           <div className="flex pt-4 px-8 gap-4">
-<<<<<<< HEAD
-            <img  alt="profile pic" src={notices.image} className="w-16" />
-=======
             <img alt="profile pic" src={notices.image} className="w-16" />
->>>>>>> parent of e715992 (Notifications setup)
             <p className="text-xl self-center capitalize">{notices.content}</p>
           </div>
         </div>
       ))}
-<<<<<<< HEAD
-      </div>
-=======
     </div>
->>>>>>> parent of e715992 (Notifications setup)
   );
 };
 export default Notification;

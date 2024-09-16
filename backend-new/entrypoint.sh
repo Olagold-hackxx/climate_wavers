@@ -12,4 +12,4 @@ python manage.py create_admins
 
 #Run Local Server
 #daphne -b 0.0.0.0 -p 8000 auth.asgi:application
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver
