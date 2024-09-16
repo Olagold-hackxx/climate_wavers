@@ -10,8 +10,8 @@ const status = {
 const Disasters = ({ disasters }) => {
   return (
     <div className="flex flex-col w-full">
-      {disasters.map((disaster) => (
-        <div key={disaster.date} className="py-4">
+      {disasters.map((disaster, index) => (
+        <div key={`${disaster.date}${index}`} className="py-4">
           <div className="flex justify-between">
             <Link to={`/disasters/${disaster.id}`}>
               {" "}
