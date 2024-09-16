@@ -99,4 +99,3 @@ def send_reset_password_email(data):
         ),
     )
     logger.info(f"Successfully sent pasword reset mail to {data['email']}")
-

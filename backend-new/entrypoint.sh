@@ -11,7 +11,5 @@ python manage.py collectstatic --noinput
 python manage.py create_admins
 
 #Run Local Server
-python manage.py runserver 0.0.0.0:8000
-
-# Run the ASGI server with Daphne
-exec "$@"
+#daphne -b 0.0.0.0 -p 8000 auth.asgi:application
+python manage.py runserver
