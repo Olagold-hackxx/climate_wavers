@@ -5,22 +5,22 @@ const disasterCollection = "Disaster"
 class DisasterService{
 
     async getDisasters(){
-        const docs = await fbService.getAll(disasterCollection,)
+        const {docs} = await fbService.getAll(disasterCollection,)
         return docs.map(d=>({...d.data(), id: d.id}))
     }
 
     async getByDate(start){
-        const docs = await fbService.queryCollection(disasterCollection, "startDate", ">=", start)
+        const {docs} = await fbService.queryCollection(disasterCollection, "startDate", ">=", start)
         return docs.map(d=>({...d.data(), id: d.id}))
     }
 
     async getByType(type){
-        const docs = await fbService.queryCollection(disasterCollection, "disasterType", "==", type)
+        const {docs} = await fbService.queryCollection(disasterCollection, "disasterType", "==", type)
         return docs.map(d=>({...d.data(), id: d.id}))
     }
 
     async getByStatus(status){
-        const docs = await fbService.queryCollection(disasterCollection, "status", "==", status)
+        const {docs} = await fbService.queryCollection(disasterCollection, "status", "==", status)
         return docs.map(d=>({...d.data(), id: d.id}))
     }
 
@@ -30,9 +30,15 @@ class DisasterService{
     }
 
     async createDisaster(obj){
-        const doc = await fbService.createOne(disasterCollection, {...obj})
-        const data = await this.getById(disasterCollection,doc.id)
-        return data
+        try{
+            const doc = await fbService.createOne(disasterCollection, {...obj})
+            const data = await fbService.getById(disasterCollection,doc.id)
+            
+            return {...data.data(), id: data.id}
+        }catch(err){
+            console.log({err})
+            throw err
+        }
     }
 
     async deleteDisaster(id){
@@ -41,7 +47,7 @@ class DisasterService{
     }
 
     async updateOne(id, updates){
-        const updatedDoc = await fbService.updateOne(disasterCollection, id, (doc)=>({..doc, ...updates}))
+        const updatedDoc = await fbService.updateOne(disasterCollection, id, (doc)=>({...doc, ...updates}))
         return updatedDoc
     }
 
