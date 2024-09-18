@@ -1,4 +1,4 @@
-#auth/settings.py
+# auth/settings.py
 
 import os
 import environ
@@ -66,7 +66,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-            'libraries':{
+            'libraries': {
                 'filter': 'templatetags.filter',
             },
             "builtins": ["templatetags.filter"]
@@ -183,7 +183,10 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(env("REDIS"), env("REDIS_PORT"))],
+            "hosts": [{
+                "address": env("REDIS"),
+                "ssl_cert_reqs": None,
+            }],
         },
     },
 }
