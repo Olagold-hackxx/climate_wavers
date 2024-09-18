@@ -38,7 +38,7 @@
     },
     {
       "source": "/api/v1/auth/(.*)",
-      "destination": "https://climatewavers-backend.onrender.com/api/v1/auth/$1"
+      "destination": "https://climatewavers-backend-w8bw.onrender.com/api/v1/auth/$1"
     },
     {
       "source": "/api/v1/chats/(.*)",
@@ -54,11 +54,11 @@
     },
     {
       "source": "/api/v1/(.*)",
-      "destination": "https://climatewavers-backend.onrender.com/api/v1/$1"
+      "destination": "https://climatewavers-backend-w8bw.onrender.com/api/v1/$1"
     },
     {
       "source": "/media/(.*)",
-      "destination": "https://climatewavers-backend.onrender.com/media/$1"
+      "destination": "https://climatewavers-backend-w8bw.onrender.com/media/$1"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
