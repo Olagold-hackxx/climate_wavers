@@ -20,8 +20,6 @@ const isTokenValid = (token) =>
 
 //create cookies with jwt and attach to response
 const attachCookiesToResponse = ({ res, user }) => {
-  // const accessCookieJWT = createJWT({ payload: { user } });
-  // const refreshCookieJWT = createJWT({ payload: { user, refreshToken } });
 
   const oneDay = 1000 * 60 * 60 * 24;
   const longerExp = 1000 * 60 * 60 * 24 * 30;

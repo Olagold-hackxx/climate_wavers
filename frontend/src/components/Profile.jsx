@@ -110,7 +110,7 @@ const Profile = () => {
           </p>
           <p className="flex flex-row items-center gap-1">
             <BsBriefcase size={17} />
-            {profile?.profession ? profile.profession : "Climate Analyst"}
+            {profile?.profession ? profile.profession : "Climate Enthusiast"}
           </p>
         </div>
       </div>

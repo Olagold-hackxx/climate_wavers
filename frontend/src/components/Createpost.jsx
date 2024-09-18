@@ -133,7 +133,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
         <button
           className={
             isDisabled
-              ? "blur-[1px] px-12 h-[60px] max-sm:hidden capitalize bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
+              ? "blur-[1px] text-center w-fit px-12 h-[60px] max-sm:hidden capitalize bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10"
               : " px-12 h-[60px] max-sm:hidden capitalize bg-[#008080] text-white text-lg rounded-full cursor-pointer z-10 "
           }
           onClick={handleSubmit(onSubmit)}

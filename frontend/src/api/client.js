@@ -5,8 +5,9 @@ import { getAuthToken } from "../utils/factory";
 import { dummyUser, dummyPost } from "../utils/dummies";
 
 class Client {
-  constructor(baseURL) {
+  constructor(baseURL, domain) {
     this.baseUrl = baseURL;
+    this.domain = domain;
   }
 
   async run(
@@ -60,8 +61,11 @@ class Client {
         response = { data: dummyPost };
       } else response = await client(endpoint, config);
       if (authCookies) {
-        Cookies.set("accessToken", response.data.access_token);
-        Cookies.set("user", JSON.stringify(response.data.user));
+        const cookiesConfig = {
+          domain: this.domain,
+        };
+        Cookies.set("accessToken", response.data.access_token, cookiesConfig);
+        Cookies.set("user", JSON.stringify(response.data.user), cookiesConfig);
       }
 
       if (mail) {
@@ -86,6 +90,9 @@ class Client {
   }
 }
 
-const client = new Client(import.meta.env.VITE_APP_BACKEND_URL);
+const client = new Client(
+  import.meta.env.VITE_APP_BACKEND_URL,
+  import.meta.env.VITE_DOMAIN
+);
 
 export default client;
