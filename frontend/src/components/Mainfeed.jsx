@@ -34,7 +34,10 @@ const Mainfeed = () => {
     queryFn: fetchUserDetailsFn,
   });
   if (isFetched) {
-    Cookies.set("user", JSON.stringify(data));
+    const cookiesConfig = {
+      domain: import.meta.env.VITE_DOMAIN,
+    };
+    Cookies.set("user", JSON.stringify(data), cookiesConfig);
   }
 
   return (

@@ -28,6 +28,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password",
             "password2",
             "profile_pic",
+            "profession",
             "cover",
             "picture",
             "default_avatar",

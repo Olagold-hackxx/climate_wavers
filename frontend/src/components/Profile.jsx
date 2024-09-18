@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import { BsBriefcase } from "react-icons/bs";
 import { FiMapPin } from "react-icons/fi";
 import { toast } from "react-toastify";
-import { getUser } from "../utils/factory";
 import Feed from "./Feed";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProfile } from "../hooks/useProfile";
 
 const Profile = () => {
   const { userId } = useParams();
-  const [profile, setProfile] = useState(getUser());
+  const [profile, setProfile] = useState({});
   const [feed, setFeed] = useState({});
   const navigate = useNavigate();
 
