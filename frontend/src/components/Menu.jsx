@@ -2,14 +2,17 @@ import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { getUser } from "../utils/factory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
 import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
-import { IoIosNotifications, IoIosNotificationsOutline } from "react-icons/io";
 
 const Menu = ({ setIsOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = getUser();
+  const [user, setUser] = useState({})
+
+  useEffect(() => {
+    setUser(getUser())
+  }, [])
 
   const activeStyle = {
     borderLeft: "5px solid #008080",

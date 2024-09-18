@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { NavLink, useNavigate } from "react-router-dom";
-import {  FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoFacebook } from "react-icons/io5";
 import { BsLinkedin } from "react-icons/bs";
@@ -21,6 +21,7 @@ import { endpoints } from "../../utils/endpoints";
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -32,12 +33,12 @@ const Signin = () => {
 
   const toastMsg = {
     info: "Signing In",
-    success: "Signed In successfully",
     error: "Login failed. Please make sure the email and password are correct.",
   };
 
   const onSubmit = async (data) => {
     try {
+      setIsDisabled(true);
       await client.run(
         "post",
         endpoints?.signin,
@@ -48,8 +49,10 @@ const Signin = () => {
         false
       );
       reset();
+      setIsDisabled(false);
       navigate("/");
     } catch (error) {
+      setIsDisabled(false);
       console.log("Login failed");
     }
   };
@@ -60,6 +63,9 @@ const Signin = () => {
         style={{ backgroundImage: `url(${signinBg})` }}
       ></div>
       <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 m-auto max-sm:pt-[200px]">
+        <div className="md:hidden absolute top-0 py-8">
+          <img alt="logo" src="/Vector.png"></img>
+        </div>
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif text-center mb-8">
           Sign In
         </h1>
@@ -111,9 +117,14 @@ const Signin = () => {
           </NavLink>
           <button
             onClick={handleSubmit(onSubmit)}
-            className="bg-[#008080] text-white py-4 rounded-md font-serif"
+            className={
+              isDisabled
+                ? "blur-[1px] bg-[#008080] text-white py-4 rounded-md font-serif"
+                : "bg-[#008080] text-white py-4 rounded-md font-serif"
+            }
+            disabled={isDisabled}
           >
-            Sign In
+            {isDisabled ? "Processing..." : "Sign In"}
           </button>
           <div className="flex items-center justify-between">
             <p className="border-b border-gray-400 w-[45%]"></p>
@@ -122,18 +133,18 @@ const Signin = () => {
           </div>
           <div className="flex justify-center items-center flex-col text-center">
             <div className="w-[80%]  md:w-[50%] flex my-6 justify-between">
-            <a href={`${oauthUrl}/api/v1/auth/github`}>
-                  <FaGithub size={32} />
-                </a>
-                <a href={`${oauthUrl}/api/v1/auth/google`}>
-                  <FcGoogle size={32} />
-                </a>
-                <a href={`${oauthUrl}/api/v1/auth/facebook`}>
-                  <IoLogoFacebook color={"#1877F2"} size={32} />
-                </a>
-                <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
-                  <BsLinkedin color={"#0077B5"} size={32} />
-                </a>
+              <a href={`${oauthUrl}/api/v1/auth/github`}>
+                <FaGithub size={32} />
+              </a>
+              <a href={`${oauthUrl}/api/v1/auth/google`}>
+                <FcGoogle size={32} />
+              </a>
+              <a href={`${oauthUrl}/api/v1/auth/facebook`}>
+                <IoLogoFacebook color={"#1877F2"} size={32} />
+              </a>
+              <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
+                <BsLinkedin color={"#0077B5"} size={32} />
+              </a>
             </div>
             <NavLink to="/signup">
               Don&apos;t have an account?{" "}

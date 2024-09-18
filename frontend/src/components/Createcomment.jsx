@@ -11,6 +11,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
   const { register, handleSubmit, reset } = useForm();
   const user = getUser();
   const [imageName, setImageName] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,6 +28,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
   };
 
   const onSubmit = async (data) => {
+    setIsDisabled(true);
     let imageUrl;
     if (data.image[0]) {
       imageUrl = await uploadFiles(data.image[0]);
@@ -44,11 +46,15 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
     try {
       await client.run("post", endpoint, data, true, toastMsg);
       reset();
+      setIsDisabled(false);
       setImageName("");
     } catch (error) {
+      setIsDisabled(false);
       console.log(error);
     }
   };
+
+  const buttonMsg = type === "post" ? type : button;
 
   return (
     <>
@@ -68,17 +74,22 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
 
             <textarea
               type="text"
-              placeholder="What's on your mind"
-              className=" mb-3 w-[40vw] text-inherit bg-inherit outline-0"
+              placeholder="Share your thoughts"
+              className=" mb-3 md:w-[40vw] text-inherit bg-inherit outline-0"
               {...register("content", { required: true })}
             />
           </div>
 
           <button
-            className="px-10 h-[50px] capitalize max-sm:hidden mx-1 bg-[#008080]  text-white rounded-full cursor-pointer"
+            className={
+              isDisabled
+                ? "blur-[1px] px-10 h-[50px] md:max-w-[10vw] capitalize max-sm:hidden  bg-[#008080]  text-white rounded-full cursor-pointer"
+                : " px-10 h-[50px] md:max-w-[10vw]  capitalize max-sm:hidden  bg-[#008080]  text-white rounded-full cursor-pointer"
+            }
             type="submit"
+            disabled={isDisabled}
           >
-            {type === "post" ? type : button}
+            {isDisabled ? "Submitting..." : buttonMsg}
           </button>
           <IoSend
             size={34}
@@ -86,6 +97,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
             color="#008080"
             type="submit"
             onClick={handleSubmit(onSubmit)}
+            disabled={isDisabled}
           />
         </div>
         <div className=" flex justify-start gap-x-4 items-start ">

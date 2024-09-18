@@ -57,6 +57,9 @@ class NotificationListView(generics.ListAPIView):
             "-created_at"
         )
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class MarkNotificationsAsReadView(generics.UpdateAPIView):
     serializer_class = NotificationSerializer
@@ -104,7 +107,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         # Annotate the queryset with counts
         queryset = queryset.annotate(
-            total_comments=Count("comments"),
+            total_comments=Count("comments", distinct=True),
             total_reactions=Count("reactions", distinct=True),
             total_views=Count("views",  distinct=True),
             total_reposts=Count("reposts",  distinct=True),

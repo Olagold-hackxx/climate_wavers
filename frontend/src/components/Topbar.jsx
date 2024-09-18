@@ -6,10 +6,16 @@ import Report from "./Report";
 import { NavLink } from "react-router-dom";
 import { IoIosNotifications, IoIosNotificationsOutline } from "react-icons/io";
 import { MdOutlineAddAlarm } from "react-icons/md";
+import { useNotifications } from "../context/NotificationContext";
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { hasNewNotification, markAsRead } = useNotifications();
+
+  const handleNotificationClick = () => {
+    markAsRead();
+  };
 
   const user = getUser();
 
@@ -55,7 +61,7 @@ const Topbar = () => {
             end
           >
             {({ isActive }) => (
-              <div className="w-[200%] md:px-4  flex ">
+              <div className="w-[200%] md:px-4  flex relative">
                 {isActive ? (
                   <IoIosNotifications
                     className=" w-12"
@@ -63,7 +69,14 @@ const Topbar = () => {
                     color="#008080"
                   />
                 ) : (
-                  <IoIosNotificationsOutline className="w-12" size={40} />
+                  <IoIosNotificationsOutline
+                    className="w-12"
+                    size={40}
+                    onClick={handleNotificationClick}
+                  />
+                )}
+                {hasNewNotification && (
+                  <span className="absolute top-[2px] md:right-[26px] right-2 w-2 h-2 bg-red-600 rounded-full"></span>
                 )}
               </div>
             )}

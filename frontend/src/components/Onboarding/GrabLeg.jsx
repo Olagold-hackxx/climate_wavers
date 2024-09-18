@@ -4,7 +4,7 @@ const GrabLeg = () => {
   return (
     <div className="grid  bg-[#264653] h-[100vh] w-[100%] text-white">
       <div className=" text-center text-2xl relative top-32 pt-20 px-2 " ></div>
-      <div className="flex  absolute gap-x-2 text-xl right-0 p-4">
+      <div className="flex  absolute gap-x-2 text-xl right-0 p-4 pt-8">
         <Link to={"/onboarding/community"}>
           <img  alt="" src={"/arrow-right.png"} />
         </Link>

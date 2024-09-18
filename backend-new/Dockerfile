@@ -33,4 +33,4 @@ RUN chmod +x entrypoint.sh
 ENTRYPOINT ["sh", "entrypoint.sh"]
 
 # Command to run Daphne (ASGI server)
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8001", "auth.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "auth.asgi:application"]

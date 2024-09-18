@@ -11,20 +11,8 @@ import WaverXPosts from "../../components/WaverXPosts";
 import Notification from "../../components/Notification";
 import Disasters from "../Disasters";
 import DisasterPage from "../DisasterPage";
-import {
-  OnboardingLayout,
-  Welcome,
-  Home,
-  Campaign,
-  Notifications,
-  Profile as OnboardingProfile,
-  Community as OnboardingCommunity,
-  Wallet,
-  Disasters as OnboardingDisasters,
-  Chatbot,
-  BotLeg,
-  GrabLeg,
-} from "../../components/Onboarding";
+import UploadCover from "../UploadCover";
+import UploadPhoto from "../UploadPhoto";
 
 const AuthSharedLayout = withAuth(SharedLayout);
 const AuthCommunity = withAuth(Community);
@@ -36,20 +24,10 @@ const AuthFunds = withAuth(Funds);
 const AuthCampaigns = withAuth(CampaignsPage);
 const AuthWaverXPosts = withAuth(WaverXPosts);
 const AuthNotification = withAuth(Notification);
-const AuthOnboardingLayout = withAuth(OnboardingLayout);
-const AuthWelcome = withAuth(Welcome);
-const AuthHome = withAuth(Home);
-const AuthOnboardingCampaign = withAuth(Campaign);
-const AuthOnboardingNotification = withAuth(Notifications);
-const AuthOnboardingProfile = withAuth(OnboardingProfile);
-const AuthOnboardingWallet = withAuth(Wallet);
-const AuthOnboardingDisaster = withAuth(OnboardingDisasters);
-const AuthOnboardingChatbot = withAuth(Chatbot);
-const AuthOnboardingCommunity = withAuth(OnboardingCommunity);
-const AuthGrabLeg = withAuth(GrabLeg);
-const AuthBotLeg = withAuth(BotLeg);
 const AuthDisasters = withAuth(Disasters)
 const AuthDisasterPage = withAuth(DisasterPage)
+const AuthUploadCover = withAuth(UploadCover)
+const AuthUploadPhoto = withAuth(UploadPhoto)
 
 export {
   AuthSharedLayout,
@@ -62,18 +40,8 @@ export {
   AuthWaverX,
   AuthProfile,
   AuthNotification,
-  AuthOnboardingLayout,
-  AuthWelcome,
-  AuthHome,
-  AuthOnboardingCampaign,
-  AuthOnboardingNotification,
-  AuthOnboardingProfile,
-  AuthOnboardingWallet,
-  AuthOnboardingDisaster,
-  AuthOnboardingChatbot,
-  AuthOnboardingCommunity,
-  AuthBotLeg,
-  AuthGrabLeg,
   AuthDisasterPage,
-  AuthDisasters
+  AuthDisasters,
+  AuthUploadCover,
+  AuthUploadPhoto
 };

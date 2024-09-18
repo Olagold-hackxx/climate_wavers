@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 
 const PasswordReset = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -35,6 +36,7 @@ const PasswordReset = () => {
   const token = Cookies.get("reset_token");
   const onSubmit = async (data) => {
     try {
+      setIsDisabled(true);
       await client.run(
         "patch",
         endpoints?.passwordreset,
@@ -45,8 +47,10 @@ const PasswordReset = () => {
         false
       );
       reset();
+      setIsDisabled(false);
       navigate("/login");
     } catch (error) {
+      setIsDisabled(false);
       console.log(error);
     }
   };
@@ -130,9 +134,14 @@ const PasswordReset = () => {
           </FormControl>
           <button
             onClick={handleSubmit(onSubmit)}
-            className="bg-[#008080] rounded-md text-white py-4"
+            className={
+              isDisabled
+                ? "blur-[1px] bg-[#008080] rounded-md text-white py-4"
+                : "bg-[#008080] rounded-md text-white py-4"
+            }
+            disabled={isDisabled}
           >
-            Confirm
+            {isDisabled ? "Processing..." : "Confirm"}
           </button>
         </Box>
       </div>

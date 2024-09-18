@@ -39,9 +39,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255, unique=True, verbose_name=_("Email Address")
     )
     country = models.CharField(max_length=100, verbose_name=_("Country"))
+    profession = models.CharField(max_length=100, verbose_name=_("Profession"), blank=True, null=True)
     state = models.CharField(max_length=100, verbose_name=_("State"))
-    profile_pic = models.ImageField(
-        upload_to="profile_pic/", blank=True, null=True, max_length=300
+    profile_pic = models.URLField(
+        blank=True, null=True, max_length=300
+    )
+    cover = models.URLField(
+        blank=True, null=True, max_length=300
     )
     default_avatar = models.URLField(
         max_length=100, choices=AVATAR_CHOICES, blank=True, null=True
@@ -56,7 +60,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     bio = models.TextField(max_length=520, blank=True, null=True)
-    auth_provider = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
+    auth_provider = models.CharField(
+        max_length=50, default=AUTH_PROVIDERS.get("email"))
     picture = models.URLField(max_length=500, blank=True, null=True)
 
     USERNAME_FIELD = "email"
@@ -91,7 +96,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def profile_picture(self):
         if self.profile_pic:
-            return f"{settings.BASE_URL}{self.profile_pic.url}"
+            return self.profile_pic
         elif self.picture:
             return self.picture
         elif self.default_avatar:
@@ -105,7 +110,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class OneTimePassword(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     code = models.CharField(max_length=128)
 
     def __str__(self):

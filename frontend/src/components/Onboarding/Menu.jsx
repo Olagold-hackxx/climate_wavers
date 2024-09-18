@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import CampaignIcon from "@mui/icons-material/Campaign";
-import { RiAlarmWarningFill } from "react-icons/ri";
-import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
+import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
+
 import { useState, useEffect } from "react";
 
 const Menu = ({ setIsOpen }) => {
@@ -167,11 +167,16 @@ const Menu = ({ setIsOpen }) => {
             return isActive ? activeStyle : null;
           }}
         >
-          <CampaignIcon
-            sx={{ color: "#008080", fontSize: "50px" }}
-            fontSize={"large"}
-          />
-          <p className="ml-1">Campaigns</p>
+          {({ isActive }) => (
+            <div className="w-[200%] flex">
+              {isActive ? (
+                <MdCampaign className="mr-2" size={40} color="#008080" />
+              ) : (
+                <MdOutlineCampaign className="mr-2" size={40} color="#434343" />
+              )}
+              <p className="ml-1">Campaigns</p>
+            </div>
+          )}
         </NavLink>
         <NavLink
           className={({ isActive }) => {
@@ -185,34 +190,22 @@ const Menu = ({ setIsOpen }) => {
             return isActive ? activeStyle : null;
           }}
         >
-          <div className="w-[200%] flex">
-            <RiAlarmWarningFill className="mr-2" size={35} color="#FFA500" />
-
-            <p className="self-center pl-2"> Disasters </p>
-          </div>
-        </NavLink>
-        <NavLink
-          to={`/onboarding/notifications`}
-          className={({ isActive }) => {
-            return isActive || !active
-              ? "flex items-center py-2 lg:px-8  max-sm:text-xl"
-              : "blur-md flex items-center py-2 lg:px-8  max-sm:text-xl";
-          }}
-          style={({ isActive }) => {
-            setActive(true);
-            return isActive ? activeStyle : null;
-          }}
-          onClick={() => setIsOpen(false)}
-          end
-        >
           {({ isActive }) => (
-            <div className="w-[200%] flex max-sm:">
+            <div className="w-[200%] flex">
               {isActive ? (
-                <IoMdNotifications className="mr-2" size={40} color="#008080" />
+                <RiAlarmWarningFill
+                  className="mr-2"
+                  size={35}
+                  color="#EA4335"
+                />
               ) : (
-                <IoMdNotificationsOutline className="mr-2" size={40} />
+                <RiAlarmWarningLine
+                  className="mr-2"
+                  size={35}
+                  color="#434343"
+                />
               )}
-              <p className="self-center"> Notifications</p>
+              <p className="self-center pl-2"> Disasters </p>
             </div>
           )}
         </NavLink>

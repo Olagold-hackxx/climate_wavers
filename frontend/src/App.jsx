@@ -8,7 +8,6 @@ import { configWeb3Modal } from "./connection";
 import {
   EmailCode,
   ForgotPassword,
-  UploadPhoto,
   PasswordReset,
   PhoneCode,
   PhoneVerification,
@@ -17,6 +16,22 @@ import {
   VerifyMail,
   VerifyResetRequest,
 } from "./pages/Auth";
+
+import {
+  OnboardingLayout,
+  Welcome,
+  Home,
+  Campaign as OnboardingCampaign,
+  Notifications as  OnboardingNotification,
+  Profile as OnboardingProfile,
+  Community as OnboardingCommunity,
+  Wallet as OnboardingWallet,
+  Disasters as OnboardingDisasters,
+  Chatbot as OnboardingChatbot,
+  BotLeg,
+  GrabLeg,
+} from "./components/Onboarding";
+
 
 import {
   AuthComment,
@@ -29,20 +44,10 @@ import {
   AuthCampaigns,
   AuthWaverXPosts,
   AuthNotification,
-  AuthOnboardingLayout,
-  AuthWelcome,
-  AuthHome,
-  AuthOnboardingCampaign,
-  AuthOnboardingNotification,
-  AuthOnboardingProfile,
-  AuthOnboardingWallet,
-  AuthOnboardingDisaster,
-  AuthOnboardingChatbot,
-  AuthOnboardingCommunity,
-  AuthBotLeg,
-  AuthGrabLeg,
   AuthDisasters,
-  AuthDisasterPage
+  AuthDisasterPage,
+  AuthUploadCover,
+  AuthUploadPhoto 
 } from "./pages/AuthenticatedPages";
 
 configWeb3Modal();
@@ -77,23 +82,22 @@ function App() {
               element={<AuthComment type={"comments"} />}
             />
           </Route>
-          <Route path="/onboarding" element={<AuthOnboardingLayout />}>
-            <Route index element={<AuthWelcome />} />
-            <Route path="/onboarding/bot" element={<AuthOnboardingChatbot />} />
-            <Route path="/onboarding/campaigns" element={<AuthOnboardingCampaign />} />
-            <Route path="/onboarding/home" element={<AuthHome />} />
-            <Route path="/onboarding/community" element={<AuthOnboardingCommunity/>} />
+          <Route path="/onboarding" element={<OnboardingLayout />}>
+            <Route index element={<Welcome />} />
+            <Route path="/onboarding/bot" element={<OnboardingChatbot />} />
+            <Route path="/onboarding/campaigns" element={<OnboardingCampaign />} />
+            <Route path="/onboarding/home" element={<Home />} />
+            <Route path="/onboarding/community" element={<OnboardingCommunity/>} />
             <Route
               path="/onboarding/notifications"
-              element={<AuthOnboardingNotification />}
+              element={<OnboardingNotification />}
             />
-            <Route path="/onboarding/disasters" element={< AuthOnboardingDisaster/>} />
-            <Route path="/onboarding/waverx" element={<AuthWaverXPosts />} />
+            <Route path="/onboarding/disasters" element={< OnboardingDisasters/>} />
             {/* <Route path="/happeningnow" element={<Happeningnow />} /> */}
-            <Route path="/onboarding/wallet" element={<AuthOnboardingWallet />} />
-            <Route path="/onboarding/profile" element={<AuthOnboardingProfile />} />
-            <Route path="/onboarding/grableg" element={<AuthGrabLeg />} />
-            <Route path="/onboarding/botleg" element={<AuthBotLeg/>} />
+            <Route path="/onboarding/wallet" element={<OnboardingWallet />} />
+            <Route path="/onboarding/profile" element={<OnboardingProfile />} />
+            <Route path="/onboarding/grableg" element={<GrabLeg />} />
+            <Route path="/onboarding/botleg" element={<BotLeg/>} />
           </Route>
 
           <Route path="/signup" element={<Signup />} />
@@ -109,7 +113,9 @@ function App() {
           <Route path="/phonecode" element={<PhoneCode />} />
           <Route path="/verifyphone" element={<PhoneVerification />} />
           <Route path="/verifymail" element={<VerifyMail />} />
-          <Route path="/uploadphoto" element={<UploadPhoto />} />
+          <Route path="/uploadphoto" element={<AuthUploadPhoto />} />
+          <Route path="/uploadcover" element={<AuthUploadCover />} />
+
 
           {/* <Route path="/wallet"  element={<Web3 />} /> */}
         </Routes>

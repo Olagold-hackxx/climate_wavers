@@ -5,5 +5,4 @@ class CoreConfig(AppConfig):
     name = 'core'
 
     def ready(self):
-        print("CoreConfig ready method executed")
         import core.signals 

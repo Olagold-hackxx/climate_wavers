@@ -28,6 +28,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password",
             "password2",
             "profile_pic",
+            "cover",
             "picture",
             "default_avatar",
             "auth_provider"
@@ -51,11 +52,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         if not validated_data.get("profile_pic"):
             if validated_data.get("gender") == "male":
-                validated_data["default_avatar"] = "avatar1.png"
-            elif validated_data.get("gender") == "female":
-                validated_data["default_avatar"] = "avatar2.png"
+                validated_data["default_avatar"] = User.AVATAR_CHOICES[0][0]
             else:
-                validated_data["default_avatar"] = "avatar3.png"
+                validated_data["default_avatar"]  = User.AVATAR_CHOICES[1][0]
+           
         else:
             validated_data["default_avatar"] = None
 

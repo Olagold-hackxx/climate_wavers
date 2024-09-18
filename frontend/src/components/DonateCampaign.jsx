@@ -29,14 +29,16 @@ const DonateCampaign = ({ campaign }) => {
         </div>
       </div>
       <div className="flex flex-col font-montserrat justify-between">
-        <div className="flex text-xl items-start py-4 flex-col gap-y-6  md:px-4">
+        <div className="flex text-xl items-start py-4 flex-col gap-y-6 max-sm:w-[80vw]  md:px-4">
           <div >{campaign.title}</div>
           <div >Goal Amount: ${campaign.amount}</div>
           <div >Amount Raised: ${campaign.raised}</div>
           <div className="text-start">Campaign Details: <span >{campaign.details}</span></div>
         </div>
         {/* <button className="rounded-full w-[60%] h-[60px] text-white self-center bg-[#008080]">Donate</button> */}
+        <div className="px-8 py-4">
         <Donate />
+        </div>
       </div>
     </div>
   );

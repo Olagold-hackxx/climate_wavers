@@ -2,11 +2,19 @@
 
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+import logging
+
+
+logger = logging.getLogger(__name__)
+
 
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['user'].username
         self.room_group_name = f'notifications_{self.room_name}'
+
+        logger.info(
+            f"User {self.scope['user']} connected to {self.room_group_name}")
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -21,21 +29,16 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'notification_message',
-                'message': message
-            }
-        )
-
     async def notification_message(self, event):
         message = event['message']
+        user_details = event['user_details']
+        content = event['content']
+        logger.info(
+            f"Notification sent to {user_details['username']}")
 
+        # Send notification with user details
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'content': content,
+            'user': user_details  # Include user details in the WebSocket message
         }))

@@ -7,6 +7,7 @@ import { endpoints } from "../../utils/endpoints";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const handleChange = (event) => {
     setEmail(event.target.value);
   };
@@ -19,6 +20,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = async () => {
     try {
+      setIsDisabled(true);
       await client.run(
         "post",
         endpoints?.forgotpassword,
@@ -28,7 +30,9 @@ const ForgotPassword = () => {
         false,
         false
       );
+      setIsDisabled(false);
     } catch (error) {
+      setIsDisabled(false);
       console.log(error);
     }
   };
@@ -56,10 +60,15 @@ const ForgotPassword = () => {
           color="success"
         />
         <button
-          className="bg-[#047857]  rounded-md text-white py-4 w-[100%] m-2 mt-4"
+          className={
+            isDisabled
+              ? "blur-[1px] bg-[#047857]  rounded-md text-white py-4 w-[100%] m-2 mt-4"
+              : "bg-[#047857]  rounded-md text-white py-4 w-[100%] m-2 mt-4"
+          }
           onClick={handleSubmit}
+          disabled={isDisabled}
         >
-          Confirm
+          {isDisabled ? "Processing..." : "Confirm"}
         </button>
         <div className="flex items-center justify-between my-6">
           <p className="border-b border-gray-400 w-[45%]"></p>

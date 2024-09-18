@@ -4,13 +4,14 @@ import { FiMapPin } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { getUser } from "../utils/factory";
 import Feed from "./Feed";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useProfile } from "../hooks/useProfile";
 
 const Profile = () => {
   const { userId } = useParams();
   const [profile, setProfile] = useState(getUser());
-  const [feed, setFeeds] = useState({});
+  const [feed, setFeed] = useState({});
+  const navigate = useNavigate();
 
   const {
     isPending,
@@ -47,32 +48,46 @@ const Profile = () => {
         likes: user.reactions,
         polls: user.polls,
       };
-      setFeeds(feeds);
+      setFeed(feeds);
     }
 
     if (error) {
       toast.dismiss();
-      toast.error("An error fetching profile");
+      toast.error("An error occurred while fetching profile");
     }
   }, [isFetched, isPending, error, user]);
 
+  const handleProfilePictureClick = (event) => {
+    event.stopPropagation();
+    if (user?.user?.id === profile.id) {
+      navigate("/uploadphoto");
+    }
+  };
+
+  const handleCoverPhotoClick = (e) => {
+    e.preventDefault()
+    if (user?.user?.id === profile.id) {
+      navigate("/uploadcover");
+    }
+  };
+
   return (
-    <div className="text-2xl text-center px-2 pt-5  ">
+    <div className="text-2xl text-center px-2 pt-8  ">
       <div className="h-[35vh] lg:h-[40vh]">
         <div
-          className={`h-[30vh] lg:h-[35vh] w-[100%] bg-cover bg-center rounded-[20px]`}
+          className={`h-[30vh] lg:h-[35vh] w-[100%] bg-cover bg-center relative  z-10 rounded-[20px] cursor-pointer`}
           style={{
             backgroundImage: `url(${
               profile?.cover ? `${profile.cover}` : "../../environ.jpeg"
             })`,
           }}
+          onClick={(e) => handleCoverPhotoClick(e)} // Click handler for cover photo
         >
           <img
-            src={
-             profile?.profile_picture
-            }
-            className="absolute bottom-0 left-0 w-28 ml-2 mb-2  rounded-full transform translate-y-1/2"
-            alt=""
+            src={profile?.profile_picture}
+            className="absolute bottom-0 left-0 w-28 ml-2 mb-2  rounded-full transform translate-y-1/2 cursor-pointer"
+            alt="Profile"
+            onClick={handleProfilePictureClick} // Click handler for profile picture
           />
         </div>
       </div>

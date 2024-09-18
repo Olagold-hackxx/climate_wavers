@@ -30,4 +30,4 @@ pika
 whitenoise
 gunicorn
 daphne
-
+uvicorn

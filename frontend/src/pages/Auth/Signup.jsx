@@ -21,6 +21,7 @@ import "../styles/signup-page.css";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsDisabled(true);
       await client.run(
         "post",
         endpoints?.signup,
@@ -50,8 +52,10 @@ const Signup = () => {
         true
       );
       reset();
+      setIsDisabled(false);
       navigate("/emailcode");
     } catch (error) {
+      setIsDisabled(false);
       console.log("Login failed");
     }
   };
@@ -73,6 +77,9 @@ const Signup = () => {
       </div>
       <div className="w-[100%] lg:w-[50%] md:w-[50%] flex justify-center  ">
         <div className="lg:w-[75%] self-center mb-12 md:w-[100%] px-12">
+          <div className="md:hidden absolute top-0 py-8">
+            <img alt="logo" src="/Vector.png"></img>
+          </div>
           <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] text-center mb-8">
             Sign Up
           </h1>
@@ -110,7 +117,7 @@ const Signup = () => {
               color="success"
               {...register("username", { required: true, maxLength: 50 })}
             />
-            <div className="w-[100%]">
+            <div className="w-[100%] gap-x-2 flex justify-between">
               <Controller
                 name="gender"
                 control={control}
@@ -121,13 +128,22 @@ const Signup = () => {
                     id="outlined-gender"
                     select
                     label="Gender"
-                    sx={{ width: "100%" }}
+                    sx={{ width: "50%" }}
                     color="success"
                   >
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
                   </TextField>
                 )}
+              />
+              <TextField
+                id="outlined-profession"
+                label="Profession"
+                variant="outlined"
+                sx={{ mr: 1, width: "50%" }}
+                name={"profession"}
+                color="success"
+                {...register("profession", { required: true, maxLength: 50 })}
               />
             </div>
             <TextField
@@ -214,9 +230,14 @@ const Signup = () => {
             </FormControl>
             <button
               onClick={handleSubmit(onSubmit)}
-              className="bg-[#008080] rounded-md text-white py-4"
+              className={
+                isDisabled
+                  ? "blur-[1px] bg-[#008080] rounded-md text-white py-4"
+                  : "bg-[#008080] rounded-md text-white py-4"
+              }
+              disabled={isDisabled}
             >
-              Sign Up
+              {isDisabled ? "Processing..." : "Sign Up"}
             </button>
             <div className="flex items-center justify-between">
               <p className="border-b border-gray-400 w-[45%]"></p>
@@ -235,12 +256,14 @@ const Signup = () => {
                   <IoLogoFacebook color={"#1877F2"} size={32} />
                 </a>
                 <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
-                  <BsLinkedin  color={"#0077B5"} size={32}/>
+                  <BsLinkedin color={"#0077B5"} size={32} />
                 </a>
               </div>
               <NavLink to="/">
                 Already have an account?{" "}
-                <span className="text-[#008080] font-[700] font-serif text-xl px-2 font-[500]">Sign In</span>{" "}
+                <span className="text-[#008080] font-[700] font-serif text-xl px-2 font-[500]">
+                  Sign In
+                </span>{" "}
               </NavLink>
             </div>
           </Box>

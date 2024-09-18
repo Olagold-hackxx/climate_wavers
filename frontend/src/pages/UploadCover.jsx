@@ -1,12 +1,11 @@
 import { BsImageAlt } from "react-icons/bs";
-import avatar1 from "../../assets/girl-avatar.svg";
-import avatar2 from "../../assets/boy-avatar.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { client } from "../../api";
-import { endpoints } from "../../utils/endpoints";
+import { client } from "../api";
+import { endpoints } from "../utils/endpoints";
+import { uploadFiles } from "../services/upload.service";
 
-const UploadPhoto = () => {
+const UploadCover = () => {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const [image, setImage] = useState(null);
@@ -14,7 +13,7 @@ const UploadPhoto = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
+      setImage(file)
       setImagePreview(URL.createObjectURL(file));
     } else {
       setImagePreview(null);
@@ -29,18 +28,19 @@ const UploadPhoto = () => {
   };
 
   const onSubmit = async () => {
+    const uploaded_image = await uploadFiles(image);
     try {
       await client.run(
         "patch",
         endpoints?.user,
-        { profile_pic: image },
+        { cover: uploaded_image },
         true,
         toastMsg,
         false,
         false
       );
       setImagePreview(null);
-      navigate("/bot");
+      navigate(-1);
     } catch (error) {
       console.log(error);
     }
@@ -53,12 +53,12 @@ const UploadPhoto = () => {
           <img src="../../../HandsShow.png" alt="" />
         </div>
       </div>
-      <div className="w-[90%] lg:w-[50%] md:w-[50%] grid px-4 place-content-center m-auto pt-20">
+      <div className="w-[90%] lg:w-[50%] md:w-[50%] grid px-4 place-content-center  max-sm:pt-20 md:pb-44">
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] font-[bold font-serif text-[#047857] text-center mb-8">
-          Upload Profile Photo
+          Upload Profile Cover
         </h1>
 
-        <div className="bg-gray-200 w-[100%] rounded-lg h-[30vh] mb-6 flex justify-center items-center">
+        <div className="bg-gray-200 md:w-[35vw]  w-[80vw] rounded-lg h-[30vh] mb-6 flex justify-center items-center">
           <input
             accept="image/*"
             id="upload-profile-image"
@@ -88,25 +88,10 @@ const UploadPhoto = () => {
         >
           Confirm
         </button>
-        <div className="flex items-center w-[100%] justify-between mt-4">
-          <p className="border-b border-gray-400 w-[40%]"></p>
-          <p>Or</p>
-          <p className="border-b border-gray-400 w-[40%]"></p>
-        </div>
-        <div className="flex  w-[100%] justify-center items-center flex-col text-center">
-          <p className="pt-1">Use our Virtual avatar</p>
-          <div className="w-[100%] md:w-[70%]  lg:w-[80%]  flex gap-x-4  my-6 justify-between">
-            <Link to="/">
-              <img src={avatar2} alt="" className="w-[100%]" />
-            </Link>
-            <Link to="/">
-              <img src={avatar1} alt="" className="w-[100%]" />{" "}
-            </Link>
-          </div>
-        </div>
+       
       </div>
     </div>
   );
 };
 
-export default UploadPhoto;
+export default UploadCover;

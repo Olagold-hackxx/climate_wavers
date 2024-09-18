@@ -11,7 +11,7 @@ const Onboarding = ({ content, current, next, prev, bot }) => {
         <span>Prev</span>
         <span>{current}/8</span>
         <span>Skip</span>
-        <Link to={"/"}>
+        <Link to={"/login"}>
           <img alt="" src={"/skip.png"} className="" />
         </Link>
       </div>
@@ -33,10 +33,10 @@ const Onboarding = ({ content, current, next, prev, bot }) => {
         </div>
       </div>
       <NavLink
-        to={next || "/"}
+        to={next || "/login"}
         className="bg-linear  md:w-[20%] w-[60vw] h-16 relative self-end md:left-[63%] left-[36%] md:bottom-24 bottom-32 text-2xl text-center pt-4 rounded-[35px]"
       >
-        {next ? "Next" : "Home"}
+        {next ? "Next" : "Get started"}
       </NavLink>
     </div>
   );

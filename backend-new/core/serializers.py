@@ -14,10 +14,6 @@ from .models import (
 from api.models import User
 
 
-class NotificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notification
-        fields = "__all__"
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -188,3 +184,27 @@ class UserActivitySerializer(serializers.Serializer):
     polls = PollSerializer(many=True, read_only=True)
     user_id = serializers.CharField()
     user = UserSerializer(read_only=True)
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    content = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Notification
+        fields = "__all__"
+        extra_kwargs = {
+            'post': {'write_only': True},
+            'comment': {'write_only': True},
+        }
+
+    def get_content(self, obj):  
+        request = self.context.get("request")
+        if obj.content_type.model == 'post':
+            return PostSerializer(Post.objects.get(id=obj.object_id), context={'request': request}).data
+        elif obj.content_type.model == 'comment':
+            return CommentSerializer(Comment.objects.get(id=obj.object_id), context={'request': request}).data
+        elif obj.content_type.model == 'follow':
+            return FollowSerializer(Follow.objects.get(id=obj.object_id), context={'request': request}).data
+            
+        return None

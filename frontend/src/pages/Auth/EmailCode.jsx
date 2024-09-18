@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 const EmailCode = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ const EmailCode = () => {
 
   const handleSubmit = async () => {
     try {
+      setIsDisabled(true);
       const email = Cookies.get("email");
       const data = {
         email: email,
@@ -47,8 +49,10 @@ const EmailCode = () => {
         false,
         false
       );
-      navigate("/uploadphoto");
+      setIsDisabled(false);
+      navigate("/onboarding");
     } catch (error) {
+      setIsDisabled(false);
       console.log("Confirmation failed");
     }
   };
@@ -103,9 +107,14 @@ const EmailCode = () => {
 
         <button
           onClick={handleSubmit}
-          className="bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4"
+          className={
+            isDisabled
+              ? "blur-[1px] bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4"
+              : "bg-[#008080] text-white rounded-md py-4 w-[70%] m-2 mt-4"
+          }
+          disabled={isDisabled}
         >
-          Confirm
+          {isDisabled ? "Processing..." : "Confirm"}
         </button>
       </div>
     </div>

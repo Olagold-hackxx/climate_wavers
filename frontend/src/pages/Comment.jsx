@@ -10,10 +10,10 @@ const Comment = ({ type }) => {
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
       <CommentPost type={type} postId={commentId ? commentId : postId} />
-      <div className=" md:border-2 max-sm:border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 mt-[-10px] ">
+      <div className=" md:border-2 max-sm:border-b-2 border-t-0 rounded-lg shadow-xl shadow-white md:h-40 max-sm:py-2 mt-[-10px] ">
         <Createcomment type={"comments"} postId={postId} parentId={commentId}/>
       </div>
-      <div className="ml-8">
+      <div className="md:ml-8 ml-2">
         <Postcomponent type={"comments"} postId={postId} comment={commentId} />
       </div>
     </div>

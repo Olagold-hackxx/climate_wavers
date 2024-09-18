@@ -9,7 +9,7 @@ const Modal = ({ children, closeFn }) => {
       
     >
       <button
-        className="bg-white border-2 rounded-lg px-2 pt-8 text-black max-w-[90vw] max-sm:w-[90rem] relative"
+        className="bg-white border-2 rounded-lg px-2 pt-8 text-black max-w-[90vw] max-sm:w-[90rem] relative "
         onClick={(e) => e.stopPropagation()}
         
       >

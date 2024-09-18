@@ -85,7 +85,7 @@ const IncidentIntegration = () => {
               </Button>
             </Dialog.Close>
             <Dialog.Close>
-              <Button onClick={handleReport}>Save</Button>
+              <Button className="bg-[#008080]" onClick={handleReport}>Save</Button>
             </Dialog.Close>
           </Flex>
         </Dialog.Content>

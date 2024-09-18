@@ -10,7 +10,7 @@ const CreateReport = ({ closeModal }) => {
   const { register, handleSubmit } = useForm();
 
   const [imagePreview, setImagePreview] = useState(null);
-  // const user = getUser();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,6 +22,8 @@ const CreateReport = ({ closeModal }) => {
   };
 
   const onSubmit = () => {
+    setIsDisabled(true);
+    setIsDisabled(false);
     closeModal();
   };
 
@@ -100,17 +102,18 @@ const CreateReport = ({ closeModal }) => {
           />
           <div className="px-1">
             <h3 className="text-xl w-[35vw] text-start">Situation</h3>
-          <Slider
-            aria-label="Custom marks"
-            defaultValue={0}
-            step={1}
-            sx={{ m: 1, width: "100" }}
-            valueLabelDisplay="auto"
-            marks={severity}
-            min={0}
-            max={10}
-            color="success"
-          /></div>
+            <Slider
+              aria-label="Custom marks"
+              defaultValue={0}
+              step={1}
+              sx={{ m: 1, width: "100" }}
+              valueLabelDisplay="auto"
+              marks={severity}
+              min={0}
+              max={10}
+              color="success"
+            />
+          </div>
           <TextField
             id="outlined-details"
             label="Details"
@@ -134,7 +137,7 @@ const CreateReport = ({ closeModal }) => {
               {imagePreview ? (
                 <img
                   src={imagePreview}
-                  alt="Image Preview"
+                  alt="Preview"
                   className="w-[100%] rounded-lg h-[30vh] py-2 flex justify-center"
                 />
               ) : (
@@ -144,9 +147,14 @@ const CreateReport = ({ closeModal }) => {
           </div>
           <button
             onClick={handleSubmit(onSubmit)}
-            className="bg-[#047857] rounded-md w-[80%] text-white py-4"
+            className={
+              isDisabled
+                ? "blur-[1px] bg-[#047857] rounded-md w-[80%] text-white py-4"
+                : "bg-[#047857] rounded-md w-[80%] text-white py-4"
+            }
+            disabled={isDisabled}
           >
-            Report Disaster
+            {isDisabled ? "Reporting..." : "Report Disaster"}
           </button>
         </Box>
       </div>
