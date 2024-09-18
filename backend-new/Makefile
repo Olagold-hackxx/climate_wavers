@@ -24,6 +24,9 @@ build:
 rebuild:
 	docker compose $(LOCAL_DOCKER_OPTIONS) build --force-recreate --no-deps
 
+logs:
+	docker logs -f $(LOCAL_WEB_CONTAINER_NAME)
+
 test:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) pytest
 

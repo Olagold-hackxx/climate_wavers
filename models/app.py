@@ -23,7 +23,6 @@ def magnitude_analysis():
     location = request.json['location']
     start_date = request.json['startDate']
     end_date = request.json['endDate']
-    # disaster_type = request.json['disasterType']
     key = os.getenv("API_KEY")
     return jsonify(predict(location, start_date, end_date, key))
 

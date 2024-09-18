@@ -36,7 +36,7 @@ const Signup = () => {
   const toastMsg = {
     info: "Signing Up",
     success: "Account created succesfully 👌 ",
-    error: "An Error occured 🤯",
+    error: "Account Exists 🤯. Try another details",
   };
 
   const onSubmit = async (data) => {
