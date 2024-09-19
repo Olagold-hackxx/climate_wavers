@@ -75,7 +75,7 @@ const Funds = () => {
       </div>
       <section className='flex items-center gap-x-4 lg:flex-row md:flex-row mb-8'>
        <Deposit address={address} />
-        <Donate />
+        {/* <Donate /> */}
       </section>
       <section>
         <h2 className='text-[18px] lg:text-[24px] md:text-[24px] my-4'>All Transaction details</h2>

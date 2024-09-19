@@ -1,7 +1,7 @@
 import Donate from "./Donate";
 
 const DonateCampaign = ({ campaign }) => {
-  console.log(campaign);
+  // console.log(campaign);
   return (
     <div className="md:w-[70vw] md:h-[70vh] flex p-4">
       <div
