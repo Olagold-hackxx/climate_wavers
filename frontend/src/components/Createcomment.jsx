@@ -89,7 +89,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
             type="submit"
             disabled={isDisabled}
           >
-            {isDisabled ? "Submitting..." : buttonMsg}
+            {buttonMsg}
           </button>
           <IoSend
             size={34}
