@@ -41,7 +41,7 @@ app.use("/api/v1/posts", logBuilder.listen("post"), postsRouter);
 app.use("/api/v1/chats", chatsRouter);
 app.use('/api/v1/disasters', disasterRouter)
 
-// useCron(generateAITips, { [defaultJobTimeUnit]: defaultJobTimeValue });
+useCron(generateAITips, { [defaultJobTimeUnit]: defaultJobTimeValue });
 // useCron(generateAITips, {"sec": 30})
 useQueue(queues.analyze_post, analyzePost);
 useQueue(queues.generate_chat_title, generateTitle);
