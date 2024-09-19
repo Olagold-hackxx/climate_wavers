@@ -9,6 +9,8 @@ const DisasterPage = () => {
   const { disasterId } = useParams();
   const currentDisaster = dummyDisasters[disasterId - 1];
 
+  
+
   return (
     <div className="w-full overflow-hidden">
     <div className="md:pb-20 max-sm:pb-10">

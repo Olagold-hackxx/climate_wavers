@@ -17,6 +17,7 @@ import { BsLinkedin } from "react-icons/bs";
 import { client } from "../../api";
 import { useForm } from "react-hook-form";
 import { endpoints } from "../../utils/endpoints";
+import { getAuthToken } from "../../utils/factory";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
