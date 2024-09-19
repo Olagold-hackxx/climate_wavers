@@ -53,9 +53,9 @@ const Notification = () => {
 
   return (
     <div className="grid">
-      <div className="flex">
-        <MdArrowBack onClick={handleGoBack} />
-        <h2 className="text-xl  py-12 px-4">Notifications</h2>
+      <div className="flex py-12 md:px-4 md:gap-x-4 gap-x-2 relative">
+        <MdArrowBack onClick={handleGoBack} size={35}color={"#434343"} />
+        <h2 className="text-2xl pb-4">Notifications</h2>
       </div>
       {notifications.map((notices) => (
         <div
