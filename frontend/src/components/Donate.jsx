@@ -156,7 +156,8 @@ const Donate = ({ id }) => {
         >
           <Box sx={style}>
           <div className="flex flex-col w-[100%]">
-    {!claimedStatus ? (    <div className="flex justify-between items-center mb-4">
+    {!claimedStatus ? (    <div className="flex justify-between items-center flex-col">
+      <div className="flex justify-between items-center w-[100%] mb-4">
           <p>Need DSX token</p>
          <button
             onClick={handleMint}
@@ -164,10 +165,8 @@ const Donate = ({ id }) => {
           >
             Claim
           </button>
-        </div>) : (
-            <p className="mb-4">User DSX Balance: {Math.floor(Number(ethers.formatEther(userBal)))}DSX</p>
-        )}
-        <div className="flex justify-between text-white">
+          </div>
+          <div className="flex justify-between text-white w-[100%]">
           <div className="border-[1.5px] border-gray-400 px-4 py-1 ">
             {""}20 DSX
           </div>
@@ -179,6 +178,10 @@ const Donate = ({ id }) => {
             {""}100 DSX
           </div>
         </div>
+        </div>) : (
+            <p className="mb-4">User DSX Balance: {Math.floor(Number(ethers.formatEther(userBal)))}DSX</p>
+        )}
+   
         <div className="my-5">
           <input type="text" placeholder="Incident Id" value={eventId} readOnly className="border-[1.5px] text-black border-gray-400 py-4 rounded-lg w-[100%] px-2 focus:outline outline-1 outline-gray-400 mb-4" />
           <input
