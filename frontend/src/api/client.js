@@ -77,7 +77,7 @@ class Client {
           autoClose: 200,
         });
       }
-
+      console.log({response})
       return response.data;
     } catch (error) {
       console.log(error);
