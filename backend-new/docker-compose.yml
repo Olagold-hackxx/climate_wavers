@@ -78,5 +78,5 @@ volumes:
 networks:
   climatewavers:
     driver: bridge
-    external: false
+    external: true
     name: climatewavers
