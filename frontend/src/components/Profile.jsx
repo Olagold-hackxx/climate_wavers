@@ -57,7 +57,7 @@ const Profile = () => {
   };
 
   const handleCoverPhotoClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (user?.user?.id === profile.id) {
       navigate("/uploadcover");
     }
