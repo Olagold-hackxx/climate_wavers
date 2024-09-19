@@ -179,9 +179,22 @@ class PostViewSet(viewsets.ModelViewSet):
         Custom action to react to a post.
         """
         post = self.get_object()
+        user = request.user
+
+        existing_reaction = Reaction.objects.filter(user=user, post=post).first()
+
+        if existing_reaction:
+            return Response(
+                {"status": "You have already reacted to this post."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         Reaction.objects.create(
-            user=request.user, post=post, content_object=post)
-        return Response({"status": "a reaction to post"})
+            user=user,
+            post=post,
+            content_object=post
+        )
+
+        return Response({"status": "Reaction added successfully."}, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
     def unreact(self, request, pk=None):
@@ -363,9 +376,23 @@ class CommentViewSet(viewsets.ModelViewSet):
         Custom action to react to a post.
         """
         comment = self.get_object()
+        user = request.user
+
+       
+        existing_reaction = Reaction.objects.filter(user=user, comment=comment).first()
+
+        if existing_reaction:
+            return Response(
+                {"status": "You have already reacted to this comment."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         Reaction.objects.create(
-            user=request.user, content_object=comment, comment=comment)
-        return Response({"status": "a reaction to post"})
+            user=user,
+            content_object=comment,
+            comment=comment
+        )
+
 
     @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
     def unreact(self, request, pk=None):
