@@ -4,6 +4,7 @@ import { client } from "../api";
 import { getAuthToken } from "../utils/factory";
 import { useNotifications } from "../context/NotificationContext";
 import { Link, useNavigate } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -43,10 +44,9 @@ const Notification = () => {
   const noticeUrl = (notice) => {
     if (notice?.content?.post) {
       return `/${notice.content.post}/${notice.content.id}/comments`;
-    }  else if (notice?.notification_type === "follow") {
+    } else if (notice?.notification_type === "follow") {
       return `/${notice?.content?.follower?.id}/profile`;
-    }
-    else if (notice?.content?.id) {
+    } else if (notice?.content?.id) {
       return `/${notice.content.id}/comments`;
     }
   };
@@ -54,9 +54,7 @@ const Notification = () => {
   return (
     <div className="grid">
       <div className="flex">
-        <button onClick={handleGoBack}>
-          <img alt="back-arrow" src="/arrow-left.png" />
-        </button>
+        <MdArrowBack onClick={handleGoBack} />
         <h2 className="text-xl  py-12 px-4">Notifications</h2>
       </div>
       {notifications.map((notices) => (
