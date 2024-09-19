@@ -11,7 +11,7 @@ const OnboardingLayout = () => {
         <Topbar />
       </div>
       <div className="flex  justify-between min-h-screen">
-        <div className="w-[25%] max-sm:hidden ">
+        <div className="w-[25%] hidden md:flex ">
           <Leftsidebar />
         </div>
         <div className="md:w-[75%] overflow-hidden items-center">

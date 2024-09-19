@@ -13,12 +13,12 @@ const DisasterPage = () => {
 
   return (
     <div className="w-full overflow-hidden">
-    <div className="md:pb-20 max-sm:pb-10">
+    <div className="md:pb-20 pb-10">
       <Topbar />
     </div>
 
-    <div className="flex w-full max-sm:py-8">
-      <div className="w-[20%] fixed border-r-2 h-full max-sm:hidden ">
+    <div className="flex w-full md:py-0 py-8">
+      <div className="w-[20%] fixed border-r-2 h-full hidden md:flex ">
         <Menu/>
       </div>
       <div className="px-4 py-4 md:pl-[21%] grid gap-y-4">
@@ -31,7 +31,7 @@ const DisasterPage = () => {
       <img alt="disaster_image" className="border-2 shadow-md rounded-md" src={currentDisaster.image} />
       <h4 className="py-2 font-semibold text-[#047857] text-xl">Comments</h4>
 
-      <div className=" md:border-2 max-sm:border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 py-4 ">
+      <div className=" md:border-2 border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 py-4 ">
         <Createcomment type={"comments"} postId={1} parentId={1} button={"comment"}/>
       </div>
       <div className="">

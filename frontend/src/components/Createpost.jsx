@@ -139,7 +139,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
           onClick={handleSubmit(onSubmit)}
           disabled={isDisabled}
         >
-          {isDisabled ? "Submitting..." : buttonMsg}
+          { buttonMsg}
         </button>
         <IoSend
           size={34}

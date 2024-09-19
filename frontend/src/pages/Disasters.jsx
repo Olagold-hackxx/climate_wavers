@@ -22,17 +22,17 @@ const DisasterPage = () => {
   }, [])
   return (
     <div className="w-full overflow-hidden">
-      <div className="md:pb-20 max-sm:pb-12">
+      <div className="md:pb-20 pb-12">
         <Topbar />
       </div>
 
-      <div className="flex w-full max-sm:pb-8">
-        <div className="w-[20%] border-r-2 max-sm:hidden ">
+      <div className="flex w-full md:pb-0 pb-8">
+        <div className="w-[20%] border-r-2 hidden md:flex ">
           <Menu/>
         </div>
         {/* <Mainfeed/> */}
-        <div className="md:w-[80vw] max-sm:w-full px-2  md:items-center">
-          <div className="2xl:h-[35%] md:h-[32%] h-[40vh] max-sm:py-2">
+        <div className="md:w-[80vw] w-full px-2  md:items-center">
+          <div className="2xl:h-[35%] md:h-[32%] h-[40vh] md:py-0 py-2">
           <DisasterImage disasters={disasters} />
           </div >
           <div className=" flex">

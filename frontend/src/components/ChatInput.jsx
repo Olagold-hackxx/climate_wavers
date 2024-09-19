@@ -11,17 +11,17 @@ const ChatInput = ({ body, handleClick }) => {
       <img
         src="../../img_thumbs_up_rectangle_5.svg"
         alt="Thumbsup"
-        className="max-sm:hidden h-[24px] w-[24px]"
+        className="hidden md:flex h-[24px] w-[24px]"
       />
       <img
         src="../../img_emoji_normal.svg"
         alt="Emojinormal"
-        className=" max-sm:hidden h-[24px] w-[24px]"
+        className=" hidden md:flex h-[24px] w-[24px]"
       />
       <img
         src="../../img_linkedin.svg"
         alt="Linkedin"
-        className="max-sm:hidden h-[24px] w-[24px]"
+        className="hidden md:flex h-[24px] w-[24px]"
       />
       <input
         className="justify-self-end w-[65%]  max-sm:w-[100%] h-[65%] focus:outline-0 md:ml-4 ml-2 md:pl-4  focus:bg-white rounded-full p-2 text-black "

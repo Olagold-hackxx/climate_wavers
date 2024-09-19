@@ -97,7 +97,7 @@ const WaverXChatPage = () => {
         ) : null}
       </div>
 
-      <div className="max-sm:hidden md:w-[25%] border-r-2 border-gray-200 ">
+      <div className="hidden md:grid md:w-[25%] border-r-2 border-gray-200 ">
         <WaverxLeftBar
           handleCreateChat={handleCreateChat}
           chats={chats}

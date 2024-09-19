@@ -24,7 +24,7 @@ const Onboarding = ({ content, current, next, prev, bot }) => {
           {content.map((msg) => (
             <div
               key={msg?.title}
-              className={msg?.view ? "bg-[#008080] md:hidden px-2 border-0 py-4 rounded-2xl shadow-md  md:max-w-[40%]  max-sm:w-[70vw]" : "bg-[#008080] px-2 max-sm:hidden border-0 py-4 rounded-2xl shadow-md  md:max-w-[40%] "}
+              className={msg?.view ? "bg-[#008080] md:hidden px-2 border-0 py-4 rounded-2xl shadow-md  md:max-w-[40%]  max-sm:w-[70vw]" : "bg-[#008080] px-2 hidden md:flex border-0 py-4 rounded-2xl shadow-md  md:max-w-[40%] "}
             >
               <span className="font-bold w-full">{msg?.title}</span>
               <br/>{msg.message}

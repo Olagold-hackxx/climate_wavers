@@ -62,13 +62,14 @@ const Signin = () => {
         className="w-[100%] lg:w-[50%] md:w-[50%] bg-cover border-r-1 shadow-xl bg-center hidden lg:flex md:flex"
         style={{ backgroundImage: `url(${signinBg})` }}
       ></div>
-      <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 m-auto max-sm:pt-[200px]">
+      <div className="w-[100%] lg:w-[30%] md:w-[40%] p-8 m-auto md:pt-1 pt-[200px]">
         <div className="md:hidden absolute top-0 py-8">
           <img alt="logo" src="/Vector.png"></img>
         </div>
         <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-[#008080] font-bold font-serif text-center mb-8">
           Sign In
         </h1>
+        <div className="md:px-1 px-4">
         <Box
           component="form"
           sx={{
@@ -154,6 +155,8 @@ const Signin = () => {
             </NavLink>
           </div>
         </Box>
+        </div>
+
       </div>
     </div>
   );

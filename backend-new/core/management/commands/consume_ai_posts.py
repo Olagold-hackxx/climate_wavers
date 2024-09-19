@@ -32,10 +32,13 @@ class Command(BaseCommand):
                 print(data)
                 
                 user = User.objects.get(username=data["username"])
-                Post.objects.create(
-                    user=user, content=data["content"], image=data.get("image", "")
-                )
-                logger.info("Created post for AI")
+                if not Post.objects.filter(user=user, content=data["content"]).exists():
+                    Post.objects.create(
+                        user=user, content=data["content"], image=data.get("image", "")
+                    )
+                    logger.info("Created post for AI")
+                else:
+                    logger.info("Duplicate post detected, skipping creation")
 
                 # Acknowledge the message after processing
                 ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -44,7 +47,7 @@ class Command(BaseCommand):
                 ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
             except Exception as e:
                 logger.error(f"Error processing message: {e}")
-                ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
+                ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
 
         # Set up message consumption
         channel.basic_consume(queue="ai_posts", on_message_callback=callback)

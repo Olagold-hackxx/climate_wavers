@@ -20,20 +20,20 @@ const Topbar = () => {
   const user = getUser();
 
   return (
-    <div className=" fixed z-50 bg-white flex  items-center justify-between md:border-b-1 border-[#000000] md:shadow-xl md:h-[80px] px-2 py-2  w-[100%] sm:h-[100px] ">
-      <div role="button" onClick={() => setIsOpen(true)}>
+    <div className=" fixed z-50 bg-white flex  items-center justify-between md:border-b-1 border-[#000000] md:shadow-xl md:h-[80px] px-2 py-2  w-[100%]  ">
+      <button onClick={() => setIsOpen(true)}>
         <img
           src={user?.profile_picture}
           className="md:hidden self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
-      </div>
+      </button>
 
       {isOpen === true ? <Mobilemenu setIsOpen={setIsOpen} /> : null}
-      <div className="flex max-sm:hidden justify-self-center md:justify-self-start px-4">
+      <div className=" hidden md:flex justify-self-center md:justify-self-start px-4">
         <img alt="logo" src="../../Logo.png" />
       </div>
-      <div className="px-8 w-[80%] justify-center  flex max-sm:hidden">
+      <div className="px-8 w-[80%] justify-center  flex hidden md:flex">
         <input
           className="bg-graylight-300 h-[60px] relative left-[6%] p-1 md:p-2 w-[83%] outline-[2px]  border border-[#dadada] focus:border-2 focus:outline-2 focus:outline-gray-300 border-gray-200 rounded-2xl text-graydark "
           type="text"
@@ -42,10 +42,10 @@ const Topbar = () => {
       </div>
       <div className="flex  justify-end self-center">
         <button
-          className="text-center max-sm:hidden  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
+          className="text-center hidden md:grid items-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
           onClick={() => setIsModalOpen(true)}
         >
-          <p className="leading-5 "> Report Disaster</p>
+          <p className="leading-5 self-center"> Report Disaster</p>
         </button>
 
         {isModalOpen && (
@@ -91,7 +91,7 @@ const Topbar = () => {
 
         <img
           src={user?.profile_picture}
-          className="ml-2 max-sm:hidden self-end rounded-full h-12 w-12"
+          className="ml-2 hidden md:flex self-end rounded-full h-12 w-12"
           alt="Profile Pic"
         />
       </div>
