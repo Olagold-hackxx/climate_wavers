@@ -56,7 +56,7 @@ const Posts = ({
             </div>
           )}
           <Accountcard user={post?.user} />
-          <div onClick={() => commentPage(post)}>
+          <button onClick={() => commentPage(post)}>
             <p className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 ">
               {post?.content}
             </p>
@@ -65,10 +65,10 @@ const Posts = ({
               src={post?.image ? post.image : ""}
               alt=""
             />
-          </div>
+          </button>
           <div className="flex flex-row justify-between px-3 mt-2 ">
             <Link onClick={() => setIsCommentModalOpen(true)}>
-              <div
+              <button
                 className="flex flex-row items-center  px-3 mt-2 "
                 onClick={() => {
                   setIsCommentModalOpen(true);
@@ -77,7 +77,7 @@ const Posts = ({
               >
                 <IoChatboxEllipsesOutline size={25} />
                 <p className="text-xs ml-1 ">{post?.total_comments}</p>
-              </div>
+              </button>
             </Link>
             <div
               className="flex flex-row items-center px-3 mt-2"
@@ -101,7 +101,7 @@ const Posts = ({
               )}
               <p className="text-xs ml-1 ">{post?.total_reactions}</p>
             </div>
-            <div
+            <button
               className="flex flex-row items-center px-3 mt-2"
               onClick={() => {
                 post?.is_reposted
@@ -115,9 +115,9 @@ const Posts = ({
                 color={post?.is_reposted ? "#047857" : ""}
               />
               <p className="text-xs ml-1 ">{post?.total_reposts}</p>
-            </div>
+            </button>
 
-            <div
+            <button
               className="flex flex-row items-center  px-3 mt-2"
               onClick={() => {
                 post?.is_bookmarked
@@ -138,7 +138,7 @@ const Posts = ({
                 />
               )}
               <p className="text-xs ml-1 ">{post?.total_bookmarks}</p>
-            </div>
+            </button>
             <div className="flex flex-row items-center  ">
               <IncidentIntegration />
             </div>

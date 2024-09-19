@@ -41,7 +41,7 @@ const Mainfeed = () => {
   }
 
   return (
-    <div className="text-2xl text-center pt-1 md:pt-5">
+    <div className="text-2xl  pt-1 md:pt-5">
       <div className=" border-2   max-sm:hidden rounded-lg shadow-3xl h-[140px] my-4 shadow-white ">
         <Createcomment type={"post"} />
       </div>
