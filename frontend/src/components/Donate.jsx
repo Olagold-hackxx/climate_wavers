@@ -6,7 +6,7 @@ import { getClimateContract, getTokenContract } from "../constants/contract";
 import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 const style = {
@@ -23,7 +23,8 @@ const style = {
   p: 4,
 };
 
-const Donate = () => {
+const Donate = ({ id }) => {
+  console.log(id)
   // const { chainId } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [eventId, setEventId] = useState();
@@ -31,6 +32,11 @@ const Donate = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    // setEventId(`${import.meta.env.VITE_CAMPAIGNS}=${id}`);
+    setEventId(id)
+  }, [id]);
 
   async function handleDonate() {
     // if (!isSupportedChain(chainId)) return console.error("Wrong network");
@@ -109,6 +115,7 @@ const Donate = () => {
     }
   }
 
+  console.log(amount)
   return (
     <div>
       <div>
@@ -148,7 +155,7 @@ const Donate = () => {
           </div>
         </div>
         <div className="my-5">
-          {/* <input type="text" placeholder="Incident Id" onChange={(e) => setEventId(e.target.value)}/> */}
+          <input type="text" placeholder="Incident Id" value={eventId} readOnly className="border-[1.5px] text-black border-gray-400 py-4 rounded-lg w-[100%] px-2 focus:outline outline-1 outline-gray-400 mb-4" />
           <input
             id="amount"
             onChange={(e) => setAmount(e.target.value)}

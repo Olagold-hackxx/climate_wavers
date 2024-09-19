@@ -1,4 +1,4 @@
-const Campaign = ({ campaign }) => {
+const Campaign = ({ campaign, id }) => {
   return (
     <div className=" w-[100%] border-8 border-[#DFDFDF]  shadow-xl ">
       <div
