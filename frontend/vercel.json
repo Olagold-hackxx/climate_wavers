@@ -42,15 +42,15 @@
     },
     {
       "source": "/api/v1/chats/(.*)",
-      "destination": "https://climate-wavers-xnax.onrender.com/api/v1/chats/$1"
+      "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/chats/$1"
     },
     {
       "source": "/api/v1/chats",
-      "destination": "https://climate-wavers-xnax.onrender.com/api/v1/chats"
+      "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/chats"
     },
     {
       "source": "/api/v1/posts/(.*)",
-      "destination": "https://climate-wavers-xnax.onrender.com/api/v1/posts/$1"
+      "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/posts/$1"
     },
     {
       "source": "/api/v1/(.*)",
