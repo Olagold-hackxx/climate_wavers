@@ -46,7 +46,7 @@ const Signin = () => {
         data,
         false,
         toastMsg,
-        true,
+        getAuthToken(),
         false
       );
       reset();
