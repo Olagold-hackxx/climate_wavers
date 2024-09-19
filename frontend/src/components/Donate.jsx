@@ -1,12 +1,12 @@
 import {
-  // useWeb3ModalAccount,
+  useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers/react";
 import { getClimateContract, getTokenContract } from "../constants/contract";
 import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
-import { ethers } from "ethers";
-import { useState } from "react";
+import { ethers, formatEther, parseEther } from "ethers";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 const style = {
@@ -23,17 +23,43 @@ const style = {
   p: 4,
 };
 
-const Donate = () => {
-  // const { chainId } = useWeb3ModalAccount();
+const Donate = ({ id }) => {
+  const { address } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [eventId, setEventId] = useState();
   const [amount, setAmount] = useState(0);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [userBal, setUserBal] = useState(0);
+  const [claimedStatus, setClaimedStatus] = useState(false)
+
+  useEffect(() => {
+    // setEventId(`${import.meta.env.VITE_CAMPAIGNS}=${id}`);
+    if (id && address) {
+      setEventId(id);
+      handleBalance();
+    }
+  }, [id]);
+
+  async function handleBalance() {
+    const readWriteProvider = getProvider(walletProvider);
+    const signer = await readWriteProvider.getSigner();
+    const tokenContract = getTokenContract(signer);
+
+    try {
+      const tx = await tokenContract.balanceOf(address);
+      setUserBal(tx)
+
+      const claimed = await tokenContract.hasClaimed(address)
+      setClaimedStatus(claimed)
+
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
   async function handleDonate() {
-    // if (!isSupportedChain(chainId)) return console.error("Wrong network");
     const readWriteProvider = getProvider(walletProvider);
     const signer = await readWriteProvider.getSigner();
     const contract = getClimateContract(signer);
@@ -80,6 +106,7 @@ const Donate = () => {
     } finally {
       setAmount("");
       setEventId("");
+      handleClose()
     }
   }
 
@@ -89,6 +116,10 @@ const Donate = () => {
     const tokenContract = getTokenContract(signer);
 
     try {
+      const userBalance = await tokenContract.balanceOf(address)
+      // setUserBal(userBalance)
+      console.log(userBalance)
+  
       const transaction = await tokenContract.claimDSX();
       const receipt = await transaction.wait();
 
@@ -105,7 +136,6 @@ const Donate = () => {
       toast.error(`Claim failed`, {
         position: "top-center",
       });
-      console.log(error);
     }
   }
 
@@ -126,7 +156,8 @@ const Donate = () => {
         >
           <Box sx={style}>
           <div className="flex flex-col w-[100%]">
-        <div className="flex justify-between items-center mb-4">
+    {!claimedStatus ? (    <div className="flex justify-between items-center flex-col">
+      <div className="flex justify-between items-center w-[100%] mb-4">
           <p>Need DSX token</p>
          <button
             onClick={handleMint}
@@ -134,21 +165,25 @@ const Donate = () => {
           >
             Claim
           </button>
-        </div>
-        <div className="flex justify-between text-white">
+          </div>
+          <div className="flex justify-between text-white w-[100%]">
           <div className="border-[1.5px] border-gray-400 px-4 py-1 ">
-            {""}50 DSX
+            {""}20 DSX
           </div>
           {/* <div className="border-[1.5px] mx-2 border-gray-400 px-3 py-1">{""}$100</div> */}
           <div className="border-[1.5px] border-gray-400 px-3 py-1">
-            {""}100 DSX
+            {""}50 DSX
           </div>
           <div className="border-[1.5px]  border-gray-400 px-3 py-1">
-            {""}500 DSX
+            {""}100 DSX
           </div>
         </div>
+        </div>) : (
+            <p className="mb-4">User DSX Balance: {Math.floor(Number(ethers.formatEther(userBal)))}DSX</p>
+        )}
+   
         <div className="my-5">
-          {/* <input type="text" placeholder="Incident Id" onChange={(e) => setEventId(e.target.value)}/> */}
+          <input type="text" placeholder="Incident Id" value={eventId} readOnly className="border-[1.5px] text-black border-gray-400 py-4 rounded-lg w-[100%] px-2 focus:outline outline-1 outline-gray-400 mb-4" />
           <input
             id="amount"
             onChange={(e) => setAmount(e.target.value)}

@@ -14,7 +14,6 @@ const CampaignsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const campaignId = params.get("campaignId");
