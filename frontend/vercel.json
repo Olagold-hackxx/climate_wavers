@@ -45,6 +45,14 @@
       "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/chats/$1"
     },
     {
+      "source": "/api/v1/disasters/(.*)",
+      "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/disasters/$1"
+    },
+    {
+      "source": "/api/v1/disasters",
+      "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/disasters"
+    },
+    {
       "source": "/api/v1/chats",
       "destination": "https://climate-wavers-iyvx.onrender.com/api/v1/chats"
     },
