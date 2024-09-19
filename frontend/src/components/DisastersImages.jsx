@@ -5,7 +5,7 @@ const DisasterImages = ({ disasters }) => {
   return (
     <div className="flex  py-8 max-w-screen overflow-x-auto">
       {disasters.map((disaster) => (
-        <div key={disaster.id} className="md:p-12 px-4">
+        <div key={disaster.id} className=" px-4">
           <img
             alt=""
             className="border-2 rounded-xl shadow-2xl min-w-[35vw] h-[80%] shadow-gray-400 max-sm:min-w-[87vw] "
