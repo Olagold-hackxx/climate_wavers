@@ -13,7 +13,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const {
-    isPending,
     error,
     isFetched,
     data: user,
@@ -31,12 +30,6 @@ const Profile = () => {
   ];
 
   useEffect(() => {
-    if (isPending) {
-      toast.dismiss();
-      toast.info("Fetching Profile...", {
-        autoClose: 200,
-      });
-    }
     if (isFetched) {
       setProfile(user.user);
       const feeds = {
@@ -54,7 +47,7 @@ const Profile = () => {
       toast.dismiss();
       toast.error("An error occurred while fetching profile");
     }
-  }, [isFetched, isPending, error, user]);
+  }, [isFetched, error, user]);
 
   const handleProfilePictureClick = (event) => {
     event.stopPropagation();

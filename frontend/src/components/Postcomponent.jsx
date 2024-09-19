@@ -6,11 +6,7 @@ import { useFetchPosts } from "../hooks/useFetchPosts";
 import { usePostMutations } from "../hooks/usePostMutations";
 
 const Postcomponent = ({ type, postId, comment }) => {
-  const {
-    data: posts,
-    isLoading: postsLoading,
-    error,
-  } = useFetchPosts({
+  const { data: posts, error } = useFetchPosts({
     type,
     postId,
     comment,
@@ -24,25 +20,13 @@ const Postcomponent = ({ type, postId, comment }) => {
     saveMutation,
     unsaveMutation,
   } = usePostMutations();
-  // const handlePostClick = (selectedPost) => {
-  //   navigate(`/${selectedPost.id}/comments`, {
-  //     state: { postData: selectedPost, category: category },
-  //   });
-  // };
 
   useEffect(() => {
-    if (postsLoading) {
-      toast.dismiss();
-      toast.info("Fetching Posts...", {
-        autoClose: 200,
-      });
-    }
-
     if (error) {
       toast.dismiss();
       toast.error("An error occurred while fetching posts");
     }
-  }, [postsLoading, posts, error]);
+  }, [error]);
 
   return (
     <div>
