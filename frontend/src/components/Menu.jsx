@@ -25,7 +25,7 @@ const Menu = ({ setIsOpen }) => {
   };
 
   return (
-    <div className="flex flex-col px-2 w-[100%] max-sm:pl-4">
+    <div className="flex flex-col px-2 w-[100%] md:pl-1 pl-4">
       {/* Menu */}
       <div
         className="list-none text-base lg:text-2xl  md:text-lg
@@ -33,7 +33,7 @@ const Menu = ({ setIsOpen }) => {
       >
         <NavLink
           to={"/"}
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2 lg:px-8  text-xl md:text-2xl"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
@@ -52,7 +52,7 @@ const Menu = ({ setIsOpen }) => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2 lg:px-8  text-xl md:text-2xl"
           to={"/community"}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -72,7 +72,7 @@ const Menu = ({ setIsOpen }) => {
         </NavLink>
 
         <NavLink
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2 lg:px-8  text-xl md:text-2xl"
           to={`/${user.id}/profile`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -91,7 +91,7 @@ const Menu = ({ setIsOpen }) => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2  lg:px-8  text-xl md:text-2xl"
           to={`/bot`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -99,7 +99,7 @@ const Menu = ({ setIsOpen }) => {
           WaverX
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2  lg:px-8  text-xl md:text-2xl"
           to={`/wallet`}
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
@@ -118,7 +118,7 @@ const Menu = ({ setIsOpen }) => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2  lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2  lg:px-8  text-xl md:text-2xl"
           to={"/campaigns"}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -134,7 +134,7 @@ const Menu = ({ setIsOpen }) => {
           )}
         </NavLink>
         <NavLink
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2 lg:px-8  text-xl md:text-2xl"
           to={`/disasters`}
           style={({ isActive }) => (isActive ? activeStyle : null)}
         >
@@ -159,7 +159,7 @@ const Menu = ({ setIsOpen }) => {
         </NavLink>
         {/* <NavLink
           to={`/notifications`}
-          className="flex items-center py-2 lg:px-8  max-sm:text-xl"
+          className="flex items-center py-2 lg:px-8  text-xl md:text-2xl"
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}

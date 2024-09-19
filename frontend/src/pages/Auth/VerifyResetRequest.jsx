@@ -47,7 +47,7 @@ const VerifyResetRequest = () => {
 
   return (
     <div className="grid md:grid-cols-[3fr_4fr] grid-cols-[1fr] items-center ">
-      <div className=" max-sm:hidden bg-[#008080]">
+      <div className=" hidden md:flex bg-[#008080]">
         <div className=" grid place-content-center h-[80vh] md:h-[100vh]">
           <img src="../../../logolargewhite.png" alt="" className="  z-10" />
           {/* Two bg boxes */}

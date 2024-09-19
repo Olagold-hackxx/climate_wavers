@@ -60,17 +60,17 @@ const CampaignsPage = () => {
           <img
             alt="back-arrow"
             src="/arrow-left.png"
-            className="absolute right-[95%] max-sm:hidden h-12 py-2"
+            className="absolute right-[95%] hidden md:flex h-12 py-2"
           />
         </button>
-        <h1 className="text-center max-sm:ml-2 bg-gradient-to-b from-green-500 py-2  via-geen-300 to-green-700 bg-clip-text text-transparent md:pt-4 md:text-4xl max-sm:text-2xl font-bold">
+        <h1 className="text-center md:ml-0 ml-2 bg-gradient-to-b from-green-500 py-2  via-geen-300 to-green-700 bg-clip-text text-transparent md:pt-4 md:text-4xl  text-2xl font-bold">
           Support Climate Action: Be the Change!
         </h1>
       </div>
-      <h3 className="text-center md:text-xl text-lg font-serif p-2">
+      <h3 className="text-center md:text-xl text-lg font-serif md:p-2">
         Join our active campaigns and make a positive impact.
       </h3>
-      <div className="flex text-xl max-sm:hidden py-4 font-serif justify-center gap-x-4 ">
+      <div className="flex text-xl hidden md:flex py-4 font-serif justify-center gap-x-4 ">
         <div className="font-bold  font-montserrat">Filter campaigns:</div>
         <div className="font-bold  text-[#008080]">Newest</div>
 

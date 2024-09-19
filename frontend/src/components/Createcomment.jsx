@@ -83,8 +83,8 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
           <button
             className={
               isDisabled
-                ? "blur-[1px] text-center w-fit px-10 h-[50px] md:max-w-[10vw] capitalize max-sm:hidden  bg-[#008080]  text-white rounded-full cursor-pointer"
-                : " px-10 h-[50px] md:max-w-[10vw]  capitalize max-sm:hidden  bg-[#008080]  text-white rounded-full cursor-pointer"
+                ? "blur-[1px] text-center w-fit px-10 h-[50px] md:max-w-[10vw] capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
+                : " px-10 h-[50px] md:max-w-[10vw]  capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
             }
             type="submit"
             disabled={isDisabled}

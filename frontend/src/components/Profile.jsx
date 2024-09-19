@@ -84,11 +84,11 @@ const Profile = () => {
         </div>
       </div>
       <div className="pb-4">
-        <div className="flex flex-col mt-3 max-sm:px-2 ">
+        <div className="flex flex-col mt-3 px-2 md:px-0 ">
           <h2 className="text-center  md:text-2xl  font-semibold flex flex-row items-center  ">
             {profile?.first_name} {profile?.last_name}
           </h2>
-          <h2 className=" text-center text-md max-sm:text-sm font-semibold flex flex-row items-center text-gray-400 ">
+          <h2 className=" text-center md:text-md text-sm font-semibold flex flex-row items-center text-gray-400 ">
             @{profile?.username}
           </h2>
         </div>

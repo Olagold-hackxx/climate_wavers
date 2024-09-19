@@ -37,7 +37,7 @@ const Posts = ({
   };
 
   return (
-    <div className="py-3">
+    <div className="py-3 text-start">
       {posts?.map((post) => (
         <div
           key={`${post?.user?.id}${post?.id}`}

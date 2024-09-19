@@ -75,14 +75,14 @@ const CreateReport = ({ closeModal }) => {
   //   }
   // }
   return (
-    <div className="mb-12 md:w-[100%] h-[100%]  max-sm:h-[80vh] px-12 ">
+    <div className="mb-12 md:w-[100%] md:h-[100%]  h-[80vh] px-12 ">
       <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] md:text-center text-start md:mb-8 mb-2">
         Report Disaster
       </h1>
       <div className="grid place-content-center">
         <Box
           component="form"
-          className="max-sm:w-[70vw]"
+          className="md:w-full w-[70vw]"
           sx={{
             "& > :not(style)": { m: 1, width: "100%" },
           }}

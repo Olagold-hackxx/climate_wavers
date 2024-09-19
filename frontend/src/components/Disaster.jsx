@@ -25,7 +25,7 @@ const Disasters = ({ disasters }) => {
                 {disaster.region + ", " + disaster.country}: {disaster.disasterType} - {formattedDate}
               </h2>
             </Link>
-            <button className="border-2 w-fit max-sm:hidden rounded-md border-gray-500 px-2">View details</button>
+            <button className="border-2 w-fit hidden md:flex rounded-md border-gray-500 px-2">View details</button>
           </div>
           <div className="md:flex w-[100vw] capitalize gap-x-4 max-sm:gap-x-2 text-xl md:px-2 font-serif">
             <p className={status[disaster.status]}>

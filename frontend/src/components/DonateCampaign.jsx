@@ -5,7 +5,7 @@ const DonateCampaign = ({ campaign }) => {
   return (
     <div className="md:w-[70vw] md:h-[70vh] flex p-4">
       <div
-        className="bg-cover overflow-hidden max-sm:hidden border-2 rounded-3xl text-white h-[100%] w-[120%] flex flex-col justify-end"
+        className="bg-cover overflow-hidden hidden md:flex border-2 rounded-3xl text-white h-[100%] w-[120%] flex flex-col justify-end"
         style={{ backgroundImage: `url(${campaign.image})` }}
       >
         <div className="px-4 text-lg flex flex-col items-start ">
