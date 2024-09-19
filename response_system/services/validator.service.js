@@ -72,7 +72,10 @@ class Validator{
             }),
             disasterType: Joi.string().required(),
             country: Joi.string().required(),
-            region: Joi.string().required()
+            region: Joi.string().required(),
+            severity: Joi.number(),
+            images: Joi.array().default([]),
+            details: Joi.string().required()
         }).validate(obj)
     }
 }
