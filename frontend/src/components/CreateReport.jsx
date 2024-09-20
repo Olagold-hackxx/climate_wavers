@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const apiUrl = import.meta.env.VITE_APP_CHATBOT_URL + '/api/v1/disasters'
 
-const CreateReport = ({ closeModal }) => {
+const CreateReport = ({ closeModal, showRecommendation}) => {
   const { register, handleSubmit, setValue } = useForm();
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -34,8 +34,9 @@ const CreateReport = ({ closeModal }) => {
     try {
       const images = await uploadFiles(fileList);
       const reportData = { ...data, images, magnitude };
-      await axios.post(apiUrl, reportData);
+      const {data: resData} = await axios.post(apiUrl, reportData);
       closeModal();
+      return resData
     } catch (error) {
       console.error("Error submitting report:", error);
     } finally {
@@ -63,8 +64,8 @@ const CreateReport = ({ closeModal }) => {
   useEffect(() => {
     getLocation().then(res => {
       setLocationInfo(res);
-      setValue('region', res.city);
-      setValue('country', res.country);
+      setValue('region', res?.city);
+      setValue('country', res?.country);
     });
   }, [setValue]);
 
@@ -82,7 +83,16 @@ const CreateReport = ({ closeModal }) => {
           }}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(async(data)=>{
+            try {
+              
+            const {recommendation} = await onSubmit(data)
+            console.log({data, recommendation})
+            showRecommendation(recommendation)
+            } catch (error) {
+              console.error("create report failed")
+            }
+          })}
         >
           <div className="justify-between flex">
             <TextField

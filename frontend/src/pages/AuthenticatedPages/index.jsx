@@ -24,10 +24,10 @@ const AuthFunds = withAuth(Funds);
 const AuthCampaigns = withAuth(CampaignsPage);
 const AuthWaverXPosts = withAuth(WaverXPosts);
 const AuthNotification = withAuth(Notification);
-const AuthDisasters = withAuth(Disasters)
-// const AuthDisasters = Disasters
-const AuthDisasterPage = withAuth(DisasterPage)
-// const AuthDisasterPage = DisasterPage
+// const AuthDisasters = withAuth(Disasters)
+const AuthDisasters = Disasters
+// const AuthDisasterPage = withAuth(DisasterPage)
+const AuthDisasterPage = DisasterPage
 const AuthUploadCover = withAuth(UploadCover)
 const AuthUploadPhoto = withAuth(UploadPhoto)
 
