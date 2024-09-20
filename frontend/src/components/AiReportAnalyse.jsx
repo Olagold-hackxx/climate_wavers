@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const AiReportAnalyse = () => {
+const AiReportAnalyse = ({ closeModal }) => {
   const [status, setStatus] = useState("Thanks for submitting the report");
   const [step, setStep] = useState(0);
 
@@ -20,7 +20,8 @@ const AiReportAnalyse = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [step]);
+    closeModal()
+  }, [step, closeModal]);
 
   return (
     <div>

@@ -18,14 +18,15 @@ const Disasters = ({ disasters }) => {
           day: 'numeric',
         });
         return <div key={disaster.id} className="py-4">
-          <div className="flex justify-between">
-            <Link to={`/disasters/${disaster.id}`}>
+          <div >
+            <Link to={`/disasters/${disaster.id}`} className="flex justify-between">
               {" "}
               <h2 className="capitalize font-bold text-[#047857] md:text-2xl text-xl">
                 {disaster.region + ", " + disaster.country}: {disaster.disasterType} - {formattedDate}
               </h2>
+            
+            <button className="border-2 w-fit hidden md:flex rounded-md py-2 shadow-md text-center border-gray-400 px-2">View details</button>
             </Link>
-            <button className="border-2 w-fit hidden md:flex rounded-md border-gray-500 px-2">View details</button>
           </div>
           <div className="md:flex w-[100vw] capitalize gap-x-4 max-sm:gap-x-2 text-xl md:px-2 font-serif">
             <p className={status[disaster.status]}>

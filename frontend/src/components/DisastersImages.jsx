@@ -8,7 +8,7 @@ const DisasterImages = ({ disasters }) => {
         <div key={disaster.id} className=" px-4">
           <img
             alt=""
-            className="border-2 rounded-xl shadow-2xl md:min-w-[40vw] h-[80%] shadow-gray-400 min-w-[87vw] "
+            className="border-2 rounded-xl shadow-2xl md:min-w-[35vw] h-[70%] shadow-gray-400 min-w-[90vw] "
             src={
               disaster.images?.length ? disaster.images[0] : '/placeholde-disaster-img.jpg'
             }
@@ -20,7 +20,7 @@ const DisasterImages = ({ disasters }) => {
             <h2 className="font-bold  text-2xl ">
               {disaster.region}, {disaster.country} - {disaster.disasterType}
             </h2>
-            <p>{disaster.details}</p>
+            <p className="h-[60px] py-4 md:text-xl md:h-fit md:max-h-[150px] overflow-hidden">{disaster.details}</p>
             <Link to={`/disasters/${disaster.id}`}>
               <button className="rounded-lg bg-[#008080] w-fit h-12  px-4">
                 {" "}

@@ -69,7 +69,7 @@ const CreateReport = ({ closeModal }) => {
   }, [setValue]);
 
   return (
-    <div className="mb-12 md:w-[100%] md:h-[100%] h-[80vh] px-12 ">
+    <div className="md:mb-12 md:w-[100%] md:h-[100%] h-[90vh] w-[90vw] px-12 ">
       <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] md:text-center text-start md:mb-8 mb-2">
         Report Disaster
       </h1>
@@ -84,7 +84,7 @@ const CreateReport = ({ closeModal }) => {
           autoComplete="off"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="justify-between flex">
+          <div className="justify-between gap-x-2 flex">
             <TextField
               id="outlined-basic"
               label="City/Region"
