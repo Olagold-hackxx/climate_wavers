@@ -1,12 +1,8 @@
-const amqp = require("amqplib")
-const config = require("../config/config")
-
-const useQueue = async function(queueName, callback){
+const useQueue = async function(getChannel, queueName, callback){
     try{
-        const conn = await amqp.connect(config.amqp.url)
-        const channel = await conn.createChannel()
+        const channel = await getChannel()
         channel.assertQueue(queueName, {durable: false})
-        .then(res=>{ console.log(`info: channel ${queueName} asserted.`)})
+        .then(res=>{ console.log(`info: channel- ${queueName} asserted.`)})
         channel.consume(queueName, async(msg)=>{
             if(msg !== null){
                 const parsed = JSON.parse(msg.content)
@@ -23,11 +19,9 @@ const useQueue = async function(queueName, callback){
         }
 }
 
-const sendToQueue = async function(queueName, data){
+const sendToQueue = async function(getChannel, queueName, data){
     try{
-
-    const conn = await amqp.connect(config.amqp.url)
-        const channel = await conn.createChannel()
+        const channel = await getChannel()
         channel.assertQueue(queueName, {durable: false})
         const str = JSON.stringify(data)
         channel.sendToQueue(queueName, Buffer.from(str))

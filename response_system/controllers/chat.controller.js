@@ -5,6 +5,7 @@ const catchAsyncErrors = require("../lib/catchAsync")
 const chatService = require('../services/chat.service')
 const { sendToQueue } = require("../lib/amqp")
 const queues = require("../constants/queues")
+const { getChatChannel } = require("../config/channels")
 
 const postMessage = catchAsyncErrors(async(req, res)=>{
     const validationRes = validator.validateGetByIdObj(req.params)
@@ -16,7 +17,7 @@ const postMessage = catchAsyncErrors(async(req, res)=>{
     const responseObj = await chatService.generateResponse(req.body.userId, req.params.id, req.body.body)
     const messages = await chatService.getMessages(chat.id)
     // if(messages.length == 2 || messages.length % 6 == 0){
-        sendToQueue(queues.generate_chat_title, {chatId: chat.id})
+        sendToQueue(getChatChannel,queues.generate_chat_title, {chatId: chat.id})
     // }
     return res.status(201).json(responseObj)
 })

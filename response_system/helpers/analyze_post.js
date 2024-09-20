@@ -1,4 +1,5 @@
 const aiConfig = require("../config/ai.config")
+const { getDefaultChannel } = require("../config/channels")
 const queues = require("../constants/queues")
 const { sendToQueue } = require("../lib/amqp")
 const aiService = require("../services/ai.service")
@@ -30,7 +31,7 @@ async function analyzePost(obj){
         }
         await postService.create(reportBody)
         //send queue event to notifications service
-        sendToQueue(queues.disaster_alert,{data: {city: location, disasterType: aiPrediction}})
+        sendToQueue(getDefaultChannel, queues.disaster_alert,{data: {city: location, disasterType: aiPrediction}})
         return 
     }
 
