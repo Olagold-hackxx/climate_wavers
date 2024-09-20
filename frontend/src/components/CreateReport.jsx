@@ -1,30 +1,46 @@
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsImageAlt } from "react-icons/bs";
 import { Slider } from "@mui/material";
 import PropTypes from "prop-types";
+import { getLocation } from "../utils/factory";
+import { uploadFiles } from "../services/upload.service";
+import axios from 'axios'
+
+const apiUrl = import.meta.env.VITE_APP_CHATBOT_URL + '/api/v1/disasters'
 
 const CreateReport = ({ closeModal }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
   const [imagePreview, setImagePreview] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [magnitude, setMagnitude] = useState(0);
+  const [fileList, setFileList] = useState([]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFileList(Array.from(e.target.files));
       setImagePreview(URL.createObjectURL(file));
     } else {
       setImagePreview(null);
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async (data) => {
     setIsDisabled(true);
-    setIsDisabled(false);
-    closeModal();
+    try {
+      const images = await uploadFiles(fileList);
+      const reportData = { ...data, images, magnitude };
+      await axios.post(apiUrl, reportData);
+      closeModal();
+    } catch (error) {
+      console.error("Error submitting report:", error);
+    } finally {
+      setIsDisabled(false);
+    }
   };
 
   const severity = [
@@ -41,41 +57,19 @@ const CreateReport = ({ closeModal }) => {
       label: "Severe",
     },
   ];
-  // async function handleReportSubmission(data) {
-  //   let imageUrl;
-  //   if (data.image) {
-  //     imageUrl = await uploadFiles(data.image);
-  //   }
-  //   console.log(data);
-  //   if (data.category !== "happening") return;
-  //   if (imageUrl) {
-  //     if (imageUrl.length == 1) {
-  //       data.image = imageUrl[0];
-  //     } else {
-  //       data.image = imageUrl;
-  //     }
-  //   }
-  //   try {
-  //     const url = rs_backend_url + "/posts";
-  //     console.log(url);
 
-  //     const payload = {
-  //       ...data,
-  //       username: getUser().username,
-  //       userId: getUser().id,
-  //       body: data.content,
-  //       content: undefined,
-  //       category: undefined,
-  //     };
+  const [locationInfo, setLocationInfo] = useState();
 
-  //     await axios.post(url, payload);
-  //     closeModal();
-  //   } catch (err) {
-  //     console.log(err, err.response);
-  //   }
-  // }
+  useEffect(() => {
+    getLocation().then(res => {
+      setLocationInfo(res);
+      setValue('region', res.city);
+      setValue('country', res.country);
+    });
+  }, [setValue]);
+
   return (
-    <div className="mb-12 md:w-[100%] md:h-[100%]  h-[80vh] px-12 ">
+    <div className="mb-12 md:w-[100%] md:h-[100%] h-[80vh] px-12 ">
       <h1 className="lg:text-[40px] md:text-[40px] text-[24px] text-primary font-bold font-serif text-[#008080] md:text-center text-start md:mb-8 mb-2">
         Report Disaster
       </h1>
@@ -88,17 +82,35 @@ const CreateReport = ({ closeModal }) => {
           }}
           noValidate
           autoComplete="off"
+          onSubmit={handleSubmit(onSubmit)}
         >
+          <div className="justify-between flex">
+            <TextField
+              id="outlined-basic"
+              label="City/Region"
+              variant="outlined"
+              color="success"
+              sx={{ width: "50" }}
+              {...register("region", { required: "City/Region is required" })}
+              defaultValue={locationInfo?.city}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Country"
+              variant="outlined"
+              color="success"
+              sx={{ width: "50" }}
+              {...register("country", { required: "Country is required" })}
+              defaultValue={locationInfo?.country}
+            />
+          </div>
           <TextField
             id="outlined-basic"
             label="Type of disaster"
             variant="outlined"
             color="success"
             sx={{ width: "50" }}
-            {...register("disaster_type", {
-              required: true,
-              maxLength: 50,
-            })}
+            {...register("disasterType", { required: "Type of disaster is required" })}
           />
           <div className="px-1">
             <h3 className="text-xl w-[35vw] text-start">Situation</h3>
@@ -112,6 +124,7 @@ const CreateReport = ({ closeModal }) => {
               min={0}
               max={10}
               color="success"
+              onChange={(e) => setMagnitude(e.target.value)}
             />
           </div>
           <TextField
@@ -122,7 +135,7 @@ const CreateReport = ({ closeModal }) => {
             multiline
             rows={4}
             color="success"
-            {...register("details", { required: true, maxLength: 50 })}
+            {...register("details", { required: "Please describe the ongoing incident" })}
           />
           <div className="bg-gray-200 w-[40%] rounded-lg h-[30vh] mb-6 flex justify-center items-center">
             <input
@@ -132,7 +145,6 @@ const CreateReport = ({ closeModal }) => {
               hidden
               onChange={handleImageChange}
             />
-
             <label htmlFor="upload-profile-image">
               {imagePreview ? (
                 <img
@@ -146,7 +158,7 @@ const CreateReport = ({ closeModal }) => {
             </label>
           </div>
           <button
-            onClick={handleSubmit(onSubmit)}
+            type="submit"
             className={
               isDisabled
                 ? "blur-[1px] bg-[#047857] rounded-md w-[80%] text-white py-4"
@@ -161,7 +173,9 @@ const CreateReport = ({ closeModal }) => {
     </div>
   );
 };
+
 CreateReport.propTypes = {
   closeModal: PropTypes.func,
 };
+
 export default CreateReport;

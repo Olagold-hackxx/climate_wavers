@@ -1,15 +1,27 @@
 import { useParams } from "react-router-dom";
-import { dummyDisasters } from "../utils/dummies";
 import Topbar from "../components/Topbar";
 import Menu from "../components/Menu";
 import Createcomment from "../components/Createcomment";
 import Postcomponent from "../components/Postcomponent";
+import { useEffect, useState } from "react";
+import axios from 'axios'
+
+
+const apiUrl = import.meta.env.VITE_APP_CHATBOT_URL + '/api/v1/disasters'
 
 const DisasterPage = () => {
   const { disasterId } = useParams();
-  const currentDisaster = dummyDisasters[disasterId - 1];
 
-  
+  const [disaster, setDisaster] = useState()
+  useEffect(()=>{
+    axios.get(apiUrl+"/" + disasterId)
+    .then((res)=>{
+      const {data} = res
+      setDisaster(data)
+    })
+    .catch((err)=>console.log({err}))
+  }, [ disasterId])
+
 
   return (
     <div className="w-full overflow-hidden">
@@ -24,11 +36,13 @@ const DisasterPage = () => {
       <div className="px-4 py-4 md:pl-[21%] grid gap-y-4">
       
       <h2 className="capitalize font-bold  md:text-2xl text-xl">
-                {currentDisaster.location}: {currentDisaster.title} - {currentDisaster.date}
+                {disaster?.region}, {disaster?.country}: {disaster?.disasterType} - {disaster?.startDate && formatDate(disaster.startDate)}
               </h2>
               <h3 className="capitalize text-[#047857] md:text-xl font-semibold">Description</h3>
-      <div className="md:text-xl text-md font-serif">{currentDisaster.description}</div>
-      <img alt="disaster_image" className="border-2 shadow-md rounded-md" src={currentDisaster.image} />
+      <div className="md:text-xl text-md font-serif">{disaster?.details}</div>
+      <img alt="disaster_image" className="border-2 shadow-md rounded-md" src={
+              disaster?.images?.length ? disaster.images[0] : '/placeholde-disaster-img.jpg'
+            } />
       <h4 className="py-2 font-semibold text-[#047857] text-xl">Comments</h4>
 
       <div className=" md:border-2 border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 py-4 ">
@@ -44,5 +58,15 @@ const DisasterPage = () => {
     </div>
   );
 };
+
+function formatDate(d){
+  const date = new Date(d);
+        const formattedDate = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+        return formattedDate
+}
 
 export default DisasterPage;
