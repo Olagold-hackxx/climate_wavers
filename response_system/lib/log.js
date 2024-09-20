@@ -1,3 +1,4 @@
+const { getLogsChannel } = require("../config/channels")
 const queues = require("../constants/queues")
 const logService = require("../services/log.service")
 const { formatLog, getLogAction } = require("../utils/factory")
@@ -21,7 +22,7 @@ class LogBuilder{
                     if(!logObj.action){
                         logObj.action = `${req.method} request to ${req.path}.`
                     }
-                    sendToQueue(queues.build_log, logObj)
+                    sendToQueue(getLogsChannel,queues.build_log, logObj)
                     return next()
                 }
             })

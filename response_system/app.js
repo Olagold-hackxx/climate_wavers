@@ -24,6 +24,7 @@ const { logBuilder } = require("./lib/log");
 const buildLog = require("./helpers/build_log");
 const swaggerUI = require('swagger-ui-express')
 const { swaggerUi, swaggerSpec } = require('./swagger');
+const { getPostChannel, getChatChannel, getLogsChannel } = require("./config/channels");
 
 // Use middleware
 app.use(express.json());
@@ -43,9 +44,9 @@ app.use('/api/v1/disasters', disasterRouter)
 
 useCron(generateAITips, { [defaultJobTimeUnit]: defaultJobTimeValue });
 // useCron(generateAITips, {"sec": 30})
-useQueue(queues.analyze_post, analyzePost);
-useQueue(queues.generate_chat_title, generateTitle);
-useQueue(queues.build_log, buildLog);
+useQueue(getPostChannel,queues.analyze_post, analyzePost);
+useQueue(getChatChannel,queues.generate_chat_title, generateTitle);
+useQueue(getLogsChannel,queues.build_log, buildLog);
 
 app.listen(port, () => {
   logger.info(`Server is running on port ${port}`);
