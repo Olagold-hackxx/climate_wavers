@@ -71,6 +71,9 @@ class Controller{
         
         try {
             await mailer.sendVerification(email, data)
+            const {city} = data
+            const sub = new Subscription(email, city)
+        await sub.exec()
         } catch (error) {
             console.log(`mail error: ${error}`)
         }
