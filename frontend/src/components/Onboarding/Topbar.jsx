@@ -32,8 +32,8 @@ const Topbar = () => {
         />
       </div>
       <div className="flex  justify-end self-center">
-        <button
-          className="text-center hidden md:flex  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
+      <button
+          className="text-center hidden md:grid items-center  mx-4 font-semibold bg-linear  text-white shadow-xl self-center shadow-white-300 lg:w-[12vw] w-[15vw]  px-4 md:h-[50px] lg:text-xl  rounded-full"
           onClick={() => setIsModalOpen(true)}
         >
           <p className="leading-5 "> Report Disaster</p>
