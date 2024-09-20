@@ -22,6 +22,7 @@ const Posts = ({
 }) => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [commentId, setCommentId] = useState("");
+  const [updatedPosts, setUpdatedPosts] = useState(posts);
   const navigate = useNavigate();
 
   const commentPage = (post) => {
@@ -36,9 +37,176 @@ const Posts = ({
     }
   };
 
+  const handleLike = (post) => {
+    const isLiked = post.is_reacted;
+    const newTotalReactions = isLiked
+      ? post.total_reactions - 1
+      : post.total_reactions + 1;
+
+    // Optimistically update the post state
+    setUpdatedPosts((prevPosts) =>
+      prevPosts.map((p) =>
+        p.id === post.id
+          ? { ...p, is_reacted: !isLiked, total_reactions: newTotalReactions }
+          : p
+      )
+    );
+
+    // Call the appropriate mutation
+    isLiked
+      ? unlike.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              // Revert optimistic update on error
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_reacted: isLiked,
+                        total_reactions: post.total_reactions,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        )
+      : like.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              // Revert optimistic update on error
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_reacted: isLiked,
+                        total_reactions: post.total_reactions,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        );
+  };
+
+  const handleRepost = (post) => {
+    const isReposted = post.is_reposted;
+    const newTotalReposts = isReposted
+      ? post.total_reposts - 1
+      : post.total_reposts + 1;
+
+    setUpdatedPosts((prevPosts) =>
+      prevPosts.map((p) =>
+        p.id === post.id
+          ? { ...p, is_reposted: !isReposted, total_reposts: newTotalReposts }
+          : p
+      )
+    );
+
+    isReposted
+      ? unrepost.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_reposted: isReposted,
+                        total_reposts: post.total_reposts,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        )
+      : repost.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_reposted: isReposted,
+                        total_reposts: post.total_reposts,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        );
+  };
+
+  const handleBookmark = (post) => {
+    const isBookmarked = post.is_bookmarked;
+    const newTotalBookmarks = isBookmarked
+      ? post.total_bookmarks - 1
+      : post.total_bookmarks + 1;
+
+    setUpdatedPosts((prevPosts) =>
+      prevPosts.map((p) =>
+        p.id === post.id
+          ? {
+              ...p,
+              is_bookmarked: !isBookmarked,
+              total_bookmarks: newTotalBookmarks,
+            }
+          : p
+      )
+    );
+
+    isBookmarked
+      ? unsave.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_bookmarked: isBookmarked,
+                        total_bookmarks: post.total_bookmarks,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        )
+      : save.mutate(
+          { postType: type, post: post.id },
+          {
+            onError: () => {
+              setUpdatedPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === post.id
+                    ? {
+                        ...p,
+                        is_bookmarked: isBookmarked,
+                        total_bookmarks: post.total_bookmarks,
+                      }
+                    : p
+                )
+              );
+            },
+          }
+        );
+  };
+
   return (
     <div className="py-3 text-start">
-      {posts?.map((post) => (
+      {updatedPosts?.map((post) => (
         <div
           key={`${post?.user?.id}${post?.id}`}
           className="border-b-[1px] border-gray-100 py-4"
@@ -81,11 +249,7 @@ const Posts = ({
             </Link>
             <div
               className="flex flex-row items-center px-3 mt-2"
-              onClick={() => {
-                post?.is_reacted
-                  ? unlike.mutate({ postType: type, post: post.id })
-                  : like.mutate({ postType: type, post: post.id });
-              }}
+              onClick={() => handleLike(post)}
             >
               {post?.is_reacted ? (
                 <AiFillHeart
@@ -103,11 +267,7 @@ const Posts = ({
             </div>
             <button
               className="flex flex-row items-center px-3 mt-2"
-              onClick={() => {
-                post?.is_reposted
-                  ? unrepost.mutate({ postType: type, post: post.id })
-                  : repost.mutate({ postType: type, post: post.id });
-              }}
+              onClick={() => handleRepost(post)}
             >
               <AiOutlineRetweet
                 size={25}
@@ -119,11 +279,7 @@ const Posts = ({
 
             <button
               className="flex flex-row items-center  px-3 mt-2"
-              onClick={() => {
-                post?.is_bookmarked
-                  ? unsave.mutate({ postType: type, post: post.id })
-                  : save.mutate({ postType: type, post: post.id });
-              }}
+              onClick={() => handleBookmark(post)}
             >
               {post?.is_bookmarked ? (
                 <PiBookmarkFill

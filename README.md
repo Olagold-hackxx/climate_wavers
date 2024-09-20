@@ -19,8 +19,8 @@ Climate Wavers integrates multiple microservices, including:
 
 - **Description**: Handles user authentication, social media interactions, and database management.
 - **Technology**: Django, MySQL
-- **Location**: `backend/`
-- **Readme**: `backend/README.md`
+- **Location**: `backend-new/`
+- **Readme**: `backend-new/README.md`
 
 ### OAuth Microservice
 
