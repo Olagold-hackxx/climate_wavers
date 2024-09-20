@@ -1,6 +1,13 @@
 import { IoSend } from "react-icons/io5";
 
 const ChatInput = ({ body, handleClick }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClick(body.current?.value);
+      body.current.value = ""; // Clear the input after sending
+    }
+  };
+
   return (
     <div className="bg-gray-100 p-1 h-[100px] md:border-0 border-t-2 border-gray-200 gap-x-8 max-sm:gap-x-1 max-sm:px-2 rounded-md max-sm:rounded-sm max-sm:w-[100vw]  max-sm:relative max-sm:right-4 max-sm:top-8 flex flex-row items-center shadow-2xl shadow-neutral-500/50">
       <img
@@ -28,6 +35,7 @@ const ChatInput = ({ body, handleClick }) => {
         type="text"
         placeholder="Ask WaverX a question about climate"
         ref={body}
+        onKeyDown={handleKeyDown}
       />{" "}
       <IoSend
         size={34}
