@@ -1,7 +1,3 @@
-Here’s the revised `README.md` including the notification service and the details about automatically created admin users:
-
----
-
 # Climate Wavers Backend
 
 The Climate Wavers backend is the core of the Climate Wavers platform, an AI-driven social network focused on climate-based disaster responses. This backend is built with Django and incorporates various tools and technologies to provide robust and scalable services. It handles user authentication, data management, AI-driven content creation, notifications, and more.
@@ -132,8 +128,7 @@ This command will start the following services:
 - `entrypoint.sh`: Startup script for the Django container.
 - `worker.sh`: Startup script for the queue consumer container.
 - `Makefile`: Contains useful commands for managing the application.
-- `backend/`: Contains the Django project and applications.
-- `worker/`: Contains the Node.js microservice code (response system and notification service).
+- `backend-new/`: Contains the Django project and applications.
 
 ## Running the Application
 
