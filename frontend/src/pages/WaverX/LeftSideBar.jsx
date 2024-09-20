@@ -10,7 +10,6 @@ export default function WaverxLeftBar({
   current,
   handleChatCardClicked,
 }) {
- 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -27,6 +26,7 @@ export default function WaverxLeftBar({
             <GoSidebarExpand
               size={32}
               color={"#008080"}
+              role="button"
               onClick={() => setIsMenuOpen(true)}
             />
             {isMenuOpen === true ? (
@@ -46,7 +46,11 @@ export default function WaverxLeftBar({
               WaverX
             </h1>
           </div>
-          <div className="flex self-end" onClick={handleCreateChat}>
+          <div
+            className="flex self-end"
+            onClick={handleCreateChat}
+            role="button"
+          >
             <img
               src="../../../img_plus_blue_gray_400.svg"
               alt="Plus"
