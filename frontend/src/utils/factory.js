@@ -3,8 +3,11 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { client } from "../api";
 import { endpoints } from "./endpoints";
+import axios from 'axios';
+
 TimeAgo.addDefaultLocale(en);
 import { dummyUser, dummyCampaigns } from "./dummies";
+import { ipinfoKey, ipinfoUrl } from "../config/ipinfo.config";
 
 const timeAgo = new TimeAgo("en-US");
 
@@ -74,3 +77,19 @@ export const getTimeAgo = (timeRef) => {
 export const stripLastS = (string) => {
   return string.endsWith("s") ? string.slice(0, -1) : string;
 };
+
+
+export const getLocation  = async function(){
+  const ip = await getIPFromAmazon()
+  if(!ipinfoKey && ipinfoUrl)return
+  try{
+      const response = await axios.get(`${ipinfoUrl}/${ip}/?token=${ipinfoKey}`)
+          return response.data 
+  }catch(err){
+      return undefined
+  }
+}
+
+function getIPFromAmazon() {
+  return fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(ip=>ip.trim())
+}
