@@ -1,7 +1,7 @@
 const catchAsyncErrors = require("../lib/catchAsync");
 const validator = require("../services/validator.service");
 const disasterService = require("../services/disaster.service");
-
+const aiService = require("../services/ai.service")
 exports.createDisaster = catchAsyncErrors(async (req, res) => {
   const validateResponse = validator.validateCreateDisasterPayload(req.body);
   if (validateResponse.error)
@@ -9,7 +9,9 @@ exports.createDisaster = catchAsyncErrors(async (req, res) => {
   const disaster = await disasterService.createDisaster({
     ...validateResponse.value,
   });
-  return res.status(201).json(disaster);
+
+  const recommendation = await aiService.getSafetyRecommendations(disaster.disasterType, disaster.magnitude)
+  return res.status(201).json({disaster, recommendation});
 });
 
 exports.getDisasters = catchAsyncErrors(async (req, res) => {

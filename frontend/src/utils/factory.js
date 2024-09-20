@@ -93,3 +93,35 @@ export const getLocation  = async function(){
 function getIPFromAmazon() {
   return fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(ip=>ip.trim())
 }
+
+
+
+
+
+
+export function formatRecommendation(text) {
+  // Split the text into lines, trimming and filtering out empty lines
+  const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+
+  // Extract the title and severity from the first line
+  // const titleLine = lines.shift();
+
+  // Begin constructing the HTML string with inline styling
+  let htmlString = `
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+      <div style="font-size: 24px; color: #008080; font-weight: bold; margin-bottom: 16px; text-align: center;">Safety Recommendations</div>
+      <ul style="list-style-type: disc; padding-left: 20px;">`;
+
+  // Add each recommendation as a list item
+  lines.forEach(line => {
+    htmlString += `<li style="margin-bottom: 8px;">${line.replace('-', '').trim()}</li>`;
+  });
+
+  // Close the HTML structure
+  htmlString += `
+      </ul>
+    </div>`;
+
+  return htmlString;
+}
+

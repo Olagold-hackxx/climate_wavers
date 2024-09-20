@@ -114,6 +114,11 @@ class AI{
         return this.exec(prompt)
     }
 
+    getSafetyRecommendations(disasterType, magnitude=undefined, returnHtml=false ){
+        const prompt = `generate safety recommendations ${returnHtml && "formatted (and styled properly) in HTML code "}for an occuring disaster (${disasterType}) ${magnitude && `with a severity of ${magnitude} out of 10 `}.${returnHtml && ` Your response must be in html (e.g <div styles="font-size:16px;" >recommendations here</div>)` }respond with the recommendations only, no explanation is expected in your response`
+        return this.exec(prompt)
+    }
+
 
 
 }
