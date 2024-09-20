@@ -8,7 +8,7 @@ export default function QuestionContainer({
 }) {
   return (
     <div
-      className={` text-black  flex flex-col ${color} items-end w-[20%] max-sm:p-2 md:min-h-[25%] max-sm:min-h-[20vh] max-sm:w-[100%] md:gap-[62px] max-sm:gap-1 md:p-4 rounded-[24px]`}
+      className={` text-black cursor-pointer flex flex-col ${color} items-end w-[20%] max-sm:p-2 md:min-h-[25%] max-sm:min-h-[20vh] max-sm:w-[100%] md:gap-[62px] max-sm:gap-1 md:p-4 rounded-[24px]`}
       onClick={() => handleClick(questionText)}
     >
       <p className="md:mt-5 w-[98%] md:leading-8 text-white">{questionText}</p>
