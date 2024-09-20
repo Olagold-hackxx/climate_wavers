@@ -56,7 +56,7 @@ const AiReportAnalyse = ({ isWaiting, recommendation }) => {
       </div>
       {aiSafety && (
         <div
-        className="text-left absolute top-[-50px] w-full p-4"
+        className="text-left absolute top-[-50px] w-full mt-4 h-full overflow-y-auto"
          
         >
           {recommendation && (
