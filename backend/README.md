@@ -1,4 +1,4 @@
-# Django App Documentation
+# Django App Documentation [DEPRECATED] - New backend at Backend-new
 
 ## Overview
 
