@@ -32,11 +32,12 @@ class Mailer{
         return ejs.renderFile(path, data)
     }
 
-    sendMail(email, html){
+    sendMail(email, html, subject="Climate wavers"){
         return this.transporter.sendMail({
             to: email,
             from: this.from_address,
-            html
+            html,
+            subject
         })
     }
 
@@ -44,20 +45,20 @@ class Mailer{
         return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.custom), data))
     }
 
-    async sendDisasterAlert(email, data){
-        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.disaster_alert), data))
+    async sendDisasterAlert(email, data, subject="Disaster Alert"){
+        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.disaster_alert), data), subject)
     }
 
     async sendForgetPassword(email, data){
-        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.forget_password), data))
+        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.forget_password), data), "Forget Password")
     }
 
     async sendOnboarding(email){
-        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.onboarding), {}))
+        return this.sendMail(email,await this.loadTemplate(getPath(mailTypes.onboarding), {}), "Welcome Aboard")
     }
 
     async sendVerification(email, data){
-        return this.sendMail(email, await this.loadTemplate(getPath(mailTypes.verification), data))
+        return this.sendMail(email, await this.loadTemplate(getPath(mailTypes.verification), data), "Email Verification")
     }
 
 }

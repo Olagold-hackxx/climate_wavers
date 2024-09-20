@@ -1,7 +1,10 @@
 const catchAsyncErrors = require("../lib/catchAsync");
 const validator = require("../services/validator.service");
 const disasterService = require("../services/disaster.service");
-const aiService = require("../services/ai.service")
+const aiService = require("../services/ai.service");
+const { sendToQueue } = require("../lib/amqp");
+const { getDefaultChannel } = require("../config/channels");
+const queues = require("../constants/queues");
 exports.createDisaster = catchAsyncErrors(async (req, res) => {
   const validateResponse = validator.validateCreateDisasterPayload(req.body);
   if (validateResponse.error)
@@ -11,6 +14,7 @@ exports.createDisaster = catchAsyncErrors(async (req, res) => {
   });
 
   const recommendation = await aiService.getSafetyRecommendations(disaster.disasterType, disaster.magnitude)
+  await sendToQueue(getDefaultChannel, queues.disaster_alert, {disasterType: disaster.disasterType, city: disaster.region})
   return res.status(201).json({disaster, recommendation});
 });
 
