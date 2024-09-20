@@ -3,21 +3,19 @@ import { endpoints } from "../utils/endpoints";
 import { client } from "../api";
 import { getAuthToken } from "../utils/factory";
 import { useNotifications } from "../context/NotificationContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const { receiveNewNotification } = useNotifications();
-  const navigate = useNavigate;
 
   const backendSocket = import.meta.env.VITE_WSS_BACKEND;
 
   const token = getAuthToken();
 
   const handleGoBack = () => {
-    console.log("Pressed");
-    navigate(-1);
+    window.history.back();
   };
   useEffect(() => {
     const getNotifications = async () => {
