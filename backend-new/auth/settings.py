@@ -165,8 +165,6 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_USE_TLS = True
 
 FERNET_KEY = env("FERNET_KEY").encode()
 # Make sure to encode the key
