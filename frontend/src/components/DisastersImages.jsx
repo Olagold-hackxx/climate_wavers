@@ -8,7 +8,7 @@ const DisasterImages = ({ disasters }) => {
         <div key={disaster.id} className=" px-4">
           <img
             alt=""
-            className="border-2 rounded-xl shadow-2xl min-w-[35vw] h-[80%] shadow-gray-400 max-sm:min-w-[87vw] "
+            className="border-2 rounded-xl shadow-2xl md:min-w-[40vw] h-[80%] shadow-gray-400 min-w-[87vw] "
             src={
               disaster.images?.length ? disaster.images[0] : '/placeholde-disaster-img.jpg'
             }

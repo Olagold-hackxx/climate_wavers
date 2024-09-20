@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Post, Comment, Reaction, Repost, PollInteraction, Notification, Follow, Bookmark
+from .serializers import PostSerializer, CommentSerializer
 from api.models import User
 from django.contrib.contenttypes.models import ContentType
 from asgiref.sync import async_to_sync
@@ -9,7 +10,7 @@ from channels.layers import get_channel_layer
 channel_layer = get_channel_layer()
 
 
-def send_to_websocket(group_name, message, noticee_user, content=None):
+def send_to_websocket(notification_id, group_name, message, noticee_user, notification_type, content=None):
     # Prepare user details
     user_details = {
         'username': noticee_user.username,
@@ -17,13 +18,15 @@ def send_to_websocket(group_name, message, noticee_user, content=None):
         'profile_image': noticee_user.profile_picture
     }
 
-    # Send WebSocket message including user details
+    # Send message to websocket
     async_to_sync(channel_layer.group_send)(
         f'notifications_{group_name}',
         {
+            'id': notification_id,
             'type': 'notification_message',
             'message': message,
             'content': content,
+            'notification_type': notification_type,
             'user_details': user_details  # Send user details along with the message
         }
     )
@@ -35,17 +38,22 @@ def notify_followers_on_post_creation(sender, instance, created, **kwargs):
         followers = instance.user.followers.all()
         for follower in followers:
             # Skip notification if the follower is the post author
+            follower = follower.follower
             if follower != instance.user:
-                user = User.objects.get(id=follower.id)
                 notification = Notification.objects.create(
-                    user=user,
+                    user=follower,
                     notification_type='post',
                     object_id=instance.id,
                     content_type=ContentType.objects.get_for_model(Post),
                     message=f'{instance.user.username} just made a new post'
                 )
-                send_to_websocket(user.username,
-                                  notification.message, instance.user, instance.content)
+                send_to_websocket(
+                    notification.id,
+                    follower.username,
+                    notification.message,
+                    instance.user,
+                    notification.notification_type,
+                    PostSerializer(instance,  context={'request': None}).data)
 
 
 @receiver(post_save, sender=Comment)
@@ -65,14 +73,18 @@ def notify_post_author_and_commenters(sender, instance, created, **kwargs):
                 message=f'{instance.user.username} commented on your post'
             )
             send_to_websocket(
+                notification.id,
                 post_author.username,
                 notification.message,
                 instance.user,
-                instance.post.content
+                notification.notification_type,
+                CommentSerializer(instance,  context={'request': None}).data
             )
 
         # Notify other commenters
-        for commenter in commenters:
+
+        for commenter_id in commenters:
+            commenter = User.objects.get(id=commenter_id)
             notification = Notification.objects.create(
                 user=commenter,
                 notification_type='comment',
@@ -81,10 +93,12 @@ def notify_post_author_and_commenters(sender, instance, created, **kwargs):
                 message=f'{instance.user.username} replied to a post you commented on',
             )
             send_to_websocket(
+                notification.id,
                 commenter.username,
                 notification.message,
                 instance.user,
-                instance.post.content
+                notification.notification_type,
+                CommentSerializer(instance,  context={'request': None}).data
             )
 
 
@@ -95,12 +109,13 @@ def notify_author_on_reaction(sender, instance, created, **kwargs):
             post = Post.objects.get(id=instance.object_id)
             content_author = post.user
             content_id = post.id
-            content = post.content
+            content = PostSerializer(post,  context={'request': None}).data
         elif instance.content_type == ContentType.objects.get_for_model(Comment):
             comment = Comment.objects.get(id=instance.object_id)
             content_author = comment.user
             content_id = comment.id
-            content = comment.content
+            content = CommentSerializer(
+                comment,  context={'request': None}).data
         else:
             return
 
@@ -114,9 +129,11 @@ def notify_author_on_reaction(sender, instance, created, **kwargs):
                 message=f'{instance.user.username} liked your {instance.content_type.model}'
             )
             send_to_websocket(
+                notification.id,
                 content_author.username,
                 notification.message,
                 instance.user,
+                notification.notification_type,
                 content
             )
 
@@ -128,12 +145,13 @@ def notify_original_post_author(sender, instance, created, **kwargs):
             post = Post.objects.get(id=instance.object_id)
             original_post_author = post.user
             content_id = post.id
-            content = post.content
+            content = PostSerializer(post,  context={'request': None}).data
         elif instance.content_type == ContentType.objects.get_for_model(Comment):
             comment = Comment.objects.get(id=instance.object_id)
             original_post_author = comment.user
             content_id = comment.id
-            content = comment.content
+            content = CommentSerializer(
+                comment,  context={'request': None}).data
 
         # Skip notification if the user reposting is the original post author
         if original_post_author != instance.user:
@@ -145,9 +163,11 @@ def notify_original_post_author(sender, instance, created, **kwargs):
                 message=f'{instance.user.username} reposted your {instance.content_type.model}'
             )
             send_to_websocket(
+                notification.id,
                 original_post_author.username,
                 notification.message,
                 instance.user,
+                notification.notification_type,
                 content
             )
 
@@ -183,9 +203,11 @@ def notify_user_on_new_follower(sender, instance, created, **kwargs):
                 message=f'{instance.follower.username} has started following you.'
             )
             send_to_websocket(
+                notification.id,
                 instance.following.username,
                 notification.message,
-                instance.follower
+                instance.follower,
+                notification.notification_type
             )
 
 
@@ -196,12 +218,13 @@ def notify_original_post_author(sender, instance, created, **kwargs):
             post = Post.objects.get(id=instance.object_id)
             original_post_author = post.user
             content_id = post.id
-            content = post.content
+            content = PostSerializer(post,  context={'request': None}).data
         elif instance.content_type == ContentType.objects.get_for_model(Comment):
             comment = Comment.objects.get(id=instance.object_id)
             original_post_author = comment.user
             content_id = comment.id
-            content = comment.content
+            content = CommentSerializer(
+                comment,  context={'request': None}).data
 
         # Skip notification if the user bookmarking is the original post author
         if original_post_author != instance.user:
@@ -213,8 +236,10 @@ def notify_original_post_author(sender, instance, created, **kwargs):
                 message=f'{instance.user.username} bookmarked your {instance.content_type.model}'
             )
             send_to_websocket(
+                notification.id,
                 original_post_author.username,
                 notification.message,
                 instance.user,
+                notification.notification_type,
                 content
             )

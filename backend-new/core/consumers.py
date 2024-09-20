@@ -30,7 +30,9 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         )
 
     async def notification_message(self, event):
+        notification_id = event['id']
         message = event['message']
+        notification_type = event['notification_type']
         user_details = event['user_details']
         content = event['content']
         logger.info(
@@ -38,6 +40,8 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
         # Send notification with user details
         await self.send(text_data=json.dumps({
+            'id': notification_id ,
+            'notification_type': notification_type,
             'message': message,
             'content': content,
             'user': user_details  # Include user details in the WebSocket message

@@ -16,14 +16,25 @@ const Notification = () => {
   const token = getAuthToken();
 
   const handleGoBack = () => {
+    console.log("Pressed");
     navigate(-1);
   };
-
   useEffect(() => {
     const getNotifications = async () => {
       const url = endpoints["notifications"];
       const res = await client.run("get", url, {}, true);
-      setNotifications(res);
+      setNotifications((prev) => {
+        const existingIds = new Set(
+          prev.map((notification) => notification.id)
+        );
+
+        // Combine API data with existing notifications, filtering out duplicates
+        const merged = res.filter(
+          (notification) => !existingIds.has(notification.id)
+        );
+
+        return [...prev, ...merged]; // Return the combined notifications
+      });
       console.log(res);
     };
     getNotifications();
@@ -53,21 +64,27 @@ const Notification = () => {
 
   return (
     <div className="grid">
-      <div className="flex py-12 md:px-4 md:gap-x-4 gap-x-2 relative">
-        <MdArrowBack onClick={handleGoBack} size={35}color={"#434343"} />
-        <h2 className="text-2xl pb-4">Notifications</h2>
+      <div className="flex py-12 md:px-4 md:gap-x-4 gap-x-2">
+        <button onClick={handleGoBack}>
+          <MdArrowBack size={35} color={"#434343"} />
+        </button>
+        <h2 className="text-2xl font-serif">Notifications</h2>
       </div>
-      {notifications.map((notices) => (
+      {notifications.map((notices, index) => (
         <div
-          key={notices.id}
+          key={`${notices.id}${index}`}
           className="md:w-[100%] w-[100vw]  h-28 border-y-2  border-[#E6EAEE66] shadow-sm  "
         >
           <Link to={noticeUrl(notices)}>
-            <div className="flex pt-4 px-8 gap-x-4">
+            <div className="flex md:pt-4 py-4 px-8 gap-x-4">
               <img
                 alt="profile pic"
-                src={notices.user.profile_picture}
-                className="w-12"
+                src={
+                  notices.user.profile_picture
+                    ? notices.user.profile_picture
+                    : notices.user.profile_image
+                }
+                className="w-12 h-12"
               />
               <div className="flex flex-col">
                 <p className="text-xl self-center">{notices.message}</p>

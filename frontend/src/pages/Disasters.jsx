@@ -47,7 +47,7 @@ const DisasterPage = () => {
           </div>
           <div>
             <h2 className="font-bold mt-8 py-4 border-b-2 self-end text-2xl  text-[#434343] leading-4 border-gray-300">
-              Showing {} - {} of {} results{" "}
+              Showing {1} - {10} of {100} results{" "}
             </h2>
           </div>
           <Disasters disasters={disasters} />

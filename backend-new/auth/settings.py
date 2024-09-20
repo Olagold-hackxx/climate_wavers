@@ -179,14 +179,25 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS"),
 
 MALE_AVATAR = env("MALE_AVATAR")
 FEMALE_AVATAR = env("FEMALE_AVATAR")
+
+# Determine if SSL is required (for production)
+REDIS_USE_SSL = env.bool("REDIS_USE_SSL", default=False)
+
+# Dynamically build the Redis configuration
+redis_host = {
+    "address": env("REDIS"),
+}
+
+# Only include SSL settings if SSL is required
+if REDIS_USE_SSL:
+    redis_host["ssl_cert_reqs"] = None
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [{
-                "address": env("REDIS"),
-                "ssl_cert_reqs": None,
-            }],
+            "hosts": [redis_host],
         },
     },
 }
+

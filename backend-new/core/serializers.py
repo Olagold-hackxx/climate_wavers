@@ -14,15 +14,21 @@ from .models import (
 from api.models import User
 
 
-
-
 class UserSerializer(serializers.ModelSerializer):
     is_following = serializers.SerializerMethodField()
     profile_picture = serializers.ReadOnlyField()
 
     def get_is_following(self, obj):
-        user = self.context.get("request").user
-        return obj.followers.filter(follower=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.followers.filter(follower=user).exists()
+        return False
+    
+    def get_user_from_context(self):
+        request = self.context.get("request", None)
+        if request and hasattr(request, "user"):
+            return request.user
+        return None
 
     class Meta:
         model = User
@@ -41,24 +47,37 @@ class PostSerializer(serializers.ModelSerializer):
     is_reposted = serializers.SerializerMethodField()
 
     def get_is_reacted(self, obj):
-        user = self.context.get("request").user
-        return obj.reactions.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.reactions.filter(user=user).exists()
+        return False
 
     def get_is_bookmarked(self, obj):
-        user = self.context.get("request").user
-        return obj.bookmarks.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.bookmarks.filter(user=user).exists()
+        return False
 
     def get_is_reposted(self, obj):
-        user = self.context.get("request").user
-        return obj.reposts.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.reposts.filter(user=user).exists()
+        return False
+
+    def get_user_from_context(self):
+        request = self.context.get("request", None)
+        if request and hasattr(request, "user"):
+            return request.user
+        return None
 
     class Meta:
         model = Post
         fields = "__all__"
 
     def create(self, validated_data):
-        # Add the user from the request context to the validated data
-        validated_data["user"] = self.context["request"].user
+        user = self.get_user_from_context()
+        if user:
+            validated_data["user"] = user
         return super().create(validated_data)
 
 
@@ -74,24 +93,37 @@ class CommentSerializer(serializers.ModelSerializer):
     is_bookmarked = serializers.SerializerMethodField()
 
     def get_is_reacted(self, obj):
-        user = self.context.get("request").user
-        return obj.reactions.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.reactions.filter(user=user).exists()
+        return False
 
     def get_is_reposted(self, obj):
-        user = self.context.get("request").user
-        return obj.reposts.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.reposts.filter(user=user).exists()
+        return False
 
     def get_is_bookmarked(self, obj):
-        user = self.context.get("request").user
-        return obj.bookmarks.filter(user=user).exists()
+        user = self.get_user_from_context()
+        if user:
+            return obj.bookmarks.filter(user=user).exists()
+        return False
+
+    def get_user_from_context(self):
+        request = self.context.get("request", None)
+        if request and hasattr(request, "user"):
+            return request.user
+        return None
 
     class Meta:
         model = Comment
         fields = "__all__"
-
+    
     def create(self, validated_data):
-        # Add the user from the request context to the validated data
-        validated_data["user"] = self.context["request"].user
+        user = self.get_user_from_context()
+        if user:
+            validated_data["user"] = user
         return super().create(validated_data)
 
 
@@ -104,18 +136,18 @@ class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reaction
         fields = "__all__"
-    
+
     def get_content_type(self, obj):
         return 'post' if obj.content_type.model == 'post' else 'comments'
 
 
-
 class ViewSerializer(serializers.ModelSerializer):
     content_type = serializers.SerializerMethodField()
+
     class Meta:
         model = View
         fields = "__all__"
-    
+
     def get_content_type(self, obj):
         return 'post' if obj.content_type.model == 'post' else 'comments'
 
@@ -138,7 +170,6 @@ class BookmarkSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(read_only=True)
     content_type = serializers.SerializerMethodField()
 
-
     class Meta:
         model = Bookmark
         fields = "__all__"
@@ -158,6 +189,7 @@ class PollVoteSerializer(serializers.ModelSerializer):
         model = PollVote
         fields = "__all__"
 
+
 class RepostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     post = PostSerializer(read_only=True)
@@ -168,7 +200,7 @@ class RepostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Repost
         fields = "__all__"
-    
+
     def get_content_type(self, obj):
         return 'post' if obj.content_type.model == 'post' else 'comments'
 
@@ -198,7 +230,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             'comment': {'write_only': True},
         }
 
-    def get_content(self, obj):  
+    def get_content(self, obj):
         request = self.context.get("request")
         if obj.content_type.model == 'post':
             return PostSerializer(Post.objects.get(id=obj.object_id), context={'request': request}).data
@@ -206,5 +238,5 @@ class NotificationSerializer(serializers.ModelSerializer):
             return CommentSerializer(Comment.objects.get(id=obj.object_id), context={'request': request}).data
         elif obj.content_type.model == 'follow':
             return FollowSerializer(Follow.objects.get(id=obj.object_id), context={'request': request}).data
-            
+
         return None

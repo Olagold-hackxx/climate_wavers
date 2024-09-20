@@ -22,8 +22,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
   };
 
   const toastMsg = {
-    info: "Submitting post...",
-    success: "Post Successful 👌",
+    success: "Replied Successful 👌",
     error: "An Error occured 🤯",
   };
 
@@ -83,8 +82,8 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
           <button
             className={
               isDisabled
-                ? "blur-[1px] text-center w-fit px-10 h-[50px] md:max-w-[10vw] capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
-                : " px-10 h-[50px] md:max-w-[10vw]  capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
+                ? "blur-[1px] text-center py-2  w-fit px-10 h-[50px] md:max-w-[10vw] capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
+                : " px-10 h-[50px] md:max-w-[10vw] py-2 capitalize hidden md:flex  bg-[#008080]  text-white rounded-full cursor-pointer"
             }
             type="submit"
             disabled={isDisabled}
