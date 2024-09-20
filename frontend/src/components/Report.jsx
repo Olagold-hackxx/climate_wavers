@@ -31,13 +31,8 @@ const Report = () => {
     <div className="relative">
       {isCreateReportOpen && <CreateReport closeModal={handleFormSubmit} showRecommendation={showRecommendation}  />}
       {isModalOpen && (
-<<<<<<< HEAD
-        <div className="h-[40vh] md:w-[40vw] w-[90vw]">
-            <AiReportAnalyse />
-=======
-        <div className="h-[40vh] w-[40vw]">
+        <div className="md:h-[40vh] md:w-[40vw] w-[90vw] h-fit min-h-[45vh]">
             <AiReportAnalyse  isWaiting={isWaiting} recommendation={recommendation}/>
->>>>>>> c7ab72ba6b2ce5b2f73c16025af32443c97b5cc5
         </div>
       )}
     </div>

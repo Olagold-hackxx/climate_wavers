@@ -108,7 +108,7 @@ export function formatRecommendation(text) {
 
   // Begin constructing the HTML string with inline styling
   let htmlString = `
-    <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; position: absolute; height: 100%; top: 0px; margin: 20px auto; padding: 20px; background-color: #fff; font-family: Arial, sans-serif;">
       <div style="font-size: 24px; color: #008080; font-weight: bold; margin-bottom: 16px; text-align: center;">Safety Recommendations</div>
       <ul style="list-style-type: disc; padding-left: 20px;">`;
 
