@@ -21,7 +21,7 @@ QUEUES = {
 DATA_TYPES = {
     "custom_mail": {"email": str, "data": {"content": str}},
     "forget_password": {"email": str, "data": {"token": str}},
-    "onboarding": {"email": str, "data": {}},
+    "onboarding": {"email": str, "data": {"city": str}},
     "verification": {"email": str, "data": {"code": str}},
 }
 
@@ -94,8 +94,28 @@ def send_reset_password_email(data):
         message=json.dumps(
             {
                 "email": data["email"],
-                "data": {"url": data["url"]},  # Assuming token.token is a string
+                # Assuming token.token is a string
+                "data": {"url": data["url"]},
             }
         ),
     )
     logger.info(f"Successfully sent pasword reset mail to {data['email']}")
+
+
+def send_onboarding_email(email):
+    """
+    Send an activation email to the user.
+
+    :param email: Email to send verification mail.
+    """
+    user = User.objects.get(email=email)
+    send_message(
+        "onboarding",
+        message=json.dumps(
+            {
+                "email": user.email,
+                "data": {"city": user.state},
+            }
+        ),
+    )
+    logger.info(f"Successfully sent onboarding mail to {email}")

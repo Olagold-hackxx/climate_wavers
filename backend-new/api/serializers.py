@@ -7,11 +7,14 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import smart_str, smart_bytes
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.conf import settings
-from .tasks import send_reset_password_email
+from .tasks import send_reset_password_email, send_onboarding_email
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
-    password2 = serializers.CharField(max_length=68, min_length=6, write_only=True)
+    password = serializers.CharField(
+        max_length=68, min_length=6, write_only=True)
+    password2 = serializers.CharField(
+        max_length=68, min_length=6, write_only=True)
     profile_pic = serializers.ImageField(required=False)
     picture = serializers.CharField(required=False)
 
@@ -55,8 +58,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             if validated_data.get("gender") == "male":
                 validated_data["default_avatar"] = User.AVATAR_CHOICES[0][0]
             else:
-                validated_data["default_avatar"]  = User.AVATAR_CHOICES[1][0]
-           
+                validated_data["default_avatar"] = User.AVATAR_CHOICES[1][0]
+
         else:
             validated_data["default_avatar"] = None
 
@@ -75,7 +78,8 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["email", "password", "id", "full_name", "username", "access_token", "refresh_token"]
+        fields = ["email", "password", "id", "full_name",
+                  "username", "access_token", "refresh_token"]
 
     def validate(self, attrs):
         email = attrs.get("email")
@@ -86,8 +90,14 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("Invalid credentials, try again")
         if not user.is_verified:
             raise AuthenticationFailed("Email is not verified")
+
+        if not user.is_onboarded:
+            user.is_onboarded = True
+            send_onboarding_email(user.email)
+            user.save(update_fields=['is_onboarded'])
+
+
         user_tokens = user.tokens()
-        
 
         return {
             "email": user.email,
@@ -119,7 +129,8 @@ class PasswordResetRequestSerializer(serializers.Serializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField(max_length=100, min_length=6, write_only=True)
+    password = serializers.CharField(
+        max_length=100, min_length=6, write_only=True)
     confirm_password = serializers.CharField(
         max_length=100, min_length=6, write_only=True
     )
@@ -139,7 +150,8 @@ class SetNewPasswordSerializer(serializers.Serializer):
             user_id = smart_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=user_id)
             if not PasswordResetTokenGenerator().check_token(user, token):
-                raise AuthenticationFailed("Reset link is invalid or has expired", 401)
+                raise AuthenticationFailed(
+                    "Reset link is invalid or has expired", 401)
             if password != confirm_password:
                 raise AuthenticationFailed("Passwords do not match")
             user.set_password(password)
