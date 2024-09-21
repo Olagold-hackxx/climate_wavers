@@ -111,7 +111,10 @@ const Posts = ({
             )}
             <Accountcard user={post?.user} />
             <button onClick={() => commentPage(post)} className="w-full">
-              <p className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 ">
+              <p
+                className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 "
+                style={{ whiteSpace: "pre-wrap" }}
+              >
                 {post?.content}
               </p>
               {post?.image && (

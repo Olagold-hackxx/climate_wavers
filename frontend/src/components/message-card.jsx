@@ -8,7 +8,7 @@ const MessageCard = ({body, postedBy}) =>{
     // className={` flex flex-row  ${user.id === postedBy ? "items-right self-end ": "items-right self-start "} my-2`}
     className={`message-card ${user.id == postedBy && "me"}`}
     >
-        <p>{body}</p>
+        <p style={{ whiteSpace: 'pre-wrap' }}>{body}</p>
     </div>
 }
 
