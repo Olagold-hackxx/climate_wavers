@@ -23,7 +23,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   };
 
   const toastMsg = {
-    success: "Post Successful 👌",
+    sccess: "Post Successful 👌",
     error: "An Error occured 🤯",
   };
 

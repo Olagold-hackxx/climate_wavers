@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Accountcard from "./Accountcard";
 import { AiOutlineHeart, AiFillHeart, AiOutlineRetweet } from "react-icons/ai";
@@ -22,8 +22,62 @@ const Posts = ({
 }) => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [commentId, setCommentId] = useState("");
-  const [updatedPosts, setUpdatedPosts] = useState(posts);
+  const [localPosts, setLocalPosts] = useState([]);
   const navigate = useNavigate();
+
+  // Update localPosts whenever posts prop changes
+  useEffect(() => {
+    if (posts && posts.length > 0) {
+      setLocalPosts(posts);
+    }
+  }, [posts]);
+
+  const handleOptimisticUpdate = (postId, changes) => {
+    setLocalPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, ...changes } : post
+      )
+    );
+  };
+
+  const handleLike = (post) => {
+    const updatedPost = { ...post, is_reacted: !post.is_reacted };
+    if (updatedPost.is_reacted) {
+      updatedPost.total_reactions += 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      like.mutate({ postType: type, post: post.id });
+    } else {
+      updatedPost.total_reactions -= 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      unlike.mutate({ postType: type, post: post.id });
+    }
+  };
+
+  const handleRepost = (post) => {
+    const updatedPost = { ...post, is_reposted: !post.is_reposted };
+    if (updatedPost.is_reposted) {
+      updatedPost.total_reposts += 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      repost.mutate({ postType: type, post: post.id });
+    } else {
+      updatedPost.total_reposts -= 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      unrepost.mutate({ postType: type, post: post.id });
+    }
+  };
+
+  const handleSave = (post) => {
+    const updatedPost = { ...post, is_bookmarked: !post.is_bookmarked };
+    if (updatedPost.is_bookmarked) {
+      updatedPost.total_bookmarks += 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      save.mutate({ postType: type, post: post.id });
+    } else {
+      updatedPost.total_bookmarks -= 1;
+      handleOptimisticUpdate(post.id, updatedPost);
+      unsave.mutate({ postType: type, post: post.id });
+    }
+  };
 
   const commentPage = (post) => {
     if (type === "post") {
@@ -37,182 +91,15 @@ const Posts = ({
     }
   };
 
-  const handleLike = (post) => {
-    const isLiked = post.is_reacted;
-    const newTotalReactions = isLiked
-      ? post.total_reactions - 1
-      : post.total_reactions + 1;
-
-    // Optimistically update the post state
-    setUpdatedPosts((prevPosts) =>
-      prevPosts.map((p) =>
-        p.id === post.id
-          ? { ...p, is_reacted: !isLiked, total_reactions: newTotalReactions }
-          : p
-      )
-    );
-
-    // Call the appropriate mutation
-    isLiked
-      ? unlike.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              // Revert optimistic update on error
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_reacted: isLiked,
-                        total_reactions: post.total_reactions,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        )
-      : like.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              // Revert optimistic update on error
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_reacted: isLiked,
-                        total_reactions: post.total_reactions,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        );
-  };
-
-  const handleRepost = (post) => {
-    const isReposted = post.is_reposted;
-    const newTotalReposts = isReposted
-      ? post.total_reposts - 1
-      : post.total_reposts + 1;
-
-    setUpdatedPosts((prevPosts) =>
-      prevPosts.map((p) =>
-        p.id === post.id
-          ? { ...p, is_reposted: !isReposted, total_reposts: newTotalReposts }
-          : p
-      )
-    );
-
-    isReposted
-      ? unrepost.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_reposted: isReposted,
-                        total_reposts: post.total_reposts,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        )
-      : repost.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_reposted: isReposted,
-                        total_reposts: post.total_reposts,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        );
-  };
-
-  const handleBookmark = (post) => {
-    const isBookmarked = post.is_bookmarked;
-    const newTotalBookmarks = isBookmarked
-      ? post.total_bookmarks - 1
-      : post.total_bookmarks + 1;
-
-    setUpdatedPosts((prevPosts) =>
-      prevPosts.map((p) =>
-        p.id === post.id
-          ? {
-              ...p,
-              is_bookmarked: !isBookmarked,
-              total_bookmarks: newTotalBookmarks,
-            }
-          : p
-      )
-    );
-
-    isBookmarked
-      ? unsave.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_bookmarked: isBookmarked,
-                        total_bookmarks: post.total_bookmarks,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        )
-      : save.mutate(
-          { postType: type, post: post.id },
-          {
-            onError: () => {
-              setUpdatedPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === post.id
-                    ? {
-                        ...p,
-                        is_bookmarked: isBookmarked,
-                        total_bookmarks: post.total_bookmarks,
-                      }
-                    : p
-                )
-              );
-            },
-          }
-        );
-  };
-
   return (
     <div className="py-3 text-start">
-      {updatedPosts?.map((post) => (
-        <div
-          key={`${post?.user?.id}${post?.id}`}
-          className="border-b-[1px] border-gray-100 py-4"
-        >
-          {isCommentModalOpen && (
-            <div className="">
+      {localPosts?.length > 0 ? (
+        localPosts.map((post) => (
+          <div
+            key={`${post?.user?.id}${post?.id}`}
+            className="border-b-[1px] border-gray-100 py-4"
+          >
+            {isCommentModalOpen && (
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
                 <Createpost
                   parentId={type === "comments" ? commentId : ""}
@@ -221,86 +108,89 @@ const Posts = ({
                   closeModal={() => setIsCommentModalOpen(false)}
                 />
               </Modal>
-            </div>
-          )}
-          <Accountcard user={post?.user} />
-          <button onClick={() => commentPage(post)} className="w-full">
-            <p className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 ">
-              {post?.content}
-            </p>
-            <img
-              className="w-[100%] px-3 rounded-2xl "
-              src={post?.image ? post.image : ""}
-              alt=""
-            />
-          </button>
-          <div className="flex flex-row justify-between px-3 mt-2 ">
-            <Link onClick={() => setIsCommentModalOpen(true)}>
+            )}
+            <Accountcard user={post?.user} />
+            <button onClick={() => commentPage(post)} className="w-full">
+              <p className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 ">
+                {post?.content}
+              </p>
+              {post?.image && (
+                <img
+                  className="w-[100%] px-3 rounded-2xl"
+                  src={post.image}
+                  alt="Post content"
+                />
+              )}
+            </button>
+            <div className="flex flex-row justify-between px-3 mt-2 ">
+              <Link onClick={() => setIsCommentModalOpen(true)}>
+                <button
+                  className="flex flex-row items-center px-3 mt-2"
+                  onClick={() => {
+                    setIsCommentModalOpen(true);
+                    setCommentId(post.id);
+                  }}
+                >
+                  <IoChatboxEllipsesOutline size={25} />
+                  <p className="text-xs ml-1 ">{post?.total_comments}</p>
+                </button>
+              </Link>
               <button
-                className="flex flex-row items-center  px-3 mt-2 "
-                onClick={() => {
-                  setIsCommentModalOpen(true);
-                  setCommentId(post.id);
-                }}
+                className="flex flex-row items-center px-3 mt-2"
+                onClick={() => handleLike(post)}
               >
-                <IoChatboxEllipsesOutline size={25} />
-                <p className="text-xs ml-1 ">{post?.total_comments}</p>
+                {post?.is_reacted ? (
+                  <AiFillHeart
+                    size={25}
+                    color={"#FF0000"}
+                    className="transition active:animate-ping ease-in-out duration-150 hover:scale-125"
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    size={25}
+                    className="transition active:animate-ping ease-in-out duration-150 hover:scale-125"
+                  />
+                )}
+                <p className="text-xs ml-1 ">{post?.total_reactions}</p>
               </button>
-            </Link>
-            <div
-              className="flex flex-row items-center px-3 mt-2"
-              onClick={() => handleLike(post)}
-            >
-              {post?.is_reacted ? (
-                <AiFillHeart
+              <button
+                className="flex flex-row items-center px-3 mt-2"
+                onClick={() => handleRepost(post)}
+              >
+                <AiOutlineRetweet
                   size={25}
-                  color={"#FF0000"}
-                  className="transition active:animate-ping   ease-in-out duration-150 hover:scale-125"
+                  className="transition active:animate-ping ease-in-out duration-150 hover:scale-125"
+                  color={post?.is_reposted ? "#047857" : ""}
                 />
-              ) : (
-                <AiOutlineHeart
-                  size={25}
-                  className="transition active:animate-ping ease-in-out duration-150 hover:scale-125 "
-                />
-              )}
-              <p className="text-xs ml-1 ">{post?.total_reactions}</p>
-            </div>
-            <button
-              className="flex flex-row items-center px-3 mt-2"
-              onClick={() => handleRepost(post)}
-            >
-              <AiOutlineRetweet
-                size={25}
-                className="transition active:animate-ping ease-in-out duration-150 hover:scale-125 "
-                color={post?.is_reposted ? "#047857" : ""}
-              />
-              <p className="text-xs ml-1 ">{post?.total_reposts}</p>
-            </button>
-
-            <button
-              className="flex flex-row items-center  px-3 mt-2"
-              onClick={() => handleBookmark(post)}
-            >
-              {post?.is_bookmarked ? (
-                <PiBookmarkFill
-                  size={25}
-                  color={"rgb(0 128 128 / 1)"}
-                  className="transition ease-in-out active:animate-ping duration-150 hover:scale-125 "
-                />
-              ) : (
-                <PiBookmark
-                  size={25}
-                  className="transition ease-in-out active:animate-ping duration-150 hover:scale-125 "
-                />
-              )}
-              <p className="text-xs ml-1 ">{post?.total_bookmarks}</p>
-            </button>
-            <div className="flex flex-row items-center  ">
-              <IncidentIntegration />
+                <p className="text-xs ml-1 ">{post?.total_reposts}</p>
+              </button>
+              <button
+                className="flex flex-row items-center px-3 mt-2"
+                onClick={() => handleSave(post)}
+              >
+                {post?.is_bookmarked ? (
+                  <PiBookmarkFill
+                    size={25}
+                    color={"rgb(0 128 128 / 1)"}
+                    className="transition ease-in-out active:animate-ping duration-150 hover:scale-125"
+                  />
+                ) : (
+                  <PiBookmark
+                    size={25}
+                    className="transition ease-in-out active:animate-ping duration-150 hover:scale-125"
+                  />
+                )}
+                <p className="text-xs ml-1 ">{post?.total_bookmarks}</p>
+              </button>
+              <div className="flex flex-row items-center">
+                <IncidentIntegration />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p className="px-4">Fetching posts...</p>
+      )}
     </div>
   );
 };

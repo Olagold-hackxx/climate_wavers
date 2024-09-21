@@ -20,9 +20,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
       setImageName(file.name);
     }
   };
-
   const toastMsg = {
-    success: "Replied Successful 👌",
     error: "An Error occured 🤯",
   };
 
