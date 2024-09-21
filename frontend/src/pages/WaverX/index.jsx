@@ -21,7 +21,11 @@ const WaverXChatPage = () => {
 
   useEffect(() => {
     fetchChats().then((res) => {
-      res.data && setChats(res.data);
+      if (res.data) {
+        const chats = res.data;
+        const sorted = chats.sort((a, b) => b.createdAt - a.createdAt);
+        setChats(sorted);
+      }
     });
     if (current) {
       //firebase path to chat collection
@@ -46,8 +50,9 @@ const WaverXChatPage = () => {
   }
 
   function handleChatCardClicked(id) {
+    console.log(id);
     setCurrent(id);
-    setIsOpen(false)
+    setIsOpen(false);
     const path = `chats/${id}`;
     watchDocument(path, async function (data) {
       const chat = data.data();
@@ -64,7 +69,7 @@ const WaverXChatPage = () => {
     if (res.data) {
       setChats([res.data, ...chats]);
     }
-    setCurrent(res.data.id)
+    setCurrent(res.data.id);
     return res.data;
   }
 
@@ -73,7 +78,7 @@ const WaverXChatPage = () => {
     try {
       let url;
       if (newCurrent) {
-        setCurrent(newCurrent)
+        setCurrent(newCurrent);
         url = `${chatbot}/chats/${newCurrent}`;
       } else url = `${chatbot}/chats/${current}`;
       await axios.post(url, { body, userId: String(getUser()?.id) });

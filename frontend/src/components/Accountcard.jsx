@@ -3,21 +3,18 @@ import PropTypes from "prop-types";
 import { endpoints } from "../utils/endpoints";
 import { client } from "../api";
 import { Link } from "react-router-dom";
+import { getUser } from "../utils/factory";
 
 const Accountcard = ({ user }) => {
   const [isFollow, setIsFollow] = useState(user?.is_following);
+  const me = getUser();
 
   const follow = async (userId) => {
     await client.run("post", endpoints?.follow, { following: userId }, true);
   };
 
   const unfollow = async (userId) => {
-    await client.run(
-      "delete",
-      `${endpoints?.follow}${userId}/`,
-      {},
-      true
-    );
+    await client.run("delete", `${endpoints?.follow}${userId}/`, {}, true);
   };
   const handleFollow = async (userId) => {
     if (!isFollow) {
@@ -44,19 +41,21 @@ const Accountcard = ({ user }) => {
           </div>
         </div>
       </Link>
-      <button
-        onClick={() => {
-          setIsFollow(!isFollow);
-          handleFollow(user?.id);
-        }}
-        // style={followStyle}
-        className={`bg-black text-sm  text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
-          isFollow &&
-          "bg-stone-100 outline outline-2 outline-stone-500 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
-        } `}
-      >
-        {isFollow ? "Following" : "Follow"}
-      </button>
+      {me.id !== user?.id && (
+        <button
+          onClick={() => {
+            setIsFollow(!isFollow);
+            handleFollow(user?.id);
+          }}
+          // style={followStyle}
+          className={`bg-black text-sm  text-white font-semibold py-2 px-3 ml-2  rounded-2xl ${
+            isFollow &&
+            "bg-stone-100 outline outline-2 outline-stone-500 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
+          } `}
+        >
+          {isFollow ? "Following" : "Follow"}
+        </button>
+      )}
     </div>
   );
 };

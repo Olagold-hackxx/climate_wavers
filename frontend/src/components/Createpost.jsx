@@ -60,7 +60,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
   return (
     <div
       onSubmit={handleSubmit(onSubmit)}
-      className=" md:w-[40vw] md:h-[45vh] md:max-h-fit h-full p-3 md:p-6 bg-white rounded-md flex w-[70vw] flex-col gap-y-2"
+      className=" md:w-[40vw] md:h-[45vh] md:max-h-fit h-full p-3 md:p-6 bg-white rounded-md flex w-[90vw] flex-col gap-y-2"
     >
       <div className=" flex justify-start gap-4 ">
         <img
@@ -81,7 +81,7 @@ export default function Createpost({ type, postId, parentId, closeModal }) {
       <textarea
         type="text"
         placeholder="What's on your mind"
-        className=" p-8 max-sm:w-[80vw] border-b-2 h-full max:sm:placeholder:text-[15px] text-black text-3xl overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
+        className=" p-8 w-full border-b-2 h-full max-sm:placeholder:text-[20px] text-black text-3xl overflow-y-auto focus:border-b-2 focus:outline-none focus:border-[#008080]"
         {...register("content", { required: true })}
       />
       {imagePreview && (

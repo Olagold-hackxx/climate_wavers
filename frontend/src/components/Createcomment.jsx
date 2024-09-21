@@ -72,7 +72,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
             <textarea
               type="text"
               placeholder="Share your thoughts"
-              className=" mb-3 md:w-[40vw] text-inherit bg-inherit outline-0"
+              className=" mb-3 md:w-[40vw] max-sm:placeholder:text-[20px] text-inherit bg-inherit outline-0"
               {...register("content", { required: true })}
             />
           </div>
@@ -102,7 +102,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
             <img
               src="../../img_user_rectangle_5.svg"
               alt="User"
-              className="h-[24px] ml-2 w-[24px]"
+              className="h-[24px] md:ml-2 w-[24px]"
             />
           </label>
 

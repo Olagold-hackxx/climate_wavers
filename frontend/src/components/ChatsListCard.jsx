@@ -6,7 +6,7 @@ const ChatsListCard = ({ id, handleClick, title, isCurrent }) => {
       onClick={() => {
         handleClick(id);
       }}
-      className={`chat-list-card ${isCurrent && "active"}`}
+      className={ isCurrent ? "chat-list-card  active" : "chat-list-card"}
     >
       <p className="title">{title}</p>
     </div>
@@ -15,6 +15,6 @@ const ChatsListCard = ({ id, handleClick, title, isCurrent }) => {
 
 ChatsListCard.propTypes = {
   id: PropTypes.string,
-  createdAt: PropTypes.string,
+  title: PropTypes.string,
 };
 export default ChatsListCard;

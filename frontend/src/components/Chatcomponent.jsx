@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import MessageCard from "./message-card";
 import PropTypes from "prop-types";
 import NewChat from "./NewChat";
@@ -13,12 +13,17 @@ const Chatcomponent = ({
   const bodyRef = useRef();
   const [newCurrent, setCurrent] = useState(current);
 
+  useEffect(()=> {
+    setCurrent(current)
+  }, [current])
+
   const handleClick = async (body) => {
     const newChat = await handleCreateChat();
     setCurrent(newChat.id);
 
     await handlePostMessage(body, newChat.id);
   };
+  console.log(newCurrent)
 
   return (
     <div className="max-h-fit  h-[100%] max-sm:h-[97%] max-sm:w-[90vw] flex flex-col justify-between">

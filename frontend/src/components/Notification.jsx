@@ -85,7 +85,7 @@ const Notification = () => {
                 className="w-12 h-12"
               />
               <div className="flex flex-col">
-                <p className="text-xl self-center">{notices.message}</p>
+                <p className="text-xl text-start">{notices.message}</p>
                 <p className="text-sm text-gray-500 overflow-hidden capitalize">
                   {notices?.content?.content}
                 </p>
