@@ -26,8 +26,8 @@ const Chatcomponent = ({
   console.log(newCurrent)
 
   return (
-    <div className="max-h-fit  h-[100%] max-sm:h-[97%] max-sm:w-[90vw] flex flex-col justify-between">
-      <div className="overflow-y-auto  mt-8 message-card-list">
+    <div className="max-h-fit  h-[100%] max-sm:h-[97%]  max-sm:w-[90vw] flex flex-col justify-between">
+      <div className="overflow-y-auto  mt-4 message-card-list">
         {!messages?.length ? (
           <NewChat handleClick={handleClick} />
         ) : (

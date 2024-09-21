@@ -21,6 +21,7 @@ const Createcomment = ({ type, postId, parentId, button = "reply" }) => {
     }
   };
   const toastMsg = {
+    success: "Replied successfully",
     error: "An Error occured 🤯",
   };
 

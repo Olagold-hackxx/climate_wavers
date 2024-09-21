@@ -92,7 +92,7 @@ const Posts = ({
   };
 
   return (
-    <div className="py-3 text-start">
+    <div className="py-3 text-start max-sm:max-w-full break-words overflow-hidden">
       {localPosts?.length > 0 ? (
         localPosts.map((post) => (
           <div

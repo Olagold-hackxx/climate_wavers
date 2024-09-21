@@ -9,7 +9,7 @@ import {
   watchDocument,
 } from "../../services/firebase.service";
 import WaverxLeftBar from "./LeftSideBar";
-import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { FiMenu } from "react-icons/fi";
 
 const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1`;
 
@@ -88,9 +88,22 @@ const WaverXChatPage = () => {
   }
 
   return (
-    <div className=" w-[100vw] text-black flex">
-      <div className="md:hidden p-2">
-        <HiOutlineMenuAlt1 size={35} onClick={() => setIsOpen(true)} />
+    <div className=" md:w-[100vw] md:flex h-[100vh] max-sm:max-h-screen overflow-hidden text-black">
+      <div className="hidden md:grid md:w-[25vw] border-r-2 border-gray-200 ">
+        <WaverxLeftBar
+          handleCreateChat={handleCreateChat}
+          chats={chats}
+          current={current}
+          handleChatCardClicked={handleChatCardClicked}
+          setIsOpen={setIsOpen}
+        />
+      </div>
+      <div className="md:hidden m-2 ">
+        <FiMenu
+          size={35}
+          onClick={() => setIsOpen(true)}
+          className="  cursor-pointer"
+        />
         {isOpen === true ? (
           <WaverxLeftBar
             handleCreateChat={handleCreateChat}
@@ -101,24 +114,15 @@ const WaverXChatPage = () => {
           />
         ) : null}
       </div>
-
-      <div className="hidden md:grid md:w-[25%] border-r-2 border-gray-200 ">
-        <WaverxLeftBar
-          handleCreateChat={handleCreateChat}
-          chats={chats}
-          current={current}
-          handleChatCardClicked={handleChatCardClicked}
-          setIsOpen={setIsOpen}
-        />
-      </div>
-
-      <div className=" w-[75%] h-[100vh] max-sm:w-[100vw] max-sm:relative max-sm:right-8">
-        <Chatcomponent
-          current={current}
-          messages={messages}
-          handlePostMessage={handlePostMessage}
-          handleCreateChat={handleCreateChat}
-        />
+      <div className="md:grid flex justify-center">
+        <div className=" w-[75vw] md:h-full h-[96vh] md:p-0 p-4 max-sm:w-[100vw] ">
+          <Chatcomponent
+            current={current}
+            messages={messages}
+            handlePostMessage={handlePostMessage}
+            handleCreateChat={handleCreateChat}
+          />
+        </div>
       </div>
     </div>
   );

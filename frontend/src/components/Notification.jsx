@@ -61,7 +61,7 @@ const Notification = () => {
   };
 
   return (
-    <div className="grid">
+    <div className="grid max-w-[100vw] overflow-x-hidden">
       <div className="flex py-12 md:px-4 md:gap-x-4 gap-x-2">
         <button onClick={handleGoBack}>
           <MdArrowBack size={35} color={"#434343"} />
@@ -84,9 +84,9 @@ const Notification = () => {
                 }
                 className="w-12 h-12"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col h-full">
                 <p className="text-xl text-start">{notices.message}</p>
-                <p className="text-sm text-gray-500 overflow-hidden capitalize">
+                <p className="text-sm text-gray-500 md:h-[70%] h-[40px] max-h-[200px]  md:w-[85%] w-[50%] overflow-hidden capitalize">
                   {notices?.content?.content}
                 </p>
               </div>

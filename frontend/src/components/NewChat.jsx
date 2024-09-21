@@ -28,7 +28,7 @@ const data = [
 
 export default function NewChat({handleClick}) {
   return (
-    <div className="h-[80vh] max-sm:w-[100%] md:px-8 max-sm:px-1 grid gap-y-4 place-content-end">
+    <div className="md:h-[80vh] h-[76vh] max-sm:w-[100%] md:px-8 max-sm:px-1 grid gap-y-4 place-content-end">
       <div className="flex flex-row">
         <img
           src="/Group.png"
