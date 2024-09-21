@@ -37,7 +37,7 @@ const AiReportAnalyse = ({ isWaiting, recommendation }) => {
   }, [step, isWaiting, recommendation]);
 
   return (
-    <div className="">
+    <div className="relative">
       <div className={aiSafety ? "hidden": "grid"}>
       <h1 className={`text-xl text-center w-[85%] font-semibold font-serif`}>
         {status}
@@ -55,7 +55,7 @@ const AiReportAnalyse = ({ isWaiting, recommendation }) => {
       </div>
       {aiSafety && (
         <div
-        className="text-left absolute top-[-50px] w-full mt-4 h-full overflow-y-auto"
+        className="text-left  w-full mt-4 h-[90%] w-[90%] overflow-y-auto"
          
         >
           {recommendation && (
