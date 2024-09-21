@@ -38,7 +38,7 @@ const DonationTable = ({ currentData }) => {
                 <p className='text-[#333333]/30'>04 Apr, 2024m- 03:47 pm</p>
               </TableCell>
               <TableCell>------------</TableCell>
-              <TableCell>1000 <span className='text-[#008080] font-bold'>WAVER</span></TableCell>
+              <TableCell>1000 <span className='text-[#008080] font-bold'>DSX</span></TableCell>
               <TableCell>
                 Donated
               </TableCell>
@@ -50,7 +50,7 @@ const DonationTable = ({ currentData }) => {
                 <p className='text-[#333333]/50'>04 Apr, 2024m- 03:47 pm</p>
               </TableCell>
               <TableCell>------------</TableCell>
-              <TableCell>20,000 <span className='text-[#008080] font-bold'>WAVER</span></TableCell>
+              <TableCell>20,000 <span className='text-[#008080] font-bold'>DSX</span></TableCell>
               <TableCell>
                 Donated
               </TableCell>
@@ -62,7 +62,7 @@ const DonationTable = ({ currentData }) => {
                 <p className='text-[#333333]/30'>04 Apr, 2024m- 03:47 pm</p>
               </TableCell>
               <TableCell>------------</TableCell>
-              <TableCell>50,000 <span className='text-[#008080] font-bold'>WAVER</span></TableCell>
+              <TableCell>50,000 <span className='text-[#008080] font-bold'>DSX</span></TableCell>
               <TableCell>
                 Donated
               </TableCell>
@@ -74,7 +74,7 @@ const DonationTable = ({ currentData }) => {
                 <p className='text-[#333333]/30'>04 Apr, 2024m- 03:47 pm</p>
               </TableCell>
               <TableCell>------------</TableCell>
-              <TableCell>5,000 <span className='text-[#008080] font-bold'>WAVER</span></TableCell>
+              <TableCell>5,000 <span className='text-[#008080] font-bold'>DSX</span></TableCell>
               <TableCell>
                 Donated
               </TableCell>

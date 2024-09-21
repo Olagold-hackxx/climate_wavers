@@ -65,7 +65,7 @@ const Funds = () => {
         {copied && <span className="text-green-500 ml-2 text-sm">Copied!</span>}
         </div>
       <div className='flex items-center my-6'>
-        <h2 className='lg:text-[56px] md:text-[56px] text-[36px]'>{open ? `${balance} disaXta` : "***********"} </h2>
+        <h2 className='lg:text-[56px] md:text-[56px] text-[36px]'>{open ? `${balance} Eth` : "***********"} </h2>
         {open ? (
           <IoMdEyeOff onClick={toggleBalanceVisibility} className='text-4xl mx-8' style={{ cursor: 'pointer' }} />
         ) : (
