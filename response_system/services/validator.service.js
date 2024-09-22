@@ -76,7 +76,7 @@ class Validator{
             severity: Joi.number(),
             images: Joi.array().default([]),
             details: Joi.string().required(),
-            status: Joi.string(),
+            status: Joi.string().default("REPORTED")
         }).validate(obj)
     }
 }

@@ -4,12 +4,14 @@ const collectionName = "Subscriptions"
 
 class Subscription{
     constructor(email, city){
-        this.collection = collectionName
-        this.sub = firebaseService.createOne(this.collection, {email, city: city?.toLowerCase()})
+        this.email = email 
+        this.city = city
     }
 
     async exec(){
-        return await this.sub
+        const existing = await firebaseService.getAll(collectionName, {email: this.email})
+        if(existing?.length)return
+        return firebaseService.createOne({email: this.email, city: this.city})
     }
     static async find(obj={}){
         const docs = await firebaseService.getAll(collectionName, obj)
