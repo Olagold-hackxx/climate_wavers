@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import Topbar from "../components/Topbar";
 import Menu from "../components/Menu";
 import Createcomment from "../components/Createcomment";
-import Postcomponent from "../components/Postcomponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -59,17 +58,13 @@ const DisasterPage = () => {
             Comments
           </h4>
 
-          <div className=" md:border-2 border-b-2 border-t-0 rounded-lg shadow-xl shadow-white h-40 py-4 ">
+          <div className=" md:border-2 border-b-2 border-t-0 self-center rounded-lg shadow-xl shadow-white h-40 py-4 ">
             <Createcomment
               type={"comments"}
-              postId={1}
-              parentId={1}
               button={"comment"}
             />
           </div>
-          <div className="">
-            <Postcomponent type={"comments"} postId={1} comment={1} />
-          </div>
+         
         </div>
       </div>
     </div>
