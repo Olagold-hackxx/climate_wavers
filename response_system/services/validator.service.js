@@ -75,7 +75,8 @@ class Validator{
             region: Joi.string().required(),
             severity: Joi.number(),
             images: Joi.array().default([]),
-            details: Joi.string().required()
+            details: Joi.string().required(),
+            status: Joi.string(),
         }).validate(obj)
     }
 }

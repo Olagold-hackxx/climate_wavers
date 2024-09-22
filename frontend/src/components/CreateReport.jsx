@@ -33,7 +33,7 @@ const CreateReport = ({ closeModal, showRecommendation}) => {
     setIsDisabled(true);
     try {
       const images = await uploadFiles(fileList);
-      const status = "Ongoing"
+      const status = "ongoing"
       const reportData = { ...data, images, magnitude, status };
       const {data: resData} = await axios.post(apiUrl, reportData);
       closeModal();
