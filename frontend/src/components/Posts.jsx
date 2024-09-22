@@ -115,7 +115,15 @@ const Posts = ({
                 className="text-left md:text-2xl max-sm:text-[20px] font-serif px-3 my-3 "
                 style={{ whiteSpace: "pre-wrap" }}
               >
-                {post?.content}
+                {post?.content?.split(/(\s+)/).map((word, index) =>
+                  word.startsWith("#") ? (
+                    <span key={index} style={{ color: "#047857" }}>
+                      {word}
+                    </span>
+                  ) : (
+                    word
+                  )
+                )}
               </p>
               {post?.image && (
                 <img

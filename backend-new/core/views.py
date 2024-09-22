@@ -274,17 +274,17 @@ class UserViewSet(viewsets.ModelViewSet):
             user_id = request.data["user_id"]
             user = User.objects.get(id=user_id)
             posts = Post.objects.filter(user=user).annotate(
-                total_comments=Count('comments'),
-                total_reactions=Count('reactions'),
-                total_views=Count('views'),
-                total_reposts=Count('reposts'),
-                total_bookmarks=Count('bookmarks')
+                total_comments=Count('comments', distinct=True),
+                total_reactions=Count('reactions', distinct=True),
+                total_views=Count('views', distinct=True),
+                total_reposts=Count('reposts', distinct=True),
+                total_bookmarks=Count('bookmarks', distinct=True)
             )
             comments = Comment.objects.filter(user=user).annotate(
-                total_comments=Count('subcomments'),
-                total_reactions=Count('reactions'),
-                total_reposts=Count('reposts'),
-                total_bookmarks=Count('bookmarks')
+                total_comments=Count('subcomments', distinct=True),
+                total_reactions=Count('reactions', distinct=True),
+                total_reposts=Count('reposts', distinct=True),
+                total_bookmarks=Count('bookmarks', distinct=True)
             )
             reactions = Reaction.objects.filter(user=user)
             reposts = Repost.objects.filter(user=user)
