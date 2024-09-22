@@ -93,7 +93,7 @@ const Posts = ({
 
   return (
     <div className="py-3 text-start max-sm:max-w-full break-words overflow-hidden">
-      {localPosts?.length > 0 ? (
+      {posts?.length > 0 ? (
         localPosts.map((post) => (
           <div
             key={`${post?.user?.id}${post?.id}`}
@@ -200,7 +200,7 @@ const Posts = ({
           </div>
         ))
       ) : (
-        <p className="px-4">Fetching posts...</p>
+        <p className="px-4">{type === "post" ? "Fetching posts..."  : "" }</p>
       )}
     </div>
   );

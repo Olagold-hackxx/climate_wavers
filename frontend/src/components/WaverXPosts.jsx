@@ -44,10 +44,8 @@ const WaverXPosts = () => {
 
   return (
     <div>
-      {activities?.map((post) => (
-        <div key={post.id}>
           <Posts
-            posts={[post]}
+            posts={activities}
             type={"post"}
             postId={""}
             unlike={unlikeMutation}
@@ -58,8 +56,6 @@ const WaverXPosts = () => {
             unsave={unsaveMutation}
           />
         </div>
-      ))}
-    </div>
   );
 };
 
