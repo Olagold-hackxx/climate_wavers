@@ -200,7 +200,7 @@ const Posts = ({
           </div>
         ))
       ) : (
-        <p></p>
+        <p className="px-4">Fetching posts...</p>
       )}
     </div>
   );
