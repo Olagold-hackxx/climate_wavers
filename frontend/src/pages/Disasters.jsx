@@ -39,7 +39,7 @@ const DisasterPage = () => {
         </div>
         {/* <Mainfeed/> */}
         <div className="md:w-[80vw] w-full px-2  md:items-center">
-          <div className="md:h-[48vh] h-[45vh] md:mb-28 mb-4 py-2">
+          <div className="2xl:h-[50vh] md:h-[48vh] h-[45vh] md:mb-28 mb-4 py-2">
             <DisasterImage disasters={disasters} />
           </div>
           <div className=" flex">
