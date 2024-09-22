@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 const DisasterImages = ({ disasters }) => {
   return (
-    <div className="flex  py-8 max-w-screen overflow-x-auto">
+    <div className="flex md:py-8 py-4 max-w-screen overflow-x-auto">
       {disasters.map((disaster) => (
         <div key={disaster.id} className=" px-4">
           <img
             alt=""
-            className="border-2 rounded-xl shadow-2xl md:min-w-[35vw] h-[70%] shadow-gray-400 min-w-[90vw] "
+            className="border-2 rounded-xl shadow-2xl md:min-w-[35vw] h-[70%]  shadow-gray-400 min-w-[90vw] "
             src={
               disaster.images?.length ? disaster.images[0] : '/placeholde-disaster-img.jpg'
             }

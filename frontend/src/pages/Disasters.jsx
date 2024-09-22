@@ -39,7 +39,7 @@ const DisasterPage = () => {
         </div>
         {/* <Mainfeed/> */}
         <div className="md:w-[80vw] w-full px-2  md:items-center">
-          <div className="2xl:max-h-[45%] md:h-[32%] h-[45vh] md:py-0 py-2">
+          <div className="md:h-[48vh] h-[45vh] md:mb-28 mb-4 py-2">
             <DisasterImage disasters={disasters} />
           </div>
           <div className=" flex">
@@ -53,7 +53,7 @@ const DisasterPage = () => {
             </button>
           </div>
           <div>
-            <h2 className="font-bold mt-8 py-4 border-b-2 self-end text-2xl  text-[#434343] leading-4 border-gray-300">
+            <h2 className="font-bold md:mt-8 mt-2 py-4 border-b-2 self-end text-2xl  text-[#434343] leading-4 border-gray-300">
               Showing {current} - {pageSize * page} of {total} results{" "}
             </h2>
           </div>
