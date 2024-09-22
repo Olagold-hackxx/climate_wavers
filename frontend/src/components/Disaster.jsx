@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const status = {
-  Ongoing: "text-[#FF4D4D]", // Bright red for ongoing disasters (high urgency)
-  Alert: "text-[#FFA500]", // Orange for alerts (warning status)
-  Past: "text-[#434343]", // Gray for past disasters (resolved)
+  ongoing: "text-[#FF4D4D]", // Bright red for ongoing disasters (high urgency)
+  alert: "text-[#FFA500]", // Orange for alerts (warning status)
+  past: "text-[#434343]", // Gray for past disasters (resolved)
 };
 
 const Disasters = ({ disasters }) => {
@@ -30,7 +30,7 @@ const Disasters = ({ disasters }) => {
           </div>
           <div className="md:flex w-[100vw] capitalize gap-x-4 max-sm:gap-x-2 text-xl md:px-2 font-serif">
             <p className={status[disaster.status]}>
-              <span className="font-semibold text-[#434343]">Status: </span>
+              <span className="font-semibold text-[#434343] capitalize">Status: </span>
               {disaster.status? disaster.status: "undetermined"}
             </p>
             <p>
