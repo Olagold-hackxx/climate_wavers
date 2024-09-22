@@ -4,11 +4,15 @@ import Createpost from "./Createpost";
 import { getUser } from "../utils/factory";
 import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
 import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
-import {  useState } from "react";
+import {  useState, useEffect } from "react";
 
 const Menu = ({ setIsOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = getUser()
+  const [user, setUser] = useState(getUser())
+
+  useEffect(() => {
+    setUser(getUser())
+  }, [])
 
   const activeStyle = {
     borderLeft: "5px solid #008080",

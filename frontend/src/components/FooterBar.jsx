@@ -2,9 +2,14 @@ import { NavLink } from "react-router-dom";
 import { getUser } from "../utils/factory";
 import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
 import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
+import { useState, useEffect } from "react";
 
 const Footer = () => {
-  const user = getUser();
+  const [user, setUser] = useState(getUser())
+
+  useEffect(() => {
+    setUser(getUser())
+  }, [])
 
   const activeStyle = {};
 

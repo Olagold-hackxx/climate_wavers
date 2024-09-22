@@ -11,8 +11,8 @@ const apiUrl = import.meta.env.VITE_APP_CHATBOT_URL + "/api/v1/disasters";
 const DisasterPage = () => {
   const [disasters, setDisasters] = useState([]);
   const [total, setTotal] = useState([]);
-  const [pageSize, setPageSize] = useState([]);
-  const [page, setPage] = useState([]);
+  const [pageSize, setPageSize] = useState(15);
+  const [page, setPage] = useState(null);
   const [current, setCurrent] = useState(1);
 
   useEffect(() => {

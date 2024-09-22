@@ -7,7 +7,6 @@ import { IoEye, IoCopyOutline } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import Deposit from './Deposit';
 import Wallet from "./Wallet";
-import Donate from './Donate';
 
 const Funds = () => {
   const { walletProvider } = useWeb3ModalProvider();

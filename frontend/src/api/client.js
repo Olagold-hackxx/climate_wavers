@@ -65,7 +65,7 @@ class Client {
           domain: this.domain,
         };
         Cookies.set("accessToken", response.data.access_token, cookiesConfig);
-        Cookies.set("user", JSON.stringify(response.data.user), cookiesConfig);
+        Cookies.set("user", JSON.stringify(response.data), cookiesConfig);
       }
 
       if (mail) {
