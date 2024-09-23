@@ -57,14 +57,14 @@ const Profile = () => {
 
   const handleProfilePictureClick = (event) => {
     event.stopPropagation();
-    if (user?.user?.id === profile.id) {
+    if (user?.user?.id === me.id) {
       navigate("/uploadphoto");
     }
   };
 
   const handleCoverPhotoClick = (e) => {
     e.preventDefault();
-    if (user?.user?.id === profile.id) {
+    if (user?.user?.id === me.id) {
       navigate("/uploadcover");
     }
   };
