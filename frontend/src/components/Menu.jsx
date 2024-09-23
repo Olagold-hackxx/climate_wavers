@@ -37,7 +37,6 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -57,7 +56,7 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-          onClick={() => setIsOpen(false)}
+         
           end
         >
           {({ isActive }) => (
@@ -77,7 +76,6 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (

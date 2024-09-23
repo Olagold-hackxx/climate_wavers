@@ -10,9 +10,10 @@ import { useEffect } from "react";
 const Mainfeed = () => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = getAuthToken();
+  
   useEffect(() => {
     getLocation();
-  });
+  }, []);
 
 
   const headers = {

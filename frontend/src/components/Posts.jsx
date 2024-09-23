@@ -22,7 +22,11 @@ const Posts = ({
 }) => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [commentId, setCommentId] = useState("");
-  const [localPosts, setLocalPosts] = useState([]);
+  const [localPosts, setLocalPosts] = useState(() => {
+    // Get posts from localStorage if available
+    const storedPosts = localStorage.getItem("posts");
+    return storedPosts ? JSON.parse(storedPosts) : [];
+  });
   const navigate = useNavigate();
 
   // Update localPosts whenever posts prop changes
@@ -32,6 +36,13 @@ const Posts = ({
     }
   }, [posts]);
 
+  // Save updated posts to localStorage whenever localPosts change
+  useEffect(() => {
+    if (localPosts && localPosts.length > 0) {
+      localStorage.setItem("posts", JSON.stringify(localPosts));
+    }
+  }, [localPosts]);
+  
   const handleOptimisticUpdate = (postId, changes) => {
     setLocalPosts((prevPosts) =>
       prevPosts.map((post) =>
