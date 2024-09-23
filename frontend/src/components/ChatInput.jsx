@@ -9,7 +9,7 @@ const ChatInput = ({ body, handleClick }) => {
   };
 
   return (
-    <div className="bg-gray-100 p-1 h-[100px] md:border-0 border-t-2 border-gray-200 gap-x-8 max-sm:gap-x-1 max-sm:px-2 rounded-md max-sm:rounded-sm max-sm:w-[100vw]  max-sm:relative max-sm:right-4 max-sm:top-8 flex flex-row items-center shadow-2xl shadow-neutral-500/50">
+    <div className="bg-gray-100 p-1 max-h-[120px] h-[120px] max-sm:h-[20%] md:border-0 border-t-2 border-gray-200 gap-x-8 max-sm:gap-x-1 max-sm:px-2 rounded-md max-sm:rounded-sm max-sm:w-[100vw]  max-sm:relative max-sm:right-4 max-sm:top-8 flex flex-row items-center shadow-2xl shadow-neutral-500/50">
       <img
         src="../../img_user_rectangle_5.svg"
         alt="User"

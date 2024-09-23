@@ -115,7 +115,7 @@ const WaverXChatPage = () => {
         ) : null}
       </div>
       <div className="md:grid flex justify-center">
-        <div className=" w-[75vw] md:h-full h-[96vh] md:p-0 p-4 max-sm:w-[100vw] ">
+        <div className=" w-[75vw] md:h-full h-[96vh] md:p-0 p-4 max-sm:w-[100vw] overflow-y-auto ">
           <Chatcomponent
             current={current}
             messages={messages}
