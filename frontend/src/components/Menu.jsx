@@ -4,15 +4,15 @@ import Createpost from "./Createpost";
 import { getUser } from "../utils/factory";
 import { MdOutlineCampaign, MdCampaign } from "react-icons/md";
 import { RiAlarmWarningFill, RiAlarmWarningLine } from "react-icons/ri";
-import {  useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Menu = ({ setIsOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState(getUser())
+  const [user, setUser] = useState(getUser());
 
   useEffect(() => {
-    setUser(getUser())
-  }, [])
+    setUser(getUser());
+  }, []);
 
   const activeStyle = {
     borderLeft: "5px solid #008080",
@@ -56,7 +56,6 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-         
           end
         >
           {({ isActive }) => (
@@ -102,7 +101,6 @@ const Menu = ({ setIsOpen }) => {
           style={({ isActive }) => {
             return isActive ? activeStyle : null;
           }}
-          onClick={() => setIsOpen(false)}
           end
         >
           {({ isActive }) => (
@@ -190,17 +188,17 @@ const Menu = ({ setIsOpen }) => {
       >
         Post
       </button>
-        {isModalOpen && (
-          <Modal closeFn={() => setIsModalOpen(false)}>
-            <Createpost
-              type={"post"}
-              closeModal={() => {
-                setIsModalOpen(false);
-                setIsOpen(false);
-              }}
-            />
-          </Modal>
-        )}
+      {isModalOpen && (
+        <Modal closeFn={() => setIsModalOpen(false)}>
+          <Createpost
+            type={"post"}
+            closeModal={() => {
+              setIsModalOpen(false);
+              setIsOpen(false);
+            }}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

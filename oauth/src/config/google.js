@@ -32,6 +32,7 @@ google.use(
           const userDetails = {
             id: userExists.id,
             email: userExists.email,
+            status: 200,
             accessToken,
           };
           if (refreshToken) {
@@ -65,7 +66,7 @@ google.use(
         console.log(data);
         const user = await User.create(data)
           .then(async (res) => {
-            data["password2"] =  accessToken.slice(-15);
+            data["password2"] = accessToken.slice(-15);
             await localRegister(data);
             console.log(res);
             return res;
@@ -77,7 +78,12 @@ google.use(
             };
             return done(err, false, errMsg);
           });
-        const userDetails = { id: user.id, email: user.email, accessToken };
+        const userDetails = {
+          id: user.id,
+          email: user.email,
+          status: 204,
+          accessToken,
+        };
         await Token.create({
           refreshToken: accessToken,
           UserId: user.id,

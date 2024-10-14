@@ -17,6 +17,7 @@ import {
   VerifyResetRequest,
 } from "./pages/Auth";
 
+import LandingPage from "./pages/LandingPage";
 import {
   OnboardingLayout,
   Welcome,
@@ -62,6 +63,7 @@ function App() {
           <Route path="/campaigns" element={<AuthCampaigns />} />
           <Route path="/disasters/:disasterId" element={<AuthDisasterPage/>} />
           <Route path="/disasters" element={<AuthDisasters/>} />
+          <Route path="/landing" element={<LandingPage/>} />
 
 
 

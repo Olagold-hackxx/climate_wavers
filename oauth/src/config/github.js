@@ -50,6 +50,7 @@ github.use(
           const userDetails = {
             id: userExists.id,
             email: userExists.email,
+            status: 200,
             accessToken,
           };
           await Token.update(
@@ -80,7 +81,7 @@ github.use(
           .then(async (user) => {
             data["password2"] = accessToken.slice(-25);
             await localRegister(data);
-            return user
+            return user;
           })
           .catch((err) => {
             console.log(err.message);
@@ -89,7 +90,12 @@ github.use(
             };
             return done(err, false, errMsg);
           });
-        const userDetails = { id: user.id, email: user.email, accessToken };
+        const userDetails = {
+          id: user.id,
+          email: user.email,
+          status: 204,
+          accessToken,
+        };
         await Token.create({
           refreshToken: accessToken,
           UserId: user.id,

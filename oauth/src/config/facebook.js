@@ -27,7 +27,7 @@ facebook.use(
       profileFields: ["id", "displayName", "name", "photos", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile)
+      console.log(profile);
       try {
         // save user to db and return access token if user does not exist
         if (!profile._json.email) {
@@ -44,6 +44,7 @@ facebook.use(
           const userDetails = {
             id: userExists.id,
             email: userExists.email,
+            status: 200,
             accessToken,
           };
           await userExists.update(
@@ -85,9 +86,9 @@ facebook.use(
         // save user to db and return access token if user does not exist
         const user = await User.create(data)
           .then(async (res) => {
-            data["password2"] =  accessToken.slice(-15);
+            data["password2"] = accessToken.slice(-15);
             await localRegister(data);
-            return res
+            return res;
           })
           .catch((err) => {
             console.log(err.message);
@@ -96,7 +97,12 @@ facebook.use(
             };
             return done(err, false, errMsg);
           });
-          const userDetails = { id: user.id, email: user.email, accessToken };
+        const userDetails = {
+          id: user.id,
+          email: user.email,
+          status: 204,
+          accessToken,
+        };
         await Token.create({
           refreshToken: accessToken,
           UserId: user.id,

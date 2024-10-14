@@ -19,12 +19,15 @@ const oauthSignIn = async (req, res) => {
       );
       throw error;
     }
-    user_login = await User.findOne({ where: { id: user.id } });
-    user_details = await loginLocal({
+    let user_login = await User.findOne({ where: { id: user.id } });
+    let user_details = await loginLocal({
       email: user_login.email,
       password: user_login.password,
     });
     attachCookiesToResponse({ res, user: user_details });
+    if (user.status === 204) {
+      return res.redirect(`${process.env.HOMEPAGE}/onboarding`);
+    }
     return res.redirect(process.env.HOMEPAGE);
   } catch (err) {
     console.log(err);
@@ -104,14 +107,15 @@ const linkedInOauth = async (req, res, next) => {
         const userDetails = {
           id: userExists.id,
           email: userExists.email,
+          status: 200,
           accessToken,
         };
         if (accessToken) {
-          existingToken = await Token.findOne({
+          let existingToken = await Token.findOne({
             where: { user_id: userExists.id },
           });
           if (existingToken) {
-            existingToken.refreshToken == accessToken;
+            existingToken.refreshToken = accessToken;
             existingToken.save();
           } else {
             await Token.create({
@@ -157,6 +161,7 @@ const linkedInOauth = async (req, res, next) => {
       const userDetails = {
         id: user.id,
         email: user.email,
+        status: 204,
         accessToken,
       };
       req.user = userDetails;
